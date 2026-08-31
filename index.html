@@ -142,10 +142,10 @@
       margin: 4px 0;
       padding: 8px 6px;
       border-radius: 14px;
-      background: rgba(0, 0, 0, 0.15);
+      background: rgba(0, 0, 0, 0.35);
       backdrop-filter: blur(8px);
       -webkit-backdrop-filter: blur(8px);
-      border: 1px solid rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.12);
       overflow: hidden;
       cursor: pointer;
       flex-shrink: 0;
@@ -159,8 +159,7 @@
       height: 100%;
       pointer-events: none;
       z-index: 1;
-      opacity: 0.55;
-      filter: blur(2px);
+      mix-blend-mode: screen;
       display: none;
     }
 
@@ -177,7 +176,7 @@
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
-      text-shadow: 0 2px 6px rgba(0, 0, 0, 0.8);
+      text-shadow: 0 2px 6px rgba(0, 0, 0, 0.9);
     }
 
     .track-artist {
@@ -186,7 +185,7 @@
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
-      text-shadow: 0 1px 4px rgba(0, 0, 0, 0.7);
+      text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
     }
 
     .track-album {
@@ -197,7 +196,7 @@
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
-      text-shadow: 0 1px 4px rgba(0, 0, 0, 0.7);
+      text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
     }
 
     .lufs-meter-badge {
@@ -761,7 +760,7 @@
       </div>
 
       <!-- ZONA DE METADATOS -->
-      <div class="track-info-container" id="trackInfoContainer" title="Haz clic para conmutar espectro (si está activo en Ajustes)">
+      <div class="track-info-container" id="trackInfoContainer" title="Haz clic para alternar tipo de visualizador">
         <canvas id="visualizerCanvas" class="visualizer-canvas"></canvas>
         <div class="track-info-content">
           <div class="track-title" id="title">Sin reproducción</div>
@@ -843,7 +842,7 @@
           <!-- OPCIÓN 2: VISUALIZADOR DE AUDIO (ESPECTRO) -->
           <div class="settings-item">
             <div class="settings-title">📊 Espectro de Audio</div>
-            <div class="settings-desc">Espectro dinámico difuminado de fondo en la tarjeta de metadatos.</div>
+            <div class="settings-desc">Espectro dinámico de alta luminancia en la tarjeta de metadatos.</div>
             <div class="settings-row">
               <span class="settings-desc" style="font-weight:600;">Modo:</span>
               <select id="visualizerSelect" class="settings-select">
@@ -851,6 +850,21 @@
                 <option value="bars">Barras Horizontales (LED)</option>
                 <option value="scope">Ámbito / Osciloscopio</option>
                 <option value="hybrid">Modo Híbrido (Barras + Ámbito)</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- OPCIÓN NAVEGACIÓN: PALETA DE COLORES (ACCESIBILIDAD / DALTONISMO) -->
+          <div class="settings-item">
+            <div class="settings-title">🎨 Paleta del Espectro (Accesibilidad)</div>
+            <div class="settings-desc">Esquemas científicos y de alto contraste diseñados para facilitar la lectura visual y la perceptibilidad.</div>
+            <div class="settings-row">
+              <span class="settings-desc" style="font-weight:600;">Esquema:</span>
+              <select id="paletteSelect" class="settings-select">
+                <option value="neon" selected>Neón Cyan / Magenta</option>
+                <option value="viridis">Viridis (Accesible / Perceptual)</option>
+                <option value="plasma">Plasma (Alto Contraste)</option>
+                <option value="cividis">Cividis (Optimizado Daltonismo)</option>
               </select>
             </div>
           </div>
@@ -930,8 +944,8 @@
           </div>
 
           <div class="settings-item">
-            <div class="settings-title">MEOW AUDIO APP v2.0</div>
-            <div class="settings-desc">Procesamiento de audio Web Audio API local.</div>
+            <div class="settings-title">MEOW AUDIO APP v2.1</div>
+            <div class="settings-desc">Procesamiento de audio Web Audio API local & Canvas accesible.</div>
           </div>
         </div>
       </div>
@@ -969,6 +983,7 @@
     const eqSelect = document.getElementById('eqSelect');
     const dolbyToggle = document.getElementById('dolbyToggle');
     const visualizerSelect = document.getElementById('visualizerSelect');
+    const paletteSelect = document.getElementById('paletteSelect');
     const lufsSelect = document.getElementById('lufsSelect');
 
     const crossfadeSlider = document.getElementById('crossfadeTime');
@@ -1022,6 +1037,7 @@
     let dolbyGain = null;
 
     let visualizerMode = 'off'; 
+    let selectedPalette = 'neon';
     let lufsEnabled = false;
     let animationFrameId = null;
 
@@ -1204,6 +1220,10 @@
       updateVisualizerVisibility();
     });
 
+    paletteSelect.addEventListener('change', () => {
+      selectedPalette = paletteSelect.value;
+    });
+
     lufsSelect.addEventListener('change', () => {
       lufsEnabled = (lufsSelect.value === 'on');
       updateVisualizerVisibility();
@@ -1243,6 +1263,42 @@
     }
     window.addEventListener('resize', resizeCanvas);
     resizeCanvas();
+
+    // DIBUJO Y CREACIÓN DINÁMICA DE GRADIENTES SEGÚN LA PALETA DE COLOR
+    function createPaletteGradient(ctx, width, paletteKey) {
+      const grad = ctx.createLinearGradient(0, 0, width, 0);
+
+      if (paletteKey === 'viridis') {
+        grad.addColorStop(0.0, '#440154');
+        grad.addColorStop(0.35, '#3b528b');
+        grad.addColorStop(0.7, '#21918c');
+        grad.addColorStop(1.0, '#fde725');
+      } else if (paletteKey === 'plasma') {
+        grad.addColorStop(0.0, '#0d0887');
+        grad.addColorStop(0.35, '#7e03a8');
+        grad.addColorStop(0.7, '#cc4778');
+        grad.addColorStop(1.0, '#f0f921');
+      } else if (paletteKey === 'cividis') {
+        grad.addColorStop(0.0, '#002051');
+        grad.addColorStop(0.35, '#414d6b');
+        grad.addColorStop(0.7, '#7c7b78');
+        grad.addColorStop(1.0, '#fcea1d');
+      } else {
+        // NEÓN MONOCROMÁTICO / CYAN - MAGENTA
+        grad.addColorStop(0.0, '#00f2fe');
+        grad.addColorStop(0.5, '#4facfe');
+        grad.addColorStop(1.0, '#ff4757');
+      }
+
+      return grad;
+    }
+
+    function getScopeColor(paletteKey) {
+      if (paletteKey === 'viridis') return '#5ec962';
+      if (paletteKey === 'plasma') return '#f89540';
+      if (paletteKey === 'cividis') return '#fcea1d';
+      return '#00ffcc';
+    }
 
     function startVisualizer() {
       if (animationFrameId) cancelAnimationFrame(animationFrameId);
@@ -1294,21 +1350,22 @@
           }
         }
 
+        // AJUSTE DE MEZCLA Y OPACIDAD PARA MÁXIMA LUMINANCIA
+        canvasCtx.globalCompositeOperation = 'screen';
+        canvasCtx.globalAlpha = 0.85;
+
         // BARRAS HORIZONTALES
         if (visualizerMode === 'bars' || visualizerMode === 'hybrid') {
           const numBars = 12;
           const barHeight = height / numBars;
+          const barGradient = createPaletteGradient(canvasCtx, width, selectedPalette);
+
+          canvasCtx.fillStyle = barGradient;
 
           for (let i = 0; i < numBars; i++) {
             const val = freqData[i * 2] || 0;
             const barWidth = (val / 255) * (width / 2);
 
-            const gradient = canvasCtx.createLinearGradient(0, 0, width, 0);
-            gradient.addColorStop(0.0, 'rgba(0, 242, 254, 0.7)');
-            gradient.addColorStop(0.5, 'rgba(79, 172, 254, 0.2)');
-            gradient.addColorStop(1.0, 'rgba(255, 71, 87, 0.7)');
-
-            canvasCtx.fillStyle = gradient;
             canvasCtx.fillRect(0, i * barHeight, barWidth, barHeight - 1);
             canvasCtx.fillRect(width - barWidth, i * barHeight, barWidth, barHeight - 1);
           }
@@ -1316,10 +1373,11 @@
 
         // ÁMBITO / OSCILOSCOPIO
         if (visualizerMode === 'scope' || visualizerMode === 'hybrid') {
-          canvasCtx.lineWidth = visualizerMode === 'hybrid' ? 1.5 : 2.5;
-          canvasCtx.strokeStyle = 'rgba(255, 255, 255, 0.85)';
-          canvasCtx.shadowBlur = 8;
-          canvasCtx.shadowColor = '#00f2fe';
+          const strokeColor = getScopeColor(selectedPalette);
+          canvasCtx.lineWidth = visualizerMode === 'hybrid' ? 1.8 : 2.5;
+          canvasCtx.strokeStyle = strokeColor;
+          canvasCtx.shadowBlur = 10;
+          canvasCtx.shadowColor = strokeColor;
           canvasCtx.beginPath();
 
           const sliceWidth = width / bufferLength;
@@ -1339,6 +1397,10 @@
           canvasCtx.stroke();
           canvasCtx.shadowBlur = 0;
         }
+
+        // RESTAURAR PARÁMETROS Estándar DEL CANVAS
+        canvasCtx.globalCompositeOperation = 'source-over';
+        canvasCtx.globalAlpha = 1.0;
       }
 
       renderFrame();
@@ -1881,7 +1943,7 @@
 
     function togglePlay() {
       if (!activeAudioTag) {
-        if (playlist.length > 0) playTrack(currentIndex);
+        if (playlist.length > 0) processAndPlayTrack(currentIndex);
         return;
       }
 
