@@ -124,10 +124,10 @@
 
     .cover-art {
       width: 100%;
-      max-width: 255px;
+      max-width: 240px;
       aspect-ratio: 1 / 1;
       background: rgba(255, 255, 255, 0.1);
-      border-radius: 0px;
+      border-radius: 16px;
       object-fit: cover;
       display: block;
       box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
@@ -136,50 +136,77 @@
       z-index: 2;
     }
 
-    .visualizer-canvas {
-      position: absolute;
-      width: 270px;
-      height: 270px;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      pointer-events: none;
-      z-index: 1;
-      display: none;
-      opacity: 0.85;
-    }
-
-    .track-info {
-      margin-bottom: 4px;
+    /* CONTENEDOR DE METADATOS CON VISUALIZADOR DIFUMINADO */
+    .track-info-container {
+      position: relative;
+      margin: 4px 0;
+      padding: 8px 6px;
+      border-radius: 14px;
+      background: rgba(0, 0, 0, 0.15);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      overflow: hidden;
+      cursor: pointer;
       flex-shrink: 0;
     }
 
+    .visualizer-canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+      opacity: 0.55;
+      filter: blur(2px);
+    }
+
+    .track-info-content {
+      position: relative;
+      z-index: 2;
+      pointer-events: none;
+    }
+
     .track-title {
-      font-size: 1.45rem;
+      font-size: 1.35rem;
       font-weight: 700;
-      margin-bottom: 3px;
+      margin-bottom: 2px;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
-      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+      text-shadow: 0 2px 6px rgba(0, 0, 0, 0.8);
     }
 
     .track-artist {
-      font-size: 1.05rem;
+      font-size: 0.98rem;
       color: var(--text-muted);
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+      text-shadow: 0 1px 4px rgba(0, 0, 0, 0.7);
     }
 
     .track-album {
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       color: var(--text-muted);
-      margin-top: 2px;
-      opacity: 0.8;
+      margin-top: 1px;
+      opacity: 0.85;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+      text-shadow: 0 1px 4px rgba(0, 0, 0, 0.7);
+    }
+
+    .lufs-meter-badge {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: #7bed9f;
+      letter-spacing: 0.5px;
+      margin-top: 3px;
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9);
+      transition: color 0.2s ease;
     }
 
     .audio-specs-badge {
@@ -187,11 +214,11 @@
       align-items: center;
       justify-content: center;
       gap: 6px;
-      font-size: 0.82rem;
+      font-size: 0.8rem;
       font-weight: 700;
       letter-spacing: 0.5px;
       color: var(--audio-spec-color);
-      margin: 2px 0 6px 0;
+      margin: 2px 0 4px 0;
       min-height: 18px;
       text-transform: uppercase;
       text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
@@ -199,11 +226,10 @@
     }
 
     .hires-icon {
-      height: 16px;
+      height: 15px;
       width: auto;
       vertical-align: middle;
       border-radius: 2px;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.5);
     }
 
     .status-badge {
@@ -343,7 +369,7 @@
       position: relative;
       display: block;
       width: 100%;
-      height: 42px;
+      height: 40px;
       border-radius: 12px;
       overflow: hidden;
       background: rgba(255, 255, 255, 0.2);
@@ -359,7 +385,7 @@
       align-items: center;
       justify-content: center;
       color: var(--text);
-      font-size: 0.9rem;
+      font-size: 0.88rem;
       font-weight: 600;
       pointer-events: none;
     }
@@ -693,14 +719,18 @@
       </div>
 
       <div class="cover-container">
-        <canvas id="visualizerCanvas" class="visualizer-canvas"></canvas>
         <img class="cover-art" id="cover" src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 24 24' fill='none' stroke='%23ffffff' stroke-width='1.5'><path d='M9 18V5l12-2v13'/><circle cx='6' cy='18' r='3'/><circle cx='18' cy='16' r='3'/></svg>" alt="Cover">
       </div>
 
-      <div class="track-info">
-        <div class="track-title" id="title">Sin reproducción</div>
-        <div class="track-artist" id="artist">Selecciona un archivo</div>
-        <div class="track-album" id="album"></div>
+      <!-- ZONA DE METADATOS CON VISUALIZADOR DIFUMINADO DETRÁS -->
+      <div class="track-info-container" id="trackInfoContainer" title="Haz clic para cambiar el modo de visualización">
+        <canvas id="visualizerCanvas" class="visualizer-canvas"></canvas>
+        <div class="track-info-content">
+          <div class="track-title" id="title">Sin reproducción</div>
+          <div class="track-artist" id="artist">Selecciona un archivo</div>
+          <div class="track-album" id="album"></div>
+          <div class="lufs-meter-badge" id="lufsBadge">--.- LUFS S | Peak: -- dB</div>
+        </div>
       </div>
 
       <div class="audio-specs-badge" id="audioSpecs"></div>
@@ -762,7 +792,6 @@
         </div>
         
         <div class="settings-body">
-          <!-- SECCIÓN PROCESAMIENTO AUDIO -->
           <div class="settings-item">
             <div class="settings-title">🎛 Ecualizador (EQ)</div>
             <div class="settings-desc">Perfiles optimizados de frecuencia sonora.</div>
@@ -799,8 +828,8 @@
           </div>
 
           <div class="settings-item">
-            <div class="settings-title">Meow Audio App v2.0</div>
-            <div class="settings-desc">Procesamiento local de Hi-Res Audio & Persistent Store.</div>
+            <div class="settings-title">Meow Audio App v2.1</div>
+            <div class="settings-desc">Espectrometría difuminada & Medición de Loudness en tiempo real.</div>
           </div>
         </div>
       </div>
@@ -819,7 +848,6 @@
 
   <script>
     const DEFAULT_COVER = "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 24 24' fill='none' stroke='%23ffffff' stroke-width='1.5'><path d='M9 18V5l12-2v13'/><circle cx='6' cy='18' r='3'/><circle cx='18' cy='16' r='3'/></svg>";
-    
     const HI_RES_SVG = `data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'><rect width='200' height='200' fill='%23d4af37' rx='8'/><path d='M0 95 Q100 130 200 95 L200 200 L0 200 Z' fill='%23000000'/><text x='100' y='68' font-family='Arial Black, sans-serif' font-weight='900' font-size='56' fill='%23000000' text-anchor='middle'>Hi-Res</text><text x='100' y='165' font-family='Arial, sans-serif' font-weight='900' font-size='42' fill='%23d4af37' text-anchor='middle'>AUDIO</text></svg>`;
 
     const audio = document.getElementById('audio');
@@ -834,11 +862,16 @@
     const titleEl = document.getElementById('title');
     const artistEl = document.getElementById('artist');
     const albumEl = document.getElementById('album');
+    const lufsBadge = document.getElementById('lufsBadge');
     const audioSpecsEl = document.getElementById('audioSpecs');
     const statusEl = document.getElementById('status');
     const fileInput = document.getElementById('fileInput');
     const eqSelect = document.getElementById('eqSelect');
     const dolbyToggle = document.getElementById('dolbyToggle');
+
+    const trackInfoContainer = document.getElementById('trackInfoContainer');
+    const canvas = document.getElementById('visualizerCanvas');
+    const canvasCtx = canvas.getContext('2d');
 
     const seekBar = document.getElementById('seekBar');
     const currentTimeEl = document.getElementById('currentTime');
@@ -877,6 +910,9 @@
     let eqFilters = [];
     let dolbyFilter = null;
     let dolbyGain = null;
+
+    let visualizerMode = 'hybrid'; // 'bars', 'scope', 'hybrid'
+    let animationFrameId = null;
 
     // INDEXEDDB
     const DB_NAME = 'MeowAudioDB';
@@ -981,7 +1017,8 @@
           trackSource = audioCtx.createMediaElementSource(audio);
 
           analyser = audioCtx.createAnalyser();
-          analyser.fftSize = 64;
+          analyser.fftSize = 128;
+          analyser.smoothingTimeConstant = 0.8;
 
           eqFilters = FREQUENCIES.map((freq, i) => {
             const filter = audioCtx.createBiquadFilter();
@@ -1016,6 +1053,8 @@
               audioCtx.resume();
             }
           };
+
+          startVisualizer();
         } catch (e) {
           console.warn("WebAudio no disponible");
         }
@@ -1023,11 +1062,9 @@
     }
 
     function updateAudioEffects() {
-      if (eqSelect.value !== 'flat' || dolbyToggle.checked) {
-        initWebAudio();
-        if (audioCtx && audioCtx.state === 'suspended') {
-          audioCtx.resume();
-        }
+      initWebAudio();
+      if (audioCtx && audioCtx.state === 'suspended') {
+        audioCtx.resume();
       }
 
       if (audioCtx && eqFilters.length > 0) {
@@ -1048,6 +1085,118 @@
 
     eqSelect.addEventListener('change', updateAudioEffects);
     dolbyToggle.addEventListener('change', updateAudioEffects);
+
+    // CAMBIAR MODO DE VISUALIZACIÓN AL HACER CLIC EN LOS METADATOS
+    trackInfoContainer.addEventListener('click', () => {
+      if (visualizerMode === 'hybrid') visualizerMode = 'bars';
+      else if (visualizerMode === 'bars') visualizerMode = 'scope';
+      else visualizerMode = 'hybrid';
+    });
+
+    function resizeCanvas() {
+      if (canvas) {
+        canvas.width = trackInfoContainer.clientWidth;
+        canvas.height = trackInfoContainer.clientHeight;
+      }
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    function startVisualizer() {
+      if (animationFrameId) cancelAnimationFrame(animationFrameId);
+
+      const bufferLength = analyser.frequencyBinCount;
+      const freqData = new Uint8Array(bufferLength);
+      const timeData = new Uint8Array(bufferLength);
+
+      function renderFrame() {
+        animationFrameId = requestAnimationFrame(renderFrame);
+        
+        resizeCanvas();
+        const width = canvas.width;
+        const height = canvas.height;
+
+        canvasCtx.clearRect(0, 0, width, height);
+
+        if (audio.paused || !analyser) {
+          lufsBadge.textContent = "--.- LUFS S | Peak: -- dB";
+          lufsBadge.style.color = "#7bed9f";
+          return;
+        }
+
+        analyser.getByteFrequencyData(freqData);
+        analyser.getByteTimeDomainData(timeData);
+
+        // CÁLCULO APROXIMADO DE LUFS S Y PEAK DB
+        let sumSquares = 0;
+        let peakSample = 0;
+        for (let i = 0; i < bufferLength; i++) {
+          const norm = (timeData[i] - 128) / 128;
+          sumSquares += norm * norm;
+          if (Math.abs(norm) > peakSample) peakSample = Math.abs(norm);
+        }
+        const rms = Math.sqrt(sumSquares / bufferLength);
+        const peakDb = peakSample > 0 ? (20 * Math.log10(peakSample)).toFixed(1) : "-99.0";
+        const lufsShort = rms > 0 ? (20 * Math.log10(rms) - 0.6).toFixed(1) : "-99.0";
+
+        lufsBadge.textContent = `${lufsShort} LUFS S | Peak: ${peakDb} dB`;
+        if (parseFloat(peakDb) >= -0.3) {
+          lufsBadge.style.color = "#ff4757"; // Advertencia de clipping
+        } else {
+          lufsBadge.style.color = "#7bed9f";
+        }
+
+        // DIBUJAR BARRAS HORIZONTALES (BASS/MID/TREBLE)
+        if (visualizerMode === 'bars' || visualizerMode === 'hybrid') {
+          const numBars = 12;
+          const barHeight = height / numBars;
+
+          for (let i = 0; i < numBars; i++) {
+            const val = freqData[i * 2] || 0;
+            const barWidth = (val / 255) * (width / 2);
+
+            const gradient = canvasCtx.createLinearGradient(0, 0, width, 0);
+            gradient.addColorStop(0.0, 'rgba(0, 242, 254, 0.7)');
+            gradient.addColorStop(0.5, 'rgba(79, 172, 254, 0.2)');
+            gradient.addColorStop(1.0, 'rgba(255, 71, 87, 0.7)');
+
+            canvasCtx.fillStyle = gradient;
+
+            // Crece simétricamente desde los extremos hacia adentro
+            canvasCtx.fillRect(0, i * barHeight, barWidth, barHeight - 1);
+            canvasCtx.fillRect(width - barWidth, i * barHeight, barWidth, barHeight - 1);
+          }
+        }
+
+        // DIBUJAR ÁMBITO / OSCILOSCOPIO (WAVEFORM)
+        if (visualizerMode === 'scope' || visualizerMode === 'hybrid') {
+          canvasCtx.lineWidth = visualizerMode === 'hybrid' ? 1.5 : 2.5;
+          canvasCtx.strokeStyle = 'rgba(255, 255, 255, 0.85)';
+          canvasCtx.shadowBlur = 8;
+          canvasCtx.shadowColor = '#00f2fe';
+          canvasCtx.beginPath();
+
+          const sliceWidth = width / bufferLength;
+          let x = 0;
+
+          for (let i = 0; i < bufferLength; i++) {
+            const v = timeData[i] / 128.0;
+            const y = (v * height) / 2;
+
+            if (i === 0) canvasCtx.moveTo(x, y);
+            else canvasCtx.lineTo(x, y);
+
+            x += sliceWidth;
+          }
+
+          canvasCtx.lineTo(width, height / 2);
+          canvasCtx.stroke();
+          canvasCtx.shadowBlur = 0;
+        }
+      }
+
+      renderFrame();
+    }
 
     function setActiveTab(activeBtn) {
       navHome.classList.remove('active');
@@ -1295,7 +1444,7 @@
       if (ext === 'flac') {
         let flacPos = -1;
         for (let i = 0; i < uint8.length - 4; i++) {
-          if (uint8[i] === 0x66 && uint8[i+1] === 0x4C && uint8[i+2] === 0x61 && uint8[i+3] === 0x43) {
+          if (uint8[i] === 0x66 && uint8[i+1] === 0x6C && uint8[i+2] === 0x61 && uint8[i+3] === 0x43) {
             flacPos = i;
             break;
           }
@@ -1446,9 +1595,7 @@
     }
 
     function startPlayback(url, title, artist, album, cover) {
-      if (eqSelect.value !== 'flat' || dolbyToggle.checked) {
-        initWebAudio();
-      }
+      initWebAudio();
 
       if (audioCtx && audioCtx.state === 'suspended') {
         audioCtx.resume();
@@ -1550,6 +1697,8 @@
 
     function togglePlay() {
       if (!audio.src) return;
+
+      initWebAudio();
 
       if (audioCtx && audioCtx.state === 'suspended') {
         audioCtx.resume();
