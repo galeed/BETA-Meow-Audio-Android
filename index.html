@@ -847,6 +847,84 @@
 
     let playlist = [];
     let currentIndex = 0;
+    // --- SISTEMA DE PERSISTENCIA CON INDEXEDDB (MeowDB) ---
+const DB_NAME = 'MeowAudioDB';
+const DB_VERSION = 1;
+const STORE_NAME = 'songs';
+
+function openDB() {
+  return new Promise((resolve, reject) => {
+    const request = indexedDB.open(DB_NAME, DB_VERSION);
+    request.onupgradeneeded = (e) => {
+      const db = e.target.result;
+      if (!db.objectStoreNames.contains(STORE_NAME)) {
+        db.createObjectStore(STORE_NAME, { keyPath: 'id', autoIncrement: true });
+      }
+    };
+    request.onsuccess = () => resolve(request.result);
+    request.onerror = () => reject(request.error);
+  });
+}
+
+// Guardar lista de canciones procesadas
+async function saveTracksToDB(tracks) {
+  try {
+    const db = await openDB();
+    const tx = db.transaction(STORE_NAME, 'readwrite');
+    const store = tx.objectStore(STORE_NAME);
+    
+    for (const track of tracks) {
+      // Guardamos la estructura binaria (Blob) junto a sus metadatos
+      store.add({
+        filename: track.filename,
+        ext: track.ext,
+        title: track.title,
+        artist: track.artist,
+        album: track.album,
+        cover: track.cover,
+        specs: track.specs,
+        fileBlob: track.file
+      });
+    }
+  } catch (err) {
+    console.warn("Error al guardar en IndexedDB:", err);
+  }
+}
+
+// Cargar biblioteca guardada al iniciar la App
+async function loadStoredTracksFromDB() {
+  try {
+    const db = await openDB();
+    const tx = db.transaction(STORE_NAME, 'readonly');
+    const store = tx.objectStore(STORE_NAME);
+    const request = store.getAll();
+
+    request.onsuccess = () => {
+      const stored = request.result || [];
+      if (stored.length > 0) {
+        playlist = stored.map(item => ({
+          dbId: item.id,
+          file: item.fileBlob,
+          filename: item.filename,
+          ext: item.ext,
+          title: item.title,
+          artist: item.artist,
+          album: item.album,
+          cover: item.cover,
+          specs: item.specs
+        }));
+        
+        sortPlaylist();
+        renderPlaylistUI();
+        statusEl.textContent = "Biblioteca restaurada 🐾";
+        setTimeout(() => { if (statusEl.textContent.includes("restaurada")) statusEl.textContent = ""; }, 3000);
+      }
+    };
+  } catch (err) {
+    console.warn("Error al leer IndexedDB:", err);
+  }
+}
+
     let currentObjectUrl = null;
     let isUserSeeking = false;
 
