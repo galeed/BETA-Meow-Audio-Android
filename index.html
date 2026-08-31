@@ -829,7 +829,6 @@
         </div>
         
         <div class="settings-body">
-          <!-- OPCIÓN 1: CROSSFADE -->
           <div class="settings-item">
             <div class="settings-title">🎚 Crossfade (Transición)</div>
             <div class="settings-desc">Superposición entre pistas al cambiar de canción.</div>
@@ -839,7 +838,6 @@
             </div>
           </div>
 
-          <!-- OPCIÓN 2: VISUALIZADOR DE AUDIO (ESPECTRO) -->
           <div class="settings-item">
             <div class="settings-title">📊 Espectro de Audio</div>
             <div class="settings-desc">Espectro dinámico de alta luminancia en la tarjeta de metadatos.</div>
@@ -854,7 +852,6 @@
             </div>
           </div>
 
-          <!-- OPCIÓN NAVEGACIÓN: PALETA DE COLORES (ACCESIBILIDAD / DALTONISMO) -->
           <div class="settings-item">
             <div class="settings-title">🎨 Paleta del Espectro (Accesibilidad)</div>
             <div class="settings-desc">Esquemas científicos y de alto contraste diseñados para facilitar la lectura visual y la perceptibilidad.</div>
@@ -869,7 +866,6 @@
             </div>
           </div>
 
-          <!-- OPCIÓN 3: MEDIDOR LUFS & PEAK -->
           <div class="settings-item">
             <div class="settings-title">🔊 Medidor de Volumen LUFS & Peak</div>
             <div class="settings-desc">Medición de sonoridad en tiempo real (LUFS Short-Term y True Peak).</div>
@@ -882,7 +878,6 @@
             </div>
           </div>
 
-          <!-- OPCIÓN 4: ECUALIZADOR -->
           <div class="settings-item">
             <div class="settings-title">🎛 Ecualizador (EQ)</div>
             <div class="settings-desc">Perfiles optimizados de frecuencia sonora.</div>
@@ -906,7 +901,6 @@
             </div>
           </div>
 
-          <!-- OPCIÓN 5: DOLBY SPATIAL -->
           <div class="settings-item">
             <div class="settings-title">🎧 Dolby Spatial Audio</div>
             <div class="settings-desc">Simula espacialización envolvente y amplitud en la escena sonora.</div>
@@ -919,7 +913,6 @@
             </div>
           </div>
 
-          <!-- OPCIÓN 6: EXPORTACIÓN Y DATOS TÉCNICOS -->
           <div class="settings-item">
             <div class="settings-title">💾 Exportación y Reportes</div>
             <div class="settings-desc" style="margin-bottom:8px;">Exporta tus listas o el análisis de la pista activa.</div>
@@ -930,7 +923,6 @@
             </div>
           </div>
 
-          <!-- OPCIÓN 7: ATAJOS DE TECLADO -->
           <div class="settings-item">
             <div class="settings-title">⌨️ Atajos de Teclado (PC / Android)</div>
             <div class="settings-desc" style="display:grid; grid-template-columns:1fr 1fr; gap:4px; margin-top:6px;">
@@ -944,7 +936,7 @@
           </div>
 
           <div class="settings-item">
-            <div class="settings-title">MEOW AUDIO APP v2.1</div>
+            <div class="settings-title">MEOW AUDIO APP v2.2</div>
             <div class="settings-desc">Procesamiento de audio Web Audio API local & Canvas accesible.</div>
           </div>
         </div>
@@ -1043,7 +1035,7 @@
 
     // INDEXEDDB
     const DB_NAME = 'MeowAudioDB';
-    const DB_VERSION = 1;
+    const DB_VERSION = 2;
     const STORE_NAME = 'songs';
 
     function openDB() {
@@ -1051,9 +1043,10 @@
         const request = indexedDB.open(DB_NAME, DB_VERSION);
         request.onupgradeneeded = (e) => {
           const db = e.target.result;
-          if (!db.objectStoreNames.contains(STORE_NAME)) {
-            db.createObjectStore(STORE_NAME, { keyPath: 'id', autoIncrement: true });
+          if (db.objectStoreNames.contains(STORE_NAME)) {
+            db.deleteObjectStore(STORE_NAME);
           }
+          db.createObjectStore(STORE_NAME, { keyPath: 'id', autoIncrement: true });
         };
         request.onsuccess = () => resolve(request.result);
         request.onerror = () => reject(request.error);
@@ -1072,7 +1065,7 @@
             title: track.title,
             artist: track.artist,
             album: track.album,
-            cover: track.cover,
+            coverBase64: track.coverBase64 || null,
             specs: track.specs,
             fileBlob: track.file
           });
@@ -1100,7 +1093,8 @@
               title: item.title,
               artist: item.artist,
               album: item.album,
-              cover: item.cover,
+              coverBase64: item.coverBase64,
+              cover: item.coverBase64 || DEFAULT_COVER,
               specs: item.specs
             }));
             
@@ -1264,7 +1258,6 @@
     window.addEventListener('resize', resizeCanvas);
     resizeCanvas();
 
-    // DIBUJO Y CREACIÓN DINÁMICA DE GRADIENTES SEGÚN LA PALETA DE COLOR
     function createPaletteGradient(ctx, width, paletteKey) {
       const grad = ctx.createLinearGradient(0, 0, width, 0);
 
@@ -1284,7 +1277,6 @@
         grad.addColorStop(0.7, '#7c7b78');
         grad.addColorStop(1.0, '#fcea1d');
       } else {
-        // NEÓN MONOCROMÁTICO / CYAN - MAGENTA
         grad.addColorStop(0.0, '#00f2fe');
         grad.addColorStop(0.5, '#4facfe');
         grad.addColorStop(1.0, '#ff4757');
@@ -1329,7 +1321,6 @@
         analyser.getByteFrequencyData(freqData);
         analyser.getByteTimeDomainData(timeData);
 
-        // CÁLCULO DE LUFS S Y PEAK DB
         if (lufsEnabled) {
           let sumSquares = 0;
           let peakSample = 0;
@@ -1350,11 +1341,9 @@
           }
         }
 
-        // AJUSTE DE MEZCLA Y OPACIDAD PARA MÁXIMA LUMINANCIA
         canvasCtx.globalCompositeOperation = 'screen';
         canvasCtx.globalAlpha = 0.85;
 
-        // BARRAS HORIZONTALES
         if (visualizerMode === 'bars' || visualizerMode === 'hybrid') {
           const numBars = 12;
           const barHeight = height / numBars;
@@ -1371,7 +1360,6 @@
           }
         }
 
-        // ÁMBITO / OSCILOSCOPIO
         if (visualizerMode === 'scope' || visualizerMode === 'hybrid') {
           const strokeColor = getScopeColor(selectedPalette);
           canvasCtx.lineWidth = visualizerMode === 'hybrid' ? 1.8 : 2.5;
@@ -1398,7 +1386,6 @@
           canvasCtx.shadowBlur = 0;
         }
 
-        // RESTAURAR PARÁMETROS Estándar DEL CANVAS
         canvasCtx.globalCompositeOperation = 'source-over';
         canvasCtx.globalAlpha = 1.0;
       }
@@ -1579,26 +1566,6 @@
       }
     });
 
-    function createCoverBlobUrl(coverData) {
-      if (!coverData) return DEFAULT_COVER;
-      if (coverData.startsWith('data:')) {
-        try {
-          const parts = coverData.split(';base64,');
-          const contentType = parts[0].split(':')[1];
-          const raw = window.atob(parts[1]);
-          const uInt8Array = new Uint8Array(raw.length);
-          for (let i = 0; i < raw.length; ++i) {
-            uInt8Array[i] = raw.charCodeAt(i);
-          }
-          const blob = new Blob([uInt8Array], { type: contentType });
-          return URL.createObjectURL(blob);
-        } catch (e) {
-          return DEFAULT_COVER;
-        }
-      }
-      return coverData;
-    }
-
     function readMetadata(file) {
       return new Promise((resolve) => {
         if (!window.jsmediatags) {
@@ -1610,7 +1577,7 @@
           window.jsmediatags.read(file, {
             onSuccess: function(tag) {
               const tags = tag.tags;
-              let coverUrl = null;
+              let coverBase64 = null;
 
               if (tags.picture) {
                 const { data, format } = tags.picture;
@@ -1618,15 +1585,14 @@
                 for (let i = 0; i < data.length; i++) {
                   base64String += String.fromCharCode(data[i]);
                 }
-                const dataUri = `data:${format};base64,${window.btoa(base64String)}`;
-                coverUrl = createCoverBlobUrl(dataUri);
+                coverBase64 = `data:${format};base64,${window.btoa(base64String)}`;
               }
 
               resolve({
                 title: tags.title || null,
                 artist: tags.artist || null,
                 album: tags.album || null,
-                cover: coverUrl
+                coverBase64: coverBase64
               });
             },
             onError: function() {
@@ -1727,54 +1693,81 @@
       const files = Array.from(e.target.files || []);
       if (files.length === 0) return;
 
-      statusEl.textContent = "Cargando...";
+      const wasEmpty = playlist.length === 0;
 
-      try {
-        const newTracks = await Promise.all(files.map(async (file) => {
-          const ext = file.name.split('.').pop().toLowerCase();
-          const filename = file.name.replace(/\.[^/.]+$/, "");
-          
-          const metaPromise = readMetadata(file);
-          const specsPromise = parseBinaryAudioSpecs(file);
+      // CARGA INMEDIATA EN LA INTERFAZ (RESPUESTA INSTANTÁNEA)
+      const tempTracks = files.map(file => {
+        const ext = file.name.split('.').pop().toLowerCase();
+        const filename = file.name.replace(/\.[^/.]+$/, "");
+        return {
+          file,
+          filename,
+          ext,
+          title: filename,
+          artist: "Cargando...",
+          album: "",
+          coverBase64: null,
+          cover: DEFAULT_COVER,
+          specs: `${ext.toUpperCase()} | Audio`
+        };
+      });
 
-          const [meta, specsText] = await Promise.all([metaPromise, specsPromise]);
+      playlist = [...playlist, ...tempTracks];
+      renderPlaylistUI();
 
-          return {
-            file,
-            filename,
-            ext,
-            title: meta?.title || filename,
-            artist: meta?.artist || "Biblioteca Local",
-            album: meta?.album || "",
-            cover: meta?.cover || DEFAULT_COVER,
-            specs: specsText
-          };
-        }));
-
-        playlist = [...playlist, ...newTracks];
-        statusEl.textContent = "";
-        
-        await saveTracksToDB(newTracks);
-
-        sortPlaylist();
-        renderPlaylistUI();
-
-        if (playlist.length === newTracks.length) {
-          currentIndex = 0;
-          processAndPlayTrack(currentIndex);
-        }
-      } catch (err) {
-        statusEl.textContent = "Error al cargar";
+      if (wasEmpty) {
+        currentIndex = 0;
+        processAndPlayTrack(currentIndex);
       }
+
+      // EXTRACCIÓN Y PERSISTENCIA EN SEGUNDO PLANO
+      for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        const targetIndex = playlist.length - files.length + i;
+
+        const metaPromise = readMetadata(file);
+        const specsPromise = parseBinaryAudioSpecs(file);
+
+        const [meta, specsText] = await Promise.all([metaPromise, specsPromise]);
+
+        if (playlist[targetIndex]) {
+          playlist[targetIndex].title = meta?.title || playlist[targetIndex].filename;
+          playlist[targetIndex].artist = meta?.artist || "Biblioteca Local";
+          playlist[targetIndex].album = meta?.album || "";
+          playlist[targetIndex].coverBase64 = meta?.coverBase64 || null;
+          playlist[targetIndex].cover = meta?.coverBase64 || DEFAULT_COVER;
+          playlist[targetIndex].specs = specsText;
+
+          if (targetIndex === currentIndex) {
+            titleEl.textContent = playlist[targetIndex].title;
+            artistEl.textContent = playlist[targetIndex].artist;
+            albumEl.textContent = playlist[targetIndex].album;
+            coverEl.src = playlist[targetIndex].cover;
+            audioSpecsEl.innerHTML = playlist[targetIndex].specs;
+            if (playlist[targetIndex].cover !== DEFAULT_COVER) {
+              bgBlur.style.backgroundImage = `url('${playlist[targetIndex].cover}')`;
+            }
+          }
+        }
+      }
+
+      saveTracksToDB(playlist.slice(playlist.length - files.length));
+      renderPlaylistUI();
     });
 
-    // MOTOR DE REPRODUCCIÓN Y CROSSFADE DUAL
+    // MOTOR DE REPRODUCCIÓN CORREGIDO (0s DELAY EN LA PRIMERA REPRODUCCIÓN)
     function processAndPlayTrack(index) {
       if (!playlist[index]) return;
       initWebAudio();
 
       const track = playlist[index];
-      const fadeDuration = parseFloat(crossfadeSlider.value);
+      const isFirstPlay = !activeGain; // Detecta si es la primera vez que se presiona Play
+      const fadeDuration = isFirstPlay ? 0 : parseFloat(crossfadeSlider.value);
+
+      if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+
       const now = audioCtx.currentTime;
 
       // FADE OUT DE LA PISTA ANTERIOR
@@ -1793,7 +1786,7 @@
         }, fadeDuration * 1000);
       }
 
-      // CREAR NUEVO ELEMENTO AUDIO PARA LA NUEVA PISTA
+      // NUEVO ELEMENTO AUDIO
       const newAudio = new Audio();
       newAudio.preload = "auto";
       newAudio.src = URL.createObjectURL(track.file);
@@ -1801,9 +1794,12 @@
       const newSource = audioCtx.createMediaElementSource(newAudio);
       const newGain = audioCtx.createGain();
 
-      // FADE IN DE LA NUEVA PISTA
-      newGain.gain.setValueAtTime(0.0001, now);
-      newGain.gain.linearRampToValueAtTime(1.0, now + fadeDuration);
+      if (isFirstPlay || fadeDuration === 0) {
+        newGain.gain.setValueAtTime(1.0, now);
+      } else {
+        newGain.gain.setValueAtTime(0.0001, now);
+        newGain.gain.linearRampToValueAtTime(1.0, now + fadeDuration);
+      }
 
       newSource.connect(newGain);
       newGain.connect(masterGain);
@@ -1812,7 +1808,6 @@
       activeSource = newSource;
       activeGain = newGain;
 
-      // ACTUALIZAR INTERFAZ
       seekBar.value = 0;
       currentTimeEl.textContent = "00:00";
       durationEl.textContent = "00:00";
@@ -1820,7 +1815,7 @@
       titleEl.textContent = track.title;
       artistEl.textContent = track.artist;
       albumEl.textContent = track.album;
-      coverEl.src = track.cover;
+      coverEl.src = track.cover || DEFAULT_COVER;
       
       if (track.cover && track.cover !== DEFAULT_COVER) {
         bgBlur.style.backgroundImage = `url('${track.cover}')`;
@@ -1833,7 +1828,6 @@
 
       setupMediaSession(track.title, track.artist, track.album, track.cover);
 
-      // EVENTOS DEL ELEMENTO AUDIO ACTIVO
       newAudio.addEventListener('loadedmetadata', () => {
         durationEl.textContent = formatTime(newAudio.duration);
         updatePositionState();
@@ -1857,10 +1851,6 @@
           }
         }
       });
-
-      if (audioCtx.state === 'suspended') {
-        audioCtx.resume();
-      }
 
       newAudio.play().then(() => {
         btnPlay.textContent = '⏸';
@@ -2011,7 +2001,6 @@
     btnNext.addEventListener('click', playNext);
     btnPrev.addEventListener('click', playPrev);
 
-    // EXPORTACIÓN DE LISTAS Y REPORTES
     document.getElementById('exportM3u8').addEventListener('click', () => {
       if (playlist.length === 0) return;
       let content = "#EXTM3U\n";
@@ -2061,7 +2050,6 @@ Fecha de Análisis: ${new Date().toLocaleString()}
       URL.revokeObjectURL(a.href);
     }
 
-    // ATAJOS DE TECLADO (PC Y ANDROID CON TECLADO FÍSICO)
     window.addEventListener('keydown', (e) => {
       if (['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement.tagName)) return;
 
