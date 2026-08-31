@@ -214,16 +214,42 @@
       flex-shrink: 0;
     }
 
+    .controls-row {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 6px;
+      flex-shrink: 0;
+    }
+
+    .control-box {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      padding: 6px 10px;
+      border-radius: 12px;
+      backdrop-filter: blur(10px);
+    }
+
+    .control-label {
+      font-size: 0.68rem;
+      color: var(--text-muted);
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
     .eq-select {
       background: transparent;
       color: #ffffff;
       border: none;
-      font-size: 0.85rem;
+      font-size: 0.75rem;
       font-weight: 600;
       outline: none;
       text-align: right;
       cursor: pointer;
-      max-width: 130px;
+      max-width: 105px;
     }
 
     .eq-select option {
@@ -392,7 +418,7 @@
       z-index: 5;
     }
 
-    /* BARRA INFERIOR MINIMALISTA DE 4 BOTONES (SOLO EMOJIS) */
+    /* BARRA DE NAVEGACIÓN DE 4 BOTONES (SOLO EMOJIS) */
     .bottom-nav {
       background: var(--card-bg);
       backdrop-filter: blur(25px) saturate(160%);
@@ -417,13 +443,14 @@
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      font-size: 1.4rem;
+      font-size: 1.35rem;
       width: 25%;
-      transition: color 0.2s, transform 0.1s;
+      transition: transform 0.1s, opacity 0.2s;
+      opacity: 0.6;
     }
 
     .nav-btn.active {
-      color: var(--accent);
+      opacity: 1;
       transform: scale(1.15);
     }
 
@@ -431,7 +458,7 @@
       transform: scale(0.92);
     }
 
-    .playlist-overlay {
+    .playlist-overlay, .modal-overlay {
       position: absolute;
       top: 0;
       left: 0;
@@ -450,7 +477,7 @@
       transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
     }
 
-    .playlist-overlay.active {
+    .playlist-overlay.active, .modal-overlay.active {
       display: flex;
       opacity: 1;
       transform: translateY(0);
@@ -583,28 +610,20 @@
       color: var(--text-muted);
     }
 
-    /* ESTILOS DEL PANEL DE AJUSTES */
-    .settings-group {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      margin-top: 14px;
+    /* ESTILOS DE AJUSTES */
+    .settings-body {
+      padding: 12px 0;
+      color: var(--text);
+      font-size: 0.85rem;
+      text-align: left;
     }
 
-    .settings-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+    .settings-item {
       background: rgba(255, 255, 255, 0.08);
       border: 1px solid rgba(255, 255, 255, 0.12);
-      padding: 12px 14px;
-      border-radius: 14px;
-    }
-
-    .settings-label {
-      font-size: 0.85rem;
-      font-weight: 600;
-      color: var(--text);
+      padding: 12px;
+      border-radius: 12px;
+      margin-bottom: 10px;
     }
     
     .meow-aviso-overlay {
@@ -709,6 +728,29 @@
 
       <div class="status-badge" id="status"></div>
 
+      <div class="controls-row">
+        <div class="control-box">
+          <span class="control-label">EQ</span>
+          <select id="eqSelect" class="eq-select">
+            <option value="flat">Plano</option>
+            <option value="bassBoost">Bass Boost</option>
+            <option value="electronic">Electronic</option>
+            <option value="hiphop">Hip-Hop</option>
+            <option value="jazz">Jazz</option>
+            <option value="pop">Pop</option>
+            <option value="rock">Rock</option>
+          </select>
+        </div>
+
+        <div class="control-box">
+          <span class="control-label">Dolby</span>
+          <label class="toggle-switch">
+            <input type="checkbox" id="dolbyToggle">
+            <span class="slider"></span>
+          </label>
+        </div>
+      </div>
+
       <div class="progress-container">
         <input type="range" id="seekBar" class="seek-bar" value="0" max="100">
         <div class="time-stamps">
@@ -730,7 +772,7 @@
         <input type="file" id="fileInput" class="real-file-input" multiple accept=".mp3,.wav,.ogg,.flac,.m4a,.aac,audio/*">
       </div>
 
-      <!-- PANEL DE COLA / PLAYLIST -->
+      <!-- COLA DE REPRODUCCIÓN -->
       <div class="playlist-overlay" id="playlistOverlay">
         <div class="playlist-header">
           <span class="playlist-title">Cola de reproducción</span>
@@ -756,39 +798,22 @@
         <ul class="playlist-list" id="playlistContainer"></ul>
       </div>
 
-      <!-- PANEL DE AJUSTES (CONFIGURACIÓN DE AUDIO) -->
-      <div class="playlist-overlay" id="settingsOverlay">
+      <!-- MODAL DE AJUSTES -->
+      <div class="modal-overlay" id="settingsOverlay">
         <div class="playlist-header">
-          <span class="playlist-title">Ajustes de Audio ⚙️</span>
+          <span class="playlist-title">Ajustes ⚙️</span>
           <button class="btn-icon" id="btnCloseSettings">✕</button>
         </div>
-        
-        <div class="settings-group">
-          <div class="settings-row">
-            <span class="settings-label">Ecualizador (EQ)</span>
-            <select id="eqSelect" class="eq-select">
-              <option value="flat">Plano</option>
-              <option value="bassBoost">Bass Boost</option>
-              <option value="electronic">Electronic</option>
-              <option value="hiphop">Hip-Hop</option>
-              <option value="jazz">Jazz</option>
-              <option value="pop">Pop</option>
-              <option value="rock">Rock</option>
-            </select>
-          </div>
-
-          <div class="settings-row">
-            <span class="settings-label">Efecto Dolby / Spatial</span>
-            <label class="toggle-switch">
-              <input type="checkbox" id="dolbyToggle">
-              <span class="slider"></span>
-            </label>
+        <div class="settings-body">
+          <div class="settings-item">
+            <strong>Meow Audio App v1.0</strong>
+            <p style="color:var(--text-muted); font-size:0.78rem; margin-top:4px;">Procesamiento local de Hi-Res Audio & Persistent Store.</p>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- NAVEGACIÓN INFERIOR DE 4 BOTONES (SOLO EMOJIS) -->
+    <!-- BOTONES DE NAVEGACIÓN INFERIOR (SOLO EMOJIS) -->
     <div class="bottom-nav">
       <button class="nav-btn active" id="navHome" title="Inicio">🏠</button>
       <button class="nav-btn" id="navQueue" title="Cola de reproducción">☰</button>
@@ -837,103 +862,16 @@
     const searchInput = document.getElementById('searchInput');
     const sortSelect = document.getElementById('sortSelect');
 
-      const navHome = document.getElementById('navHome');
-  const navQueue = document.getElementById('navQueue');
-  const navSearch = document.getElementById('navSearch');
-  const navSettings = document.getElementById('navSettings');
+    const navHome = document.getElementById('navHome');
+    const navQueue = document.getElementById('navQueue');
+    const navSearch = document.getElementById('navSearch');
+    const navSettings = document.getElementById('navSettings');
 
-  const canvas = document.getElementById('visualizerCanvas');
-  const canvasCtx = canvas.getContext('2d');
+    const canvas = document.getElementById('visualizerCanvas');
+    const canvasCtx = canvas.getContext('2d');
 
-  let playlist = [];
-  let currentIndex = 0;
-  let currentObjectUrl = null;
-  let isUserSeeking = false;
-
-  let isShuffle = false;
-  let repeatMode = 'off';
-
-  let audioCtx = null;
-  let trackSource = null;
-
-  // --- SISTEMA DE PERSISTENCIA CON INDEXEDDB (MeowDB) ---
-  const DB_NAME = 'MeowAudioDB';
-  const DB_VERSION = 1;
-  const STORE_NAME = 'songs';
-
-function openDB() {
-  return new Promise((resolve, reject) => {
-    const request = indexedDB.open(DB_NAME, DB_VERSION);
-    request.onupgradeneeded = (e) => {
-      const db = e.target.result;
-      if (!db.objectStoreNames.contains(STORE_NAME)) {
-        db.createObjectStore(STORE_NAME, { keyPath: 'id', autoIncrement: true });
-      }
-    };
-    request.onsuccess = () => resolve(request.result);
-    request.onerror = () => reject(request.error);
-  });
-}
-
-// Guardar lista de canciones procesadas
-async function saveTracksToDB(tracks) {
-  try {
-    const db = await openDB();
-    const tx = db.transaction(STORE_NAME, 'readwrite');
-    const store = tx.objectStore(STORE_NAME);
-    
-    for (const track of tracks) {
-      // Guardamos la estructura binaria (Blob) junto a sus metadatos
-      store.add({
-        filename: track.filename,
-        ext: track.ext,
-        title: track.title,
-        artist: track.artist,
-        album: track.album,
-        cover: track.cover,
-        specs: track.specs,
-        fileBlob: track.file
-      });
-    }
-  } catch (err) {
-    console.warn("Error al guardar en IndexedDB:", err);
-  }
-}
-
-// Cargar biblioteca guardada al iniciar la App
-async function loadStoredTracksFromDB() {
-  try {
-    const db = await openDB();
-    const tx = db.transaction(STORE_NAME, 'readonly');
-    const store = tx.objectStore(STORE_NAME);
-    const request = store.getAll();
-
-    request.onsuccess = () => {
-      const stored = request.result || [];
-      if (stored.length > 0) {
-        playlist = stored.map(item => ({
-          dbId: item.id,
-          file: item.fileBlob,
-          filename: item.filename,
-          ext: item.ext,
-          title: item.title,
-          artist: item.artist,
-          album: item.album,
-          cover: item.cover,
-          specs: item.specs
-        }));
-        
-        sortPlaylist();
-        renderPlaylistUI();
-        statusEl.textContent = "Biblioteca restaurada 🐾";
-        setTimeout(() => { if (statusEl.textContent.includes("restaurada")) statusEl.textContent = ""; }, 3000);
-      }
-    };
-  } catch (err) {
-    console.warn("Error al leer IndexedDB:", err);
-  }
-}
-
+    let playlist = [];
+    let currentIndex = 0;
     let currentObjectUrl = null;
     let isUserSeeking = false;
 
@@ -947,6 +885,80 @@ async function loadStoredTracksFromDB() {
     let dolbyFilter = null;
     let dolbyGain = null;
     let animationId = null;
+
+    // --- SISTEMA DE PERSISTENCIA INDEXEDDB (MeowDB) ---
+    const DB_NAME = 'MeowAudioDB';
+    const DB_VERSION = 1;
+    const STORE_NAME = 'songs';
+
+    function openDB() {
+      return new Promise((resolve, reject) => {
+        const request = indexedDB.open(DB_NAME, DB_VERSION);
+        request.onupgradeneeded = (e) => {
+          const db = e.target.result;
+          if (!db.objectStoreNames.contains(STORE_NAME)) {
+            db.createObjectStore(STORE_NAME, { keyPath: 'id', autoIncrement: true });
+          }
+        };
+        request.onsuccess = () => resolve(request.result);
+        request.onerror = () => reject(request.error);
+      });
+    }
+
+    async function saveTracksToDB(tracks) {
+      try {
+        const db = await openDB();
+        const tx = db.transaction(STORE_NAME, 'readwrite');
+        const store = tx.objectStore(STORE_NAME);
+        for (const track of tracks) {
+          store.add({
+            filename: track.filename,
+            ext: track.ext,
+            title: track.title,
+            artist: track.artist,
+            album: track.album,
+            cover: track.cover,
+            specs: track.specs,
+            fileBlob: track.file
+          });
+        }
+      } catch (err) {
+        console.warn("Error al guardar en IndexedDB:", err);
+      }
+    }
+
+    async function loadStoredTracksFromDB() {
+      try {
+        const db = await openDB();
+        const tx = db.transaction(STORE_NAME, 'readonly');
+        const store = tx.objectStore(STORE_NAME);
+        const request = store.getAll();
+
+        request.onsuccess = () => {
+          const stored = request.result || [];
+          if (stored.length > 0) {
+            playlist = stored.map(item => ({
+              dbId: item.id,
+              file: item.fileBlob,
+              filename: item.filename,
+              ext: item.ext,
+              title: item.title,
+              artist: item.artist,
+              album: item.album,
+              cover: item.cover,
+              specs: item.specs
+            }));
+            
+            sortPlaylist();
+            renderPlaylistUI();
+            statusEl.textContent = "Biblioteca restaurada 🐾";
+            setTimeout(() => { if (statusEl.textContent.includes("restaurada")) statusEl.textContent = ""; }, 3000);
+          }
+        };
+      } catch (err) {
+        console.warn("Error al leer IndexedDB:", err);
+      }
+    }
 
     const silentWav = "data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEARKwAAIhYAQACABAAAABkYXRhAgAAAAEA";
     const keepAliveAudio = new Audio(silentWav);
@@ -1039,7 +1051,6 @@ async function loadStoredTracksFromDB() {
     eqSelect.addEventListener('change', updateAudioEffects);
     dolbyToggle.addEventListener('change', updateAudioEffects);
 
-    // CONTROL DE NAVEGACIÓN
     function setActiveTab(activeBtn) {
       navHome.classList.remove('active');
       navQueue.classList.remove('active');
@@ -1057,8 +1068,8 @@ async function loadStoredTracksFromDB() {
 
     navQueue.addEventListener('click', () => {
       setActiveTab(navQueue);
-      searchBoxContainer.classList.remove('active');
       settingsOverlay.classList.remove('active');
+      searchBoxContainer.classList.remove('active');
       playlistOverlay.classList.add('active');
     });
 
@@ -1358,6 +1369,8 @@ async function loadStoredTracksFromDB() {
         playlist = [...playlist, ...newTracks];
         statusEl.textContent = "";
         
+        await saveTracksToDB(newTracks);
+
         sortPlaylist();
         renderPlaylistUI();
 
@@ -1599,12 +1612,13 @@ async function loadStoredTracksFromDB() {
       });
     }
 
-    /* --- LÓGICA DEL AVISO GATUNO --- */
+    /* --- LÓGICA DE INICIO --- */
     document.addEventListener('DOMContentLoaded', () => {
       if (localStorage.getItem('meowOcultarAviso') === 'true') {
         const aviso = document.getElementById('meow-aviso-privacidad');
         if (aviso) aviso.style.display = 'none';
       }
+      loadStoredTracksFromDB();
     });
 
     function meowCerrarAviso() {
