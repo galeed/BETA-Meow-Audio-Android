@@ -14,6 +14,7 @@
       --card-bg: rgba(255, 255, 255, 0.15);
       --card-border: rgba(255, 255, 255, 0.25);
       --accent: #ff4757;
+      --accent-cyan: #00ffcc;
       --text: #ffffff;
       --text-muted: rgba(255, 255, 255, 0.75);
       --audio-spec-color: #8ab4f8;
@@ -631,6 +632,33 @@
       font-size: 0.75rem;
       line-height: 1.3;
     }
+
+    .btn-action {
+      background: rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      color: var(--text);
+      padding: 6px 12px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .btn-action:hover {
+      background: rgba(255, 255, 255, 0.25);
+    }
+
+    .btn-action-magenta {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: rgba(255, 71, 87, 0.15);
+    }
+
+    .btn-action-magenta:hover {
+      background: var(--accent);
+      color: #fff;
+    }
     
     .meow-aviso-overlay {
       position: fixed;
@@ -693,6 +721,15 @@
 
     .meow-btn-cerrar:active {
       transform: scale(0.95);
+    }
+
+    kbd {
+      background: rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 4px;
+      padding: 1px 5px;
+      font-size: 0.7rem;
+      color: var(--accent-cyan);
     }
   </style>
 </head>
@@ -793,7 +830,17 @@
         </div>
         
         <div class="settings-body">
-          <!-- OPCIÓN 1: VISUALIZADOR DE AUDIO (ESPECTRO) -->
+          <!-- OPCIÓN 1: CROSSFADE -->
+          <div class="settings-item">
+            <div class="settings-title">🎚 Crossfade (Transición)</div>
+            <div class="settings-desc">Superposición entre pistas al cambiar de canción.</div>
+            <div class="settings-row">
+              <span class="settings-desc" style="font-weight:600;">Tiempo: <span id="crossfadeVal">3</span>s</span>
+              <input type="range" id="crossfadeTime" min="0" max="10" value="3" step="0.5" style="width:120px; accent-color:var(--accent);">
+            </div>
+          </div>
+
+          <!-- OPCIÓN 2: VISUALIZADOR DE AUDIO (ESPECTRO) -->
           <div class="settings-item">
             <div class="settings-title">📊 Espectro de Audio</div>
             <div class="settings-desc">Espectro dinámico difuminado de fondo en la tarjeta de metadatos.</div>
@@ -808,7 +855,7 @@
             </div>
           </div>
 
-          <!-- OPCIÓN 2: MEDIDOR LUFS & PEAK -->
+          <!-- OPCIÓN 3: MEDIDOR LUFS & PEAK -->
           <div class="settings-item">
             <div class="settings-title">🔊 Medidor de Volumen LUFS & Peak</div>
             <div class="settings-desc">Medición de sonoridad en tiempo real (LUFS Short-Term y True Peak).</div>
@@ -821,6 +868,7 @@
             </div>
           </div>
 
+          <!-- OPCIÓN 4: ECUALIZADOR -->
           <div class="settings-item">
             <div class="settings-title">🎛 Ecualizador (EQ)</div>
             <div class="settings-desc">Perfiles optimizados de frecuencia sonora.</div>
@@ -844,6 +892,7 @@
             </div>
           </div>
 
+          <!-- OPCIÓN 5: DOLBY SPATIAL -->
           <div class="settings-item">
             <div class="settings-title">🎧 Dolby Spatial Audio</div>
             <div class="settings-desc">Simula espacialización envolvente y amplitud en la escena sonora.</div>
@@ -853,6 +902,30 @@
                 <input type="checkbox" id="dolbyToggle">
                 <span class="slider"></span>
               </label>
+            </div>
+          </div>
+
+          <!-- OPCIÓN 6: EXPORTACIÓN Y DATOS TÉCNICOS -->
+          <div class="settings-item">
+            <div class="settings-title">💾 Exportación y Reportes</div>
+            <div class="settings-desc" style="margin-bottom:8px;">Exporta tus listas o el análisis de la pista activa.</div>
+            <div style="display:flex; flex-direction:column; gap:6px;">
+              <button class="btn-action" id="exportM3u8">Exportar Lista (.m3u8)</button>
+              <button class="btn-action" id="exportJson">Exportar Lista (.json)</button>
+              <button class="btn-action btn-action-magenta" id="exportReport">Descargar Reporte TXT</button>
+            </div>
+          </div>
+
+          <!-- OPCIÓN 7: ATAJOS DE TECLADO -->
+          <div class="settings-item">
+            <div class="settings-title">⌨️ Atajos de Teclado (PC / Android)</div>
+            <div class="settings-desc" style="display:grid; grid-template-columns:1fr 1fr; gap:4px; margin-top:6px;">
+              <div><kbd>Espacio</kbd> Play / Pausa</div>
+              <div><kbd>N</kbd> Siguiente Pista</div>
+              <div><kbd>P</kbd> Anterior Pista</div>
+              <div><kbd>M</kbd> Mute / Unmute</div>
+              <div><kbd>↑</kbd> Subir Volumen</div>
+              <div><kbd>↓</kbd> Bajar Volumen</div>
             </div>
           </div>
 
@@ -873,13 +946,11 @@
     </div>
   </div>
 
-  <audio id="audio" preload="auto" playsinline></audio>
-
   <script>
     const DEFAULT_COVER = "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 24 24' fill='none' stroke='%23ffffff' stroke-width='1.5'><path d='M9 18V5l12-2v13'/><circle cx='6' cy='18' r='3'/><circle cx='18' cy='16' r='3'/></svg>";
     const HI_RES_SVG = `data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'><rect width='200' height='200' fill='%23d4af37' rx='8'/><path d='M0 95 Q100 130 200 95 L200 200 L0 200 Z' fill='%23000000'/><text x='100' y='68' font-family='Arial Black, sans-serif' font-weight='900' font-size='56' fill='%23000000' text-anchor='middle'>Hi-Res</text><text x='100' y='165' font-family='Arial, sans-serif' font-weight='900' font-size='42' fill='%23d4af37' text-anchor='middle'>AUDIO</text></svg>`;
 
-    const audio = document.getElementById('audio');
+    // ELEMENTOS DOM
     const bgBlur = document.getElementById('bgBlur');
     const btnPlay = document.getElementById('btnPlay');
     const btnPrev = document.getElementById('btnPrev');
@@ -899,6 +970,9 @@
     const dolbyToggle = document.getElementById('dolbyToggle');
     const visualizerSelect = document.getElementById('visualizerSelect');
     const lufsSelect = document.getElementById('lufsSelect');
+
+    const crossfadeSlider = document.getElementById('crossfadeTime');
+    const crossfadeVal = document.getElementById('crossfadeVal');
 
     const trackInfoContainer = document.getElementById('trackInfoContainer');
     const canvas = document.getElementById('visualizerCanvas');
@@ -926,17 +1000,22 @@
     const navSearch = document.getElementById('navSearch');
     const navSettings = document.getElementById('navSettings');
 
+    // ESTADO GLOBAL DE REPRODUCCIÓN
     let playlist = [];
     let currentIndex = 0;
-    let currentObjectUrl = null;
     let isUserSeeking = false;
     let currentViewMode = 'queue';
 
     let isShuffle = false;
     let repeatMode = 'off';
 
+    // WEB AUDIO API Y MOTOR DE CROSSFADE
     let audioCtx = null;
-    let trackSource = null;
+    let activeAudioTag = null; 
+    let activeSource = null;
+    let activeGain = null;
+
+    let masterGain = null;
     let analyser = null;
     let eqFilters = [];
     let dolbyFilter = null;
@@ -1020,10 +1099,6 @@
       }
     }
 
-    const silentWav = "data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEARKwAAIhYAQACABAAAABkYXRhAgAAAAEA";
-    const keepAliveAudio = new Audio(silentWav);
-    keepAliveAudio.loop = true;
-
     const FREQUENCIES = [32, 64, 125, 250, 500, 1000, 2000, 4000, 8000, 16000];
     const EQ_PRESETS = {
       flat:         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -1046,7 +1121,9 @@
         try {
           const AudioCtxClass = window.AudioContext || window.webkitAudioContext;
           audioCtx = new AudioCtxClass();
-          trackSource = audioCtx.createMediaElementSource(audio);
+
+          masterGain = audioCtx.createGain();
+          masterGain.gain.value = 1.0;
 
           analyser = audioCtx.createAnalyser();
           analyser.fftSize = 128;
@@ -1070,7 +1147,7 @@
           dolbyGain = audioCtx.createGain();
           dolbyGain.gain.value = 1.0;
 
-          trackSource.connect(eqFilters[0]);
+          masterGain.connect(eqFilters[0]);
           for (let i = 0; i < eqFilters.length - 1; i++) {
             eqFilters[i].connect(eqFilters[i + 1]);
           }
@@ -1081,14 +1158,14 @@
           analyser.connect(audioCtx.destination);
           
           audioCtx.onstatechange = () => {
-            if (audioCtx.state === 'suspended' && !audio.paused) {
+            if (audioCtx.state === 'suspended' && activeAudioTag && !activeAudioTag.paused) {
               audioCtx.resume();
             }
           };
 
           startVisualizer();
         } catch (e) {
-          console.warn("WebAudio no disponible");
+          console.warn("WebAudio no disponible:", e);
         }
       }
     }
@@ -1114,6 +1191,10 @@
         }
       }
     }
+
+    crossfadeSlider.addEventListener('input', (e) => {
+      crossfadeVal.textContent = e.target.value;
+    });
 
     eqSelect.addEventListener('change', updateAudioEffects);
     dolbyToggle.addEventListener('change', updateAudioEffects);
@@ -1181,7 +1262,7 @@
 
         canvasCtx.clearRect(0, 0, width, height);
 
-        if (audio.paused || !analyser) {
+        if (!activeAudioTag || activeAudioTag.paused || !analyser) {
           if (lufsEnabled) {
             lufsBadge.textContent = "--.- LUFS S | Peak: -- dB";
             lufsBadge.style.color = "#7bed9f";
@@ -1625,11 +1706,51 @@
       }
     });
 
+    // MOTOR DE REPRODUCCIÓN Y CROSSFADE DUAL
     function processAndPlayTrack(index) {
       if (!playlist[index]) return;
+      initWebAudio();
 
       const track = playlist[index];
-      
+      const fadeDuration = parseFloat(crossfadeSlider.value);
+      const now = audioCtx.currentTime;
+
+      // FADE OUT DE LA PISTA ANTERIOR
+      if (activeGain && activeAudioTag) {
+        const oldGain = activeGain;
+        const oldAudio = activeAudioTag;
+        
+        oldGain.gain.setValueAtTime(oldGain.gain.value, now);
+        oldGain.gain.linearRampToValueAtTime(0.0001, now + fadeDuration);
+        
+        setTimeout(() => {
+          try {
+            oldAudio.pause();
+            oldAudio.remove();
+          } catch(e) {}
+        }, fadeDuration * 1000);
+      }
+
+      // CREAR NUEVO ELEMENTO AUDIO PARA LA NUEVA PISTA
+      const newAudio = new Audio();
+      newAudio.preload = "auto";
+      newAudio.src = URL.createObjectURL(track.file);
+
+      const newSource = audioCtx.createMediaElementSource(newAudio);
+      const newGain = audioCtx.createGain();
+
+      // FADE IN DE LA NUEVA PISTA
+      newGain.gain.setValueAtTime(0.0001, now);
+      newGain.gain.linearRampToValueAtTime(1.0, now + fadeDuration);
+
+      newSource.connect(newGain);
+      newGain.connect(masterGain);
+
+      activeAudioTag = newAudio;
+      activeSource = newSource;
+      activeGain = newGain;
+
+      // ACTUALIZAR INTERFAZ
       seekBar.value = 0;
       currentTimeEl.textContent = "00:00";
       durationEl.textContent = "00:00";
@@ -1637,7 +1758,6 @@
       titleEl.textContent = track.title;
       artistEl.textContent = track.artist;
       albumEl.textContent = track.album;
-      
       coverEl.src = track.cover;
       
       if (track.cover && track.cover !== DEFAULT_COVER) {
@@ -1649,30 +1769,38 @@
       audioSpecsEl.innerHTML = track.specs || `${track.ext.toUpperCase()} | 16 bit | 44.1 kHz`;
       renderPlaylistUI();
 
-      if (currentObjectUrl) {
-        URL.revokeObjectURL(currentObjectUrl);
-        currentObjectUrl = null;
-      }
+      setupMediaSession(track.title, track.artist, track.album, track.cover);
 
-      statusEl.textContent = "";
-      currentObjectUrl = URL.createObjectURL(track.file);
-      startPlayback(currentObjectUrl, track.title, track.artist, track.album, track.cover);
-    }
+      // EVENTOS DEL ELEMENTO AUDIO ACTIVO
+      newAudio.addEventListener('loadedmetadata', () => {
+        durationEl.textContent = formatTime(newAudio.duration);
+        updatePositionState();
+      });
 
-    function startPlayback(url, title, artist, album, cover) {
-      if (visualizerMode !== 'off' || lufsEnabled) {
-        initWebAudio();
-      }
+      newAudio.addEventListener('timeupdate', () => {
+        if (!isUserSeeking && newAudio.duration && activeAudioTag === newAudio) {
+          const progress = (newAudio.currentTime / newAudio.duration) * 100;
+          seekBar.value = progress;
+          currentTimeEl.textContent = formatTime(newAudio.currentTime);
+        }
+      });
 
-      if (audioCtx && audioCtx.state === 'suspended') {
+      newAudio.addEventListener('ended', () => {
+        if (activeAudioTag === newAudio) {
+          if (repeatMode === 'one') {
+            newAudio.currentTime = 0;
+            newAudio.play().catch(console.warn);
+          } else {
+            playNext();
+          }
+        }
+      });
+
+      if (audioCtx.state === 'suspended') {
         audioCtx.resume();
       }
 
-      audio.src = url;
-      setupMediaSession(title, artist, album, cover);
-
-      audio.play().then(() => {
-        keepAliveAudio.play().catch(() => {});
+      newAudio.play().then(() => {
         btnPlay.textContent = '⏸';
         updatePositionState();
       }).catch(err => {
@@ -1696,15 +1824,17 @@
 
         navigator.mediaSession.setActionHandler('play', () => {
           if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
-          audio.play();
-          keepAliveAudio.play().catch(() => {});
-          btnPlay.textContent = '⏸';
+          if (activeAudioTag) {
+            activeAudioTag.play();
+            btnPlay.textContent = '⏸';
+          }
         });
 
         navigator.mediaSession.setActionHandler('pause', () => {
-          audio.pause();
-          keepAliveAudio.pause();
-          btnPlay.textContent = '▶';
+          if (activeAudioTag) {
+            activeAudioTag.pause();
+            btnPlay.textContent = '▶';
+          }
         });
 
         navigator.mediaSession.setActionHandler('previoustrack', playPrev);
@@ -1712,8 +1842,8 @@
 
         try {
           navigator.mediaSession.setActionHandler('seekto', (details) => {
-            if (details.seekTime !== undefined) {
-              audio.currentTime = details.seekTime;
+            if (details.seekTime !== undefined && activeAudioTag) {
+              activeAudioTag.currentTime = details.seekTime;
               updatePositionState();
             }
           });
@@ -1722,64 +1852,49 @@
     }
 
     function updatePositionState() {
-      if ('mediaSession' in navigator && 'setPositionState' in navigator.mediaSession) {
-        if (audio.duration && !isNaN(audio.duration)) {
+      if ('mediaSession' in navigator && 'setPositionState' in navigator.mediaSession && activeAudioTag) {
+        if (activeAudioTag.duration && !isNaN(activeAudioTag.duration)) {
           navigator.mediaSession.setPositionState({
-            duration: audio.duration,
-            playbackRate: audio.playbackRate,
-            position: audio.currentTime
+            duration: activeAudioTag.duration,
+            playbackRate: activeAudioTag.playbackRate,
+            position: activeAudioTag.currentTime
           });
         }
       }
     }
 
-    audio.addEventListener('loadedmetadata', () => {
-      durationEl.textContent = formatTime(audio.duration);
-      updatePositionState();
-    });
-
-    audio.addEventListener('timeupdate', () => {
-      if (!isUserSeeking && audio.duration) {
-        const progress = (audio.currentTime / audio.duration) * 100;
-        seekBar.value = progress;
-        currentTimeEl.textContent = formatTime(audio.currentTime);
-      }
-    });
-
     seekBar.addEventListener('input', () => {
       isUserSeeking = true;
-      if (audio.duration) {
-        const seekTime = (seekBar.value / 100) * audio.duration;
+      if (activeAudioTag && activeAudioTag.duration) {
+        const seekTime = (seekBar.value / 100) * activeAudioTag.duration;
         currentTimeEl.textContent = formatTime(seekTime);
       }
     });
 
     seekBar.addEventListener('change', () => {
-      if (audio.duration) {
-        audio.currentTime = (seekBar.value / 100) * audio.duration;
+      if (activeAudioTag && activeAudioTag.duration) {
+        activeAudioTag.currentTime = (seekBar.value / 100) * activeAudioTag.duration;
         updatePositionState();
       }
       isUserSeeking = false;
     });
 
     function togglePlay() {
-      if (!audio.src) return;
-
-      if (visualizerMode !== 'off' || lufsEnabled) {
-        initWebAudio();
+      if (!activeAudioTag) {
+        if (playlist.length > 0) playTrack(currentIndex);
+        return;
       }
 
+      initWebAudio();
       if (audioCtx && audioCtx.state === 'suspended') {
         audioCtx.resume();
       }
 
-      if (audio.paused) {
-        audio.play();
-        keepAliveAudio.play().catch(() => {});
+      if (activeAudioTag.paused) {
+        activeAudioTag.play();
         btnPlay.textContent = '⏸';
       } else {
-        audio.pause();
-        keepAliveAudio.pause();
+        activeAudioTag.pause();
         btnPlay.textContent = '▶';
       }
     }
@@ -1803,8 +1918,7 @@
       if (playlist.length === 0) return;
 
       if (currentIndex === playlist.length - 1 && repeatMode === 'off' && !isShuffle) {
-        audio.pause();
-        keepAliveAudio.pause();
+        if (activeAudioTag) activeAudioTag.pause();
         btnPlay.textContent = '▶';
         return;
       }
@@ -1816,8 +1930,8 @@
     function playPrev() {
       if (playlist.length === 0) return;
 
-      if (audio.currentTime > 3) {
-        audio.currentTime = 0;
+      if (activeAudioTag && activeAudioTag.currentTime > 3) {
+        activeAudioTag.currentTime = 0;
         updatePositionState();
         return;
       }
@@ -1835,17 +1949,96 @@
     btnNext.addEventListener('click', playNext);
     btnPrev.addEventListener('click', playPrev);
 
-    audio.addEventListener('ended', () => {
-      if (repeatMode === 'one') {
-        audio.currentTime = 0;
-        audio.play().catch(console.warn);
-      } else {
-        playNext();
+    // EXPORTACIÓN DE LISTAS Y REPORTES
+    document.getElementById('exportM3u8').addEventListener('click', () => {
+      if (playlist.length === 0) return;
+      let content = "#EXTM3U\n";
+      playlist.forEach(t => {
+        content += `#EXTINF:-1,${t.artist} - ${t.title || t.filename}\n${t.filename}.${t.ext}\n`;
+      });
+      downloadFile(content, 'playlist_meow.m3u8', 'text/plain');
+    });
+
+    document.getElementById('exportJson').addEventListener('click', () => {
+      if (playlist.length === 0) return;
+      const data = playlist.map(t => ({
+        title: t.title,
+        artist: t.artist,
+        album: t.album,
+        filename: t.filename,
+        ext: t.ext,
+        specs: t.specs ? t.specs.replace(/<[^>]*>?/gm, '') : ''
+      }));
+      downloadFile(JSON.stringify(data, null, 2), 'playlist_meow.json', 'application/json');
+    });
+
+    document.getElementById('exportReport').addEventListener('click', () => {
+      if (playlist.length === 0) return;
+      const t = playlist[currentIndex];
+      const cleanSpecs = t.specs ? t.specs.replace(/<[^>]*>?/gm, '').trim() : 'N/A';
+      const report = `========================================
+MEOW AUDIO APP - ANÁLISIS TÉCNICO
+========================================
+Título: ${t.title || t.filename}
+Artista: ${t.artist || 'Desconocido'}
+Álbum: ${t.album || 'N/A'}
+Nombre de Archivo: ${t.filename}.${t.ext}
+Formato / Especificaciones: ${cleanSpecs}
+Tamaño en Disco: ${(t.file ? (t.file.size / (1024 * 1024)).toFixed(2) : '0')} MB
+Fecha de Análisis: ${new Date().toLocaleString()}
+========================================`;
+      downloadFile(report, `reporte_${t.filename}.txt`, 'text/plain');
+    });
+
+    function downloadFile(content, fileName, mimeType) {
+      const blob = new Blob([content], { type: mimeType });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = fileName;
+      a.click();
+      URL.revokeObjectURL(a.href);
+    }
+
+    // ATAJOS DE TECLADO (PC Y ANDROID CON TECLADO FÍSICO)
+    window.addEventListener('keydown', (e) => {
+      if (['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement.tagName)) return;
+
+      switch (e.code) {
+        case 'Space':
+          e.preventDefault();
+          togglePlay();
+          break;
+        case 'KeyN':
+          e.preventDefault();
+          playNext();
+          break;
+        case 'KeyP':
+          e.preventDefault();
+          playPrev();
+          break;
+        case 'KeyM':
+          e.preventDefault();
+          if (masterGain) {
+            masterGain.gain.value = masterGain.gain.value > 0 ? 0 : 1;
+          }
+          break;
+        case 'ArrowUp':
+          e.preventDefault();
+          if (masterGain) {
+            masterGain.gain.value = Math.min(1, masterGain.gain.value + 0.1);
+          }
+          break;
+        case 'ArrowDown':
+          e.preventDefault();
+          if (masterGain) {
+            masterGain.gain.value = Math.max(0, masterGain.gain.value - 0.1);
+          }
+          break;
       }
     });
 
     document.addEventListener("visibilitychange", () => {
-      if (audioCtx && audioCtx.state === 'suspended' && !audio.paused) {
+      if (audioCtx && audioCtx.state === 'suspended' && activeAudioTag && !activeAudioTag.paused) {
         audioCtx.resume();
       }
     });
