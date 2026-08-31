@@ -837,20 +837,29 @@
     const searchInput = document.getElementById('searchInput');
     const sortSelect = document.getElementById('sortSelect');
 
-    const navHome = document.getElementById('navHome');
-    const navQueue = document.getElementById('navQueue');
-    const navSearch = document.getElementById('navSearch');
-    const navSettings = document.getElementById('navSettings');
+      const navHome = document.getElementById('navHome');
+  const navQueue = document.getElementById('navQueue');
+  const navSearch = document.getElementById('navSearch');
+  const navSettings = document.getElementById('navSettings');
 
-    const canvas = document.getElementById('visualizerCanvas');
-    const canvasCtx = canvas.getContext('2d');
+  const canvas = document.getElementById('visualizerCanvas');
+  const canvasCtx = canvas.getContext('2d');
 
-    let playlist = [];
-    let currentIndex = 0;
-    // --- SISTEMA DE PERSISTENCIA CON INDEXEDDB (MeowDB) ---
-const DB_NAME = 'MeowAudioDB';
-const DB_VERSION = 1;
-const STORE_NAME = 'songs';
+  let playlist = [];
+  let currentIndex = 0;
+  let currentObjectUrl = null;
+  let isUserSeeking = false;
+
+  let isShuffle = false;
+  let repeatMode = 'off';
+
+  let audioCtx = null;
+  let trackSource = null;
+
+  // --- SISTEMA DE PERSISTENCIA CON INDEXEDDB (MeowDB) ---
+  const DB_NAME = 'MeowAudioDB';
+  const DB_VERSION = 1;
+  const STORE_NAME = 'songs';
 
 function openDB() {
   return new Promise((resolve, reject) => {
