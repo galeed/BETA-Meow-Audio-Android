@@ -214,54 +214,11 @@
       flex-shrink: 0;
     }
 
-    .controls-row {
-      display: flex;
-      gap: 8px;
-      margin-bottom: 6px;
-      flex-shrink: 0;
-    }
-
-    .control-box {
-      flex: 1;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      background: rgba(0, 0, 0, 0.3);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      padding: 6px 10px;
-      border-radius: 12px;
-      backdrop-filter: blur(10px);
-    }
-
-    .control-label {
-      font-size: 0.68rem;
-      color: var(--text-muted);
-      font-weight: 600;
-      text-transform: uppercase;
-    }
-
-    .eq-select {
-      background: transparent;
-      color: #ffffff;
-      border: none;
-      font-size: 0.75rem;
-      font-weight: 600;
-      outline: none;
-      text-align: right;
-      cursor: pointer;
-      max-width: 105px;
-    }
-
-    .eq-select option {
-      background: #1c1c24;
-      color: #ffffff;
-    }
-
     .toggle-switch {
       position: relative;
       display: inline-block;
-      width: 32px;
-      height: 16px;
+      width: 38px;
+      height: 20px;
     }
 
     .toggle-switch input {
@@ -282,10 +239,10 @@
     .slider:before {
       position: absolute;
       content: "";
-      height: 12px;
-      width: 12px;
-      left: 2px;
-      bottom: 2px;
+      height: 14px;
+      width: 14px;
+      left: 3px;
+      bottom: 3px;
       background-color: white;
       transition: .3s;
       border-radius: 50%;
@@ -296,7 +253,7 @@
     }
 
     input:checked + .slider:before {
-      transform: translateX(16px);
+      transform: translateX(18px);
     }
 
     .progress-container {
@@ -533,17 +490,17 @@
       font-weight: 600;
     }
 
-    .sort-select {
+    .sort-select, .settings-select {
       background: transparent;
       color: var(--text);
       border: none;
-      font-size: 0.78rem;
+      font-size: 0.82rem;
       font-weight: 600;
       outline: none;
       cursor: pointer;
     }
 
-    .sort-select option {
+    .sort-select option, .settings-select option {
       background: #1c1c24;
       color: var(--text);
     }
@@ -610,18 +567,42 @@
     }
 
     .settings-body {
-      padding: 12px 0;
+      padding: 10px 0;
       color: var(--text);
       font-size: 0.85rem;
       text-align: left;
+      overflow-y: auto;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
     }
 
     .settings-item {
       background: rgba(255, 255, 255, 0.08);
       border: 1px solid rgba(255, 255, 255, 0.12);
       padding: 12px;
-      border-radius: 12px;
-      margin-bottom: 10px;
+      border-radius: 14px;
+    }
+
+    .settings-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 6px;
+    }
+
+    .settings-title {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 2px;
+    }
+
+    .settings-desc {
+      color: var(--text-muted);
+      font-size: 0.75rem;
+      line-height: 1.3;
     }
     
     .meow-aviso-overlay {
@@ -726,29 +707,6 @@
 
       <div class="status-badge" id="status"></div>
 
-      <div class="controls-row">
-        <div class="control-box">
-          <span class="control-label">EQ</span>
-          <select id="eqSelect" class="eq-select">
-            <option value="flat">Plano</option>
-            <option value="bassBoost">Bass Boost</option>
-            <option value="electronic">Electronic</option>
-            <option value="hiphop">Hip-Hop</option>
-            <option value="jazz">Jazz</option>
-            <option value="pop">Pop</option>
-            <option value="rock">Rock</option>
-          </select>
-        </div>
-
-        <div class="control-box">
-          <span class="control-label">Dolby</span>
-          <label class="toggle-switch">
-            <input type="checkbox" id="dolbyToggle">
-            <span class="slider"></span>
-          </label>
-        </div>
-      </div>
-
       <div class="progress-container">
         <input type="range" id="seekBar" class="seek-bar" value="0" max="100">
         <div class="time-stamps">
@@ -802,10 +760,47 @@
           <span class="playlist-title">Ajustes ⚙️</span>
           <button class="btn-icon" id="btnCloseSettings">✕</button>
         </div>
+        
         <div class="settings-body">
+          <!-- SECCIÓN PROCESAMIENTO AUDIO -->
           <div class="settings-item">
-            <strong>Meow Audio App v2.0</strong>
-            <p style="color:var(--text-muted); font-size:0.78rem; margin-top:4px;">Procesamiento local de Hi-Res Audio & Persistent Store.</p>
+            <div class="settings-title">🎛 Ecualizador (EQ)</div>
+            <div class="settings-desc">Perfiles optimizados de frecuencia sonora.</div>
+            <div class="settings-row">
+              <span class="settings-desc" style="font-weight:600;">Preset:</span>
+              <select id="eqSelect" class="settings-select">
+                <option value="flat">Plano / Desactivado</option>
+                <option value="bassBoost">Bass Boost</option>
+                <option value="electronic">Electronic / EDM</option>
+                <option value="hardstyle">Hardstyle / Raw</option>
+                <option value="dance">Dance / Club</option>
+                <option value="hiphop">Hip-Hop / Urban</option>
+                <option value="rnb">R&B / Soul</option>
+                <option value="pop">Pop</option>
+                <option value="rock">Rock</option>
+                <option value="classical">Classical / Orchestral</option>
+                <option value="acoustic">Acoustic</option>
+                <option value="vocal">Vocal Booster</option>
+                <option value="pureAudio">Pure Audio Hi-Res</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="settings-item">
+            <div class="settings-title">🎧 Dolby Spatial Audio</div>
+            <div class="settings-desc">Simula espacialización envolvente y amplitud en la escena sonora.</div>
+            <div class="settings-row">
+              <span class="settings-desc" style="font-weight:600;">Modo Espacial</span>
+              <label class="toggle-switch">
+                <input type="checkbox" id="dolbyToggle">
+                <span class="slider"></span>
+              </label>
+            </div>
+          </div>
+
+          <div class="settings-item">
+            <div class="settings-title">Meow Audio App v2.0</div>
+            <div class="settings-desc">Procesamiento local de Hi-Res Audio & Persistent Store.</div>
           </div>
         </div>
       </div>
@@ -871,7 +866,7 @@
     let currentIndex = 0;
     let currentObjectUrl = null;
     let isUserSeeking = false;
-    let currentViewMode = 'queue'; // 'queue' o 'search'
+    let currentViewMode = 'queue';
 
     let isShuffle = false;
     let repeatMode = 'off';
@@ -964,12 +959,18 @@
     const FREQUENCIES = [32, 64, 125, 250, 500, 1000, 2000, 4000, 8000, 16000];
     const EQ_PRESETS = {
       flat:         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      bassBoost:    [6, 5, 4, 2, 0, 0, 0, 0, 0, 0],
-      electronic:   [5, 4, 2, 0, -2, 2, 1, 2, 4, 5],
-      hiphop:       [5, 4, 2, 3, -1, -1, 1, -1, 2, 3],
-      jazz:         [4, 3, 2, 2, -2, -2, 0, 1, 3, 4],
-      pop:          [-2, -1, 2, 4, 5, 4, 2, -1, -2, -2],
-      rock:         [5, 4, 3, 1, -1, -1, 1, 3, 4, 5]
+      bassBoost:    [7, 6, 4, 2, 0, 0, 0, 0, 0, 0],
+      electronic:   [6, 5, 2, 0, -2, 2, 1, 3, 5, 6],
+      hardstyle:    [8, 7, 3, -1, -2, 1, 3, 5, 6, 7],
+      dance:        [6, 5, 3, 0, 0, 2, 4, 4, 3, 0],
+      hiphop:       [6, 5, 2, 3, -1, -1, 1, -1, 2, 4],
+      rnb:          [4, 7, 5, -1, -2, 1, 3, 4, 3, 2],
+      pop:          [-2, 1, 3, 4, 5, 4, 2, 0, -1, -2],
+      rock:         [5, 4, 3, 1, -1, -1, 1, 3, 4, 5],
+      classical:    [4, 3, 2, 2, -1, -1, 0, 2, 3, 4],
+      acoustic:     [3, 2, 1, 1, 2, 2, 3, 3, 2, 1],
+      vocal:        [-3, -2, 0, 3, 5, 5, 4, 2, 0, -2],
+      pureAudio:    [2, 1, 0, 0, 0, 0, 1, 2, 3, 3]
     };
 
     function initWebAudio() {
@@ -1147,7 +1148,6 @@
       if (currentViewMode === 'search') {
         const query = searchInput.value.toLowerCase().trim();
         
-        // Si el buscador está vacío en modo Buscar, mantenemos la lista oculta
         if (!query) {
           playlistContainer.innerHTML = '<li style="color:var(--text-muted); font-size:0.82rem; padding:20px; text-align:center;">Escribe para buscar canciones... 🔍</li>';
           return;
@@ -1171,7 +1171,6 @@
         });
 
       } else {
-        // Modo Fila
         if (playlist.length === 0) {
           playlistContainer.innerHTML = '<li style="color:var(--text-muted); font-size:0.82rem; padding:10px; text-align:center;">Tu fila está vacía</li>';
           return;
