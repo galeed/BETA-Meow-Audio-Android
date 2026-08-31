@@ -418,7 +418,6 @@
       z-index: 5;
     }
 
-    /* BARRA DE NAVEGACIÓN DE 4 BOTONES (SOLO EMOJIS) */
     .bottom-nav {
       background: var(--card-bg);
       backdrop-filter: blur(25px) saturate(160%);
@@ -610,7 +609,6 @@
       color: var(--text-muted);
     }
 
-    /* ESTILOS DE AJUSTES */
     .settings-body {
       padding: 12px 0;
       color: var(--text);
@@ -772,15 +770,15 @@
         <input type="file" id="fileInput" class="real-file-input" multiple accept=".mp3,.wav,.ogg,.flac,.m4a,.aac,audio/*">
       </div>
 
-      <!-- COLA DE REPRODUCCIÓN -->
+      <!-- COLA / FILA / BUSCAR -->
       <div class="playlist-overlay" id="playlistOverlay">
         <div class="playlist-header">
-          <span class="playlist-title">Cola de reproducción</span>
+          <span class="playlist-title" id="playlistTitle">Fila</span>
           <button class="btn-icon" id="btnCloseQueue">✕</button>
         </div>
         
         <div class="playlist-tools">
-          <div class="sort-bar">
+          <div class="sort-bar" id="sortBar">
             <span class="sort-label">Ordenar por:</span>
             <select id="sortSelect" class="sort-select">
               <option value="default">Orden original</option>
@@ -806,7 +804,7 @@
         </div>
         <div class="settings-body">
           <div class="settings-item">
-            <strong>Meow Audio App v1.0</strong>
+            <strong>Meow Audio App v2.0</strong>
             <p style="color:var(--text-muted); font-size:0.78rem; margin-top:4px;">Procesamiento local de Hi-Res Audio & Persistent Store.</p>
           </div>
         </div>
@@ -816,7 +814,7 @@
     <!-- BOTONES DE NAVEGACIÓN INFERIOR (SOLO EMOJIS) -->
     <div class="bottom-nav">
       <button class="nav-btn active" id="navHome" title="Inicio">🏠</button>
-      <button class="nav-btn" id="navQueue" title="Cola de reproducción">☰</button>
+      <button class="nav-btn" id="navQueue" title="Fila">☰</button>
       <button class="nav-btn" id="navSearch" title="Buscar">🔍</button>
       <button class="nav-btn" id="navSettings" title="Ajustes">⚙️</button>
     </div>
@@ -854,6 +852,8 @@
     const btnCloseQueue = document.getElementById('btnCloseQueue');
     const playlistOverlay = document.getElementById('playlistOverlay');
     const playlistContainer = document.getElementById('playlistContainer');
+    const playlistTitle = document.getElementById('playlistTitle');
+    const sortBar = document.getElementById('sortBar');
 
     const settingsOverlay = document.getElementById('settingsOverlay');
     const btnCloseSettings = document.getElementById('btnCloseSettings');
@@ -867,13 +867,11 @@
     const navSearch = document.getElementById('navSearch');
     const navSettings = document.getElementById('navSettings');
 
-    const canvas = document.getElementById('visualizerCanvas');
-    const canvasCtx = canvas.getContext('2d');
-
     let playlist = [];
     let currentIndex = 0;
     let currentObjectUrl = null;
     let isUserSeeking = false;
+    let currentViewMode = 'queue'; // 'queue' o 'search'
 
     let isShuffle = false;
     let repeatMode = 'off';
@@ -884,9 +882,8 @@
     let eqFilters = [];
     let dolbyFilter = null;
     let dolbyGain = null;
-    let animationId = null;
 
-    // --- SISTEMA DE PERSISTENCIA INDEXEDDB (MeowDB) ---
+    // INDEXEDDB
     const DB_NAME = 'MeowAudioDB';
     const DB_VERSION = 1;
     const STORE_NAME = 'songs';
@@ -1063,21 +1060,30 @@
       setActiveTab(navHome);
       playlistOverlay.classList.remove('active');
       settingsOverlay.classList.remove('active');
-      searchBoxContainer.classList.remove('active');
     });
 
     navQueue.addEventListener('click', () => {
+      currentViewMode = 'queue';
+      playlistTitle.textContent = 'Fila';
+      sortBar.style.display = 'flex';
+      searchBoxContainer.classList.remove('active');
+      
       setActiveTab(navQueue);
       settingsOverlay.classList.remove('active');
-      searchBoxContainer.classList.remove('active');
       playlistOverlay.classList.add('active');
+      renderPlaylistUI();
     });
 
     navSearch.addEventListener('click', () => {
+      currentViewMode = 'search';
+      playlistTitle.textContent = 'Buscar';
+      sortBar.style.display = 'none';
+      searchBoxContainer.classList.add('active');
+      
       setActiveTab(navSearch);
       settingsOverlay.classList.remove('active');
-      searchBoxContainer.classList.add('active');
       playlistOverlay.classList.add('active');
+      renderPlaylistUI();
       setTimeout(() => searchInput.focus(), 50);
     });
 
@@ -1137,40 +1143,63 @@
 
     function renderPlaylistUI() {
       playlistContainer.innerHTML = '';
-      
-      const query = searchInput.value.toLowerCase().trim();
-      const filteredTracks = playlist.map((track, originalIndex) => ({ track, originalIndex })).filter(({ track }) => {
-        if (!query) return true;
-        const titleMatch = (track.title || '').toLowerCase().includes(query);
-        const artistMatch = (track.artist || '').toLowerCase().includes(query);
-        const albumMatch = (track.album || '').toLowerCase().includes(query);
-        const fileMatch = (track.filename || '').toLowerCase().includes(query);
-        return titleMatch || artistMatch || albumMatch || fileMatch;
-      });
 
-      if (filteredTracks.length === 0) {
-        playlistContainer.innerHTML = '<li style="color:var(--text-muted); font-size:0.82rem; padding:10px; text-align:center;">No se encontraron coincidencias</li>';
-        return;
-      }
+      if (currentViewMode === 'search') {
+        const query = searchInput.value.toLowerCase().trim();
+        
+        // Si el buscador está vacío en modo Buscar, mantenemos la lista oculta
+        if (!query) {
+          playlistContainer.innerHTML = '<li style="color:var(--text-muted); font-size:0.82rem; padding:20px; text-align:center;">Escribe para buscar canciones... 🔍</li>';
+          return;
+        }
 
-      filteredTracks.forEach(({ track, originalIndex }) => {
-        const li = document.createElement('li');
-        li.className = `playlist-item ${originalIndex === currentIndex ? 'playing' : ''}`;
-        li.innerHTML = `
-          <div>
-            <div class="playlist-item-title">${track.title || track.filename}</div>
-            <div class="playlist-item-artist">${track.artist} ${track.album ? '• ' + track.album : ''}</div>
-          </div>
-          ${originalIndex === currentIndex ? '<span style="color:var(--accent); font-size:0.8rem;">▶</span>' : ''}
-        `;
-        li.addEventListener('click', () => {
-          currentIndex = originalIndex;
-          processAndPlayTrack(currentIndex);
-          playlistOverlay.classList.remove('active');
-          setActiveTab(navHome);
+        const filtered = playlist.map((track, originalIndex) => ({ track, originalIndex })).filter(({ track }) => {
+          const titleMatch = (track.title || '').toLowerCase().includes(query);
+          const artistMatch = (track.artist || '').toLowerCase().includes(query);
+          const albumMatch = (track.album || '').toLowerCase().includes(query);
+          const fileMatch = (track.filename || '').toLowerCase().includes(query);
+          return titleMatch || artistMatch || albumMatch || fileMatch;
         });
-        playlistContainer.appendChild(li);
+
+        if (filtered.length === 0) {
+          playlistContainer.innerHTML = '<li style="color:var(--text-muted); font-size:0.82rem; padding:10px; text-align:center;">No se encontraron coincidencias</li>';
+          return;
+        }
+
+        filtered.forEach(({ track, originalIndex }) => {
+          appendPlaylistItem(track, originalIndex);
+        });
+
+      } else {
+        // Modo Fila
+        if (playlist.length === 0) {
+          playlistContainer.innerHTML = '<li style="color:var(--text-muted); font-size:0.82rem; padding:10px; text-align:center;">Tu fila está vacía</li>';
+          return;
+        }
+
+        playlist.forEach((track, originalIndex) => {
+          appendPlaylistItem(track, originalIndex);
+        });
+      }
+    }
+
+    function appendPlaylistItem(track, originalIndex) {
+      const li = document.createElement('li');
+      li.className = `playlist-item ${originalIndex === currentIndex ? 'playing' : ''}`;
+      li.innerHTML = `
+        <div>
+          <div class="playlist-item-title">${track.title || track.filename}</div>
+          <div class="playlist-item-artist">${track.artist} ${track.album ? '• ' + track.album : ''}</div>
+        </div>
+        ${originalIndex === currentIndex ? '<span style="color:var(--accent); font-size:0.8rem;">▶</span>' : ''}
+      `;
+      li.addEventListener('click', () => {
+        currentIndex = originalIndex;
+        processAndPlayTrack(currentIndex);
+        playlistOverlay.classList.remove('active');
+        setActiveTab(navHome);
       });
+      playlistContainer.appendChild(li);
     }
 
     btnShuffle.addEventListener('click', () => {
@@ -1612,7 +1641,6 @@
       });
     }
 
-    /* --- LÓGICA DE INICIO --- */
     document.addEventListener('DOMContentLoaded', () => {
       if (localStorage.getItem('meowOcultarAviso') === 'true') {
         const aviso = document.getElementById('meow-aviso-privacidad');
