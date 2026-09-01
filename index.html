@@ -734,6 +734,9 @@
 </head>
 <body>
 
+  <!-- ELEMENTO DE AUDIO PRINCIPAL PARA REPRODUCCIÓN CONTINUA EN SEGUNDO PLANO -->
+  <audio id="mainAudioPlayer" preload="auto" style="display:none;"></audio>
+
   <!-- AVISO DE PRIVACIDAD GATUNO -->
   <div id="meow-aviso-privacidad" class="meow-aviso-overlay">
     <div class="meow-aviso-box">
@@ -831,7 +834,7 @@
         <div class="settings-body">
           <div class="settings-item">
             <div class="settings-title">🎚 Crossfade (Transición)</div>
-            <div class="settings-desc">Superposición entre pistas al cambiar de canción.</div>
+            <div class="settings-desc">Superposición entre pistas al cambiar de canción (Solo activo entre canciones).</div>
             <div class="settings-row">
               <span class="settings-desc" style="font-weight:600;">Tiempo: <span id="crossfadeVal">0</span>s</span>
               <input type="range" id="crossfadeTime" min="0" max="10" value="0" step="0.5" style="width:120px; accent-color:var(--accent);">
@@ -854,7 +857,7 @@
 
           <div class="settings-item">
             <div class="settings-title">🎨 Paleta del Espectro (Accesibilidad)</div>
-            <div class="settings-desc">Esquemas científicos y de alto contraste diseñados para facilitar la lectura visual y la perceptibilidad.</div>
+            <div class="settings-desc">Esquemas científicos y de alto contraste para facilitar la perceptibilidad.</div>
             <div class="settings-row">
               <span class="settings-desc" style="font-weight:600;">Esquema:</span>
               <select id="paletteSelect" class="settings-select">
@@ -936,8 +939,8 @@
           </div>
 
           <div class="settings-item">
-            <div class="settings-title">MEOW AUDIO APP v2.2</div>
-            <div class="settings-desc">Procesamiento de audio Web Audio API local & Canvas accesible.</div>
+            <div class="settings-title">MEOW AUDIO APP v2.3</div>
+            <div class="settings-desc">Reproducción en segundo plano fija & Web Audio API optimizado.</div>
           </div>
         </div>
       </div>
@@ -958,6 +961,7 @@
 
     // ELEMENTOS DOM
     const bgBlur = document.getElementById('bgBlur');
+    const mainAudio = document.getElementById('mainAudioPlayer');
     const btnPlay = document.getElementById('btnPlay');
     const btnPrev = document.getElementById('btnPrev');
     const btnNext = document.getElementById('btnNext');
@@ -1015,13 +1019,11 @@
 
     let isShuffle = false;
     let repeatMode = 'off';
+    let isTrackLoaded = false;
 
-    // WEB AUDIO API Y MOTOR DE CROSSFADE
+    // WEB AUDIO API
     let audioCtx = null;
-    let activeAudioTag = null; 
-    let activeSource = null;
-    let activeGain = null;
-
+    let mainSource = null;
     let masterGain = null;
     let analyser = null;
     let eqFilters = [];
@@ -1157,6 +1159,10 @@
           dolbyGain = audioCtx.createGain();
           dolbyGain.gain.value = 1.0;
 
+          // CONEXIÓN DEL HTML5 AUDIO TAG A WEBAUDIO
+          mainSource = audioCtx.createMediaElementSource(mainAudio);
+
+          mainSource.connect(masterGain);
           masterGain.connect(eqFilters[0]);
           for (let i = 0; i < eqFilters.length - 1; i++) {
             eqFilters[i].connect(eqFilters[i + 1]);
@@ -1167,24 +1173,19 @@
           dolbyGain.connect(analyser);
           analyser.connect(audioCtx.destination);
           
-          audioCtx.onstatechange = () => {
-            if (audioCtx.state === 'suspended' && activeAudioTag && !activeAudioTag.paused) {
-              audioCtx.resume();
-            }
-          };
-
           startVisualizer();
         } catch (e) {
-          console.warn("WebAudio no disponible:", e);
+          console.warn("WebAudio no inicializado completamente:", e);
         }
+      }
+      
+      if (audioCtx && audioCtx.state === 'suspended') {
+        audioCtx.resume();
       }
     }
 
     function updateAudioEffects() {
       initWebAudio();
-      if (audioCtx && audioCtx.state === 'suspended') {
-        audioCtx.resume();
-      }
 
       if (audioCtx && eqFilters.length > 0) {
         const gains = EQ_PRESETS[eqSelect.value] || EQ_PRESETS.flat;
@@ -1310,7 +1311,7 @@
 
         canvasCtx.clearRect(0, 0, width, height);
 
-        if (!activeAudioTag || activeAudioTag.paused || !analyser) {
+        if (!mainAudio || mainAudio.paused || !analyser) {
           if (lufsEnabled) {
             lufsBadge.textContent = "--.- LUFS S | Peak: -- dB";
             lufsBadge.style.color = "#7bed9f";
@@ -1618,7 +1619,7 @@
       if (ext === 'flac') {
         let flacPos = -1;
         for (let i = 0; i < uint8.length - 4; i++) {
-          if (uint8[i] === 0x66 && uint8[i+1] === 0x6C && uint8[i+2] === 0x61 && uint8[i+3] === 0x43) {
+          if (uint8[i] === 0x66 && uint8[i+1] === 0x6C && uint8[i+2] === 0x61 && uint8[i+3] === 0x34) {
             flacPos = i;
             break;
           }
@@ -1695,7 +1696,6 @@
 
       const wasEmpty = playlist.length === 0;
 
-      // CARGA INMEDIATA EN LA INTERFAZ (RESPUESTA INSTANTÁNEA)
       const tempTracks = files.map(file => {
         const ext = file.name.split('.').pop().toLowerCase();
         const filename = file.name.replace(/\.[^/.]+$/, "");
@@ -1720,7 +1720,6 @@
         processAndPlayTrack(currentIndex);
       }
 
-      // EXTRACCIÓN Y PERSISTENCIA EN SEGUNDO PLANO
       for (let i = 0; i < files.length; i++) {
         const file = files[i];
         const targetIndex = playlist.length - files.length + i;
@@ -1755,58 +1754,48 @@
       renderPlaylistUI();
     });
 
-    // MOTOR DE REPRODUCCIÓN CORREGIDO (0s DELAY EN LA PRIMERA REPRODUCCIÓN)
+    // MOTOR DE REPRODUCCIÓN OPTIMIZADO PARA SEGUNDO PLANO Y TRANSICIÓN LIMPIA
     function processAndPlayTrack(index) {
       if (!playlist[index]) return;
       initWebAudio();
 
       const track = playlist[index];
-      const isFirstPlay = !activeGain; // Detecta si es la primera vez que se presiona Play
-      const fadeDuration = isFirstPlay ? 0 : parseFloat(crossfadeSlider.value);
+      const fadeDuration = parseFloat(crossfadeSlider.value);
+      const isInitialStart = !isTrackLoaded;
 
-      if (audioCtx.state === 'suspended') {
-        audioCtx.resume();
-      }
-
-      const now = audioCtx.currentTime;
-
-      // FADE OUT DE LA PISTA ANTERIOR
-      if (activeGain && activeAudioTag) {
-        const oldGain = activeGain;
-        const oldAudio = activeAudioTag;
+      if (isInitialStart || fadeDuration === 0) {
+        // Reproducción directa e inmediata para la primera pista
+        mainAudio.src = URL.createObjectURL(track.file);
+        if (masterGain) masterGain.gain.value = 1.0;
         
-        oldGain.gain.setValueAtTime(oldGain.gain.value, now);
-        oldGain.gain.linearRampToValueAtTime(0.0001, now + fadeDuration);
-        
-        setTimeout(() => {
-          try {
-            oldAudio.pause();
-            oldAudio.remove();
-          } catch(e) {}
-        }, fadeDuration * 1000);
-      }
-
-      // NUEVO ELEMENTO AUDIO
-      const newAudio = new Audio();
-      newAudio.preload = "auto";
-      newAudio.src = URL.createObjectURL(track.file);
-
-      const newSource = audioCtx.createMediaElementSource(newAudio);
-      const newGain = audioCtx.createGain();
-
-      if (isFirstPlay || fadeDuration === 0) {
-        newGain.gain.setValueAtTime(1.0, now);
+        mainAudio.play().then(() => {
+          btnPlay.textContent = '⏸';
+          updatePositionState();
+        }).catch(console.warn);
       } else {
-        newGain.gain.setValueAtTime(0.0001, now);
-        newGain.gain.linearRampToValueAtTime(1.0, now + fadeDuration);
+        // Transición suave (Crossfade) solo cuando ya existe una canción sonando
+        if (masterGain && audioCtx) {
+          const now = audioCtx.currentTime;
+          masterGain.gain.setValueAtTime(masterGain.gain.value, now);
+          masterGain.gain.linearRampToValueAtTime(0.0001, now + (fadeDuration / 2));
+          
+          setTimeout(() => {
+            mainAudio.src = URL.createObjectURL(track.file);
+            mainAudio.play().then(() => {
+              const playNow = audioCtx.currentTime;
+              masterGain.gain.setValueAtTime(0.0001, playNow);
+              masterGain.gain.linearRampToValueAtTime(1.0, playNow + (fadeDuration / 2));
+              btnPlay.textContent = '⏸';
+              updatePositionState();
+            }).catch(console.warn);
+          }, (fadeDuration / 2) * 1000);
+        } else {
+          mainAudio.src = URL.createObjectURL(track.file);
+          mainAudio.play().catch(console.warn);
+        }
       }
 
-      newSource.connect(newGain);
-      newGain.connect(masterGain);
-
-      activeAudioTag = newAudio;
-      activeSource = newSource;
-      activeGain = newGain;
+      isTrackLoaded = true;
 
       seekBar.value = 0;
       currentTimeEl.textContent = "00:00";
@@ -1827,39 +1816,30 @@
       renderPlaylistUI();
 
       setupMediaSession(track.title, track.artist, track.album, track.cover);
-
-      newAudio.addEventListener('loadedmetadata', () => {
-        durationEl.textContent = formatTime(newAudio.duration);
-        updatePositionState();
-      });
-
-      newAudio.addEventListener('timeupdate', () => {
-        if (!isUserSeeking && newAudio.duration && activeAudioTag === newAudio) {
-          const progress = (newAudio.currentTime / newAudio.duration) * 100;
-          seekBar.value = progress;
-          currentTimeEl.textContent = formatTime(newAudio.currentTime);
-        }
-      });
-
-      newAudio.addEventListener('ended', () => {
-        if (activeAudioTag === newAudio) {
-          if (repeatMode === 'one') {
-            newAudio.currentTime = 0;
-            newAudio.play().catch(console.warn);
-          } else {
-            playNext();
-          }
-        }
-      });
-
-      newAudio.play().then(() => {
-        btnPlay.textContent = '⏸';
-        updatePositionState();
-      }).catch(err => {
-        console.warn("Reproducción diferida:", err);
-        btnPlay.textContent = '▶';
-      });
     }
+
+    // MANEJO DE EVENTOS DEL HTML5 AUDIO ELEMENT
+    mainAudio.addEventListener('loadedmetadata', () => {
+      durationEl.textContent = formatTime(mainAudio.duration);
+      updatePositionState();
+    });
+
+    mainAudio.addEventListener('timeupdate', () => {
+      if (!isUserSeeking && mainAudio.duration) {
+        const progress = (mainAudio.currentTime / mainAudio.duration) * 100;
+        seekBar.value = progress;
+        currentTimeEl.textContent = formatTime(mainAudio.currentTime);
+      }
+    });
+
+    mainAudio.addEventListener('ended', () => {
+      if (repeatMode === 'one') {
+        mainAudio.currentTime = 0;
+        mainAudio.play().catch(console.warn);
+      } else {
+        playNext();
+      }
+    });
 
     function setupMediaSession(title, artist, album, cover) {
       if ('mediaSession' in navigator) {
@@ -1876,17 +1856,13 @@
 
         navigator.mediaSession.setActionHandler('play', () => {
           if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
-          if (activeAudioTag) {
-            activeAudioTag.play();
-            btnPlay.textContent = '⏸';
-          }
+          mainAudio.play();
+          btnPlay.textContent = '⏸';
         });
 
         navigator.mediaSession.setActionHandler('pause', () => {
-          if (activeAudioTag) {
-            activeAudioTag.pause();
-            btnPlay.textContent = '▶';
-          }
+          mainAudio.pause();
+          btnPlay.textContent = '▶';
         });
 
         navigator.mediaSession.setActionHandler('previoustrack', playPrev);
@@ -1894,8 +1870,8 @@
 
         try {
           navigator.mediaSession.setActionHandler('seekto', (details) => {
-            if (details.seekTime !== undefined && activeAudioTag) {
-              activeAudioTag.currentTime = details.seekTime;
+            if (details.seekTime !== undefined && mainAudio) {
+              mainAudio.currentTime = details.seekTime;
               updatePositionState();
             }
           });
@@ -1904,12 +1880,12 @@
     }
 
     function updatePositionState() {
-      if ('mediaSession' in navigator && 'setPositionState' in navigator.mediaSession && activeAudioTag) {
-        if (activeAudioTag.duration && !isNaN(activeAudioTag.duration)) {
+      if ('mediaSession' in navigator && 'setPositionState' in navigator.mediaSession && mainAudio) {
+        if (mainAudio.duration && !isNaN(mainAudio.duration)) {
           navigator.mediaSession.setPositionState({
-            duration: activeAudioTag.duration,
-            playbackRate: activeAudioTag.playbackRate,
-            position: activeAudioTag.currentTime
+            duration: mainAudio.duration,
+            playbackRate: mainAudio.playbackRate,
+            position: mainAudio.currentTime
           });
         }
       }
@@ -1917,36 +1893,33 @@
 
     seekBar.addEventListener('input', () => {
       isUserSeeking = true;
-      if (activeAudioTag && activeAudioTag.duration) {
-        const seekTime = (seekBar.value / 100) * activeAudioTag.duration;
+      if (mainAudio.duration) {
+        const seekTime = (seekBar.value / 100) * mainAudio.duration;
         currentTimeEl.textContent = formatTime(seekTime);
       }
     });
 
     seekBar.addEventListener('change', () => {
-      if (activeAudioTag && activeAudioTag.duration) {
-        activeAudioTag.currentTime = (seekBar.value / 100) * activeAudioTag.duration;
+      if (mainAudio.duration) {
+        mainAudio.currentTime = (seekBar.value / 100) * mainAudio.duration;
         updatePositionState();
       }
       isUserSeeking = false;
     });
 
     function togglePlay() {
-      if (!activeAudioTag) {
+      if (!isTrackLoaded) {
         if (playlist.length > 0) processAndPlayTrack(currentIndex);
         return;
       }
 
       initWebAudio();
-      if (audioCtx && audioCtx.state === 'suspended') {
-        audioCtx.resume();
-      }
 
-      if (activeAudioTag.paused) {
-        activeAudioTag.play();
+      if (mainAudio.paused) {
+        mainAudio.play();
         btnPlay.textContent = '⏸';
       } else {
-        activeAudioTag.pause();
+        mainAudio.pause();
         btnPlay.textContent = '▶';
       }
     }
@@ -1970,7 +1943,7 @@
       if (playlist.length === 0) return;
 
       if (currentIndex === playlist.length - 1 && repeatMode === 'off' && !isShuffle) {
-        if (activeAudioTag) activeAudioTag.pause();
+        mainAudio.pause();
         btnPlay.textContent = '▶';
         return;
       }
@@ -1982,8 +1955,8 @@
     function playPrev() {
       if (playlist.length === 0) return;
 
-      if (activeAudioTag && activeAudioTag.currentTime > 3) {
-        activeAudioTag.currentTime = 0;
+      if (mainAudio.currentTime > 3) {
+        mainAudio.currentTime = 0;
         updatePositionState();
         return;
       }
@@ -2068,27 +2041,21 @@ Fecha de Análisis: ${new Date().toLocaleString()}
           break;
         case 'KeyM':
           e.preventDefault();
-          if (masterGain) {
-            masterGain.gain.value = masterGain.gain.value > 0 ? 0 : 1;
-          }
+          mainAudio.muted = !mainAudio.muted;
           break;
         case 'ArrowUp':
           e.preventDefault();
-          if (masterGain) {
-            masterGain.gain.value = Math.min(1, masterGain.gain.value + 0.1);
-          }
+          mainAudio.volume = Math.min(1, mainAudio.volume + 0.1);
           break;
         case 'ArrowDown':
           e.preventDefault();
-          if (masterGain) {
-            masterGain.gain.value = Math.max(0, masterGain.gain.value - 0.1);
-          }
+          mainAudio.volume = Math.max(0, mainAudio.volume - 0.1);
           break;
       }
     });
 
     document.addEventListener("visibilitychange", () => {
-      if (audioCtx && audioCtx.state === 'suspended' && activeAudioTag && !activeAudioTag.paused) {
+      if (audioCtx && audioCtx.state === 'suspended' && !mainAudio.paused) {
         audioCtx.resume();
       }
     });
