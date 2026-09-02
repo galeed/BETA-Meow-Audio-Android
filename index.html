@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  
+     
   <title>MEOW AUDIO APP</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jsmediatags/3.9.5/jsmediatags.min.js"></script>
   <style>
@@ -366,29 +366,42 @@
       color: var(--accent);
     }
 
-    .file-input-wrapper {
-      position: relative;
-      display: block;
+    /* CONTENEDOR DE ACCIONES INFERIORES MODIFICADO */
+    .action-buttons-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
       width: 100%;
-      height: 40px;
-      border-radius: 12px;
-      overflow: hidden;
-      background: rgba(255, 255, 255, 0.2);
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      backdrop-filter: blur(10px);
+      padding: 0 4px;
       flex-shrink: 0;
     }
 
-    .file-input-btn {
-      width: 100%;
-      height: 100%;
+    .icon-action-btn {
+      background: rgba(255, 255, 255, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      color: var(--text);
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      color: var(--text);
-      font-size: 0.88rem;
-      font-weight: 600;
-      pointer-events: none;
+      font-size: 1.2rem;
+      cursor: pointer;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      transition: transform 0.1s ease, background 0.2s ease;
+      position: relative;
+    }
+
+    .icon-action-btn:active {
+      transform: scale(0.9);
+      background: rgba(255, 255, 255, 0.35);
+    }
+
+    .file-input-wrapper {
+      position: relative;
+      display: inline-block;
     }
 
     .real-file-input {
@@ -658,7 +671,7 @@
       background: var(--accent);
       color: #fff;
     }
-    
+        
     .meow-aviso-overlay {
       position: fixed;
       top: 0; left: 0; width: 100%; height: 100%;
@@ -793,9 +806,13 @@
         <button class="btn btn-sub" id="btnRepeat">🔁</button>
       </div>
 
-      <div class="file-input-wrapper">
-        <div class="file-input-btn">📁 Cargar canciones</div>
-        <input type="file" id="fileInput" class="real-file-input" multiple accept=".mp3,.wav,.ogg,.flac,.m4a,.aac,audio/*">
+      <!-- BOTONES INFERIORES: PANTALLA COMPLETA (IZQUIERDA) Y AÑADIR (DERECHA) -->
+      <div class="action-buttons-row">
+        <button class="icon-action-btn" id="btnFullscreen" title="Pantalla completa">⛶</button>
+        <div class="file-input-wrapper">
+          <button class="icon-action-btn" title="Añadir canciones">➕</button>
+          <input type="file" id="fileInput" class="real-file-input" multiple accept=".mp3,.wav,.ogg,.flac,.m4a,.aac,audio/*">
+        </div>
       </div>
 
       <!-- COLA / FILA / BUSCAR -->
@@ -967,6 +984,7 @@
     const btnNext = document.getElementById('btnNext');
     const btnShuffle = document.getElementById('btnShuffle');
     const btnRepeat = document.getElementById('btnRepeat');
+    const btnFullscreen = document.getElementById('btnFullscreen');
 
     const coverEl = document.getElementById('cover');
     const titleEl = document.getElementById('title');
@@ -1030,7 +1048,8 @@
     let dolbyFilter = null;
     let dolbyGain = null;
 
-    let visualizerMode = 'off'; 
+    let visualizerMode = 'off';
+
     let selectedPalette = 'neon';
     let lufsEnabled = false;
     let animationFrameId = null;
@@ -1178,7 +1197,7 @@
           console.warn("WebAudio no inicializado completamente:", e);
         }
       }
-      
+
       if (audioCtx && audioCtx.state === 'suspended') {
         audioCtx.resume();
       }
@@ -1456,6 +1475,23 @@
     sortSelect.addEventListener('change', () => {
       sortPlaylist();
       renderPlaylistUI();
+    });
+
+    // PANTALLA COMPLETA
+    btnFullscreen.addEventListener('click', () => {
+      if (!document.fullscreenElement && !document.webkitFullscreenElement) {
+        if (document.documentElement.requestFullscreen) {
+          document.documentElement.requestFullscreen();
+        } else if (document.documentElement.webkitRequestFullscreen) {
+          document.documentElement.webkitRequestFullscreen();
+        }
+      } else {
+        if (document.exitFullscreen) {
+          document.exitFullscreen();
+        } else if (document.webkitExitFullscreen) {
+          document.webkitExitFullscreen();
+        }
+      }
     });
 
     function sortPlaylist() {
@@ -1843,8 +1879,8 @@
 
     function setupMediaSession(title, artist, album, cover) {
       if ('mediaSession' in navigator) {
-        const artwork = (cover && cover !== DEFAULT_COVER)
-          ? [{ src: cover, sizes: '512x512', type: 'image/png' }]
+        const artwork = (cover && cover !== DEFAULT_COVER) 
+          ? [{ src: cover, sizes: '512x512', type: 'image/png' }] 
           : [];
 
         navigator.mediaSession.metadata = new MediaMetadata({
@@ -2000,17 +2036,7 @@
       if (playlist.length === 0) return;
       const t = playlist[currentIndex];
       const cleanSpecs = t.specs ? t.specs.replace(/<[^>]*>?/gm, '').trim() : 'N/A';
-      const report = `========================================
-MEOW AUDIO APP - ANÁLISIS TÉCNICO
-========================================
-Título: ${t.title || t.filename}
-Artista: ${t.artist || 'Desconocido'}
-Álbum: ${t.album || 'N/A'}
-Nombre de Archivo: ${t.filename}.${t.ext}
-Formato / Especificaciones: ${cleanSpecs}
-Tamaño en Disco: ${(t.file ? (t.file.size / (1024 * 1024)).toFixed(2) : '0')} MB
-Fecha de Análisis: ${new Date().toLocaleString()}
-========================================`;
+      const report = `======================================== MEOW AUDIO APP - ANÁLISIS TÉCNICO ======================================== Título: ${t.title || t.filename} Artista: ${t.artist || 'Desconocido'} Álbum: ${t.album || 'N/A'} Nombre de Archivo: ${t.filename}.${t.ext} Formato / Especificaciones: ${cleanSpecs} Tamaño en Disco: ${(t.file ? (t.file.size / (1024 * 1024)).toFixed(2) : '0')} MB Fecha de Análisis: ${new Date().toLocaleString()} ========================================`;
       downloadFile(report, `reporte_${t.filename}.txt`, 'text/plain');
     });
 
