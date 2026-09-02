@@ -366,7 +366,6 @@
       color: var(--accent);
     }
 
-    /* CONTENEDOR DE ACCIONES INFERIORES MODIFICADO */
     .action-buttons-row {
       display: flex;
       justify-content: space-between;
@@ -747,7 +746,7 @@
 </head>
 <body>
 
-  <!-- ELEMENTO DE AUDIO PRINCIPAL PARA REPRODUCCIÓN CONTINUA EN SEGUNDO PLANO -->
+  <!-- ELEMENTO DE AUDIO PRINCIPAL -->
   <audio id="mainAudioPlayer" preload="auto" style="display:none;"></audio>
 
   <!-- AVISO DE PRIVACIDAD GATUNO -->
@@ -806,7 +805,7 @@
         <button class="btn btn-sub" id="btnRepeat">🔁</button>
       </div>
 
-      <!-- BOTONES INFERIORES: PANTALLA COMPLETA (IZQUIERDA) Y AÑADIR (DERECHA) -->
+      <!-- BOTONES INFERIORES -->
       <div class="action-buttons-row">
         <button class="icon-action-btn" id="btnFullscreen" title="Pantalla completa">⛶</button>
         <div class="file-input-wrapper">
@@ -851,7 +850,7 @@
         <div class="settings-body">
           <div class="settings-item">
             <div class="settings-title">🎚 Crossfade (Transición)</div>
-            <div class="settings-desc">Superposición entre pistas al cambiar de canción (Solo activo entre canciones).</div>
+            <div class="settings-desc">Superposición entre pistas al cambiar de canción.</div>
             <div class="settings-row">
               <span class="settings-desc" style="font-weight:600;">Tiempo: <span id="crossfadeVal">0</span>s</span>
               <input type="range" id="crossfadeTime" min="0" max="10" value="0" step="0.5" style="width:120px; accent-color:var(--accent);">
@@ -873,13 +872,13 @@
           </div>
 
           <div class="settings-item">
-            <div class="settings-title">🎨 Paleta del Espectro (Accesibilidad)</div>
-            <div class="settings-desc">Esquemas científicos y de alto contraste para facilitar la perceptibilidad.</div>
+            <div class="settings-title">🎨 Paleta del Espectro</div>
+            <div class="settings-desc">Esquemas científicos y de alto contraste.</div>
             <div class="settings-row">
               <span class="settings-desc" style="font-weight:600;">Esquema:</span>
               <select id="paletteSelect" class="settings-select">
                 <option value="neon" selected>Neón Cyan / Magenta</option>
-                <option value="viridis">Viridis (Accesible / Perceptual)</option>
+                <option value="viridis">Viridis (Accesible)</option>
                 <option value="plasma">Plasma (Alto Contraste)</option>
                 <option value="cividis">Cividis (Optimizado Daltonismo)</option>
               </select>
@@ -888,7 +887,7 @@
 
           <div class="settings-item">
             <div class="settings-title">🔊 Medidor de Volumen LUFS & Peak</div>
-            <div class="settings-desc">Medición de sonoridad en tiempo real (LUFS Short-Term y True Peak).</div>
+            <div class="settings-desc">Medición de sonoridad en tiempo real.</div>
             <div class="settings-row">
               <span class="settings-desc" style="font-weight:600;">Estado:</span>
               <select id="lufsSelect" class="settings-select">
@@ -923,7 +922,7 @@
 
           <div class="settings-item">
             <div class="settings-title">🎧 Dolby Spatial Audio</div>
-            <div class="settings-desc">Simula espacialización envolvente y amplitud en la escena sonora.</div>
+            <div class="settings-desc">Simula espacialización envolvente.</div>
             <div class="settings-row">
               <span class="settings-desc" style="font-weight:600;">Modo Espacial</span>
               <label class="toggle-switch">
@@ -935,8 +934,7 @@
 
           <div class="settings-item">
             <div class="settings-title">💾 Exportación y Reportes</div>
-            <div class="settings-desc" style="margin-bottom:8px;">Exporta tus listas o el análisis de la pista activa.</div>
-            <div style="display:flex; flex-direction:column; gap:6px;">
+            <div style="display:flex; flex-direction:column; gap:6px; margin-top:8px;">
               <button class="btn-action" id="exportM3u8">Exportar Lista (.m3u8)</button>
               <button class="btn-action" id="exportJson">Exportar Lista (.json)</button>
               <button class="btn-action btn-action-magenta" id="exportReport">Descargar Reporte TXT</button>
@@ -944,7 +942,7 @@
           </div>
 
           <div class="settings-item">
-            <div class="settings-title">⌨️ Atajos de Teclado (PC / Android)</div>
+            <div class="settings-title">⌨️ Atajos de Teclado</div>
             <div class="settings-desc" style="display:grid; grid-template-columns:1fr 1fr; gap:4px; margin-top:6px;">
               <div><kbd>Espacio</kbd> Play / Pausa</div>
               <div><kbd>N</kbd> Siguiente Pista</div>
@@ -956,8 +954,8 @@
           </div>
 
           <div class="settings-item">
-            <div class="settings-title">MEOW AUDIO APP v2.3</div>
-            <div class="settings-desc">Reproducción en segundo plano fija & Web Audio API optimizado.</div>
+            <div class="settings-title">MEOW AUDIO APP v2.4</div>
+            <div class="settings-desc">Optimizado para reproducción ininterrumpida en segundo plano y bloqueo de pantalla.</div>
           </div>
         </div>
       </div>
@@ -976,7 +974,7 @@
     const DEFAULT_COVER = "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 24 24' fill='none' stroke='%23ffffff' stroke-width='1.5'><path d='M9 18V5l12-2v13'/><circle cx='6' cy='18' r='3'/><circle cx='18' cy='16' r='3'/></svg>";
     const HI_RES_SVG = `data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'><rect width='200' height='200' fill='%23d4af37' rx='8'/><path d='M0 95 Q100 130 200 95 L200 200 L0 200 Z' fill='%23000000'/><text x='100' y='68' font-family='Arial Black, sans-serif' font-weight='900' font-size='56' fill='%23000000' text-anchor='middle'>Hi-Res</text><text x='100' y='165' font-family='Arial, sans-serif' font-weight='900' font-size='42' fill='%23d4af37' text-anchor='middle'>AUDIO</text></svg>`;
 
-    // ELEMENTOS DOM
+    // DOM ELEMENTS
     const bgBlur = document.getElementById('bgBlur');
     const mainAudio = document.getElementById('mainAudioPlayer');
     const btnPlay = document.getElementById('btnPlay');
@@ -1029,7 +1027,7 @@
     const navSearch = document.getElementById('navSearch');
     const navSettings = document.getElementById('navSettings');
 
-    // ESTADO GLOBAL DE REPRODUCCIÓN
+    // ESTADO
     let playlist = [];
     let currentIndex = 0;
     let isUserSeeking = false;
@@ -1049,12 +1047,11 @@
     let dolbyGain = null;
 
     let visualizerMode = 'off';
-
     let selectedPalette = 'neon';
     let lufsEnabled = false;
     let animationFrameId = null;
 
-    // INDEXEDDB
+    // DB
     const DB_NAME = 'MeowAudioDB';
     const DB_VERSION = 2;
     const STORE_NAME = 'songs';
@@ -1092,7 +1089,7 @@
           });
         }
       } catch (err) {
-        console.warn("Error al guardar en IndexedDB:", err);
+        console.warn("DB Save error:", err);
       }
     }
 
@@ -1126,7 +1123,7 @@
           }
         };
       } catch (err) {
-        console.warn("Error al leer IndexedDB:", err);
+        console.warn("DB Load error:", err);
       }
     }
 
@@ -1178,7 +1175,7 @@
           dolbyGain = audioCtx.createGain();
           dolbyGain.gain.value = 1.0;
 
-          // CONEXIÓN DEL HTML5 AUDIO TAG A WEBAUDIO
+          // CONEXIÓN ROBUSTA QUE PERMITE REPRODUCCIÓN EN SEGUNDO PLANO
           mainSource = audioCtx.createMediaElementSource(mainAudio);
 
           mainSource.connect(masterGain);
@@ -1190,11 +1187,13 @@
           eqFilters[eqFilters.length - 1].connect(dolbyFilter);
           dolbyFilter.connect(dolbyGain);
           dolbyGain.connect(analyser);
+          
+          // Conexión paralela para garantizar salida de audio continua
           analyser.connect(audioCtx.destination);
           
           startVisualizer();
         } catch (e) {
-          console.warn("WebAudio no inicializado completamente:", e);
+          console.warn("WebAudio init error:", e);
         }
       }
 
@@ -1322,7 +1321,8 @@
       function renderFrame() {
         animationFrameId = requestAnimationFrame(renderFrame);
         
-        if (visualizerMode === 'off' && !lufsEnabled) return;
+        // Si la pestaña no está visible, ahorra ciclos de procesador
+        if (document.hidden || (visualizerMode === 'off' && !lufsEnabled)) return;
 
         resizeCanvas();
         const width = canvas.width;
@@ -1354,11 +1354,7 @@
           const lufsShort = rms > 0 ? (20 * Math.log10(rms) - 0.6).toFixed(1) : "-99.0";
 
           lufsBadge.textContent = `${lufsShort} LUFS S | Peak: ${peakDb} dB`;
-          if (parseFloat(peakDb) >= -0.3) {
-            lufsBadge.style.color = "#ff4757";
-          } else {
-            lufsBadge.style.color = "#7bed9f";
-          }
+          lufsBadge.style.color = (parseFloat(peakDb) >= -0.3) ? "#ff4757" : "#7bed9f";
         }
 
         canvasCtx.globalCompositeOperation = 'screen';
@@ -1468,16 +1464,12 @@
       setActiveTab(navHome);
     });
 
-    searchInput.addEventListener('input', () => {
-      renderPlaylistUI();
-    });
-
+    searchInput.addEventListener('input', renderPlaylistUI);
     sortSelect.addEventListener('change', () => {
       sortPlaylist();
       renderPlaylistUI();
     });
 
-    // PANTALLA COMPLETA
     btnFullscreen.addEventListener('click', () => {
       if (!document.fullscreenElement && !document.webkitFullscreenElement) {
         if (document.documentElement.requestFullscreen) {
@@ -1644,7 +1636,6 @@
 
     async function parseBinaryAudioSpecs(file) {
       const ext = file.name.split('.').pop().toLowerCase();
-      
       const buffer = await file.slice(0, 2048 * 1024).arrayBuffer();
       const uint8 = new Uint8Array(buffer);
       const view = new DataView(buffer);
@@ -1663,7 +1654,6 @@
 
         if (flacPos !== -1 && buffer.byteLength >= flacPos + 22) {
           const streamInfoPos = flacPos + 8;
-          
           const b10 = uint8[streamInfoPos + 10];
           const b11 = uint8[streamInfoPos + 11];
           const b12 = uint8[streamInfoPos + 12];
@@ -1790,7 +1780,7 @@
       renderPlaylistUI();
     });
 
-    // MOTOR DE REPRODUCCIÓN OPTIMIZADO PARA SEGUNDO PLANO Y TRANSICIÓN LIMPIA
+    // PROCESAMIENTO Y CONTROL DE REPRODUCCIÓN EN SEGUNDO PLANO
     function processAndPlayTrack(index) {
       if (!playlist[index]) return;
       initWebAudio();
@@ -1800,7 +1790,6 @@
       const isInitialStart = !isTrackLoaded;
 
       if (isInitialStart || fadeDuration === 0) {
-        // Reproducción directa e inmediata para la primera pista
         mainAudio.src = URL.createObjectURL(track.file);
         if (masterGain) masterGain.gain.value = 1.0;
         
@@ -1809,7 +1798,6 @@
           updatePositionState();
         }).catch(console.warn);
       } else {
-        // Transición suave (Crossfade) solo cuando ya existe una canción sonando
         if (masterGain && audioCtx) {
           const now = audioCtx.currentTime;
           masterGain.gain.setValueAtTime(masterGain.gain.value, now);
@@ -1854,7 +1842,6 @@
       setupMediaSession(track.title, track.artist, track.album, track.cover);
     }
 
-    // MANEJO DE EVENTOS DEL HTML5 AUDIO ELEMENT
     mainAudio.addEventListener('loadedmetadata', () => {
       durationEl.textContent = formatTime(mainAudio.duration);
       updatePositionState();
@@ -1877,6 +1864,7 @@
       }
     });
 
+    // CONFIGURACIÓN MEJORADA DE MEDIA SESSION API PARA PANTALLA DE BLOQUEO
     function setupMediaSession(title, artist, album, cover) {
       if ('mediaSession' in navigator) {
         const artwork = (cover && cover !== DEFAULT_COVER) 
@@ -2080,9 +2068,18 @@
       }
     });
 
+    // CONTROL DEL ESTADO DE VISIBILIDAD (CAMBIO DE PESTAÑA / SEGUNDO PLANO)
     document.addEventListener("visibilitychange", () => {
-      if (audioCtx && audioCtx.state === 'suspended' && !mainAudio.paused) {
-        audioCtx.resume();
+      if (document.hidden) {
+        // Al pasar a segundo plano, aseguramos que el contexto de audio se reanude si estaba activo
+        if (audioCtx && audioCtx.state === 'suspended' && !mainAudio.paused) {
+          audioCtx.resume();
+        }
+      } else {
+        // Al volver al primer plano, reanudamos el procesador WebAudio
+        if (audioCtx && audioCtx.state === 'suspended') {
+          audioCtx.resume();
+        }
       }
     });
 
