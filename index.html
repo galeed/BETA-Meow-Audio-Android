@@ -2070,15 +2070,10 @@
 
     // CONTROL DEL ESTADO DE VISIBILIDAD (CAMBIO DE PESTAÑA / SEGUNDO PLANO)
 document.addEventListener("visibilitychange", () => {
-  // Solo reanudamos cuando el usuario VUELVE a la aplicación
-  if (!document.hidden) {
-    if (audioCtx && audioCtx.state === 'suspended' && !mainAudio.paused) {
-      audioCtx.resume().catch(err => 
-        console.error("Error al reanudar AudioContext:", err)
-      );
-    }
-  }
-});
+      if (audioCtx && audioCtx.state === 'suspended' && !audio.paused) {
+        audioCtx.resume();
+      }
+    });
 
 
     if ('serviceWorker' in navigator) {
