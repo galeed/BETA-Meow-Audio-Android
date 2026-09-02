@@ -50,4 +50,4 @@ jobs:
 
       - name: Subir APK a Cloudflare R2
         run: |
-          aws s3 cp android/app/build/outputs/apk/debug/app-debug.apk s3://${{ secrets.R2_BUCKET_NAME }}/app-debug.apk --endpoint-url ${{ secrets.R2_ENDPOINT_URL }}
+          aws s3 cp android/app/build/outputs/apk/debug/meow-audio-app.apk s3://${{ secrets.R2_BUCKET_NAME }}/meow-audio-app.apk --endpoint-url ${{ secrets.R2_ENDPOINT_URL }}
