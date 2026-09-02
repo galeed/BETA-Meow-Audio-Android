@@ -2069,19 +2069,17 @@
     });
 
     // CONTROL DEL ESTADO DE VISIBILIDAD (CAMBIO DE PESTAÑA / SEGUNDO PLANO)
-    document.addEventListener("visibilitychange", () => {
-      if (document.hidden) {
-        // Al pasar a segundo plano, aseguramos que el contexto de audio se reanude si estaba activo
-        if (audioCtx && audioCtx.state === 'suspended' && !mainAudio.paused) {
-          audioCtx.resume();
-        }
-      } else {
-        // Al volver al primer plano, reanudamos el procesador WebAudio
-        if (audioCtx && audioCtx.state === 'suspended') {
-          audioCtx.resume();
-        }
-      }
-    });
+document.addEventListener("visibilitychange", () => {
+  // Solo reanudamos cuando el usuario VUELVE a la aplicación
+  if (!document.hidden) {
+    if (audioCtx && audioCtx.state === 'suspended' && !mainAudio.paused) {
+      audioCtx.resume().catch(err => 
+        console.error("Error al reanudar AudioContext:", err)
+      );
+    }
+  }
+});
+
 
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
