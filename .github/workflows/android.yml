@@ -1,0 +1,53 @@
+name: Compilar APK de Android y Desplegar a Cloudflare R2
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build-android:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Descargar repositorio
+        uses: actions/checkout@v4
+
+      - name: Configurar Java JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: '21'
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Inicializar proyecto Capacitor para Android
+        run: |
+          npm init -y
+          npm install @capacitor/core @capacitor/cli @capacitor/android
+          mkdir www
+          cp index.html sw.js *.png www/
+          npx cap init "Meow Audio App" "com.meowaudio.app" --web-dir www
+          npx cap add android
+          
+          # Solución para duplicados de Kotlin
+          echo "configurations.all { resolutionStrategy.force 'org.jetbrains.kotlin:kotlin-stdlib:1.9.22' }" >> android/app/build.gradle
+          
+          npx cap sync android
+
+      - name: Compilar APK con Gradle
+        run: |
+          cd android
+          chmod +x gradlew
+          ./gradlew assembleDebug
+
+      - name: Configurar AWS CLI para Cloudflare R2
+        run: |
+          aws configure set aws_access_key_id ${{ secrets.R2_ACCESS_KEY_ID }}
+          aws configure set aws_secret_access_key ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          aws configure set default.region auto
+
+      - name: Subir APK a Cloudflare R2
+        run: |
+          aws s3 cp android/app/build/outputs/apk/debug/app-debug.apk s3://${{ secrets.R2_BUCKET_NAME }}/app-debug.apk --endpoint-url ${{ secrets.R2_ENDPOINT_URL }}
