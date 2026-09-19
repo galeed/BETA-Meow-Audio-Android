@@ -752,6 +752,33 @@
       font-size: 0.7rem;
       color: var(--accent-cyan);
     }
+    
+
+@media screen and (orientation: portrait) {
+  body {
+    
+    flex-direction: column;
+  }
+  
+  .contenedor-principal {
+    width: 100%;
+    height: auto;
+  }
+}
+
+/* 📺 Reglas para orientación HORIZONTAL (Landscape) */
+@media screen and (orientation: landscape) {
+  body {
+    /* Ejemplo: Acomodar los paneles uno al lado del otro */
+    flex-direction: row;
+  }
+
+  .contenedor-principal {
+    width: 50%;
+    height: 100vh;
+  }
+}
+    
   </style>
 </head>
 <body>
