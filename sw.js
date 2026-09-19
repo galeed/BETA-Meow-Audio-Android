@@ -1,13 +1,3 @@
-self.addEventListener('fetch', (event) => {
-  // Evitar que el Service Worker interfiera con blobs locales de música o peticiones parciales de audio
-  if (event.request.url.startsWith('blob:') || event.request.headers.get('range')) {
-    return; // Deja que el navegador maneje el archivo local de forma nativa
-  }
-
-  // Tu lógica actual de caché para index.html, estilos y temas va aquí abajo...
-});
-
-
 const CACHE_NAME = 'reproductor-unico-v1';
 const ASSETS = [
   './',
@@ -22,9 +12,18 @@ self.addEventListener('install', e => {
   self.skipWaiting();
 });
 
-// Servir el HTML desde la caché si no hay internet
-self.addEventListener('fetch', e => {
-  e.respondWith(
-    caches.match(e.request).then(response => response || fetch(e.request))
+// Un solo evento fetch unificado y optimizado
+self.addEventListener('fetch', (event) => {
+  // 1. Proteger la música: Evitar que el Service Worker interfiera con blobs locales o peticiones parciales de audio
+  if (event.request.url.startsWith('blob:') || event.request.headers.get('range')) {
+    // Retornar vacío deja que el navegador maneje el archivo local de forma nativa sin meterlo a la caché
+    return; 
+  }
+
+  // 2. Lógica de caché para la interfaz: Servir el HTML desde la caché si no hay internet
+  event.respondWith(
+    caches.match(event.request).then(response => {
+        return response || fetch(event.request);
+    })
   );
 });
