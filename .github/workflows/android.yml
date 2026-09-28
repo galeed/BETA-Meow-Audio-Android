@@ -23,12 +23,12 @@ jobs:
         with:
           node-version: 20
 
-      # 3. Configurar Java JDK 21
-      - name: Configurar Java JDK 21
+      # 3. Configurar Java JDK 17 (más estable para Gradle)
+      - name: Configurar Java JDK 17
         uses: actions/setup-java@v4
         with:
           distribution: 'zulu'
-          java-version: '21'
+          java-version: '17'
 
       # 4. Aceptar licencias Android
       - name: Aceptar licencias Android
@@ -41,15 +41,17 @@ jobs:
           npm init -y
           npm install @capacitor/core @capacitor/cli @capacitor/android
 
-      # 6. Inicializar y sincronizar Capacitor
+      # 6. Preparar archivos estáticos e Inicializar Capacitor
       - name: Inicializar Capacitor y Agregar Plataforma Android
         run: |
+          mkdir -p www
+          cp -r index.html sw.js *.png www/ 2>/dev/null || true
           npx cap init "Meow Audio App" "com.meowaudio.app" --web-dir www
           npx cap add android
           npx cap copy android
           npx cap sync android
 
-      # 7. Corregir duplicidad de clases Kotlin
+      # 7. Corregir conflictos de dependencias en Kotlin
       - name: Resolver conflictos de dependencias de Kotlin
         run: |
           cat << 'EOF' >> android/build.gradle
@@ -66,11 +68,11 @@ jobs:
           }
           EOF
 
-      # 8. Permisos de Gradle
+      # 8. Asignar permisos de ejecución a Gradle
       - name: Permisos Gradle
         run: chmod +x android/gradlew
 
-      # 9. Compilar APK
+      # 9. Compilar APK Debug
       - name: Compilar APK con Gradle
         run: |
           cd android
