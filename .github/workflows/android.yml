@@ -23,12 +23,13 @@ jobs:
         with:
           node-version: 20
 
-      # 3. Configurar Java JDK 17 (más estable para Gradle)
-      - name: Configurar Java JDK 17
+      # 3. Configurar Java JDK 21
+      - name: Configurar Java JDK 21
         uses: actions/setup-java@v4
         with:
           distribution: 'zulu'
-          java-version: '17'
+          java-version: '21'
+
 
       # 4. Aceptar licencias Android
       - name: Aceptar licencias Android
