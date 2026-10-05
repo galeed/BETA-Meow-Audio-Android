@@ -1971,9 +1971,7 @@
       URL.revokeObjectURL(a.href);
     }
     
-if ('serviceWorker' in navigator) {
-            Y navigator.serviceWorker.register('sw.js');
-        }
+
     
     // AVISO GATUNO
     document.addEventListener('DOMContentLoaded', () => {
@@ -1998,6 +1996,11 @@ if ('serviceWorker' in navigator) {
         audioCtx.resume();
       }
     });
+    
+    if ('serviceWorker' in navigator) {
+            Y navigator.serviceWorker.register('sw.js');
+        }
+    
   </script>
 </body>
 </html>
