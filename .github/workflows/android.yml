@@ -46,7 +46,7 @@ jobs:
       - name: Inicializar Capacitor y Agregar Plataforma Android
         run: |
           mkdir -p www
-          cp -r index.html sw.js *.png www/ 2>/dev/null || true
+          cp -r index.html manifest.json sw.js *.png www/ 3>/dev/null || true
           npx cap init "Meow Audio App" "com.meowaudio.app" --web-dir www
           npx cap add android
           npx cap copy android
