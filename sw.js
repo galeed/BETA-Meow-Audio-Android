@@ -1,7 +1,7 @@
 /* =========================================================
-   MEOW AUDIO APP — Service Worker v2.5
+   MEOW AUDIO APP — Service Worker v2.7
    Estrategia:
-   - App shell (HTML/CSS/JS/iconos): cache-first
+   - App shell (HTML/CSS/JS/iconos/fuentes): cache-first
    - Recursos externos (CDN): stale-while-revalidate
    - Audios locales: nunca se cachean (van por IndexedDB)
    ========================================================= */
@@ -18,7 +18,9 @@ const APP_SHELL = [
   './favicon-32x32.png',
   './apple-touch-icon.png',
   './icon-192.png',
+  './icon-192-maskable.png',
   './icon-512.png',
+  './icon-512-maskable.png',
   'https://cdnjs.cloudflare.com/ajax/libs/jsmediatags/3.9.5/jsmediatags.min.js',
   'https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600;700&family=Share+Tech+Mono&display=swap'
 ];
@@ -67,7 +69,6 @@ self.addEventListener('fetch', (event) => {
   if (!url.protocol.startsWith('http')) return;
 
   // 2) Nunca interceptar audios locales servidos por blob (IndexedDB)
-  //    Ya se filtran por protocolo, pero por si acaso:
   if (req.destination === 'audio') return;
 
   // 3) Peticiones de navegación (HTML) → network-first con fallback a cache
@@ -102,7 +103,7 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // 5) Recursos externos (CDN jsmediatags) → stale-while-revalidate
+  // 5) Recursos externos (CDN, Google Fonts) → stale-while-revalidate
   event.respondWith(
     caches.open(RUNTIME_CACHE).then((cache) =>
       cache.match(req).then((cached) => {
