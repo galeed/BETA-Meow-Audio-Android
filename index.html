@@ -90,91 +90,43 @@
     }
 
     /* ========================================================
-       🎨 TEMAS TUI (aplican solo cuando body.skin-tui)
+       🎨 TEMAS TUI
        ======================================================== */
-
-    /* 🟢 PHOSPHOR GREEN (default) */
     body.skin-tui[data-tui-theme="green"] {
-      --bg: #0a120b;
-      --card-bg: #0d1a0e;
-      --card-border: #00441b;
-      --accent: #00ff66;
-      --accent-cyan: #00ffcc;
-      --text: #00ff66;
-      --text-muted: #00aa44;
-      --audio-spec-color: #00ffcc;
-      --glow-color: rgba(0, 255, 102, 0.25);
-      --bg-main: #0a120b;
+      --bg: #0a120b; --card-bg: #0d1a0e; --card-border: #00441b;
+      --accent: #00ff66; --accent-cyan: #00ffcc;
+      --text: #00ff66; --text-muted: #00aa44; --audio-spec-color: #00ffcc;
+      --glow-color: rgba(0, 255, 102, 0.25); --bg-main: #0a120b;
     }
-
-    /* 🟠 AMBER CRT */
     body.skin-tui[data-tui-theme="amber"] {
-      --bg: #140d04;
-      --card-bg: #1d1306;
-      --card-border: #4a3200;
-      --accent: #ffb000;
-      --accent-cyan: #ffcc00;
-      --text: #ffb000;
-      --text-muted: #b37b00;
-      --audio-spec-color: #ffcc00;
-      --glow-color: rgba(255, 176, 0, 0.3);
-      --bg-main: #140d04;
+      --bg: #140d04; --card-bg: #1d1306; --card-border: #4a3200;
+      --accent: #ffb000; --accent-cyan: #ffcc00;
+      --text: #ffb000; --text-muted: #b37b00; --audio-spec-color: #ffcc00;
+      --glow-color: rgba(255, 176, 0, 0.3); --bg-main: #140d04;
     }
-
-    /* 🔵 CYBER CYAN */
     body.skin-tui[data-tui-theme="cyan"] {
-      --bg: #051014;
-      --card-bg: #091920;
-      --card-border: #003d47;
-      --accent: #00f0ff;
-      --accent-cyan: #ff007f;
-      --text: #00f0ff;
-      --text-muted: #009cb3;
-      --audio-spec-color: #ff007f;
-      --glow-color: rgba(0, 240, 255, 0.3);
-      --bg-main: #051014;
+      --bg: #051014; --card-bg: #091920; --card-border: #003d47;
+      --accent: #00f0ff; --accent-cyan: #ff007f;
+      --text: #00f0ff; --text-muted: #009cb3; --audio-spec-color: #ff007f;
+      --glow-color: rgba(0, 240, 255, 0.3); --bg-main: #051014;
     }
-
-    /* 🟣 DRACULA SYNTH */
     body.skin-tui[data-tui-theme="dracula"] {
-      --bg: #110e1b;
-      --card-bg: #191428;
-      --card-border: #3b2c59;
-      --accent: #bd93f9;
-      --accent-cyan: #ff79c6;
-      --text: #bd93f9;
-      --text-muted: #7f5eb3;
-      --audio-spec-color: #ff79c6;
-      --glow-color: rgba(189, 147, 249, 0.3);
-      --bg-main: #110e1b;
+      --bg: #110e1b; --card-bg: #191428; --card-border: #3b2c59;
+      --accent: #bd93f9; --accent-cyan: #ff79c6;
+      --text: #bd93f9; --text-muted: #7f5eb3; --audio-spec-color: #ff79c6;
+      --glow-color: rgba(189, 147, 249, 0.3); --bg-main: #110e1b;
     }
-
-    /* ⚪ MONOCHROME */
     body.skin-tui[data-tui-theme="mono"] {
-      --bg: #0f0f0f;
-      --card-bg: #191919;
-      --card-border: #333333;
-      --accent: #eeeeee;
-      --accent-cyan: #00e5ff;
-      --text: #eeeeee;
-      --text-muted: #888888;
-      --audio-spec-color: #00e5ff;
-      --glow-color: rgba(255, 255, 255, 0.2);
-      --bg-main: #0f0f0f;
+      --bg: #0f0f0f; --card-bg: #191919; --card-border: #333333;
+      --accent: #eeeeee; --accent-cyan: #00e5ff;
+      --text: #eeeeee; --text-muted: #888888; --audio-spec-color: #00e5ff;
+      --glow-color: rgba(255, 255, 255, 0.2); --bg-main: #0f0f0f;
     }
-
-    /* ☕ CAPPUCCINO */
     body.skin-tui[data-tui-theme="cappuccino"] {
-      --bg: #1b1411;
-      --card-bg: #251c18;
-      --card-border: #4a352c;
-      --accent: #e69a58;
-      --accent-cyan: #f5e6d3;
-      --text: #f5e6d3;
-      --text-muted: #a88e79;
-      --audio-spec-color: #e69a58;
-      --glow-color: rgba(230, 154, 88, 0.3);
-      --bg-main: #1b1411;
+      --bg: #1b1411; --card-bg: #251c18; --card-border: #4a352c;
+      --accent: #e69a58; --accent-cyan: #f5e6d3;
+      --text: #f5e6d3; --text-muted: #a88e79; --audio-spec-color: #e69a58;
+      --glow-color: rgba(230, 154, 88, 0.3); --bg-main: #1b1411;
     }
 
     /* ========================================================
@@ -207,10 +159,7 @@
       padding: 0;
     }
 
-    /* Flicker sutil en TUI */
-    body.skin-tui {
-      animation: crtFlicker 0.15s infinite;
-    }
+    body.skin-tui { animation: crtFlicker 0.15s infinite; }
     @keyframes crtFlicker {
       0%   { opacity: 0.995; }
       50%  { opacity: 1; }
@@ -220,10 +169,8 @@
       100% { opacity: 1; }
     }
 
-    /* Scanlines CRT */
     .crt-overlay {
-      position: fixed;
-      inset: 0;
+      position: fixed; inset: 0;
       pointer-events: none;
       z-index: 9998;
       background:
@@ -234,26 +181,18 @@
       transition: opacity 0.3s;
       display: none;
     }
-    body.skin-tui .crt-overlay {
-      display: block;
-      opacity: 0.18;
-    }
+    body.skin-tui .crt-overlay { display: block; opacity: 0.18; }
     body.skin-tui.crt-off .crt-overlay { opacity: 0; }
 
-    /* Vignette */
     .vignette {
-      position: fixed;
-      inset: 0;
+      position: fixed; inset: 0;
       pointer-events: none;
       z-index: 9997;
       box-shadow: inset 0 0 120px rgba(0,0,0,0);
       transition: box-shadow 0.3s;
       display: none;
     }
-    body.skin-tui .vignette {
-      display: block;
-      box-shadow: inset 0 0 120px rgba(0,0,0,0.65);
-    }
+    body.skin-tui .vignette { display: block; box-shadow: inset 0 0 120px rgba(0,0,0,0.65); }
     body.skin-tui.crt-off .vignette { box-shadow: inset 0 0 120px rgba(0,0,0,0); }
 
     .app-container {
@@ -275,10 +214,7 @@
 
     .bg-blur {
       position: fixed;
-      top: -40px;
-      left: -40px;
-      right: -40px;
-      bottom: -40px;
+      top: -40px; left: -40px; right: -40px; bottom: -40px;
       width: calc(100vw + 80px);
       height: calc(100dvh + 80px);
       background-size: cover;
@@ -289,9 +225,7 @@
       z-index: -1;
       pointer-events: none;
     }
-    body.skin-tui .bg-blur {
-      filter: blur(40px) brightness(0.15) saturate(0.3) hue-rotate(80deg);
-    }
+    body.skin-tui .bg-blur { filter: blur(40px) brightness(0.15) saturate(0.3) hue-rotate(80deg); }
 
     .player-card {
       background: var(--card-bg);
@@ -312,10 +246,7 @@
       overflow: hidden;
       transition: background 0.4s ease, border-color 0.4s ease, border-radius 0.3s ease;
     }
-    body.skin-tui .player-card {
-      border-width: 2px;
-      overflow: visible;
-    }
+    body.skin-tui .player-card { border-width: 2px; overflow: visible; }
 
     .player-header {
       display: flex;
@@ -333,29 +264,18 @@
       letter-spacing: var(--header-letter-spacing);
       color: var(--text-muted);
     }
-    body.skin-tui .header-title {
-      color: var(--text);
-      text-shadow: var(--glow);
-    }
-    body.skin-tui .player-header {
-      cursor: pointer;
-      user-select: none;
-    }
+    body.skin-tui .header-title { color: var(--text); text-shadow: var(--glow); }
+    body.skin-tui .player-header { cursor: pointer; user-select: none; }
     body.skin-tui .player-header::after {
       content: ' ▾';
       color: var(--accent);
       font-size: 0.75rem;
       margin-left: 4px;
       opacity: 0.7;
-      transition: transform 0.15s;
     }
-    body.skin-tui .player-header.menu-open::after {
-      content: ' ▴';
-    }
+    body.skin-tui .player-header.menu-open::after { content: ' ▴'; }
 
-    /* ========================================================
-       🎨 MENÚ DE TEMAS TUI
-       ======================================================== */
+    /* 🎨 MENÚ DE TEMAS TUI */
     .tui-theme-menu {
       position: absolute;
       top: 100%;
@@ -375,9 +295,7 @@
       display: none;
       text-align: left;
     }
-    body.skin-tui .tui-theme-menu {
-      display: block;
-    }
+    body.skin-tui .tui-theme-menu { display: block; }
     body.skin-tui .player-header.menu-open .tui-theme-menu {
       opacity: 1;
       pointer-events: auto;
@@ -395,23 +313,14 @@
       font-weight: 700;
       letter-spacing: 0.5px;
     }
-    .tui-theme-dots {
-      display: flex;
-      gap: 4px;
-    }
+    .tui-theme-dots { display: flex; gap: 4px; }
     .tui-dot {
       display: inline-block;
-      width: 10px;
-      height: 10px;
+      width: 10px; height: 10px;
       border-radius: 50%;
       flex-shrink: 0;
     }
-
-    .tui-theme-list {
-      list-style: none;
-      padding: 4px 0;
-      margin: 0;
-    }
+    .tui-theme-list { list-style: none; padding: 4px 0; margin: 0; }
     .tui-theme-item {
       padding: 8px 12px;
       color: var(--accent);
@@ -422,23 +331,15 @@
       border-left: 2px solid transparent;
       transition: background 0.1s, border-color 0.1s;
     }
-    .tui-theme-item:hover {
-      background: var(--card-bg);
-      border-left-color: var(--accent);
-    }
-    .tui-theme-item .tui-dot {
-      width: 14px;
-      height: 14px;
-    }
+    .tui-theme-item:hover { background: var(--card-bg); border-left-color: var(--accent); }
+    .tui-theme-item .tui-dot { width: 14px; height: 14px; }
     .tui-theme-item .tui-check {
       margin-left: auto;
       color: var(--accent);
       font-weight: 700;
       opacity: 0;
     }
-    .tui-theme-item.active .tui-check {
-      opacity: 1;
-    }
+    .tui-theme-item.active .tui-check { opacity: 1; }
 
     .cover-container {
       width: 100%;
@@ -451,7 +352,6 @@
       position: relative;
     }
 
-    /* 📸 Portada: cuadrada en ambos skins */
     .cover-art {
       width: 100%;
       max-width: 240px;
@@ -492,13 +392,13 @@
       border-radius: 0;
       backdrop-filter: none;
       -webkit-backdrop-filter: none;
+      cursor: default;
     }
 
     .visualizer-canvas {
       position: absolute;
       top: 0; left: 0;
-      width: 100%;
-      height: 100%;
+      width: 100%; height: 100%;
       pointer-events: none;
       z-index: 1;
       mix-blend-mode: screen;
@@ -550,7 +450,6 @@
       letter-spacing: 0.5px;
       margin-top: 3px;
       text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9);
-      transition: color 0.2s ease;
     }
 
     .audio-specs-badge {
@@ -594,8 +493,7 @@
     .toggle-switch {
       position: relative;
       display: inline-block;
-      width: 38px;
-      height: 20px;
+      width: 38px; height: 20px;
     }
     .toggle-switch input { opacity: 0; width: 0; height: 0; }
     .slider {
@@ -617,22 +515,10 @@
     }
     input:checked + .slider { background-color: var(--accent); }
     input:checked + .slider:before { transform: translateX(18px); }
+    body.skin-tui .slider { border-radius: 0; background-color: #000; border: 1px solid var(--card-border); }
+    body.skin-tui .slider:before { border-radius: 0; background-color: var(--accent); }
 
-    body.skin-tui .slider {
-      border-radius: 0;
-      background-color: #000;
-      border: 1px solid var(--card-border);
-    }
-    body.skin-tui .slider:before {
-      border-radius: 0;
-      background-color: var(--accent);
-    }
-
-    .progress-container {
-      width: 100%;
-      margin-bottom: 6px;
-      flex-shrink: 0;
-    }
+    .progress-container { width: 100%; margin-bottom: 6px; flex-shrink: 0; }
 
     .seek-bar {
       width: 100%;
@@ -644,18 +530,12 @@
       outline: none;
       cursor: pointer;
     }
-    body.skin-tui .seek-bar {
-      background: #000;
-      border: 1px solid var(--card-border);
-      border-radius: 0;
-      height: 8px;
-    }
+    body.skin-tui .seek-bar { background: #000; border: 1px solid var(--card-border); border-radius: 0; height: 8px; }
 
     .seek-bar::-webkit-slider-thumb {
       -webkit-appearance: none;
       appearance: none;
-      width: 14px;
-      height: 14px;
+      width: 14px; height: 14px;
       border-radius: 50%;
       background: var(--text);
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
@@ -665,8 +545,7 @@
       border-radius: 0;
       background: var(--accent);
       box-shadow: var(--glow);
-      width: 12px;
-      height: 12px;
+      width: 12px; height: 12px;
     }
 
     .time-stamps {
@@ -700,8 +579,7 @@
     .btn-play {
       background: var(--text);
       color: #121216;
-      width: 54px;
-      height: 54px;
+      width: 54px; height: 54px;
       border-radius: var(--btn-radius);
       display: flex;
       align-items: center;
@@ -716,15 +594,9 @@
       border: 2px solid var(--accent);
       box-shadow: var(--glow);
     }
-    body.skin-tui .btn-play:hover {
-      background: rgba(255, 255, 255, 0.08);
-    }
+    body.skin-tui .btn-play:hover { background: rgba(255, 255, 255, 0.08); }
 
-    .btn-sub {
-      font-size: 1.15rem;
-      opacity: 0.5;
-      transition: opacity 0.2s, color 0.2s;
-    }
+    .btn-sub { font-size: 1.15rem; opacity: 0.5; transition: opacity 0.2s, color 0.2s; }
     .btn-sub.active { opacity: 1; color: var(--accent); }
 
     .action-buttons-row {
@@ -740,8 +612,7 @@
       background: rgba(255, 255, 255, 0.2);
       border: 1px solid rgba(255, 255, 255, 0.3);
       color: var(--text);
-      width: 44px;
-      height: 44px;
+      width: 44px; height: 44px;
       border-radius: var(--btn-radius);
       display: flex;
       align-items: center;
@@ -753,10 +624,7 @@
       transition: transform 0.1s ease, background 0.2s ease, border-radius 0.3s;
       position: relative;
     }
-    .icon-action-btn:active {
-      transform: scale(0.9);
-      background: rgba(255, 255, 255, 0.35);
-    }
+    .icon-action-btn:active { transform: scale(0.9); background: rgba(255, 255, 255, 0.35); }
     body.skin-tui .icon-action-btn {
       background: #000;
       border: 1px solid var(--card-border);
@@ -765,9 +633,7 @@
       backdrop-filter: none;
       -webkit-backdrop-filter: none;
     }
-    body.skin-tui .icon-action-btn:active {
-      background: rgba(255, 255, 255, 0.08);
-    }
+    body.skin-tui .icon-action-btn:active { background: rgba(255, 255, 255, 0.08); }
 
     .file-input-wrapper { position: relative; display: inline-block; }
 
@@ -812,10 +678,7 @@
     }
     .nav-btn.active { opacity: 1; transform: scale(1.15); }
     .nav-btn:active { transform: scale(0.92); }
-    body.skin-tui .nav-btn.active {
-      color: var(--accent);
-      text-shadow: var(--glow);
-    }
+    body.skin-tui .nav-btn.active { color: var(--accent); text-shadow: var(--glow); }
 
     .playlist-overlay, .modal-overlay {
       position: absolute;
@@ -856,9 +719,7 @@
       padding-bottom: 6px;
       border-bottom: 1px solid rgba(255, 255, 255, 0.15);
     }
-    body.skin-tui .playlist-header {
-      border-bottom: 1px solid var(--card-border);
-    }
+    body.skin-tui .playlist-header { border-bottom: 1px solid var(--card-border); }
 
     .playlist-title {
       font-size: 0.9rem;
@@ -887,12 +748,7 @@
       border-radius: 0;
     }
 
-    .playlist-tools {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-      margin-bottom: 8px;
-    }
+    .playlist-tools { display: flex; flex-direction: column; gap: 6px; margin-bottom: 8px; }
 
     .sort-bar {
       display: flex;
@@ -903,11 +759,7 @@
       padding: 5px 10px;
       border-radius: 8px;
     }
-    body.skin-tui .sort-bar {
-      background: #000;
-      border: 1px solid var(--card-border);
-      border-radius: 0;
-    }
+    body.skin-tui .sort-bar { background: #000; border: 1px solid var(--card-border); border-radius: 0; }
 
     .sort-label {
       font-size: 0.72rem;
@@ -1080,19 +932,14 @@
       color: var(--accent);
       border-radius: 0;
     }
-    body.skin-tui .btn-action:hover {
-      background: rgba(255, 255, 255, 0.08);
-    }
+    body.skin-tui .btn-action:hover { background: rgba(255, 255, 255, 0.08); }
 
     .btn-action-magenta {
       border-color: var(--accent);
       color: var(--accent);
       background: rgba(255, 71, 87, 0.15);
     }
-    .btn-action-magenta:hover {
-      background: var(--accent);
-      color: #fff;
-    }
+    .btn-action-magenta:hover { background: var(--accent); color: #fff; }
 
     .meow-aviso-overlay {
       position: fixed;
@@ -1106,9 +953,7 @@
       align-items: center;
       padding: 20px;
     }
-    body.skin-tui .meow-aviso-overlay {
-      background: rgba(0, 0, 0, 0.95);
-    }
+    body.skin-tui .meow-aviso-overlay { background: rgba(0, 0, 0, 0.95); }
 
     .meow-aviso-box {
       background: rgba(255, 255, 255, 0.15);
@@ -1128,16 +973,8 @@
       box-shadow: 0 0 30px var(--glow-color);
     }
 
-    .meow-aviso-box h3 {
-      margin-bottom: 12px;
-      font-size: 1.2rem;
-      color: var(--accent);
-    }
-    body.skin-tui .meow-aviso-box h3 {
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      text-shadow: var(--glow);
-    }
+    .meow-aviso-box h3 { margin-bottom: 12px; font-size: 1.2rem; color: var(--accent); }
+    body.skin-tui .meow-aviso-box h3 { text-transform: uppercase; letter-spacing: 2px; text-shadow: var(--glow); }
 
     .meow-aviso-box p {
       font-size: 0.9rem;
@@ -1178,10 +1015,7 @@
       text-transform: uppercase;
       letter-spacing: 1px;
     }
-    body.skin-tui .meow-btn-cerrar:hover {
-      background: var(--accent);
-      color: #000;
-    }
+    body.skin-tui .meow-btn-cerrar:hover { background: var(--accent); color: #000; }
 
     kbd {
       background: rgba(255, 255, 255, 0.15);
@@ -1199,9 +1033,7 @@
       border-radius: 0;
     }
 
-    /* ========================================================
-       📺 LANDSCAPE
-       ======================================================== */
+    /* 📺 LANDSCAPE */
     @media screen and (orientation: landscape) and (max-height: 600px) {
       body { flex-direction: row; align-items: stretch; padding: 0; }
       .app-container {
@@ -1228,10 +1060,8 @@
           "progress cover"
           "controls cover"
           "actions cover";
-        column-gap: 14px;
-        row-gap: 6px;
-        align-content: center;
-        align-items: center;
+        column-gap: 14px; row-gap: 6px;
+        align-content: center; align-items: center;
         padding: 12px 16px;
         border-radius: var(--card-radius);
         overflow: hidden;
@@ -1244,9 +1074,7 @@
         width: 100%; height: 100%;
         max-height: 100%;
         margin: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
+        display: flex; align-items: center; justify-content: center;
       }
       .cover-art {
         width: auto; height: 100%;
@@ -1288,7 +1116,6 @@
       .audio-specs-badge { font-size: 0.62rem; }
     }
 
-    /* 🔄 LANDSCAPE FORZADO */
     body.force-landscape .app-container {
       width: 100vh; height: 100vw;
       max-width: 100vh; max-height: 100vw;
@@ -1343,7 +1170,6 @@
 </head>
 <body class="skin-classic">
 
-  <!-- Overlays CRT -->
   <div class="crt-overlay" id="crtOverlay"></div>
   <div class="vignette" id="vignette"></div>
 
@@ -1355,7 +1181,6 @@
          disableRemotePlayback
          style="display:none;"></audio>
 
-  <!-- AVISO DE PRIVACIDAD -->
   <div id="meow-aviso-privacidad" class="meow-aviso-overlay">
     <div class="meow-aviso-box">
       <h3 id="avisoTitle">🐾 Aviso Gatuno 🐾</h3>
@@ -1375,7 +1200,6 @@
       <div class="player-header" id="playerHeader">
         <span class="header-title" id="headerTitle">🐈 MEOW AUDIO APP 🐈</span>
 
-        <!-- Menú de temas TUI -->
         <div class="tui-theme-menu" id="tuiThemeMenu">
           <div class="tui-theme-header">
             <span class="tui-theme-dots">
@@ -1457,7 +1281,6 @@
         </div>
       </div>
 
-      <!-- OVERLAY FILA Y BÚSQUEDA -->
       <div class="playlist-overlay" id="playlistOverlay">
         <div class="playlist-header">
           <span class="playlist-title" id="playlistTitle">Fila</span>
@@ -1480,7 +1303,6 @@
         <ul class="playlist-list" id="playlistContainer"></ul>
       </div>
 
-      <!-- OVERLAY AJUSTES -->
       <div class="modal-overlay" id="settingsOverlay">
         <div class="playlist-header">
           <span class="playlist-title">Ajustes ⚙️</span>
@@ -1521,13 +1343,13 @@
             </div>
           </div>
 
-          <div class="settings-item">
+          <div class="settings-item" id="visualizerSettingItem">
             <div class="settings-title">📊 Espectro de Audio</div>
             <div class="settings-desc">Espectro dinámico sobre la tarjeta de metadatos.</div>
             <div class="settings-row">
               <span class="settings-desc" style="font-weight:600;">Modo:</span>
               <select id="visualizerSelect" class="settings-select">
-                <option value="off" selected>Desactivado</option>
+                <option value="off">Desactivado</option>
                 <option value="bars">Barras Horizontales (LED)</option>
                 <option value="scope">Ámbito / Osciloscopio</option>
                 <option value="hybrid">Modo Híbrido</option>
@@ -1535,13 +1357,13 @@
             </div>
           </div>
 
-          <div class="settings-item">
+          <div class="settings-item" id="paletteSettingItem">
             <div class="settings-title">🎨 Paleta del Espectro</div>
             <div class="settings-desc">Esquemas científicos de alto contraste.</div>
             <div class="settings-row">
               <span class="settings-desc" style="font-weight:600;">Esquema:</span>
               <select id="paletteSelect" class="settings-select">
-                <option value="neon" selected>Neón Cyan / Magenta</option>
+                <option value="neon">Neón Cyan / Magenta</option>
                 <option value="viridis">Viridis (Accesible)</option>
                 <option value="plasma">Plasma (Alto Contraste)</option>
                 <option value="cividis">Cividis (Optimizado Daltonismo)</option>
@@ -1618,7 +1440,7 @@
           </div>
 
           <div class="settings-item">
-            <div class="settings-title" id="versionTitle">MEOW AUDIO APP v2.7</div>
+            <div class="settings-title" id="versionTitle">MEOW AUDIO APP v2.8</div>
             <div class="settings-desc" id="versionDesc">Sistema de skins: Classic + Consola TUI.</div>
           </div>
         </div>
@@ -1668,6 +1490,8 @@
 
     const skinSelect = document.getElementById('skinSelect');
     const crtToggle = document.getElementById('crtToggle');
+    const visualizerSettingItem = document.getElementById('visualizerSettingItem');
+    const paletteSettingItem = document.getElementById('paletteSettingItem');
 
     const trackInfoContainer = document.getElementById('trackInfoContainer');
     const canvas = document.getElementById('visualizerCanvas');
@@ -1933,6 +1757,45 @@
       if (e.key === 'Escape') playerHeader.classList.remove('menu-open');
     });
 
+    // ============ VISUALIZADOR POR SKIN ============
+    function applyVisualizerForClassic() {
+      visualizerSettingItem.style.display = '';
+      paletteSettingItem.style.display = '';
+
+      const savedMode = localStorage.getItem('meowVisualizerMode') || 'hybrid';
+      const savedPalette = localStorage.getItem('meowPalette') || 'plasma';
+
+      visualizerSelect.value = savedMode;
+      paletteSelect.value = savedPalette;
+      visualizerMode = savedMode;
+      selectedPalette = savedPalette;
+
+      canvas.style.display = (visualizerMode === 'off') ? 'none' : 'block';
+
+      if (visualizerMode !== 'off') {
+        initWebAudio();
+        drawVisualizer();
+      } else if (animationFrameId) {
+        cancelAnimationFrame(animationFrameId);
+        animationFrameId = null;
+      }
+    }
+
+    function applyVisualizerForTui() {
+      visualizerSettingItem.style.display = 'none';
+      paletteSettingItem.style.display = 'none';
+
+      visualizerMode = 'off';
+      visualizerSelect.value = 'off';
+      canvas.style.display = 'none';
+
+      if (animationFrameId) {
+        cancelAnimationFrame(animationFrameId);
+        animationFrameId = null;
+      }
+      canvasCtx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+
     // ============ SKINS ============
     function applySkin(skin) {
       document.body.classList.remove('skin-classic', 'skin-tui');
@@ -1947,7 +1810,7 @@
         headerTitle.textContent = '🎵 MEOW AUDIO APP';
         avisoTitle.textContent = '> SISTEMA DE PRIVACIDAD';
         avisoText.textContent = 'Todo el procesamiento de audio se realiza localmente. Ningún archivo o dato es enviado a servidores externos.';
-        versionTitle.textContent = 'MEOW AUDIO APP // TUI v2.7';
+        versionTitle.textContent = 'MEOW AUDIO APP // TUI v2.8';
         versionDesc.textContent = 'Haz clic en el header para cambiar de tema.';
 
         const theme = TUI_THEMES[savedTheme] || TUI_THEMES.green;
@@ -1961,12 +1824,18 @@
         headerTitle.textContent = '🐈 MEOW AUDIO APP 🐈';
         avisoTitle.textContent = '🐾 Aviso Gatuno 🐾';
         avisoText.textContent = 'Todo el procesamiento de audio se realiza de manera local en tu dispositivo. Ningún archivo o dato personal es subido a servidores externos. ¡Miau!';
-        versionTitle.textContent = 'MEOW AUDIO APP v2.7';
+        versionTitle.textContent = 'MEOW AUDIO APP v2.8';
         versionDesc.textContent = 'Sistema de skins: Classic + Consola TUI.';
         metaThemeEl.content = '#0f1015';
       }
 
       playerHeader.classList.remove('menu-open');
+
+      if (skin === 'classic') {
+        applyVisualizerForClassic();
+      } else {
+        applyVisualizerForTui();
+      }
 
       setTimeout(() => {
         if (visualizerMode !== 'off' || lufsEnabled) drawVisualizer();
@@ -2004,24 +1873,31 @@
     navHome.addEventListener('click', () => { setActiveTab(navHome); closeAllOverlays(); });
 
     navQueue.addEventListener('click', () => {
-      setActiveTab(navQueue); closeAllOverlays();
+      setActiveTab(navQueue);
+      closeAllOverlays();
       playlistTitle.textContent = "Fila de reproducción";
       sortBar.style.display = 'flex';
       searchBoxContainer.classList.remove('active');
+      searchInput.value = '';
+      renderPlaylistUI();
       playlistOverlay.classList.add('active');
     });
 
     navSearch.addEventListener('click', () => {
-      setActiveTab(navSearch); closeAllOverlays();
+      setActiveTab(navSearch);
+      closeAllOverlays();
       playlistTitle.textContent = "Búsqueda";
       sortBar.style.display = 'none';
       searchBoxContainer.classList.add('active');
       playlistOverlay.classList.add('active');
+      searchInput.value = '';
+      renderPlaylistUI();
       setTimeout(() => searchInput.focus(), 50);
     });
 
     navSettings.addEventListener('click', () => {
-      setActiveTab(navSettings); closeAllOverlays();
+      setActiveTab(navSettings);
+      closeAllOverlays();
       settingsOverlay.classList.add('active');
     });
 
@@ -2053,7 +1929,18 @@
 
     function renderPlaylistUI() {
       playlistContainer.innerHTML = '';
+
+      const isSearchTab = searchBoxContainer.classList.contains('active');
       const query = searchInput.value.toLowerCase().trim();
+
+      if (isSearchTab && query.length === 0) {
+        playlistContainer.innerHTML = `
+          <li style="color:var(--text-muted); font-size:0.82rem; padding:20px 10px; text-align:center;">
+            Escribe algo para buscar...
+          </li>`;
+        return;
+      }
+
       const filteredTracks = playlist.map((track, originalIndex) => ({ track, originalIndex })).filter(({ track }) => {
         if (!query) return true;
         return [track.title, track.artist, track.album, track.filename].some(x => (x || '').toLowerCase().includes(query));
@@ -2459,11 +2346,16 @@
 
     visualizerSelect.addEventListener('change', () => {
       visualizerMode = visualizerSelect.value;
+      localStorage.setItem('meowVisualizerMode', visualizerMode);
       canvas.style.display = (visualizerMode === 'off') ? 'none' : 'block';
       if (visualizerMode !== 'off') { initWebAudio(); drawVisualizer(); }
     });
 
-    paletteSelect.addEventListener('change', () => { selectedPalette = paletteSelect.value; });
+    paletteSelect.addEventListener('change', () => {
+      selectedPalette = paletteSelect.value;
+      localStorage.setItem('meowPalette', selectedPalette);
+      if (visualizerMode !== 'off') drawVisualizer();
+    });
 
     lufsSelect.addEventListener('change', () => {
       lufsEnabled = (lufsSelect.value === 'on');
@@ -2472,10 +2364,13 @@
     });
 
     trackInfoContainer.addEventListener('click', () => {
+      if (document.body.classList.contains('skin-tui')) return;
+
       const modes = ['off', 'bars', 'scope', 'hybrid'];
       const nextIndex = (modes.indexOf(visualizerMode) + 1) % modes.length;
       visualizerMode = modes[nextIndex];
       visualizerSelect.value = visualizerMode;
+      localStorage.setItem('meowVisualizerMode', visualizerMode);
       canvas.style.display = (visualizerMode === 'off') ? 'none' : 'block';
       if (visualizerMode !== 'off') { initWebAudio(); drawVisualizer(); }
     });
@@ -2645,6 +2540,18 @@
     document.addEventListener('DOMContentLoaded', () => {
       const savedSkin = localStorage.getItem('meowSkin') || 'classic';
       applySkin(savedSkin);
+
+      if (!localStorage.getItem('meowVisualizerMode')) {
+        localStorage.setItem('meowVisualizerMode', 'hybrid');
+      }
+      if (!localStorage.getItem('meowPalette')) {
+        localStorage.setItem('meowPalette', 'plasma');
+      }
+
+      visualizerSelect.value = localStorage.getItem('meowVisualizerMode');
+      paletteSelect.value = localStorage.getItem('meowPalette');
+      visualizerMode = visualizerSelect.value;
+      selectedPalette = paletteSelect.value;
 
       const savedTuiTheme = localStorage.getItem('meowTuiTheme') || 'green';
       applyTuiTheme(savedTuiTheme);
