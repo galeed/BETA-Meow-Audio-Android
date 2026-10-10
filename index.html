@@ -19,7 +19,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jsmediatags/3.9.5/jsmediatags.min.js"></script>
   <style>
     /* ========================================================
-       🎨 VARIABLES BASE (se sobrescriben por skin)
+       🎨 VARIABLES BASE
        ======================================================== */
     :root {
       --bg: #0f1015;
@@ -32,7 +32,7 @@
       --audio-spec-color: #8ab4f8;
       --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
       --card-radius: 28px;
-      --cover-radius: 16px;
+      --cover-radius: 0px;
       --nav-radius: 20px;
       --btn-radius: 50%;
       --card-blur: blur(25px) saturate(160%);
@@ -40,12 +40,13 @@
       --nav-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
       --header-letter-spacing: 1px;
       --header-transform: uppercase;
-      --scanlines: 0;
       --glow: none;
+      --glow-color: rgba(255, 71, 87, 0.25);
+      --bg-main: #0f1015;
     }
 
     /* ========================================================
-       🎨 SKIN: CLASSIC (tu diseño original)
+       🎨 SKIN: CLASSIC
        ======================================================== */
     body.skin-classic {
       --bg: #0f1015;
@@ -58,7 +59,7 @@
       --audio-spec-color: #8ab4f8;
       --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
       --card-radius: 28px;
-      --cover-radius: 16px;
+      --cover-radius: 0px;
       --nav-radius: 20px;
       --btn-radius: 50%;
       --card-blur: blur(25px) saturate(160%);
@@ -66,14 +67,34 @@
       --nav-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
       --header-letter-spacing: 1px;
       --header-transform: uppercase;
-      --scanlines: 0;
       --glow: none;
+      --glow-color: rgba(255, 71, 87, 0.25);
+      --bg-main: #0f1015;
     }
 
     /* ========================================================
-       🎨 SKIN: CONSOLA TUI (basado en PLAYER.SH)
+       🎨 SKIN: CONSOLA TUI
        ======================================================== */
     body.skin-tui {
+      --font-family: 'JetBrains Mono', 'Share Tech Mono', 'Courier New', monospace;
+      --card-radius: 2px;
+      --cover-radius: 0px;
+      --nav-radius: 0px;
+      --btn-radius: 0px;
+      --card-blur: none;
+      --card-shadow: 0 0 30px var(--glow-color), inset 0 0 20px rgba(0, 255, 102, 0.05);
+      --nav-shadow: 0 0 20px var(--glow-color);
+      --header-letter-spacing: 2px;
+      --header-transform: uppercase;
+      --glow: 0 0 10px var(--accent);
+    }
+
+    /* ========================================================
+       🎨 TEMAS TUI (aplican solo cuando body.skin-tui)
+       ======================================================== */
+
+    /* 🟢 PHOSPHOR GREEN (default) */
+    body.skin-tui[data-tui-theme="green"] {
       --bg: #0a120b;
       --card-bg: #0d1a0e;
       --card-border: #00441b;
@@ -82,18 +103,78 @@
       --text: #00ff66;
       --text-muted: #00aa44;
       --audio-spec-color: #00ffcc;
-      --font-family: 'JetBrains Mono', 'Share Tech Mono', 'Courier New', monospace;
-      --card-radius: 2px;
-      --cover-radius: 0px;
-      --nav-radius: 0px;
-      --btn-radius: 0px;
-      --card-blur: none;
-      --card-shadow: 0 0 30px rgba(0, 255, 102, 0.25), inset 0 0 20px rgba(0, 255, 102, 0.05);
-      --nav-shadow: 0 0 20px rgba(0, 255, 102, 0.2);
-      --header-letter-spacing: 2px;
-      --header-transform: uppercase;
-      --scanlines: 1;
-      --glow: 0 0 10px var(--accent);
+      --glow-color: rgba(0, 255, 102, 0.25);
+      --bg-main: #0a120b;
+    }
+
+    /* 🟠 AMBER CRT */
+    body.skin-tui[data-tui-theme="amber"] {
+      --bg: #140d04;
+      --card-bg: #1d1306;
+      --card-border: #4a3200;
+      --accent: #ffb000;
+      --accent-cyan: #ffcc00;
+      --text: #ffb000;
+      --text-muted: #b37b00;
+      --audio-spec-color: #ffcc00;
+      --glow-color: rgba(255, 176, 0, 0.3);
+      --bg-main: #140d04;
+    }
+
+    /* 🔵 CYBER CYAN */
+    body.skin-tui[data-tui-theme="cyan"] {
+      --bg: #051014;
+      --card-bg: #091920;
+      --card-border: #003d47;
+      --accent: #00f0ff;
+      --accent-cyan: #ff007f;
+      --text: #00f0ff;
+      --text-muted: #009cb3;
+      --audio-spec-color: #ff007f;
+      --glow-color: rgba(0, 240, 255, 0.3);
+      --bg-main: #051014;
+    }
+
+    /* 🟣 DRACULA SYNTH */
+    body.skin-tui[data-tui-theme="dracula"] {
+      --bg: #110e1b;
+      --card-bg: #191428;
+      --card-border: #3b2c59;
+      --accent: #bd93f9;
+      --accent-cyan: #ff79c6;
+      --text: #bd93f9;
+      --text-muted: #7f5eb3;
+      --audio-spec-color: #ff79c6;
+      --glow-color: rgba(189, 147, 249, 0.3);
+      --bg-main: #110e1b;
+    }
+
+    /* ⚪ MONOCHROME */
+    body.skin-tui[data-tui-theme="mono"] {
+      --bg: #0f0f0f;
+      --card-bg: #191919;
+      --card-border: #333333;
+      --accent: #eeeeee;
+      --accent-cyan: #00e5ff;
+      --text: #eeeeee;
+      --text-muted: #888888;
+      --audio-spec-color: #00e5ff;
+      --glow-color: rgba(255, 255, 255, 0.2);
+      --bg-main: #0f0f0f;
+    }
+
+    /* ☕ CAPPUCCINO */
+    body.skin-tui[data-tui-theme="cappuccino"] {
+      --bg: #1b1411;
+      --card-bg: #251c18;
+      --card-border: #4a352c;
+      --accent: #e69a58;
+      --accent-cyan: #f5e6d3;
+      --text: #f5e6d3;
+      --text-muted: #a88e79;
+      --audio-spec-color: #e69a58;
+      --glow-color: rgba(230, 154, 88, 0.3);
+      --bg-main: #1b1411;
     }
 
     /* ========================================================
@@ -126,7 +207,7 @@
       padding: 0;
     }
 
-    /* Flicker sutil solo en TUI */
+    /* Flicker sutil en TUI */
     body.skin-tui {
       animation: crtFlicker 0.15s infinite;
     }
@@ -139,7 +220,7 @@
       100% { opacity: 1; }
     }
 
-    /* Scanlines CRT (solo TUI) */
+    /* Scanlines CRT */
     .crt-overlay {
       position: fixed;
       inset: 0;
@@ -157,9 +238,7 @@
       display: block;
       opacity: 0.18;
     }
-    body.skin-tui.crt-off .crt-overlay {
-      opacity: 0;
-    }
+    body.skin-tui.crt-off .crt-overlay { opacity: 0; }
 
     /* Vignette */
     .vignette {
@@ -175,9 +254,7 @@
       display: block;
       box-shadow: inset 0 0 120px rgba(0,0,0,0.65);
     }
-    body.skin-tui.crt-off .vignette {
-      box-shadow: inset 0 0 120px rgba(0,0,0,0);
-    }
+    body.skin-tui.crt-off .vignette { box-shadow: inset 0 0 120px rgba(0,0,0,0); }
 
     .app-container {
       width: 100%;
@@ -212,7 +289,6 @@
       z-index: -1;
       pointer-events: none;
     }
-    /* En TUI el fondo difuminado se oculta */
     body.skin-tui .bg-blur {
       filter: blur(40px) brightness(0.15) saturate(0.3) hue-rotate(80deg);
     }
@@ -238,6 +314,7 @@
     }
     body.skin-tui .player-card {
       border-width: 2px;
+      overflow: visible;
     }
 
     .player-header {
@@ -246,6 +323,7 @@
       align-items: center;
       margin-bottom: 6px;
       flex-shrink: 0;
+      position: relative;
     }
 
     .header-title {
@@ -259,6 +337,108 @@
       color: var(--text);
       text-shadow: var(--glow);
     }
+    body.skin-tui .player-header {
+      cursor: pointer;
+      user-select: none;
+    }
+    body.skin-tui .player-header::after {
+      content: ' ▾';
+      color: var(--accent);
+      font-size: 0.75rem;
+      margin-left: 4px;
+      opacity: 0.7;
+      transition: transform 0.15s;
+    }
+    body.skin-tui .player-header.menu-open::after {
+      content: ' ▴';
+    }
+
+    /* ========================================================
+       🎨 MENÚ DE TEMAS TUI
+       ======================================================== */
+    .tui-theme-menu {
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translate(-50%, 8px) scale(0.95);
+      min-width: 240px;
+      background: #000;
+      border: 1px solid var(--accent);
+      box-shadow: 0 0 30px var(--glow-color);
+      padding: 0;
+      z-index: 200;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.15s ease, transform 0.15s ease;
+      display: none;
+      text-align: left;
+    }
+    body.skin-tui .tui-theme-menu {
+      display: block;
+    }
+    body.skin-tui .player-header.menu-open .tui-theme-menu {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translate(-50%, 8px) scale(1);
+    }
+
+    .tui-theme-header {
+      background: var(--bg-main);
+      border-bottom: 1px solid var(--accent);
+      padding: 6px 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--accent);
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+    .tui-theme-dots {
+      display: flex;
+      gap: 4px;
+    }
+    .tui-dot {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .tui-theme-list {
+      list-style: none;
+      padding: 4px 0;
+      margin: 0;
+    }
+    .tui-theme-item {
+      padding: 8px 12px;
+      color: var(--accent);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border-left: 2px solid transparent;
+      transition: background 0.1s, border-color 0.1s;
+    }
+    .tui-theme-item:hover {
+      background: var(--card-bg);
+      border-left-color: var(--accent);
+    }
+    .tui-theme-item .tui-dot {
+      width: 14px;
+      height: 14px;
+    }
+    .tui-theme-item .tui-check {
+      margin-left: auto;
+      color: var(--accent);
+      font-weight: 700;
+      opacity: 0;
+    }
+    .tui-theme-item.active .tui-check {
+      opacity: 1;
+    }
 
     .cover-container {
       width: 100%;
@@ -271,23 +451,24 @@
       position: relative;
     }
 
+    /* 📸 Portada: cuadrada en ambos skins */
     .cover-art {
       width: 100%;
       max-width: 240px;
       aspect-ratio: 1 / 1;
       background: rgba(255, 255, 255, 0.1);
-      border-radius: var(--cover-radius);
+      border-radius: 0;
       object-fit: cover;
       display: block;
       box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
       border: 1px solid rgba(255, 255, 255, 0.2);
       flex-shrink: 0;
       z-index: 2;
-      transition: border-radius 0.3s;
+      transition: border-color 0.3s;
     }
     body.skin-tui .cover-art {
       border: 2px solid var(--card-border);
-      box-shadow: 0 0 20px rgba(0, 255, 102, 0.2);
+      box-shadow: 0 0 20px var(--glow-color);
       filter: contrast(1.1) saturate(1.1);
     }
 
@@ -339,9 +520,7 @@
       text-overflow: ellipsis;
       text-shadow: 0 2px 6px rgba(0, 0, 0, 0.9);
     }
-    body.skin-tui .track-title {
-      text-shadow: var(--glow);
-    }
+    body.skin-tui .track-title { text-shadow: var(--glow); }
 
     .track-artist {
       font-size: 0.98rem;
@@ -389,28 +568,18 @@
       text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
       flex-shrink: 0;
     }
-    body.skin-tui .audio-specs-badge {
-      color: var(--accent-cyan);
-    }
 
-    /* Badge Hi-Res: se reemplaza por texto [HI-RES] en TUI */
     .hires-icon {
       height: 15px;
       width: auto;
       vertical-align: middle;
       border-radius: 2px;
     }
-    body.skin-tui .hires-icon {
-      display: none;
-    }
-    body.skin-tui .audio-specs-badge::before {
+    body.skin-tui .hires-icon { display: none; }
+    body.skin-tui .audio-specs-badge.has-hires::before {
       content: "[HI-RES] ";
       color: var(--accent);
       font-weight: 700;
-      display: none;
-    }
-    body.skin-tui .audio-specs-badge.has-hires::before {
-      display: inline;
     }
 
     .status-badge {
@@ -420,10 +589,7 @@
       font-weight: 600;
       flex-shrink: 0;
     }
-    body.skin-tui .status-badge {
-      color: var(--accent);
-      text-shadow: var(--glow);
-    }
+    body.skin-tui .status-badge { text-shadow: var(--glow); }
 
     .toggle-switch {
       position: relative;
@@ -551,7 +717,7 @@
       box-shadow: var(--glow);
     }
     body.skin-tui .btn-play:hover {
-      background: rgba(0, 255, 102, 0.15);
+      background: rgba(255, 255, 255, 0.08);
     }
 
     .btn-sub {
@@ -600,7 +766,7 @@
       -webkit-backdrop-filter: none;
     }
     body.skin-tui .icon-action-btn:active {
-      background: rgba(0, 255, 102, 0.15);
+      background: rgba(255, 255, 255, 0.08);
     }
 
     .file-input-wrapper { position: relative; display: inline-block; }
@@ -629,9 +795,7 @@
       margin-top: auto;
       transition: border-radius 0.3s, background 0.3s;
     }
-    body.skin-tui .bottom-nav {
-      border-width: 2px;
-    }
+    body.skin-tui .bottom-nav { border-width: 2px; }
 
     .nav-btn {
       background: none;
@@ -764,9 +928,7 @@
       font-family: var(--font-family);
     }
     body.skin-tui .sort-select,
-    body.skin-tui .settings-select {
-      color: var(--accent);
-    }
+    body.skin-tui .settings-select { color: var(--accent); }
 
     .sort-select option, .settings-select option {
       background: #1c1c24;
@@ -822,7 +984,7 @@
       background: transparent;
       border: 1px solid transparent;
       border-radius: 0;
-      border-bottom: 1px solid rgba(0, 255, 102, 0.15);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
       margin-bottom: 0;
     }
 
@@ -831,7 +993,7 @@
       border: 1px solid rgba(255, 71, 87, 0.6);
     }
     body.skin-tui .playlist-item.playing {
-      background: rgba(0, 255, 102, 0.15);
+      background: rgba(255, 255, 255, 0.08);
       border: 1px solid var(--accent);
       border-radius: 0;
     }
@@ -919,7 +1081,7 @@
       border-radius: 0;
     }
     body.skin-tui .btn-action:hover {
-      background: rgba(0, 255, 102, 0.15);
+      background: rgba(255, 255, 255, 0.08);
     }
 
     .btn-action-magenta {
@@ -963,7 +1125,7 @@
       border: 2px solid var(--accent);
       border-radius: 0;
       color: var(--accent);
-      box-shadow: 0 0 30px rgba(0, 255, 102, 0.3);
+      box-shadow: 0 0 30px var(--glow-color);
     }
 
     .meow-aviso-box h3 {
@@ -983,9 +1145,7 @@
       line-height: 1.4;
       color: rgba(255,255,255,0.85);
     }
-    body.skin-tui .meow-aviso-box p {
-      color: var(--text-muted);
-    }
+    body.skin-tui .meow-aviso-box p { color: var(--text-muted); }
 
     .meow-checkbox-label {
       display: flex;
@@ -1077,6 +1237,7 @@
         overflow: hidden;
         flex: 1;
       }
+      body.skin-tui .player-card { overflow: visible; }
       .player-header { display: none; }
       .cover-container {
         grid-area: cover;
@@ -1091,7 +1252,6 @@
         width: auto; height: 100%;
         max-width: 100%; max-height: 100%;
         aspect-ratio: 1 / 1;
-        border-radius: var(--cover-radius);
       }
       .track-info-container { grid-area: info; margin: 0; padding: 6px 10px; }
       .track-title { font-size: 1.05rem; }
@@ -1128,7 +1288,7 @@
       .audio-specs-badge { font-size: 0.62rem; }
     }
 
-    /* 🔄 LANDSCAPE FORZADO (fallback iOS) */
+    /* 🔄 LANDSCAPE FORZADO */
     body.force-landscape .app-container {
       width: 100vh; height: 100vw;
       max-width: 100vh; max-height: 100vw;
@@ -1171,7 +1331,6 @@
     body.force-landscape .cover-art {
       width: auto; height: 100%;
       max-height: 100%; max-width: 100%;
-      border-radius: var(--cover-radius);
     }
     body.force-landscape .track-info-container { grid-area: info; margin: 0; padding: 6px 10px; }
     body.force-landscape .audio-specs-badge { grid-area: specs; justify-content: flex-start; margin: 0; }
@@ -1184,13 +1343,19 @@
 </head>
 <body class="skin-classic">
 
-  <!-- Overlays CRT (solo visibles en skin TUI) -->
+  <!-- Overlays CRT -->
   <div class="crt-overlay" id="crtOverlay"></div>
   <div class="vignette" id="vignette"></div>
 
-  <audio id="mainAudioPlayer" preload="auto" playsinline crossorigin="anonymous" style="display:none;"></audio>
+  <audio id="mainAudioPlayer"
+         preload="auto"
+         playsinline
+         webkit-playsinline
+         crossorigin="anonymous"
+         disableRemotePlayback
+         style="display:none;"></audio>
 
-  <!-- AVISO DE PRIVACIDAD GATUNO -->
+  <!-- AVISO DE PRIVACIDAD -->
   <div id="meow-aviso-privacidad" class="meow-aviso-overlay">
     <div class="meow-aviso-box">
       <h3 id="avisoTitle">🐾 Aviso Gatuno 🐾</h3>
@@ -1207,8 +1372,46 @@
 
   <div class="app-container">
     <div class="player-card">
-      <div class="player-header">
+      <div class="player-header" id="playerHeader">
         <span class="header-title" id="headerTitle">🐈 MEOW AUDIO APP 🐈</span>
+
+        <!-- Menú de temas TUI -->
+        <div class="tui-theme-menu" id="tuiThemeMenu">
+          <div class="tui-theme-header">
+            <span class="tui-theme-dots">
+              <i class="tui-dot" style="background:#ef4444"></i>
+              <i class="tui-dot" style="background:#eab308"></i>
+              <i class="tui-dot" style="background:#10b981"></i>
+            </span>
+            <span>meow@audio-box:~/themes</span>
+          </div>
+          <ul class="tui-theme-list" id="tuiThemeList">
+            <li class="tui-theme-item" data-theme="green">
+              <span class="tui-dot" style="background:#00ff66"></span> Phosphor Green
+              <span class="tui-check">✓</span>
+            </li>
+            <li class="tui-theme-item" data-theme="amber">
+              <span class="tui-dot" style="background:#ffb000"></span> Amber CRT
+              <span class="tui-check">✓</span>
+            </li>
+            <li class="tui-theme-item" data-theme="cyan">
+              <span class="tui-dot" style="background:#00f0ff"></span> Cyber Cyan
+              <span class="tui-check">✓</span>
+            </li>
+            <li class="tui-theme-item" data-theme="dracula">
+              <span class="tui-dot" style="background:#bd93f9"></span> Dracula Synth
+              <span class="tui-check">✓</span>
+            </li>
+            <li class="tui-theme-item" data-theme="mono">
+              <span class="tui-dot" style="background:#eeeeee"></span> Monochrome
+              <span class="tui-check">✓</span>
+            </li>
+            <li class="tui-theme-item" data-theme="cappuccino">
+              <span class="tui-dot" style="background:#e69a58"></span> Cappuccino
+              <span class="tui-check">✓</span>
+            </li>
+          </ul>
+        </div>
       </div>
 
       <div class="cover-container">
@@ -1415,7 +1618,7 @@
           </div>
 
           <div class="settings-item">
-            <div class="settings-title" id="versionTitle">MEOW AUDIO APP v2.6</div>
+            <div class="settings-title" id="versionTitle">MEOW AUDIO APP v2.7</div>
             <div class="settings-desc" id="versionDesc">Sistema de skins: Classic + Consola TUI.</div>
           </div>
         </div>
@@ -1465,7 +1668,6 @@
 
     const skinSelect = document.getElementById('skinSelect');
     const crtToggle = document.getElementById('crtToggle');
-    const crtSettingItem = document.getElementById('crtSettingItem');
 
     const trackInfoContainer = document.getElementById('trackInfoContainer');
     const canvas = document.getElementById('visualizerCanvas');
@@ -1498,7 +1700,10 @@
     const avisoText = document.getElementById('avisoText');
     const versionTitle = document.getElementById('versionTitle');
     const versionDesc = document.getElementById('versionDesc');
-    const metaTheme = document.getElementById('metaTheme');
+    const metaThemeEl = document.getElementById('metaTheme');
+
+    const playerHeader = document.getElementById('playerHeader');
+    const tuiThemeList = document.getElementById('tuiThemeList');
 
     // ============ ESTADO ============
     let playlist = [];
@@ -1515,6 +1720,7 @@
     let dolbyFilter = null;
     let dolbyGain = null;
     let masterGain = null;
+    let keepAliveNode = null;
 
     let visualizerMode = 'off';
     let selectedPalette = 'neon';
@@ -1523,7 +1729,6 @@
     let visualizerDataArray = null;
 
     let userPausedManually = false;
-    let eqBypassedForBackground = false;
 
     // ============ INDEXEDDB ============
     const DB_NAME = 'MeowAudioDB';
@@ -1573,7 +1778,8 @@
               title: item.title, artist: item.artist, album: item.album,
               coverBase64: item.coverBase64,
               cover: item.coverBase64 || DEFAULT_COVER,
-              specs: item.specs
+              specs: item.specs,
+              isHiRes: /hi-res/i.test(item.specs || '')
             }));
             sortPlaylist();
             renderPlaylistUI();
@@ -1595,6 +1801,16 @@
       acoustic: [3,2,1,1,2,2,3,3,2,1], vocal: [-3,-2,0,3,5,5,4,2,0,-2],
       pureAudio: [2,1,0,0,0,0,1,2,3,3]
     };
+
+    function ensureKeepAlive() {
+      if (!audioCtx || keepAliveNode) return;
+      try {
+        keepAliveNode = audioCtx.createConstantSource();
+        keepAliveNode.offset.value = 0;
+        keepAliveNode.connect(audioCtx.destination);
+        keepAliveNode.start();
+      } catch (e) { console.warn('keepAlive error:', e); }
+    }
 
     function initWebAudio() {
       if (!audioCtx) {
@@ -1634,6 +1850,7 @@
           analyser.connect(audioCtx.destination);
 
           visualizerDataArray = new Uint8Array(analyser.frequencyBinCount);
+          ensureKeepAlive();
 
           audioCtx.onstatechange = () => {
             if (!mainAudio.paused && audioCtx.state !== 'running') {
@@ -1665,6 +1882,57 @@
     eqSelect.addEventListener('change', updateAudioEffects);
     dolbyToggle.addEventListener('change', updateAudioEffects);
 
+    // ============ TEMAS TUI ============
+    const TUI_THEMES = {
+      green:      { name: 'Phosphor Green', bg: '#0a120b', accent: '#00ff66' },
+      amber:      { name: 'Amber CRT',      bg: '#140d04', accent: '#ffb000' },
+      cyan:       { name: 'Cyber Cyan',     bg: '#051014', accent: '#00f0ff' },
+      dracula:    { name: 'Dracula Synth',  bg: '#110e1b', accent: '#bd93f9' },
+      mono:       { name: 'Monochrome',     bg: '#0f0f0f', accent: '#eeeeee' },
+      cappuccino: { name: 'Cappuccino',     bg: '#1b1411', accent: '#e69a58' }
+    };
+
+    function applyTuiTheme(themeKey) {
+      if (!TUI_THEMES[themeKey]) themeKey = 'green';
+      document.body.dataset.tuiTheme = themeKey;
+      localStorage.setItem('meowTuiTheme', themeKey);
+
+      if (document.body.classList.contains('skin-tui')) {
+        metaThemeEl.content = TUI_THEMES[themeKey].bg;
+      }
+
+      document.querySelectorAll('.tui-theme-item').forEach(item => {
+        item.classList.toggle('active', item.dataset.theme === themeKey);
+      });
+
+      setTimeout(() => {
+        if (visualizerMode !== 'off' || lufsEnabled) drawVisualizer();
+      }, 80);
+    }
+
+    playerHeader.addEventListener('click', (e) => {
+      if (!document.body.classList.contains('skin-tui')) return;
+      e.stopPropagation();
+      playerHeader.classList.toggle('menu-open');
+    });
+
+    tuiThemeList.addEventListener('click', (e) => {
+      const item = e.target.closest('.tui-theme-item');
+      if (!item) return;
+      applyTuiTheme(item.dataset.theme);
+      setTimeout(() => playerHeader.classList.remove('menu-open'), 200);
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!playerHeader.contains(e.target)) {
+        playerHeader.classList.remove('menu-open');
+      }
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') playerHeader.classList.remove('menu-open');
+    });
+
     // ============ SKINS ============
     function applySkin(skin) {
       document.body.classList.remove('skin-classic', 'skin-tui');
@@ -1672,42 +1940,48 @@
       localStorage.setItem('meowSkin', skin);
       if (skinSelect) skinSelect.value = skin;
 
-      // Ajustes específicos por skin
       if (skin === 'tui') {
-        headerTitle.textContent = '🎵 PLAYER.SH [LOCAL + CACHE]';
+        const savedTheme = localStorage.getItem('meowTuiTheme') || 'green';
+        document.body.dataset.tuiTheme = savedTheme;
+
+        headerTitle.textContent = '🎵 MEOW AUDIO APP';
         avisoTitle.textContent = '> SISTEMA DE PRIVACIDAD';
         avisoText.textContent = 'Todo el procesamiento de audio se realiza localmente. Ningún archivo o dato es enviado a servidores externos.';
-        versionTitle.textContent = 'PLAYER.SH v2.6';
-        versionDesc.textContent = 'Skin Consola TUI activa.';
-        metaTheme.content = '#0a120b';
+        versionTitle.textContent = 'MEOW AUDIO APP // TUI v2.7';
+        versionDesc.textContent = 'Haz clic en el header para cambiar de tema.';
+
+        const theme = TUI_THEMES[savedTheme] || TUI_THEMES.green;
+        metaThemeEl.content = theme.bg;
+
+        document.querySelectorAll('.tui-theme-item').forEach(item => {
+          item.classList.toggle('active', item.dataset.theme === savedTheme);
+        });
       } else {
+        document.body.removeAttribute('data-tui-theme');
         headerTitle.textContent = '🐈 MEOW AUDIO APP 🐈';
         avisoTitle.textContent = '🐾 Aviso Gatuno 🐾';
         avisoText.textContent = 'Todo el procesamiento de audio se realiza de manera local en tu dispositivo. Ningún archivo o dato personal es subido a servidores externos. ¡Miau!';
-        versionTitle.textContent = 'MEOW AUDIO APP v2.6';
+        versionTitle.textContent = 'MEOW AUDIO APP v2.7';
         versionDesc.textContent = 'Sistema de skins: Classic + Consola TUI.';
-        metaTheme.content = '#0f1015';
+        metaThemeEl.content = '#0f1015';
       }
-      // Reajustar visualizador
+
+      playerHeader.classList.remove('menu-open');
+
       setTimeout(() => {
         if (visualizerMode !== 'off' || lufsEnabled) drawVisualizer();
       }, 100);
     }
 
-    skinSelect.addEventListener('change', () => {
-      applySkin(skinSelect.value);
-    });
+    skinSelect.addEventListener('change', () => { applySkin(skinSelect.value); });
 
-    // CRT toggle
     function applyCrt(on) {
       document.body.classList.toggle('crt-off', !on);
       localStorage.setItem('meowCrt', String(on));
       if (crtToggle) crtToggle.checked = on;
     }
 
-    crtToggle.addEventListener('change', () => {
-      applyCrt(crtToggle.checked);
-    });
+    crtToggle.addEventListener('change', () => { applyCrt(crtToggle.checked); });
 
     btnCrt.addEventListener('click', () => {
       const isOn = !document.body.classList.contains('crt-off');
@@ -1827,7 +2101,6 @@
       else if (document.exitFullscreen) document.exitFullscreen();
     });
 
-    // ==== ROTACIÓN MANUAL ====
     btnRotate.addEventListener('click', async () => {
       if (screen.orientation && screen.orientation.lock) {
         try {
@@ -2015,7 +2288,6 @@
         bgBlur.style.backgroundImage = 'none';
       }
 
-      // Badge Hi-Res
       if (track.isHiRes) {
         audioSpecsEl.classList.add('has-hires');
       } else {
@@ -2072,8 +2344,6 @@
               updatePositionState();
             }
           });
-          navigator.mediaSession.setActionHandler('seekbackward', null);
-          navigator.mediaSession.setActionHandler('seekforward', null);
         } catch (e) {}
       }
     }
@@ -2120,6 +2390,7 @@
     function togglePlay() {
       if (!mainAudio.src) return;
       if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
+
       if (mainAudio.paused) {
         userPausedManually = false;
         mainAudio.play();
@@ -2291,93 +2562,48 @@
       setTimeout(() => { if (visualizerMode !== 'off' || lufsEnabled) drawVisualizer(); }, 250);
     });
 
-   // ============ MANTENER REPRODUCCIÓN EN SEGUNDO PLANO ============
-// Estrategia: NO suspender nunca el AudioContext.
-// Añadir un nodo "keep-alive" al destination para que iOS/Android
-// no lo suspendan al bloquear pantalla.
-
-let keepAliveNode = null;
-
-function ensureKeepAlive() {
-  if (!audioCtx || keepAliveNode) return;
-  try {
-    // Oscilador silencioso conectado al destination.
-    // iOS ve actividad constante en el grafo y no suspende el contexto.
-    keepAliveNode = audioCtx.createConstantSource();
-    keepAliveNode.offset.value = 0; // silencio
-    keepAliveNode.connect(audioCtx.destination);
-    keepAliveNode.start();
-  } catch (e) {
-    console.warn('keepAlive error:', e);
-  }
-}
-
-function resumeEverything() {
-  if (!audioCtx) return;
-
-  // 1) Reanudar contexto si está suspendido
-  if (audioCtx.state === 'suspended') {
-    audioCtx.resume().catch(() => {});
-  }
-
-  // 2) Reanudar <audio> SOLO si el usuario no lo pausó manualmente
-  //    y hay una fuente cargada
-  if (!userPausedManually && mainAudio.src) {
-    // readyState >= 2 significa "tiene metadata y datos mínimos"
-    if (mainAudio.paused && mainAudio.readyState >= 2 && !mainAudio.ended) {
-      mainAudio.play().catch(() => {});
+    // ============ BACKGROUND PLAYBACK ============
+    function resumeEverything() {
+      if (!audioCtx) return;
+      if (audioCtx.state === 'suspended') audioCtx.resume().catch(() => {});
+      if (!userPausedManually && mainAudio.src) {
+        if (mainAudio.paused && mainAudio.readyState >= 2 && !mainAudio.ended) {
+          mainAudio.play().catch(() => {});
+        }
+      }
+      if ('mediaSession' in navigator) {
+        try { navigator.mediaSession.playbackState = mainAudio.paused ? 'paused' : 'playing'; } catch (e) {}
+      }
     }
-  }
 
-  // 3) Refrescar Media Session
-  if ('mediaSession' in navigator) {
-    try {
-      navigator.mediaSession.playbackState = mainAudio.paused ? 'paused' : 'playing';
-    } catch (e) {}
-  }
-}
+    mainAudio.addEventListener('play', () => {
+      userPausedManually = false;
+      ensureKeepAlive();
+    });
 
-// Detectar pausa manual vs pausa del sistema
-mainAudio.addEventListener('play', () => {
-  userPausedManually = false;
-  ensureKeepAlive();
-});
-mainAudio.addEventListener('pause', () => {
-  // Si el usuario pausa desde la UI, lo marcamos
-  // (el handler del botón ya lo hace, pero por si acaso)
-});
+    document.addEventListener('visibilitychange', () => {
+      if (!document.hidden) resumeEverything();
+    });
 
-// === Eventos que disparan reanudación ===
-document.addEventListener('visibilitychange', () => {
-  if (!document.hidden) {
-    resumeEverything();
-  }
-});
+    window.addEventListener('pageshow', resumeEverything);
+    window.addEventListener('focus', resumeEverything);
+    window.addEventListener('resume', resumeEverything);
+    document.addEventListener('resume', resumeEverything);
 
-window.addEventListener('pageshow', resumeEverything);
-window.addEventListener('focus', resumeEverything);
-window.addEventListener('resume', resumeEverything);       // iOS
-document.addEventListener('resume', resumeEverything);     // iOS
+    setInterval(() => {
+      if (!document.hidden && audioCtx && audioCtx.state === 'suspended' && !mainAudio.paused) {
+        audioCtx.resume().catch(() => {});
+      }
+    }, 3000);
 
-// === Reanudar periódicamente mientras la página está oculta ===
-// (iOS a veces suspende silenciosamente sin disparar visibilitychange)
-setInterval(() => {
-  if (!document.hidden && audioCtx && audioCtx.state === 'suspended' && !mainAudio.paused) {
-    audioCtx.resume().catch(() => {});
-  }
-}, 3000);
-
-// === Reconectar si el contexto se cerró (raro pero pasa en iOS) ===
-setInterval(() => {
-  if (audioCtx && audioCtx.state === 'closed') {
-    audioCtx = null;
-    keepAliveNode = null;
-    initWebAudio();
-    ensureKeepAlive();
-    if (!mainAudio.paused && mainAudio.src) mainAudio.play().catch(() => {});
-  }
-}, 5000);
-
+    setInterval(() => {
+      if (audioCtx && audioCtx.state === 'closed') {
+        audioCtx = null;
+        keepAliveNode = null;
+        initWebAudio();
+        if (!mainAudio.paused && mainAudio.src) mainAudio.play().catch(() => {});
+      }
+    }, 5000);
 
     // ============ EXPORTACIÓN ============
     document.getElementById('exportM3u8').addEventListener('click', () => {
@@ -2417,11 +2643,12 @@ setInterval(() => {
 
     // ============ AVISO ============
     document.addEventListener('DOMContentLoaded', () => {
-      // Cargar skin guardada
       const savedSkin = localStorage.getItem('meowSkin') || 'classic';
       applySkin(savedSkin);
 
-      // Cargar estado CRT
+      const savedTuiTheme = localStorage.getItem('meowTuiTheme') || 'green';
+      applyTuiTheme(savedTuiTheme);
+
       const savedCrt = localStorage.getItem('meowCrt');
       applyCrt(savedCrt !== 'false');
 
