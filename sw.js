@@ -1,5 +1,5 @@
 /* =========================================================
-   MEOW AUDIO APP — Service Worker v2.7
+   MEOW AUDIO APP — Service Worker v2.8
    Estrategia:
    - App shell (HTML/CSS/JS/iconos/fuentes): cache-first
    - Recursos externos (CDN): stale-while-revalidate
