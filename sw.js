@@ -11,7 +11,6 @@ const RUNTIME_CACHE = 'meow-runtime-v2.7';
 
 // Archivos del app shell que SIEMPRE deben estar disponibles offline
 const APP_SHELL = [
-const APP_SHELL = [
   './',
   './index.html',
   './manifest.json',
