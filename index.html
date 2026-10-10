@@ -2291,65 +2291,93 @@
       setTimeout(() => { if (visualizerMode !== 'off' || lufsEnabled) drawVisualizer(); }, 250);
     });
 
-    // ============ MANTENER REPRODUCCIÓN EN SEGUNDO PLANO ============
-    function resumeEverything() {
-      if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume().catch(() => {});
-      if (!userPausedManually && mainAudio.paused && mainAudio.src && mainAudio.readyState >= 2) {
-        mainAudio.play().catch(() => {});
-      }
-      if ('mediaSession' in navigator) {
-        try { navigator.mediaSession.playbackState = mainAudio.paused ? 'paused' : 'playing'; } catch (e) {}
-      }
+   // ============ MANTENER REPRODUCCIÓN EN SEGUNDO PLANO ============
+// Estrategia: NO suspender nunca el AudioContext.
+// Añadir un nodo "keep-alive" al destination para que iOS/Android
+// no lo suspendan al bloquear pantalla.
+
+let keepAliveNode = null;
+
+function ensureKeepAlive() {
+  if (!audioCtx || keepAliveNode) return;
+  try {
+    // Oscilador silencioso conectado al destination.
+    // iOS ve actividad constante en el grafo y no suspende el contexto.
+    keepAliveNode = audioCtx.createConstantSource();
+    keepAliveNode.offset.value = 0; // silencio
+    keepAliveNode.connect(audioCtx.destination);
+    keepAliveNode.start();
+  } catch (e) {
+    console.warn('keepAlive error:', e);
+  }
+}
+
+function resumeEverything() {
+  if (!audioCtx) return;
+
+  // 1) Reanudar contexto si está suspendido
+  if (audioCtx.state === 'suspended') {
+    audioCtx.resume().catch(() => {});
+  }
+
+  // 2) Reanudar <audio> SOLO si el usuario no lo pausó manualmente
+  //    y hay una fuente cargada
+  if (!userPausedManually && mainAudio.src) {
+    // readyState >= 2 significa "tiene metadata y datos mínimos"
+    if (mainAudio.paused && mainAudio.readyState >= 2 && !mainAudio.ended) {
+      mainAudio.play().catch(() => {});
     }
+  }
 
-    function bypassEqForBackground() {
-      if (!audioCtx || eqBypassedForBackground) return;
-      try {
-        if (trackSource) trackSource.disconnect();
-        if (trackSource) trackSource.connect(audioCtx.destination);
-        eqBypassedForBackground = true;
-      } catch (e) { console.warn('Bypass EQ error:', e); }
-    }
+  // 3) Refrescar Media Session
+  if ('mediaSession' in navigator) {
+    try {
+      navigator.mediaSession.playbackState = mainAudio.paused ? 'paused' : 'playing';
+    } catch (e) {}
+  }
+}
 
-    function restoreEqFromBackground() {
-      if (!audioCtx || !eqBypassedForBackground) return;
-      try {
-        if (trackSource) trackSource.disconnect();
-        if (trackSource) trackSource.connect(eqFilters[0]);
-        eqBypassedForBackground = false;
-      } catch (e) { console.warn('Restore EQ error:', e); }
-    }
+// Detectar pausa manual vs pausa del sistema
+mainAudio.addEventListener('play', () => {
+  userPausedManually = false;
+  ensureKeepAlive();
+});
+mainAudio.addEventListener('pause', () => {
+  // Si el usuario pausa desde la UI, lo marcamos
+  // (el handler del botón ya lo hace, pero por si acaso)
+});
 
-    document.addEventListener('visibilitychange', () => {
-      if (document.hidden) {
-        bypassEqForBackground();
-      } else {
-        restoreEqFromBackground();
-        resumeEverything();
-      }
-    });
+// === Eventos que disparan reanudación ===
+document.addEventListener('visibilitychange', () => {
+  if (!document.hidden) {
+    resumeEverything();
+  }
+});
 
-    window.addEventListener('pageshow', resumeEverything);
-    window.addEventListener('focus', resumeEverything);
-    window.addEventListener('resume', resumeEverything);
-    document.addEventListener('resume', resumeEverything);
+window.addEventListener('pageshow', resumeEverything);
+window.addEventListener('focus', resumeEverything);
+window.addEventListener('resume', resumeEverything);       // iOS
+document.addEventListener('resume', resumeEverything);     // iOS
 
-    mainAudio.addEventListener('pause', () => {
-      if (!document.hidden && mainAudio.readyState >= 2 && !mainAudio.ended) {
-        // Pausa del sistema, no del usuario
-        setTimeout(() => {
-          if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume().catch(() => {});
-        }, 300);
-      }
-    });
+// === Reanudar periódicamente mientras la página está oculta ===
+// (iOS a veces suspende silenciosamente sin disparar visibilitychange)
+setInterval(() => {
+  if (!document.hidden && audioCtx && audioCtx.state === 'suspended' && !mainAudio.paused) {
+    audioCtx.resume().catch(() => {});
+  }
+}, 3000);
 
-    setInterval(() => {
-      if (audioCtx && audioCtx.state === 'closed') {
-        audioCtx = null;
-        initWebAudio();
-        if (!mainAudio.paused && mainAudio.src) mainAudio.play().catch(() => {});
-      }
-    }, 5000);
+// === Reconectar si el contexto se cerró (raro pero pasa en iOS) ===
+setInterval(() => {
+  if (audioCtx && audioCtx.state === 'closed') {
+    audioCtx = null;
+    keepAliveNode = null;
+    initWebAudio();
+    ensureKeepAlive();
+    if (!mainAudio.paused && mainAudio.src) mainAudio.play().catch(() => {});
+  }
+}, 5000);
+
 
     // ============ EXPORTACIÓN ============
     document.getElementById('exportM3u8').addEventListener('click', () => {
