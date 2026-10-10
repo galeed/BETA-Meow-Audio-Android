@@ -6,10 +6,11 @@
    - Audios locales: nunca se cachean (van por IndexedDB)
    ========================================================= */
 
-const CACHE_NAME = 'meow-audio-v2.5';
-const RUNTIME_CACHE = 'meow-runtime-v2.5';
+const CACHE_NAME = 'meow-audio-v2.6';
+const RUNTIME_CACHE = 'meow-runtime-v2.6';
 
 // Archivos del app shell que SIEMPRE deben estar disponibles offline
+const APP_SHELL = [
 const APP_SHELL = [
   './',
   './index.html',
@@ -19,7 +20,8 @@ const APP_SHELL = [
   './apple-touch-icon.png',
   './icon-192.png',
   './icon-512.png',
-  'https://cdnjs.cloudflare.com/ajax/libs/jsmediatags/3.9.5/jsmediatags.min.js'
+  'https://cdnjs.cloudflare.com/ajax/libs/jsmediatags/3.9.5/jsmediatags.min.js',
+  'https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600;700&family=Share+Tech+Mono&display=swap'
 ];
 
 // Instalación: precachear el app shell
