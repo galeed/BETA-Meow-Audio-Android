@@ -56,13 +56,18 @@ body {
 }
 
 /* El padding de área segura va al contenedor, no al body */
-.app-container {
-  padding:
-    calc(env(safe-area-inset-top, 0px) + 10px)
-    calc(env(safe-area-inset-right, 0px) + 10px)
-    calc(env(safe-area-inset-bottom, 0px) + 10px)
-    calc(env(safe-area-inset-left, 0px) + 10px);
-}
+ .app-container {
+      width: 100%;
+      max-width: 380px;
+      height: 100%;
+      max-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 10px;
+      position: relative;
+    }
 
     .bg-blur {
   position: fixed;
