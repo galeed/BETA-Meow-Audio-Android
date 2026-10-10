@@ -916,7 +916,7 @@ body {
 </head>
 <body>
 
-  <audio id="mainAudioPlayer" preload="auto" playsinline style="display:none;"></audio>
+  <audio id="mainAudioPlayer" preload="auto" playsinline crossorigin="anonymous"></audio>
 
   <!-- AVISO DE PRIVACIDAD GATUNO -->
   <div id="meow-aviso-privacidad" class="meow-aviso-overlay">
@@ -2160,6 +2160,77 @@ body {
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('sw.js').catch(() => {});
     }
+    
+    /* =========================================================
+   🔋 MANTENER REPRODUCCIÓN EN SEGUNDO PLANO
+   Los móviles suspenden el AudioContext; hay que reanudarlo.
+   ========================================================= */
+
+// 1) Reanudar AudioContext cuando la página vuelve a estar visible
+document.addEventListener('visibilitychange', () => {
+  if (!document.hidden && audioCtx && audioCtx.state === 'suspended') {
+    audioCtx.resume().catch(() => {});
+  }
+  // Si estábamos reproduciendo y el audio se pausó sin querer, reanudar
+  if (!document.hidden && audioCtx && !mainAudio.paused && mainAudio.readyState >= 2) {
+    mainAudio.play().catch(() => {});
+  }
+});
+
+// 2) Reanudar AudioContext al volver a la app desde segundo plano
+window.addEventListener('pageshow', () => {
+  if (audioCtx && audioCtx.state === 'suspended') {
+    audioCtx.resume().catch(() => {});
+  }
+});
+
+// 3) Evitar que el navegador suspenda el contexto al perder foco
+window.addEventListener('blur', () => {
+  // No hacemos nada, pero evitamos que algún handler externo lo pause
+});
+window.addEventListener('focus', () => {
+  if (audioCtx && audioCtx.state === 'suspended' && !mainAudio.paused) {
+    audioCtx.resume().catch(() => {});
+  }
+});
+
+// 4) Media Session: mantener estado actualizado (evita que iOS pause al bloquear)
+if ('mediaSession' in navigator) {
+  mainAudio.addEventListener('play', () => {
+    navigator.mediaSession.playbackState = 'playing';
+  });
+  mainAudio.addEventListener('pause', () => {
+    navigator.mediaSession.playbackState = 'paused';
+  });
+}
+
+// 5) Reanudar tras un 'pause' provocado por el sistema (llamada, notificación, etc.)
+mainAudio.addEventListener('pause', () => {
+  // Solo reanudamos si el usuario NO pidió la pausa (heurística: estábamos reproduciendo hace poco)
+  if (audioCtx && audioCtx.state === 'suspended' && !document.hidden && !mainAudio.ended) {
+    // Pequeño delay para dejar que el sistema termine su evento
+    setTimeout(() => {
+      if (mainAudio.paused && !mainAudio.ended && mainAudio.readyState >= 2) {
+        // No forzamos play automático: eso puede molestar. Solo reanudamos el contexto.
+        audioCtx.resume().catch(() => {});
+      }
+    }, 300);
+  }
+});
+
+// 6) Reanudar el contexto en el primer gesto del usuario (requisito de navegadores)
+function resumeCtxOnFirstGesture() {
+  if (audioCtx && audioCtx.state === 'suspended') {
+    audioCtx.resume().catch(() => {});
+  }
+  document.removeEventListener('touchstart', resumeCtxOnFirstGesture);
+  document.removeEventListener('click', resumeCtxOnFirstGesture);
+  document.removeEventListener('keydown', resumeCtxOnFirstGesture);
+}
+document.addEventListener('touchstart', resumeCtxOnFirstGesture, { passive: true });
+document.addEventListener('click', resumeCtxOnFirstGesture);
+document.addEventListener('keydown', resumeCtxOnFirstGesture);
+    
   </script>
 </body>
 </html>
