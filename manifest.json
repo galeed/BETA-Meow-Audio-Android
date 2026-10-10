@@ -1,10 +1,73 @@
-manifest.json
-
 {
-    "name": "Meow Audio App",
-    "short_name": "App",
-    "start_url": "index.html",
-    "display": "standalone",
-    "background_color": "#ffffff",
-    "theme_color": "#000000"
+  "name": "MEOW AUDIO APP",
+  "short_name": "MeowAudio",
+  "description": "Reproductor de audio local con EQ, visualizador y Hi-Res. Todo el procesamiento es local.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "display_override": ["standalone", "fullscreen", "minimal-ui"],
+  "orientation": "any",
+  "background_color": "#0f1015",
+  "theme_color": "#ff4757",
+  "lang": "es",
+  "dir": "ltr",
+  "categories": ["music", "entertainment", "utilities"],
+  "icons": [
+    {
+      "src": "favicon-16x16.png",
+      "sizes": "16x16",
+      "type": "image/png"
+    },
+    {
+      "src": "favicon-32x32.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    },
+    {
+      "src": "apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-192-maskable.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-512-maskable.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Fila de reproducción",
+      "short_name": "Fila",
+      "description": "Ir directo a la fila de reproducción",
+      "url": "./index.html?view=queue",
+      "icons": [{ "src": "icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Ajustes",
+      "short_name": "Ajustes",
+      "description": "Abrir el panel de ajustes",
+      "url": "./index.html?view=settings",
+      "icons": [{ "src": "icon-192.png", "sizes": "192x192" }]
+    }
+  ]
 }
