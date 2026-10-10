@@ -3,8 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#0f1015">
   <link rel="manifest" href="manifest.json">
   <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
@@ -33,51 +35,53 @@
     }
 
     html, body {
-      width: 100%;
-      height: 100%;
-      position: fixed;
-      overflow: hidden;
-      background-color: var(--bg);
-      transition: background-color 0.4s ease;
-    }
+  width: 100%;
+  height: 100%;
+  height: 100dvh;              /* dynamic viewport: cubre toda la pantalla */
+  min-height: 100vh;
+  min-height: 100dvh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+  background-color: var(--bg);
+  transition: background-color 0.4s ease;
+}
 
-    body {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      color: var(--text);
-      padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
-    }
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--text);
+  /* Sin padding aquí: el fondo debe cubrir TODA la pantalla */
+  padding: 0;
+}
 
-    .app-container {
-      width: 100%;
-      max-width: 380px;
-      height: 100%;
-      max-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      gap: 12px;
-      padding: 10px;
-      position: relative;
-    }
+/* El padding de área segura va al contenedor, no al body */
+.app-container {
+  padding:
+    calc(env(safe-area-inset-top, 0px) + 10px)
+    calc(env(safe-area-inset-right, 0px) + 10px)
+    calc(env(safe-area-inset-bottom, 0px) + 10px)
+    calc(env(safe-area-inset-left, 0px) + 10px);
+}
 
     .bg-blur {
-      position: fixed;
-      top: -20px;
-      left: -20px;
-      right: -20px;
-      bottom: -20px;
-      width: calc(100vw + 40px);
-      height: calc(100vh + 40px);
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      filter: blur(40px) brightness(0.5) saturate(1.4);
-      transition: background-image 0.6s ease-in-out;
-      z-index: -1;
-      pointer-events: none;
-    }
+  position: fixed;
+  top: -40px;
+  left: -40px;
+  right: -40px;
+  bottom: -40px;
+  width: calc(100vw + 80px);
+  height: calc(100dvh + 80px);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  filter: blur(40px) brightness(0.5) saturate(1.4);
+  transition: background-image 0.6s ease-in-out;
+  z-index: -1;
+  pointer-events: none;
+}
 
     .player-card {
       background: var(--card-bg);
