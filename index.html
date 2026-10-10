@@ -3,18 +3,24 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="theme-color" content="#0f1015">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#0f1015" id="metaTheme">
   <link rel="manifest" href="manifest.json">
   <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
   <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600;700&family=Share+Tech+Mono&display=swap">
 
   <title>MEOW AUDIO APP</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jsmediatags/3.9.5/jsmediatags.min.js"></script>
   <style>
+    /* ========================================================
+       🎨 VARIABLES BASE (se sobrescriben por skin)
+       ======================================================== */
     :root {
       --bg: #0f1015;
       --card-bg: rgba(255, 255, 255, 0.15);
@@ -24,82 +30,202 @@
       --text: #ffffff;
       --text-muted: rgba(255, 255, 255, 0.75);
       --audio-spec-color: #8ab4f8;
+      --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      --card-radius: 28px;
+      --cover-radius: 16px;
+      --nav-radius: 20px;
+      --btn-radius: 50%;
+      --card-blur: blur(25px) saturate(160%);
+      --card-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.3);
+      --nav-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+      --header-letter-spacing: 1px;
+      --header-transform: uppercase;
+      --scanlines: 0;
+      --glow: none;
     }
 
+    /* ========================================================
+       🎨 SKIN: CLASSIC (tu diseño original)
+       ======================================================== */
+    body.skin-classic {
+      --bg: #0f1015;
+      --card-bg: rgba(255, 255, 255, 0.15);
+      --card-border: rgba(255, 255, 255, 0.25);
+      --accent: #ff4757;
+      --accent-cyan: #00ffcc;
+      --text: #ffffff;
+      --text-muted: rgba(255, 255, 255, 0.75);
+      --audio-spec-color: #8ab4f8;
+      --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      --card-radius: 28px;
+      --cover-radius: 16px;
+      --nav-radius: 20px;
+      --btn-radius: 50%;
+      --card-blur: blur(25px) saturate(160%);
+      --card-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.3);
+      --nav-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+      --header-letter-spacing: 1px;
+      --header-transform: uppercase;
+      --scanlines: 0;
+      --glow: none;
+    }
+
+    /* ========================================================
+       🎨 SKIN: CONSOLA TUI (basado en PLAYER.SH)
+       ======================================================== */
+    body.skin-tui {
+      --bg: #0a120b;
+      --card-bg: #0d1a0e;
+      --card-border: #00441b;
+      --accent: #00ff66;
+      --accent-cyan: #00ffcc;
+      --text: #00ff66;
+      --text-muted: #00aa44;
+      --audio-spec-color: #00ffcc;
+      --font-family: 'JetBrains Mono', 'Share Tech Mono', 'Courier New', monospace;
+      --card-radius: 2px;
+      --cover-radius: 0px;
+      --nav-radius: 0px;
+      --btn-radius: 0px;
+      --card-blur: none;
+      --card-shadow: 0 0 30px rgba(0, 255, 102, 0.25), inset 0 0 20px rgba(0, 255, 102, 0.05);
+      --nav-shadow: 0 0 20px rgba(0, 255, 102, 0.2);
+      --header-letter-spacing: 2px;
+      --header-transform: uppercase;
+      --scanlines: 1;
+      --glow: 0 0 10px var(--accent);
+    }
+
+    /* ========================================================
+       BASE
+       ======================================================== */
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      font-family: var(--font-family);
       -webkit-tap-highlight-color: transparent;
     }
 
     html, body {
-  width: 100%;
-  height: 100%;
-  height: 100dvh;
-  position: fixed;
-  top: 0;
-  left: 0;
-  overflow: hidden;
-  background-color: var(--bg);
-  transition: background-color 0.4s ease;
-}
+      width: 100%;
+      height: 100%;
+      height: 100dvh;
+      position: fixed;
+      top: 0; left: 0;
+      overflow: hidden;
+      background-color: var(--bg);
+      transition: background-color 0.4s ease;
+    }
 
-body {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: var(--text);
-  /* 🔑 SIN padding: el fondo cubre toda la pantalla */
-  padding: 0;
-}
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: var(--text);
+      padding: 0;
+    }
 
-/* El padding de área segura va al contenedor, no al body */
- .app-container {
-  width: 100%;
-  max-width: 380px;
-  height: 100%;
-  max-height: 100dvh;               /* dinámico, mejor en móvil */
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  gap: 12px;
-  /* 🔑 El padding de safe-area va AQUÍ, no en el body */
-  padding:
-    calc(env(safe-area-inset-top, 0px) + 10px)
-    calc(env(safe-area-inset-right, 0px) + 10px)
-    calc(env(safe-area-inset-bottom, 0px) + 10px)
-    calc(env(safe-area-inset-left, 0px) + 10px);
-  position: relative;
-}
+    /* Flicker sutil solo en TUI */
+    body.skin-tui {
+      animation: crtFlicker 0.15s infinite;
+    }
+    @keyframes crtFlicker {
+      0%   { opacity: 0.995; }
+      50%  { opacity: 1; }
+      52%  { opacity: 0.97; }
+      54%  { opacity: 1; }
+      80%  { opacity: 0.99; }
+      100% { opacity: 1; }
+    }
+
+    /* Scanlines CRT (solo TUI) */
+    .crt-overlay {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 9998;
+      background:
+        linear-gradient(rgba(18,16,16,0) 50%, rgba(0,0,0,0.55) 50%),
+        linear-gradient(90deg, rgba(255,0,0,0.05), rgba(0,255,0,0.02), rgba(0,0,255,0.05));
+      background-size: 100% 4px, 6px 100%;
+      opacity: 0;
+      transition: opacity 0.3s;
+      display: none;
+    }
+    body.skin-tui .crt-overlay {
+      display: block;
+      opacity: 0.18;
+    }
+    body.skin-tui.crt-off .crt-overlay {
+      opacity: 0;
+    }
+
+    /* Vignette */
+    .vignette {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 9997;
+      box-shadow: inset 0 0 120px rgba(0,0,0,0);
+      transition: box-shadow 0.3s;
+      display: none;
+    }
+    body.skin-tui .vignette {
+      display: block;
+      box-shadow: inset 0 0 120px rgba(0,0,0,0.65);
+    }
+    body.skin-tui.crt-off .vignette {
+      box-shadow: inset 0 0 120px rgba(0,0,0,0);
+    }
+
+    .app-container {
+      width: 100%;
+      max-width: 380px;
+      height: 100%;
+      max-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 12px;
+      padding:
+        calc(env(safe-area-inset-top, 0px) + 10px)
+        calc(env(safe-area-inset-right, 0px) + 10px)
+        calc(env(safe-area-inset-bottom, 0px) + 10px)
+        calc(env(safe-area-inset-left, 0px) + 10px);
+      position: relative;
+    }
+
     .bg-blur {
-  position: fixed;
-  top: -40px;
-  left: -40px;
-  right: -40px;
-  bottom: -40px;
-  width: calc(100vw + 80px);
-  height: calc(100dvh + 80px);
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  filter: blur(40px) brightness(0.5) saturate(1.4);
-  transition: background-image 0.6s ease-in-out;
-  z-index: -1;
-  pointer-events: none;
-}
+      position: fixed;
+      top: -40px;
+      left: -40px;
+      right: -40px;
+      bottom: -40px;
+      width: calc(100vw + 80px);
+      height: calc(100dvh + 80px);
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      filter: blur(40px) brightness(0.5) saturate(1.4);
+      transition: background-image 0.6s ease-in-out;
+      z-index: -1;
+      pointer-events: none;
+    }
+    /* En TUI el fondo difuminado se oculta */
+    body.skin-tui .bg-blur {
+      filter: blur(40px) brightness(0.15) saturate(0.3) hue-rotate(80deg);
+    }
 
     .player-card {
       background: var(--card-bg);
-      backdrop-filter: blur(25px) saturate(160%);
-      -webkit-backdrop-filter: blur(25px) saturate(160%);
+      backdrop-filter: var(--card-blur);
+      -webkit-backdrop-filter: var(--card-blur);
       width: 100%;
       flex: 1;
       padding: 18px 16px;
-      border-radius: 28px;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5),
-                  inset 0 1px 1px rgba(255, 255, 255, 0.3);
+      border-radius: var(--card-radius);
+      box-shadow: var(--card-shadow);
       border: 1px solid var(--card-border);
       text-align: center;
       z-index: 1;
@@ -108,7 +234,10 @@ body {
       flex-direction: column;
       justify-content: space-between;
       overflow: hidden;
-      transition: background 0.4s ease, border-color 0.4s ease;
+      transition: background 0.4s ease, border-color 0.4s ease, border-radius 0.3s ease;
+    }
+    body.skin-tui .player-card {
+      border-width: 2px;
     }
 
     .player-header {
@@ -122,9 +251,13 @@ body {
     .header-title {
       font-size: 1rem;
       font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 1px;
+      text-transform: var(--header-transform);
+      letter-spacing: var(--header-letter-spacing);
       color: var(--text-muted);
+    }
+    body.skin-tui .header-title {
+      color: var(--text);
+      text-shadow: var(--glow);
     }
 
     .cover-container {
@@ -143,13 +276,19 @@ body {
       max-width: 240px;
       aspect-ratio: 1 / 1;
       background: rgba(255, 255, 255, 0.1);
-      border-radius: 16px;
+      border-radius: var(--cover-radius);
       object-fit: cover;
       display: block;
       box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
       border: 1px solid rgba(255, 255, 255, 0.2);
       flex-shrink: 0;
       z-index: 2;
+      transition: border-radius 0.3s;
+    }
+    body.skin-tui .cover-art {
+      border: 2px solid var(--card-border);
+      box-shadow: 0 0 20px rgba(0, 255, 102, 0.2);
+      filter: contrast(1.1) saturate(1.1);
     }
 
     .track-info-container {
@@ -164,12 +303,19 @@ body {
       overflow: hidden;
       cursor: pointer;
       flex-shrink: 0;
+      transition: border-radius 0.3s, background 0.3s;
+    }
+    body.skin-tui .track-info-container {
+      background: #000;
+      border: 1px solid var(--card-border);
+      border-radius: 0;
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
     }
 
     .visualizer-canvas {
       position: absolute;
-      top: 0;
-      left: 0;
+      top: 0; left: 0;
       width: 100%;
       height: 100%;
       pointer-events: none;
@@ -192,6 +338,9 @@ body {
       overflow: hidden;
       text-overflow: ellipsis;
       text-shadow: 0 2px 6px rgba(0, 0, 0, 0.9);
+    }
+    body.skin-tui .track-title {
+      text-shadow: var(--glow);
     }
 
     .track-artist {
@@ -240,12 +389,28 @@ body {
       text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
       flex-shrink: 0;
     }
+    body.skin-tui .audio-specs-badge {
+      color: var(--accent-cyan);
+    }
 
+    /* Badge Hi-Res: se reemplaza por texto [HI-RES] en TUI */
     .hires-icon {
       height: 15px;
       width: auto;
       vertical-align: middle;
       border-radius: 2px;
+    }
+    body.skin-tui .hires-icon {
+      display: none;
+    }
+    body.skin-tui .audio-specs-badge::before {
+      content: "[HI-RES] ";
+      color: var(--accent);
+      font-weight: 700;
+      display: none;
+    }
+    body.skin-tui .audio-specs-badge.has-hires::before {
+      display: inline;
     }
 
     .status-badge {
@@ -255,6 +420,10 @@ body {
       font-weight: 600;
       flex-shrink: 0;
     }
+    body.skin-tui .status-badge {
+      color: var(--accent);
+      text-shadow: var(--glow);
+    }
 
     .toggle-switch {
       position: relative;
@@ -262,9 +431,7 @@ body {
       width: 38px;
       height: 20px;
     }
-
     .toggle-switch input { opacity: 0; width: 0; height: 0; }
-
     .slider {
       position: absolute;
       cursor: pointer;
@@ -273,21 +440,27 @@ body {
       transition: .3s;
       border-radius: 20px;
     }
-
     .slider:before {
       position: absolute;
       content: "";
-      height: 14px;
-      width: 14px;
-      left: 3px;
-      bottom: 3px;
+      height: 14px; width: 14px;
+      left: 3px; bottom: 3px;
       background-color: white;
       transition: .3s;
       border-radius: 50%;
     }
-
     input:checked + .slider { background-color: var(--accent); }
     input:checked + .slider:before { transform: translateX(18px); }
+
+    body.skin-tui .slider {
+      border-radius: 0;
+      background-color: #000;
+      border: 1px solid var(--card-border);
+    }
+    body.skin-tui .slider:before {
+      border-radius: 0;
+      background-color: var(--accent);
+    }
 
     .progress-container {
       width: 100%;
@@ -305,6 +478,12 @@ body {
       outline: none;
       cursor: pointer;
     }
+    body.skin-tui .seek-bar {
+      background: #000;
+      border: 1px solid var(--card-border);
+      border-radius: 0;
+      height: 8px;
+    }
 
     .seek-bar::-webkit-slider-thumb {
       -webkit-appearance: none;
@@ -315,6 +494,13 @@ body {
       background: var(--text);
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
       cursor: pointer;
+    }
+    body.skin-tui .seek-bar::-webkit-slider-thumb {
+      border-radius: 0;
+      background: var(--accent);
+      box-shadow: var(--glow);
+      width: 12px;
+      height: 12px;
     }
 
     .time-stamps {
@@ -343,7 +529,6 @@ body {
       padding: 6px;
       transition: transform 0.1s ease;
     }
-
     .btn:active { transform: scale(0.88); }
 
     .btn-play {
@@ -351,12 +536,22 @@ body {
       color: #121216;
       width: 54px;
       height: 54px;
-      border-radius: 50%;
+      border-radius: var(--btn-radius);
       display: flex;
       align-items: center;
       justify-content: center;
       font-size: 1.5rem;
       box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+      transition: border-radius 0.3s, background 0.3s, color 0.3s, box-shadow 0.3s;
+    }
+    body.skin-tui .btn-play {
+      background: transparent;
+      color: var(--accent);
+      border: 2px solid var(--accent);
+      box-shadow: var(--glow);
+    }
+    body.skin-tui .btn-play:hover {
+      background: rgba(0, 255, 102, 0.15);
     }
 
     .btn-sub {
@@ -364,7 +559,6 @@ body {
       opacity: 0.5;
       transition: opacity 0.2s, color 0.2s;
     }
-
     .btn-sub.active { opacity: 1; color: var(--accent); }
 
     .action-buttons-row {
@@ -382,7 +576,7 @@ body {
       color: var(--text);
       width: 44px;
       height: 44px;
-      border-radius: 50%;
+      border-radius: var(--btn-radius);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -390,13 +584,23 @@ body {
       cursor: pointer;
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
-      transition: transform 0.1s ease, background 0.2s ease;
+      transition: transform 0.1s ease, background 0.2s ease, border-radius 0.3s;
       position: relative;
     }
-
     .icon-action-btn:active {
       transform: scale(0.9);
       background: rgba(255, 255, 255, 0.35);
+    }
+    body.skin-tui .icon-action-btn {
+      background: #000;
+      border: 1px solid var(--card-border);
+      color: var(--accent);
+      border-radius: 0;
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+    }
+    body.skin-tui .icon-action-btn:active {
+      background: rgba(0, 255, 102, 0.15);
     }
 
     .file-input-wrapper { position: relative; display: inline-block; }
@@ -412,18 +616,21 @@ body {
 
     .bottom-nav {
       background: var(--card-bg);
-      backdrop-filter: blur(25px) saturate(160%);
-      -webkit-backdrop-filter: blur(25px) saturate(160%);
-      border-radius: 20px;
+      backdrop-filter: var(--card-blur);
+      -webkit-backdrop-filter: var(--card-blur);
+      border-radius: var(--nav-radius);
       border: 1px solid var(--card-border);
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+      box-shadow: var(--nav-shadow);
       display: flex;
       justify-content: space-around;
       align-items: center;
       padding: 10px 0;
       z-index: 20;
       margin-top: auto;
-      margin-bottom: calc(env(safe-area-inset-bottom, 0px) + 2px);
+      transition: border-radius 0.3s, background 0.3s;
+    }
+    body.skin-tui .bottom-nav {
+      border-width: 2px;
     }
 
     .nav-btn {
@@ -436,12 +643,15 @@ body {
       cursor: pointer;
       font-size: 1.35rem;
       width: 25%;
-      transition: transform 0.1s, opacity 0.2s;
+      transition: transform 0.1s, opacity 0.2s, color 0.2s;
       opacity: 0.6;
     }
-
     .nav-btn.active { opacity: 1; transform: scale(1.15); }
     .nav-btn:active { transform: scale(0.92); }
+    body.skin-tui .nav-btn.active {
+      color: var(--accent);
+      text-shadow: var(--glow);
+    }
 
     .playlist-overlay, .modal-overlay {
       position: absolute;
@@ -450,7 +660,7 @@ body {
       background: rgba(18, 18, 24, 0.95);
       backdrop-filter: blur(30px);
       -webkit-backdrop-filter: blur(30px);
-      border-radius: 28px;
+      border-radius: var(--card-radius);
       padding: 18px;
       display: none;
       flex-direction: column;
@@ -458,6 +668,14 @@ body {
       opacity: 0;
       transform: translateY(100%);
       transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
+    }
+    body.skin-tui .playlist-overlay,
+    body.skin-tui .modal-overlay {
+      background: rgba(5, 10, 6, 0.98);
+      border-radius: 0;
+      border: 2px solid var(--card-border);
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
     }
 
     .playlist-overlay.active, .modal-overlay.active {
@@ -474,21 +692,35 @@ body {
       padding-bottom: 6px;
       border-bottom: 1px solid rgba(255, 255, 255, 0.15);
     }
+    body.skin-tui .playlist-header {
+      border-bottom: 1px solid var(--card-border);
+    }
 
-    .playlist-title { font-size: 0.9rem; font-weight: 700; }
+    .playlist-title {
+      font-size: 0.9rem;
+      font-weight: 700;
+      text-transform: var(--header-transform);
+      letter-spacing: var(--header-letter-spacing);
+    }
 
     .btn-icon {
       background: rgba(255, 255, 255, 0.2);
       border: 1px solid rgba(255, 255, 255, 0.3);
       color: var(--text);
-      width: 30px;
-      height: 30px;
-      border-radius: 50%;
+      width: 30px; height: 30px;
+      border-radius: var(--btn-radius);
       display: flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
       font-size: 0.85rem;
+      transition: border-radius 0.3s;
+    }
+    body.skin-tui .btn-icon {
+      background: #000;
+      border: 1px solid var(--card-border);
+      color: var(--accent);
+      border-radius: 0;
     }
 
     .playlist-tools {
@@ -507,11 +739,18 @@ body {
       padding: 5px 10px;
       border-radius: 8px;
     }
+    body.skin-tui .sort-bar {
+      background: #000;
+      border: 1px solid var(--card-border);
+      border-radius: 0;
+    }
 
     .sort-label {
       font-size: 0.72rem;
       color: var(--text-muted);
       font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
     }
 
     .sort-select, .settings-select {
@@ -522,11 +761,21 @@ body {
       font-weight: 600;
       outline: none;
       cursor: pointer;
+      font-family: var(--font-family);
+    }
+    body.skin-tui .sort-select,
+    body.skin-tui .settings-select {
+      color: var(--accent);
     }
 
     .sort-select option, .settings-select option {
       background: #1c1c24;
       color: var(--text);
+    }
+    body.skin-tui .sort-select option,
+    body.skin-tui .settings-select option {
+      background: #000;
+      color: var(--accent);
     }
 
     .search-box-container { display: none; }
@@ -541,9 +790,15 @@ body {
       color: var(--text);
       font-size: 0.82rem;
       outline: none;
+      font-family: var(--font-family);
     }
-
     .search-input::placeholder { color: var(--text-muted); }
+    body.skin-tui .search-input {
+      background: #000;
+      border: 1px solid var(--card-border);
+      border-radius: 0;
+      color: var(--accent);
+    }
 
     .playlist-list {
       list-style: none;
@@ -563,10 +818,22 @@ body {
       background: rgba(255, 255, 255, 0.08);
       border: 1px solid rgba(255, 255, 255, 0.1);
     }
+    body.skin-tui .playlist-item {
+      background: transparent;
+      border: 1px solid transparent;
+      border-radius: 0;
+      border-bottom: 1px solid rgba(0, 255, 102, 0.15);
+      margin-bottom: 0;
+    }
 
     .playlist-item.playing {
       background: rgba(255, 71, 87, 0.3);
       border: 1px solid rgba(255, 71, 87, 0.6);
+    }
+    body.skin-tui .playlist-item.playing {
+      background: rgba(0, 255, 102, 0.15);
+      border: 1px solid var(--accent);
+      border-radius: 0;
     }
 
     .playlist-item-title {
@@ -601,6 +868,11 @@ body {
       padding: 12px;
       border-radius: 14px;
     }
+    body.skin-tui .settings-item {
+      background: #000;
+      border: 1px solid var(--card-border);
+      border-radius: 0;
+    }
 
     .settings-row {
       display: flex;
@@ -614,6 +886,11 @@ body {
       font-weight: 700;
       color: var(--text);
       margin-bottom: 2px;
+    }
+    body.skin-tui .settings-title {
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--accent);
     }
 
     .settings-desc {
@@ -632,16 +909,24 @@ body {
       border-radius: 8px;
       cursor: pointer;
       transition: background 0.2s;
+      font-family: var(--font-family);
     }
-
     .btn-action:hover { background: rgba(255, 255, 255, 0.25); }
+    body.skin-tui .btn-action {
+      background: #000;
+      border: 1px solid var(--card-border);
+      color: var(--accent);
+      border-radius: 0;
+    }
+    body.skin-tui .btn-action:hover {
+      background: rgba(0, 255, 102, 0.15);
+    }
 
     .btn-action-magenta {
       border-color: var(--accent);
       color: var(--accent);
       background: rgba(255, 71, 87, 0.15);
     }
-
     .btn-action-magenta:hover {
       background: var(--accent);
       color: #fff;
@@ -659,6 +944,9 @@ body {
       align-items: center;
       padding: 20px;
     }
+    body.skin-tui .meow-aviso-overlay {
+      background: rgba(0, 0, 0, 0.95);
+    }
 
     .meow-aviso-box {
       background: rgba(255, 255, 255, 0.15);
@@ -670,11 +958,23 @@ body {
       box-shadow: 0 20px 40px rgba(0,0,0,0.5);
       color: #fff;
     }
+    body.skin-tui .meow-aviso-box {
+      background: #000;
+      border: 2px solid var(--accent);
+      border-radius: 0;
+      color: var(--accent);
+      box-shadow: 0 0 30px rgba(0, 255, 102, 0.3);
+    }
 
     .meow-aviso-box h3 {
       margin-bottom: 12px;
       font-size: 1.2rem;
       color: var(--accent);
+    }
+    body.skin-tui .meow-aviso-box h3 {
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      text-shadow: var(--glow);
     }
 
     .meow-aviso-box p {
@@ -682,6 +982,9 @@ body {
       margin-bottom: 16px;
       line-height: 1.4;
       color: rgba(255,255,255,0.85);
+    }
+    body.skin-tui .meow-aviso-box p {
+      color: var(--text-muted);
     }
 
     .meow-checkbox-label {
@@ -704,9 +1007,21 @@ body {
       font-weight: bold;
       cursor: pointer;
       transition: transform 0.1s;
+      font-family: var(--font-family);
     }
-
     .meow-btn-cerrar:active { transform: scale(0.95); }
+    body.skin-tui .meow-btn-cerrar {
+      background: transparent;
+      color: var(--accent);
+      border: 2px solid var(--accent);
+      border-radius: 0;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    body.skin-tui .meow-btn-cerrar:hover {
+      background: var(--accent);
+      color: #000;
+    }
 
     kbd {
       background: rgba(255, 255, 255, 0.15);
@@ -715,221 +1030,171 @@ body {
       padding: 1px 5px;
       font-size: 0.7rem;
       color: var(--accent-cyan);
+      font-family: var(--font-family);
+    }
+    body.skin-tui kbd {
+      background: #000;
+      border: 1px solid var(--card-border);
+      color: var(--accent);
+      border-radius: 0;
     }
 
-    /* ==========================================================
-       📺 LANDSCAPE — Portada DERECHA, info IZQUIERDA, nav abajo
-       ========================================================== */
+    /* ========================================================
+       📺 LANDSCAPE
+       ======================================================== */
     @media screen and (orientation: landscape) and (max-height: 600px) {
-
-      body {
-        flex-direction: row;
-        align-items: center;
-        padding: 6px;
-      }
-
+      body { flex-direction: row; align-items: stretch; padding: 0; }
       .app-container {
         max-width: 100%;
-        max-height: 100vh;
-        flex-direction: row;
-        flex-wrap: wrap;
-        gap: 10px;
-        padding: 6px;
-        align-items: stretch;
+        max-height: 100dvh;
+        height: 100dvh;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        padding:
+          calc(env(safe-area-inset-top, 0px) + 8px)
+          calc(env(safe-area-inset-right, 0px) + 10px)
+          calc(env(safe-area-inset-bottom, 0px) + 8px)
+          calc(env(safe-area-inset-left, 0px) + 10px);
       }
-
       .player-card {
-        flex: 1 1 100%;
-        flex-direction: row;
-        flex-wrap: wrap;
+        display: grid;
+        grid-template-columns: 1fr 38%;
+        grid-template-rows: auto auto auto auto auto;
+        grid-template-areas:
+          "info    cover"
+          "specs   cover"
+          "status  cover"
+          "progress cover"
+          "controls cover"
+          "actions cover";
+        column-gap: 14px;
+        row-gap: 6px;
+        align-content: center;
         align-items: center;
-        gap: 12px;
-        padding: 14px 18px;
-        border-radius: 22px;
-        max-height: calc(100vh - 70px);
+        padding: 12px 16px;
+        border-radius: var(--card-radius);
         overflow: hidden;
+        flex: 1;
       }
-
       .player-header { display: none; }
-
-      /* PORTADA a la DERECHA */
       .cover-container {
-        order: 2;
-        flex: 0 0 38%;
-        max-width: 38%;
-        height: 100%;
+        grid-area: cover;
+        width: 100%; height: 100%;
+        max-height: 100%;
         margin: 0;
+        display: flex;
         align-items: center;
         justify-content: center;
       }
-
       .cover-art {
-        max-width: 100%;
-        max-height: 100%;
-        width: auto;
-        height: 100%;
+        width: auto; height: 100%;
+        max-width: 100%; max-height: 100%;
         aspect-ratio: 1 / 1;
-        border-radius: 14px;
+        border-radius: var(--cover-radius);
       }
-
-      /* INFO + SPECS + STATUS + PROGRESO + CONTROLES a la IZQUIERDA */
-      .track-info-container,
-      .audio-specs-badge,
-      .status-badge,
-      .progress-container,
-      .controls,
-      .action-buttons-row {
-        order: 1;
-        flex: 0 0 calc(62% - 12px);
-        max-width: calc(62% - 12px);
-        width: calc(62% - 12px);
-      }
-
-      .track-info-container { padding: 6px 8px; margin: 0; }
-      .track-title { font-size: 1.1rem; }
+      .track-info-container { grid-area: info; margin: 0; padding: 6px 10px; }
+      .track-title { font-size: 1.05rem; }
       .track-artist { font-size: 0.85rem; }
-      .track-album { font-size: 0.75rem; }
-
+      .track-album { font-size: 0.72rem; }
       .audio-specs-badge {
+        grid-area: specs;
         justify-content: flex-start;
         margin: 0;
-        font-size: 0.72rem;
+        font-size: 0.7rem;
+        min-height: 14px;
       }
-
-      .status-badge { text-align: left; min-height: 10px; }
-      .progress-container { margin-bottom: 2px; }
-      .controls { margin-bottom: 4px; padding: 0 2px; }
-
-      .btn-play { width: 46px; height: 46px; font-size: 1.3rem; }
-
-      .action-buttons-row {
-        padding: 0;
-        justify-content: flex-start;
-        gap: 10px;
-      }
-
-      .icon-action-btn { width: 38px; height: 38px; font-size: 1rem; }
-
-      /* BOTTOM NAV abajo, ancho completo */
-      .bottom-nav {
-        flex: 1 1 100%;
-        width: 100%;
-        margin-top: 0;
-        padding: 6px 0;
-        border-radius: 16px;
-      }
-
-      .nav-btn { font-size: 1.15rem; }
-
-      .playlist-overlay,
-      .modal-overlay {
-        border-radius: 22px;
-        padding: 12px 16px;
-      }
-    }
-
-    /* Landscape en móvil girado (pantallas MUY bajas) */
-    @media screen and (orientation: landscape) and (max-height: 420px) {
-      .cover-container { flex: 0 0 34%; max-width: 34%; }
-      .track-info-container,
-      .audio-specs-badge,
-      .status-badge,
-      .progress-container,
-      .controls,
-      .action-buttons-row {
-        flex: 0 0 calc(66% - 10px);
-        max-width: calc(66% - 10px);
-        width: calc(66% - 10px);
-      }
-      .btn-play { width: 40px; height: 40px; font-size: 1.15rem; }
+      .status-badge { grid-area: status; text-align: left; min-height: 10px; font-size: 0.68rem; }
+      .progress-container { grid-area: progress; margin: 0; }
+      .controls { grid-area: controls; margin: 0; padding: 0; }
+      .btn-play { width: 42px; height: 42px; font-size: 1.15rem; }
       .btn { font-size: 1.25rem; padding: 4px; }
-      .icon-action-btn { width: 34px; height: 34px; font-size: 0.9rem; }
-      .track-title { font-size: 0.95rem; }
+      .btn-sub { font-size: 1rem; }
+      .action-buttons-row { grid-area: actions; justify-content: flex-start; gap: 10px; padding: 0; }
+      .icon-action-btn { width: 34px; height: 34px; font-size: 0.95rem; }
+      .bottom-nav { flex: 0 0 auto; width: 100%; padding: 6px 0; border-radius: var(--nav-radius); margin: 0; }
+      .nav-btn { font-size: 1.15rem; }
+      .playlist-overlay, .modal-overlay { border-radius: var(--card-radius); padding: 12px 16px; }
     }
 
-    /* ==========================================================
-       🔄 MODO LANDSCAPE FORZADO (fallback iOS)
-       ========================================================== */
-    body.force-landscape { flex-direction: row; }
+    @media screen and (orientation: landscape) and (max-height: 420px) {
+      .player-card { grid-template-columns: 1fr 32%; column-gap: 10px; row-gap: 4px; padding: 10px 12px; }
+      .btn-play { width: 36px; height: 36px; font-size: 1rem; }
+      .btn { font-size: 1.05rem; padding: 3px; }
+      .icon-action-btn { width: 30px; height: 30px; font-size: 0.85rem; }
+      .track-title { font-size: 0.9rem; }
+      .track-artist { font-size: 0.75rem; }
+      .track-album { font-size: 0.65rem; }
+      .audio-specs-badge { font-size: 0.62rem; }
+    }
 
+    /* 🔄 LANDSCAPE FORZADO (fallback iOS) */
     body.force-landscape .app-container {
-      max-width: 100vw;
-      max-height: 100vh;
-      width: 100vh;
-      height: 100vw;
-      flex-direction: row;
-      flex-wrap: wrap;
+      width: 100vh; height: 100vw;
+      max-width: 100vh; max-height: 100vw;
       transform: rotate(90deg);
       transform-origin: center center;
       position: fixed;
-      top: 50%;
-      left: 50%;
-      margin-left: -50vh;
-      margin-top: -50vw;
-      padding: 6px;
-      gap: 10px;
+      top: 50%; left: 50%;
+      margin-left: -50vh; margin-top: -50vw;
+      padding:
+        calc(env(safe-area-inset-top, 0px) + 8px)
+        calc(env(safe-area-inset-right, 0px) + 10px)
+        calc(env(safe-area-inset-bottom, 0px) + 8px)
+        calc(env(safe-area-inset-left, 0px) + 10px);
     }
-
     body.force-landscape .player-card {
-      flex-direction: row;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 12px;
-      padding: 14px 18px;
-      border-radius: 22px;
-      max-height: calc(100vw - 70px);
-      overflow: hidden;
-    }
-
-    body.force-landscape .player-header { display: none; }
-
-    body.force-landscape .cover-container {
-      order: 2;
-      flex: 0 0 38%;
-      max-width: 38%;
-      height: 100%;
-    }
-
-    body.force-landscape .cover-art {
-      max-width: 100%;
-      max-height: 100%;
-      width: auto;
-      height: 100%;
-    }
-
-    body.force-landscape .track-info-container,
-    body.force-landscape .audio-specs-badge,
-    body.force-landscape .status-badge,
-    body.force-landscape .progress-container,
-    body.force-landscape .controls,
-    body.force-landscape .action-buttons-row {
-      order: 1;
-      flex: 0 0 calc(62% - 12px);
-      max-width: calc(62% - 12px);
-      width: calc(62% - 12px);
-    }
-
-    body.force-landscape .bottom-nav {
-      flex: 1 1 100%;
-      width: 100%;
-    }
-
-    body.force-landscape .playlist-overlay,
-    body.force-landscape .modal-overlay {
-      border-radius: 22px;
+      display: grid;
+      grid-template-columns: 1fr 38%;
+      grid-template-rows: auto auto auto auto auto;
+      grid-template-areas:
+        "info    cover"
+        "specs   cover"
+        "status  cover"
+        "progress cover"
+        "controls cover"
+        "actions cover";
+      column-gap: 14px; row-gap: 6px;
+      align-content: center; align-items: center;
       padding: 12px 16px;
+      border-radius: var(--card-radius);
+      overflow: hidden;
+      flex: 1;
     }
+    body.force-landscape .player-header { display: none; }
+    body.force-landscape .cover-container {
+      grid-area: cover;
+      width: 100%; height: 100%;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0;
+    }
+    body.force-landscape .cover-art {
+      width: auto; height: 100%;
+      max-height: 100%; max-width: 100%;
+      border-radius: var(--cover-radius);
+    }
+    body.force-landscape .track-info-container { grid-area: info; margin: 0; padding: 6px 10px; }
+    body.force-landscape .audio-specs-badge { grid-area: specs; justify-content: flex-start; margin: 0; }
+    body.force-landscape .status-badge { grid-area: status; text-align: left; }
+    body.force-landscape .progress-container { grid-area: progress; margin: 0; }
+    body.force-landscape .controls { grid-area: controls; margin: 0; padding: 0; }
+    body.force-landscape .action-buttons-row { grid-area: actions; justify-content: flex-start; gap: 10px; padding: 0; }
+    body.force-landscape .bottom-nav { flex: 0 0 auto; width: 100%; padding: 6px 0; border-radius: var(--nav-radius); margin: 0; }
   </style>
 </head>
-<body>
+<body class="skin-classic">
 
-  <audio id="mainAudioPlayer" preload="auto" playsinline crossorigin="anonymous"></audio>
+  <!-- Overlays CRT (solo visibles en skin TUI) -->
+  <div class="crt-overlay" id="crtOverlay"></div>
+  <div class="vignette" id="vignette"></div>
+
+  <audio id="mainAudioPlayer" preload="auto" playsinline crossorigin="anonymous" style="display:none;"></audio>
 
   <!-- AVISO DE PRIVACIDAD GATUNO -->
   <div id="meow-aviso-privacidad" class="meow-aviso-overlay">
     <div class="meow-aviso-box">
-      <h3>🐾 Aviso Gatuno 🐾</h3>
-      <p>Todo el procesamiento de audio se realiza de manera local en tu dispositivo. Ningún archivo o dato personal es subido a servidores externos. ¡Miau!</p>
+      <h3 id="avisoTitle">🐾 Aviso Gatuno 🐾</h3>
+      <p id="avisoText">Todo el procesamiento de audio se realiza de manera local en tu dispositivo. Ningún archivo o dato personal es subido a servidores externos. ¡Miau!</p>
       <label class="meow-checkbox-label">
         <input type="checkbox" id="meow-check-no-mostrar">
         No volver a mostrar
@@ -943,7 +1208,7 @@ body {
   <div class="app-container">
     <div class="player-card">
       <div class="player-header">
-        <span class="header-title">🐈 MEOW AUDIO APP 🐈</span>
+        <span class="header-title" id="headerTitle">🐈 MEOW AUDIO APP 🐈</span>
       </div>
 
       <div class="cover-container">
@@ -982,6 +1247,7 @@ body {
       <div class="action-buttons-row">
         <button class="icon-action-btn" id="btnFullscreen" title="Pantalla completa">⛶</button>
         <button class="icon-action-btn" id="btnRotate" title="Girar pantalla">🔄</button>
+        <button class="icon-action-btn" id="btnCrt" title="Efecto CRT (solo TUI)">📺</button>
         <div class="file-input-wrapper">
           <button class="icon-action-btn" title="Añadir canciones">➕</button>
           <input type="file" id="fileInput" class="real-file-input" multiple accept=".mp3,.wav,.ogg,.flac,.m4a,.aac,audio/*">
@@ -994,7 +1260,6 @@ body {
           <span class="playlist-title" id="playlistTitle">Fila</span>
           <button class="btn-icon" id="btnCloseQueue">✕</button>
         </div>
-
         <div class="playlist-tools">
           <div class="sort-bar" id="sortBar">
             <span class="sort-label">Ordenar por:</span>
@@ -1005,12 +1270,10 @@ body {
               <option value="album">Álbum</option>
             </select>
           </div>
-
           <div class="search-box-container" id="searchBoxContainer">
             <input type="text" id="searchInput" class="search-input" placeholder="Buscar por título, artista o álbum...">
           </div>
         </div>
-
         <ul class="playlist-list" id="playlistContainer"></ul>
       </div>
 
@@ -1020,8 +1283,32 @@ body {
           <span class="playlist-title">Ajustes ⚙️</span>
           <button class="btn-icon" id="btnCloseSettings">✕</button>
         </div>
-
         <div class="settings-body">
+
+          <div class="settings-item">
+            <div class="settings-title">🎨 Skin de la App</div>
+            <div class="settings-desc">Cambia la apariencia sin afectar la reproducción.</div>
+            <div class="settings-row">
+              <span class="settings-desc" style="font-weight:600;">Skin:</span>
+              <select id="skinSelect" class="settings-select">
+                <option value="classic">Classic</option>
+                <option value="tui">Consola TUI</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="settings-item" id="crtSettingItem">
+            <div class="settings-title">📺 Efecto CRT</div>
+            <div class="settings-desc">Scanlines y vignette (solo skin TUI).</div>
+            <div class="settings-row">
+              <span class="settings-desc" style="font-weight:600;">Estado:</span>
+              <label class="toggle-switch">
+                <input type="checkbox" id="crtToggle" checked>
+                <span class="slider"></span>
+              </label>
+            </div>
+          </div>
+
           <div class="settings-item">
             <div class="settings-title">🎚 Crossfade (Transición)</div>
             <div class="settings-desc">Superposición entre pistas al cambiar de canción.</div>
@@ -1128,8 +1415,8 @@ body {
           </div>
 
           <div class="settings-item">
-            <div class="settings-title">MEOW AUDIO APP v2.5</div>
-            <div class="settings-desc">Reproducción directa fluida, rotación manual y layout responsive.</div>
+            <div class="settings-title" id="versionTitle">MEOW AUDIO APP v2.6</div>
+            <div class="settings-desc" id="versionDesc">Sistema de skins: Classic + Consola TUI.</div>
           </div>
         </div>
       </div>
@@ -1147,7 +1434,7 @@ body {
     const DEFAULT_COVER = "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 24 24' fill='none' stroke='%23ffffff' stroke-width='1.5'><path d='M9 18V5l12-2v13'/><circle cx='6' cy='18' r='3'/><circle cx='18' cy='16' r='3'/></svg>";
     const HI_RES_SVG = `data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'><rect width='200' height='200' fill='%23d4af37' rx='8'/><path d='M0 95 Q100 130 200 95 L200 200 L0 200 Z' fill='%23000000'/><text x='100' y='68' font-family='Arial Black, sans-serif' font-weight='900' font-size='56' fill='%23000000' text-anchor='middle'>Hi-Res</text><text x='100' y='165' font-family='Arial, sans-serif' font-weight='900' font-size='42' fill='%23d4af37' text-anchor='middle'>AUDIO</text></svg>`;
 
-    // ELEMENTOS DEL DOM
+    // ============ DOM ============
     const bgBlur = document.getElementById('bgBlur');
     const mainAudio = document.getElementById('mainAudioPlayer');
     const btnPlay = document.getElementById('btnPlay');
@@ -1157,6 +1444,7 @@ body {
     const btnRepeat = document.getElementById('btnRepeat');
     const btnFullscreen = document.getElementById('btnFullscreen');
     const btnRotate = document.getElementById('btnRotate');
+    const btnCrt = document.getElementById('btnCrt');
 
     const coverEl = document.getElementById('cover');
     const titleEl = document.getElementById('title');
@@ -1174,6 +1462,10 @@ body {
     const lufsSelect = document.getElementById('lufsSelect');
     const crossfadeSlider = document.getElementById('crossfadeTime');
     const crossfadeVal = document.getElementById('crossfadeVal');
+
+    const skinSelect = document.getElementById('skinSelect');
+    const crtToggle = document.getElementById('crtToggle');
+    const crtSettingItem = document.getElementById('crtSettingItem');
 
     const trackInfoContainer = document.getElementById('trackInfoContainer');
     const canvas = document.getElementById('visualizerCanvas');
@@ -1201,7 +1493,14 @@ body {
     const navSearch = document.getElementById('navSearch');
     const navSettings = document.getElementById('navSettings');
 
-    // ESTADO
+    const headerTitle = document.getElementById('headerTitle');
+    const avisoTitle = document.getElementById('avisoTitle');
+    const avisoText = document.getElementById('avisoText');
+    const versionTitle = document.getElementById('versionTitle');
+    const versionDesc = document.getElementById('versionDesc');
+    const metaTheme = document.getElementById('metaTheme');
+
+    // ============ ESTADO ============
     let playlist = [];
     let currentIndex = 0;
     let currentObjectUrl = null;
@@ -1209,7 +1508,6 @@ body {
     let isShuffle = false;
     let repeatMode = 'off';
 
-    // WEB AUDIO API
     let audioCtx = null;
     let trackSource = null;
     let analyser = null;
@@ -1224,7 +1522,10 @@ body {
     let animationFrameId = null;
     let visualizerDataArray = null;
 
-    // PERSISTENCIA INDEXEDDB
+    let userPausedManually = false;
+    let eqBypassedForBackground = false;
+
+    // ============ INDEXEDDB ============
     const DB_NAME = 'MeowAudioDB';
     const DB_VERSION = 2;
     const STORE_NAME = 'songs';
@@ -1249,19 +1550,13 @@ body {
         const store = tx.objectStore(STORE_NAME);
         for (const track of tracks) {
           store.add({
-            filename: track.filename,
-            ext: track.ext,
-            title: track.title,
-            artist: track.artist,
-            album: track.album,
+            filename: track.filename, ext: track.ext,
+            title: track.title, artist: track.artist, album: track.album,
             coverBase64: track.coverBase64 || null,
-            specs: track.specs,
-            fileBlob: track.file
+            specs: track.specs, fileBlob: track.file
           });
         }
-      } catch (err) {
-        console.warn("DB Save error:", err);
-      }
+      } catch (err) { console.warn("DB Save error:", err); }
     }
 
     async function loadStoredTracksFromDB() {
@@ -1270,50 +1565,35 @@ body {
         const tx = db.transaction(STORE_NAME, 'readonly');
         const store = tx.objectStore(STORE_NAME);
         const request = store.getAll();
-
         request.onsuccess = () => {
           const stored = request.result || [];
           if (stored.length > 0) {
             playlist = stored.map(item => ({
-              dbId: item.id,
-              file: item.fileBlob,
-              filename: item.filename,
-              ext: item.ext,
-              title: item.title,
-              artist: item.artist,
-              album: item.album,
+              dbId: item.id, file: item.fileBlob, filename: item.filename, ext: item.ext,
+              title: item.title, artist: item.artist, album: item.album,
               coverBase64: item.coverBase64,
               cover: item.coverBase64 || DEFAULT_COVER,
               specs: item.specs
             }));
-
             sortPlaylist();
             renderPlaylistUI();
             statusEl.textContent = "Biblioteca restaurada 🐾";
             setTimeout(() => { if (statusEl.textContent.includes("restaurada")) statusEl.textContent = ""; }, 3000);
           }
         };
-      } catch (err) {
-        console.warn("DB Load error:", err);
-      }
+      } catch (err) { console.warn("DB Load error:", err); }
     }
 
-    // ECUALIZADOR
+    // ============ WEB AUDIO ============
     const FREQUENCIES = [32, 64, 125, 250, 500, 1000, 2000, 4000, 8000, 16000];
     const EQ_PRESETS = {
-      flat:         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      bassBoost:    [7, 6, 4, 2, 0, 0, 0, 0, 0, 0],
-      electronic:   [6, 5, 2, 0, -2, 2, 1, 3, 5, 6],
-      hardstyle:    [8, 7, 3, -1, -2, 1, 3, 5, 6, 7],
-      dance:        [6, 5, 3, 0, 0, 2, 4, 4, 3, 0],
-      hiphop:       [6, 5, 2, 3, -1, -1, 1, -1, 2, 4],
-      rnb:          [4, 7, 5, -1, -2, 1, 3, 4, 3, 2],
-      pop:          [-2, 1, 3, 4, 5, 4, 2, 0, -1, -2],
-      rock:         [5, 4, 3, 1, -1, -1, 1, 3, 4, 5],
-      classical:    [4, 3, 2, 2, -1, -1, 0, 2, 3, 4],
-      acoustic:     [3, 2, 1, 1, 2, 2, 3, 3, 2, 1],
-      vocal:        [-3, -2, 0, 3, 5, 5, 4, 2, 0, -2],
-      pureAudio:    [2, 1, 0, 0, 0, 0, 1, 2, 3, 3]
+      flat: [0,0,0,0,0,0,0,0,0,0], bassBoost: [7,6,4,2,0,0,0,0,0,0],
+      electronic: [6,5,2,0,-2,2,1,3,5,6], hardstyle: [8,7,3,-1,-2,1,3,5,6,7],
+      dance: [6,5,3,0,0,2,4,4,3,0], hiphop: [6,5,2,3,-1,-1,1,-1,2,4],
+      rnb: [4,7,5,-1,-2,1,3,4,3,2], pop: [-2,1,3,4,5,4,2,0,-1,-2],
+      rock: [5,4,3,1,-1,-1,1,3,4,5], classical: [4,3,2,2,-1,-1,0,2,3,4],
+      acoustic: [3,2,1,1,2,2,3,3,2,1], vocal: [-3,-2,0,3,5,5,4,2,0,-2],
+      pureAudio: [2,1,0,0,0,0,1,2,3,3]
     };
 
     function initWebAudio() {
@@ -1322,10 +1602,8 @@ body {
           const AudioCtxClass = window.AudioContext || window.webkitAudioContext;
           audioCtx = new AudioCtxClass();
           trackSource = audioCtx.createMediaElementSource(mainAudio);
-
           analyser = audioCtx.createAnalyser();
           analyser.fftSize = 128;
-
           masterGain = audioCtx.createGain();
           masterGain.gain.value = 1.0;
 
@@ -1348,34 +1626,32 @@ body {
           dolbyGain.gain.value = 1.0;
 
           trackSource.connect(eqFilters[0]);
-          for (let i = 0; i < eqFilters.length - 1; i++) {
-            eqFilters[i].connect(eqFilters[i + 1]);
-          }
-
+          for (let i = 0; i < eqFilters.length - 1; i++) eqFilters[i].connect(eqFilters[i + 1]);
           eqFilters[eqFilters.length - 1].connect(dolbyFilter);
           dolbyFilter.connect(dolbyGain);
           dolbyGain.connect(masterGain);
           masterGain.connect(analyser);
           analyser.connect(audioCtx.destination);
 
-          // Pre-crear buffer de datos del visualizador
           visualizerDataArray = new Uint8Array(analyser.frequencyBinCount);
-        } catch (e) {
-          console.warn("WebAudio init error:", e);
-        }
+
+          audioCtx.onstatechange = () => {
+            if (!mainAudio.paused && audioCtx.state !== 'running') {
+              audioCtx.resume().catch(() => {});
+            }
+          };
+        } catch (e) { console.warn("WebAudio init error:", e); }
       }
     }
 
     function updateAudioEffects() {
       initWebAudio();
       if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
-
       if (audioCtx && eqFilters.length > 0) {
         const gains = EQ_PRESETS[eqSelect.value] || EQ_PRESETS.flat;
         eqFilters.forEach((filter, index) => {
           filter.gain.setTargetAtTime(gains[index], audioCtx.currentTime, 0.05);
         });
-
         if (dolbyToggle.checked) {
           dolbyFilter.gain.setTargetAtTime(4.5, audioCtx.currentTime, 0.1);
           dolbyGain.gain.setTargetAtTime(1.15, audioCtx.currentTime, 0.1);
@@ -1389,28 +1665,72 @@ body {
     eqSelect.addEventListener('change', updateAudioEffects);
     dolbyToggle.addEventListener('change', updateAudioEffects);
 
-    // CONTROL DE PANTALLAS
+    // ============ SKINS ============
+    function applySkin(skin) {
+      document.body.classList.remove('skin-classic', 'skin-tui');
+      document.body.classList.add('skin-' + skin);
+      localStorage.setItem('meowSkin', skin);
+      if (skinSelect) skinSelect.value = skin;
+
+      // Ajustes específicos por skin
+      if (skin === 'tui') {
+        headerTitle.textContent = '🎵 PLAYER.SH [LOCAL + CACHE]';
+        avisoTitle.textContent = '> SISTEMA DE PRIVACIDAD';
+        avisoText.textContent = 'Todo el procesamiento de audio se realiza localmente. Ningún archivo o dato es enviado a servidores externos.';
+        versionTitle.textContent = 'PLAYER.SH v2.6';
+        versionDesc.textContent = 'Skin Consola TUI activa.';
+        metaTheme.content = '#0a120b';
+      } else {
+        headerTitle.textContent = '🐈 MEOW AUDIO APP 🐈';
+        avisoTitle.textContent = '🐾 Aviso Gatuno 🐾';
+        avisoText.textContent = 'Todo el procesamiento de audio se realiza de manera local en tu dispositivo. Ningún archivo o dato personal es subido a servidores externos. ¡Miau!';
+        versionTitle.textContent = 'MEOW AUDIO APP v2.6';
+        versionDesc.textContent = 'Sistema de skins: Classic + Consola TUI.';
+        metaTheme.content = '#0f1015';
+      }
+      // Reajustar visualizador
+      setTimeout(() => {
+        if (visualizerMode !== 'off' || lufsEnabled) drawVisualizer();
+      }, 100);
+    }
+
+    skinSelect.addEventListener('change', () => {
+      applySkin(skinSelect.value);
+    });
+
+    // CRT toggle
+    function applyCrt(on) {
+      document.body.classList.toggle('crt-off', !on);
+      localStorage.setItem('meowCrt', String(on));
+      if (crtToggle) crtToggle.checked = on;
+    }
+
+    crtToggle.addEventListener('change', () => {
+      applyCrt(crtToggle.checked);
+    });
+
+    btnCrt.addEventListener('click', () => {
+      const isOn = !document.body.classList.contains('crt-off');
+      applyCrt(!isOn);
+      statusEl.textContent = isOn ? 'CRT desactivado' : 'CRT activado';
+      setTimeout(() => { if (statusEl.textContent.includes('CRT')) statusEl.textContent = ''; }, 1500);
+    });
+
+    // ============ UI ============
     function closeAllOverlays() {
       playlistOverlay.classList.remove('active');
       settingsOverlay.classList.remove('active');
     }
 
     function setActiveTab(activeBtn) {
-      navHome.classList.remove('active');
-      navQueue.classList.remove('active');
-      navSearch.classList.remove('active');
-      navSettings.classList.remove('active');
+      [navHome, navQueue, navSearch, navSettings].forEach(b => b.classList.remove('active'));
       activeBtn.classList.add('active');
     }
 
-    navHome.addEventListener('click', () => {
-      setActiveTab(navHome);
-      closeAllOverlays();
-    });
+    navHome.addEventListener('click', () => { setActiveTab(navHome); closeAllOverlays(); });
 
     navQueue.addEventListener('click', () => {
-      setActiveTab(navQueue);
-      closeAllOverlays();
+      setActiveTab(navQueue); closeAllOverlays();
       playlistTitle.textContent = "Fila de reproducción";
       sortBar.style.display = 'flex';
       searchBoxContainer.classList.remove('active');
@@ -1418,8 +1738,7 @@ body {
     });
 
     navSearch.addEventListener('click', () => {
-      setActiveTab(navSearch);
-      closeAllOverlays();
+      setActiveTab(navSearch); closeAllOverlays();
       playlistTitle.textContent = "Búsqueda";
       sortBar.style.display = 'none';
       searchBoxContainer.classList.add('active');
@@ -1428,8 +1747,7 @@ body {
     });
 
     navSettings.addEventListener('click', () => {
-      setActiveTab(navSettings);
-      closeAllOverlays();
+      setActiveTab(navSettings); closeAllOverlays();
       settingsOverlay.classList.add('active');
     });
 
@@ -1443,41 +1761,28 @@ body {
       setActiveTab(navHome);
     });
 
-    // BÚSQUEDA Y ORDEN
+    // ============ BÚSQUEDA / ORDEN ============
     searchInput.addEventListener('input', renderPlaylistUI);
-    sortSelect.addEventListener('change', () => {
-      sortPlaylist();
-      renderPlaylistUI();
-    });
+    sortSelect.addEventListener('change', () => { sortPlaylist(); renderPlaylistUI(); });
 
     function sortPlaylist() {
       const criteria = sortSelect.value;
       if (criteria === 'default') return;
-
       const currentTrack = playlist[currentIndex];
-
       playlist.sort((a, b) => {
         let valA = (a[criteria] || a.filename || '').toString().toLowerCase();
         let valB = (b[criteria] || b.filename || '').toString().toLowerCase();
         return valA.localeCompare(valB, undefined, { numeric: true, sensitivity: 'base' });
       });
-
-      if (currentTrack) {
-        currentIndex = playlist.findIndex(track => track === currentTrack);
-      }
+      if (currentTrack) currentIndex = playlist.findIndex(track => track === currentTrack);
     }
 
     function renderPlaylistUI() {
       playlistContainer.innerHTML = '';
       const query = searchInput.value.toLowerCase().trim();
-
       const filteredTracks = playlist.map((track, originalIndex) => ({ track, originalIndex })).filter(({ track }) => {
         if (!query) return true;
-        const titleMatch = (track.title || '').toLowerCase().includes(query);
-        const artistMatch = (track.artist || '').toLowerCase().includes(query);
-        const albumMatch = (track.album || '').toLowerCase().includes(query);
-        const fileMatch = (track.filename || '').toLowerCase().includes(query);
-        return titleMatch || artistMatch || albumMatch || fileMatch;
+        return [track.title, track.artist, track.album, track.filename].some(x => (x || '').toLowerCase().includes(query));
       });
 
       if (filteredTracks.length === 0) {
@@ -1505,76 +1810,44 @@ body {
       });
     }
 
-    // CONTROLES SECUNDARIOS
+    // ============ CONTROLES ============
     btnShuffle.addEventListener('click', () => {
       isShuffle = !isShuffle;
       btnShuffle.classList.toggle('active', isShuffle);
     });
 
     btnRepeat.addEventListener('click', () => {
-      if (repeatMode === 'off') {
-        repeatMode = 'all';
-        btnRepeat.textContent = '🔁';
-        btnRepeat.classList.add('active');
-      } else if (repeatMode === 'all') {
-        repeatMode = 'one';
-        btnRepeat.textContent = '🔂';
-        btnRepeat.classList.add('active');
-      } else {
-        repeatMode = 'off';
-        btnRepeat.textContent = '🔁';
-        btnRepeat.classList.remove('active');
-      }
+      if (repeatMode === 'off') { repeatMode = 'all'; btnRepeat.textContent = '🔁'; btnRepeat.classList.add('active'); }
+      else if (repeatMode === 'all') { repeatMode = 'one'; btnRepeat.textContent = '🔂'; btnRepeat.classList.add('active'); }
+      else { repeatMode = 'off'; btnRepeat.textContent = '🔁'; btnRepeat.classList.remove('active'); }
     });
 
     btnFullscreen.addEventListener('click', () => {
-      if (!document.fullscreenElement) {
-        document.documentElement.requestFullscreen().catch(e => console.warn(e));
-      } else {
-        if (document.exitFullscreen) document.exitFullscreen();
-      }
+      if (!document.fullscreenElement) document.documentElement.requestFullscreen().catch(() => {});
+      else if (document.exitFullscreen) document.exitFullscreen();
     });
 
     // ==== ROTACIÓN MANUAL ====
     btnRotate.addEventListener('click', async () => {
-      // 1) Intento con Screen Orientation API (Android/Chrome)
       if (screen.orientation && screen.orientation.lock) {
         try {
           const current = screen.orientation.type;
-          const target = current.startsWith('landscape')
-            ? 'portrait-primary'
-            : 'landscape-primary';
+          const target = current.startsWith('landscape') ? 'portrait-primary' : 'landscape-primary';
           await screen.orientation.lock(target);
           return;
-        } catch (e) {
-          console.warn("Orientation lock no soportado:", e);
-        }
+        } catch (e) { console.warn("Orientation lock no soportado:", e); }
       }
-
-      // 2) Fallback: forzar rotación visual con CSS (iOS Safari y otros)
       document.body.classList.toggle('force-landscape');
-
-      if (document.body.classList.contains('force-landscape')) {
-        statusEl.textContent = "Modo horizontal (manual)";
-      } else {
-        statusEl.textContent = "Modo vertical (manual)";
-      }
-      setTimeout(() => {
-        if (statusEl.textContent.includes("Modo")) statusEl.textContent = "";
-      }, 2000);
-
-      // Reajustar visualizador tras el cambio
-      setTimeout(() => {
-        if (visualizerMode !== 'off' || lufsEnabled) drawVisualizer();
-      }, 300);
+      statusEl.textContent = document.body.classList.contains('force-landscape') ? "Modo horizontal (manual)" : "Modo vertical (manual)";
+      setTimeout(() => { if (statusEl.textContent.includes("Modo")) statusEl.textContent = ""; }, 2000);
+      setTimeout(() => { if (visualizerMode !== 'off' || lufsEnabled) drawVisualizer(); }, 300);
     });
 
-    // Detectar cambios reales de orientación (limpiar modo forzado)
     window.addEventListener('orientationchange', () => {
       document.body.classList.remove('force-landscape');
     });
 
-    // METADATOS
+    // ============ METADATOS ============
     function createCoverBlobUrl(coverData) {
       if (!coverData) return DEFAULT_COVER;
       if (coverData.startsWith('data:')) {
@@ -1583,14 +1856,10 @@ body {
           const contentType = parts[0].split(':')[1];
           const raw = window.atob(parts[1]);
           const uInt8Array = new Uint8Array(raw.length);
-          for (let i = 0; i < raw.length; ++i) {
-            uInt8Array[i] = raw.charCodeAt(i);
-          }
+          for (let i = 0; i < raw.length; ++i) uInt8Array[i] = raw.charCodeAt(i);
           const blob = new Blob([uInt8Array], { type: contentType });
           return URL.createObjectURL(blob);
-        } catch (e) {
-          return DEFAULT_COVER;
-        }
+        } catch (e) { return DEFAULT_COVER; }
       }
       return coverData;
     }
@@ -1602,23 +1871,17 @@ body {
           window.jsmediatags.read(file, {
             onSuccess: function(tag) {
               const tags = tag.tags;
-              let coverUrl = null;
-              let coverBase64 = null;
+              let coverUrl = null, coverBase64 = null;
               if (tags.picture) {
                 const { data, format } = tags.picture;
                 let base64String = "";
-                for (let i = 0; i < data.length; i++) {
-                  base64String += String.fromCharCode(data[i]);
-                }
+                for (let i = 0; i < data.length; i++) base64String += String.fromCharCode(data[i]);
                 coverBase64 = `data:${format};base64,${window.btoa(base64String)}`;
                 coverUrl = createCoverBlobUrl(coverBase64);
               }
               resolve({
-                title: tags.title || null,
-                artist: tags.artist || null,
-                album: tags.album || null,
-                cover: coverUrl,
-                coverBase64: coverBase64
+                title: tags.title || null, artist: tags.artist || null,
+                album: tags.album || null, cover: coverUrl, coverBase64: coverBase64
               });
             },
             onError: function() { resolve(null); }
@@ -1632,38 +1895,25 @@ body {
       const buffer = await file.slice(0, 2048 * 1024).arrayBuffer();
       const uint8 = new Uint8Array(buffer);
       const view = new DataView(buffer);
-
-      let sampleRate = null;
-      let bitDepth = null;
+      let sampleRate = null, bitDepth = null;
 
       if (ext === 'flac') {
         let flacPos = -1;
         for (let i = 0; i < uint8.length - 4; i++) {
-          if (uint8[i] === 0x66 && uint8[i+1] === 0x4C && uint8[i+2] === 0x61 && uint8[i+3] === 0x43) {
-            flacPos = i;
-            break;
-          }
+          if (uint8[i] === 0x66 && uint8[i+1] === 0x4C && uint8[i+2] === 0x61 && uint8[i+3] === 0x43) { flacPos = i; break; }
         }
         if (flacPos !== -1 && buffer.byteLength >= flacPos + 22) {
           const streamInfoPos = flacPos + 8;
-          const b10 = uint8[streamInfoPos + 10];
-          const b11 = uint8[streamInfoPos + 11];
-          const b12 = uint8[streamInfoPos + 12];
+          const b10 = uint8[streamInfoPos + 10], b11 = uint8[streamInfoPos + 11], b12 = uint8[streamInfoPos + 12];
           sampleRate = (b10 << 12) | (b11 << 4) | (b12 >> 4);
-
           const b13 = uint8[streamInfoPos + 13];
           const rawBits = (((b12 & 0x01) << 4) | (b13 >> 4)) + 1;
-          if (rawBits > 1 && rawBits <= 32) {
-            bitDepth = `${rawBits} bit`;
-          }
+          if (rawBits > 1 && rawBits <= 32) bitDepth = `${rawBits} bit`;
         }
       } else if (ext === 'wav') {
         let fmtPos = -1;
         for (let i = 0; i < uint8.length - 4; i++) {
-          if (uint8[i] === 0x66 && uint8[i+1] === 0x6D && uint8[i+2] === 0x74 && uint8[i+3] === 0x20) {
-            fmtPos = i;
-            break;
-          }
+          if (uint8[i] === 0x66 && uint8[i+1] === 0x6D && uint8[i+2] === 0x74 && uint8[i+3] === 0x20) { fmtPos = i; break; }
         }
         if (fmtPos !== -1 && buffer.byteLength >= fmtPos + 16) {
           sampleRate = view.getUint32(fmtPos + 12, true);
@@ -1685,7 +1935,6 @@ body {
 
       const sampleRateKhz = (sampleRate / 1000).toFixed(sampleRate % 1000 === 0 ? 0 : 1);
       const format = ext.toUpperCase();
-
       const isLosslessFormat = (ext === 'wav' || ext === 'flac');
       const bitsNum = parseInt(bitDepth);
       const isHiResQuality = (sampleRate >= 48000 && bitsNum >= 24);
@@ -1694,7 +1943,10 @@ body {
         ? `<img src="${HI_RES_SVG}" class="hires-icon" alt="Hi-Res Audio" title="Hi-Res Audio">`
         : '';
 
-      return `${hiResBadgeHtml} <span>${format} | ${bitDepth} | ${sampleRateKhz} kHz</span>`;
+      return {
+        html: `${hiResBadgeHtml} <span>${format} | ${bitDepth} | ${sampleRateKhz} kHz</span>`,
+        isHiRes: isLosslessFormat && isHiResQuality
+      };
     }
 
     function formatTime(seconds) {
@@ -1704,40 +1956,32 @@ body {
       return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
     }
 
-    // ARCHIVOS LOCALES
+    // ============ ARCHIVOS ============
     fileInput.addEventListener('change', async (e) => {
       const files = Array.from(e.target.files || []);
       if (files.length === 0) return;
-
       statusEl.textContent = "Procesando...";
 
       try {
         const newTracks = await Promise.all(files.map(async (file) => {
           const ext = file.name.split('.').pop().toLowerCase();
           const filename = file.name.replace(/\.[^/.]+$/, "");
-
-          const metaPromise = readMetadata(file);
-          const specsPromise = parseBinaryAudioSpecs(file);
-
-          const [meta, specsText] = await Promise.all([metaPromise, specsPromise]);
-
+          const [meta, specsResult] = await Promise.all([readMetadata(file), parseBinaryAudioSpecs(file)]);
           return {
-            file,
-            filename,
-            ext,
+            file, filename, ext,
             title: meta?.title || filename,
             artist: meta?.artist || "Biblioteca Local",
             album: meta?.album || "",
             cover: meta?.cover || DEFAULT_COVER,
             coverBase64: meta?.coverBase64 || null,
-            specs: specsText
+            specs: specsResult.html,
+            isHiRes: specsResult.isHiRes
           };
         }));
 
         const isFirstLoad = (playlist.length === 0);
         playlist = [...playlist, ...newTracks];
         statusEl.textContent = "";
-
         saveTracksToDB(newTracks);
         sortPlaylist();
         renderPlaylistUI();
@@ -1751,10 +1995,9 @@ body {
       }
     });
 
-    // MOTOR DE REPRODUCCIÓN
+    // ============ REPRODUCCIÓN ============
     function playTrack(index) {
       if (!playlist[index]) return;
-
       const track = playlist[index];
 
       seekBar.value = 0;
@@ -1772,19 +2015,23 @@ body {
         bgBlur.style.backgroundImage = 'none';
       }
 
+      // Badge Hi-Res
+      if (track.isHiRes) {
+        audioSpecsEl.classList.add('has-hires');
+      } else {
+        audioSpecsEl.classList.remove('has-hires');
+      }
       audioSpecsEl.innerHTML = track.specs || `${track.ext.toUpperCase()} | 16 bit | 44.1 kHz`;
       renderPlaylistUI();
 
-      // Revocar solo si es distinto del actual
-      if (currentObjectUrl) {
-        URL.revokeObjectURL(currentObjectUrl);
-      }
+      if (currentObjectUrl) URL.revokeObjectURL(currentObjectUrl);
       currentObjectUrl = URL.createObjectURL(track.file);
       mainAudio.src = currentObjectUrl;
 
       updateAudioEffects();
       setupMediaSession(track.title, track.artist, track.album, track.cover);
 
+      userPausedManually = false;
       mainAudio.play().then(() => {
         btnPlay.textContent = '⏸';
         updatePositionState();
@@ -1794,31 +2041,27 @@ body {
       });
     }
 
-    // MEDIA SESSION
+    // ============ MEDIA SESSION ============
     function setupMediaSession(title, artist, album, cover) {
       if ('mediaSession' in navigator) {
         const artwork = (cover && cover !== DEFAULT_COVER)
-          ? [{ src: cover, sizes: '512x512', type: 'image/png' }]
-          : [];
-
+          ? [{ src: cover, sizes: '512x512', type: 'image/png' }] : [];
         navigator.mediaSession.metadata = new MediaMetadata({
-          title: title || 'Canción',
-          artist: artist || 'Artista',
-          album: album || 'Biblioteca',
-          artwork: artwork
+          title: title || 'Canción', artist: artist || 'Artista',
+          album: album || 'Biblioteca', artwork: artwork
         });
 
         navigator.mediaSession.setActionHandler('play', () => {
-          if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
+          userPausedManually = false;
+          if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume().catch(() => {});
           mainAudio.play();
           btnPlay.textContent = '⏸';
         });
-
         navigator.mediaSession.setActionHandler('pause', () => {
+          userPausedManually = true;
           mainAudio.pause();
           btnPlay.textContent = '▶';
         });
-
         navigator.mediaSession.setActionHandler('previoustrack', playPrev);
         navigator.mediaSession.setActionHandler('nexttrack', playNext);
 
@@ -1829,6 +2072,8 @@ body {
               updatePositionState();
             }
           });
+          navigator.mediaSession.setActionHandler('seekbackward', null);
+          navigator.mediaSession.setActionHandler('seekforward', null);
         } catch (e) {}
       }
     }
@@ -1845,7 +2090,7 @@ body {
       }
     }
 
-    // EVENTOS AUDIO
+    // ============ EVENTOS AUDIO ============
     mainAudio.addEventListener('loadedmetadata', () => {
       durationEl.textContent = formatTime(mainAudio.duration);
       updatePositionState();
@@ -1861,10 +2106,7 @@ body {
 
     seekBar.addEventListener('input', () => {
       isUserSeeking = true;
-      if (mainAudio.duration) {
-        const seekTime = (seekBar.value / 100) * mainAudio.duration;
-        currentTimeEl.textContent = formatTime(seekTime);
-      }
+      if (mainAudio.duration) currentTimeEl.textContent = formatTime((seekBar.value / 100) * mainAudio.duration);
     });
 
     seekBar.addEventListener('change', () => {
@@ -1877,15 +2119,13 @@ body {
 
     function togglePlay() {
       if (!mainAudio.src) return;
-
-      if (audioCtx && audioCtx.state === 'suspended') {
-        audioCtx.resume();
-      }
-
+      if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
       if (mainAudio.paused) {
+        userPausedManually = false;
         mainAudio.play();
         btnPlay.textContent = '⏸';
       } else {
+        userPausedManually = true;
         mainAudio.pause();
         btnPlay.textContent = '▶';
       }
@@ -1894,46 +2134,30 @@ body {
     function getNextIndex() {
       if (playlist.length === 0) return 0;
       if (playlist.length === 1) return 0;
-
       if (isShuffle) {
         let randomIndex;
-        do {
-          randomIndex = Math.floor(Math.random() * playlist.length);
-        } while (randomIndex === currentIndex);
+        do { randomIndex = Math.floor(Math.random() * playlist.length); } while (randomIndex === currentIndex);
         return randomIndex;
       }
-
       return (currentIndex + 1) % playlist.length;
     }
 
     function playNext() {
       if (playlist.length === 0) return;
-
       if (currentIndex === playlist.length - 1 && repeatMode === 'off' && !isShuffle) {
         mainAudio.pause();
         btnPlay.textContent = '▶';
         return;
       }
-
       currentIndex = getNextIndex();
       playTrack(currentIndex);
     }
 
     function playPrev() {
       if (playlist.length === 0) return;
-
-      if (mainAudio.currentTime > 3) {
-        mainAudio.currentTime = 0;
-        updatePositionState();
-        return;
-      }
-
-      if (isShuffle) {
-        currentIndex = getNextIndex();
-      } else {
-        currentIndex = (currentIndex - 1 + playlist.length) % playlist.length;
-      }
-
+      if (mainAudio.currentTime > 3) { mainAudio.currentTime = 0; updatePositionState(); return; }
+      if (isShuffle) currentIndex = getNextIndex();
+      else currentIndex = (currentIndex - 1 + playlist.length) % playlist.length;
       playTrack(currentIndex);
     }
 
@@ -1942,18 +2166,13 @@ body {
     btnPrev.addEventListener('click', playPrev);
 
     mainAudio.addEventListener('ended', () => {
-      if (repeatMode === 'one') {
-        mainAudio.currentTime = 0;
-        mainAudio.play().catch(console.warn);
-      } else {
-        playNext();
-      }
+      if (repeatMode === 'one') { mainAudio.currentTime = 0; mainAudio.play().catch(console.warn); }
+      else playNext();
     });
 
-    // ATAJOS TECLADO
+    // ============ ATAJOS ============
     document.addEventListener('keydown', (e) => {
       if (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT') return;
-
       switch (e.code) {
         case 'Space': e.preventDefault(); togglePlay(); break;
         case 'KeyN': playNext(); break;
@@ -1964,31 +2183,21 @@ body {
       }
     });
 
-    // CONFIGURACIONES ADICIONALES
-    crossfadeSlider.addEventListener('input', () => {
-      crossfadeVal.textContent = crossfadeSlider.value;
-    });
+    // ============ CONFIGURACIONES ============
+    crossfadeSlider.addEventListener('input', () => { crossfadeVal.textContent = crossfadeSlider.value; });
 
     visualizerSelect.addEventListener('change', () => {
       visualizerMode = visualizerSelect.value;
       canvas.style.display = (visualizerMode === 'off') ? 'none' : 'block';
-      if (visualizerMode !== 'off') {
-        initWebAudio();
-        drawVisualizer();
-      }
+      if (visualizerMode !== 'off') { initWebAudio(); drawVisualizer(); }
     });
 
-    paletteSelect.addEventListener('change', () => {
-      selectedPalette = paletteSelect.value;
-    });
+    paletteSelect.addEventListener('change', () => { selectedPalette = paletteSelect.value; });
 
     lufsSelect.addEventListener('change', () => {
       lufsEnabled = (lufsSelect.value === 'on');
       lufsBadge.style.display = lufsEnabled ? 'block' : 'none';
-      if (lufsEnabled) {
-        initWebAudio();
-        drawVisualizer();
-      }
+      if (lufsEnabled) { initWebAudio(); drawVisualizer(); }
     });
 
     trackInfoContainer.addEventListener('click', () => {
@@ -1997,10 +2206,7 @@ body {
       visualizerMode = modes[nextIndex];
       visualizerSelect.value = visualizerMode;
       canvas.style.display = (visualizerMode === 'off') ? 'none' : 'block';
-      if (visualizerMode !== 'off') {
-        initWebAudio();
-        drawVisualizer();
-      }
+      if (visualizerMode !== 'off') { initWebAudio(); drawVisualizer(); }
     });
 
     function getPaletteColors() {
@@ -2014,23 +2220,17 @@ body {
 
     function drawVisualizer() {
       if (animationFrameId) cancelAnimationFrame(animationFrameId);
-
       function render() {
         if (visualizerMode === 'off' && !lufsEnabled) return;
-
         animationFrameId = requestAnimationFrame(render);
         if (!analyser) return;
-
         const width = canvas.width = trackInfoContainer.clientWidth;
         const height = canvas.height = trackInfoContainer.clientHeight;
         const bufferLength = analyser.frequencyBinCount;
-
-        // Reusar el buffer pre-creado o crear si no existe
         if (!visualizerDataArray || visualizerDataArray.length !== bufferLength) {
           visualizerDataArray = new Uint8Array(bufferLength);
         }
         const dataArray = visualizerDataArray;
-
         canvasCtx.clearRect(0, 0, width, height);
         const colors = getPaletteColors();
 
@@ -2038,14 +2238,12 @@ body {
           analyser.getByteFrequencyData(dataArray);
           const barWidth = (width / bufferLength) * 2;
           let x = 0;
-
           for (let i = 0; i < bufferLength; i++) {
             const barHeight = (dataArray[i] / 255) * height;
             const gradient = canvasCtx.createLinearGradient(0, height, 0, 0);
             gradient.addColorStop(0, colors[0]);
             gradient.addColorStop(0.5, colors[1]);
             gradient.addColorStop(1, colors[2]);
-
             canvasCtx.fillStyle = gradient;
             canvasCtx.fillRect(x, height - barHeight, barWidth - 1, barHeight);
             x += barWidth;
@@ -2057,28 +2255,22 @@ body {
           canvasCtx.lineWidth = 2;
           canvasCtx.strokeStyle = colors[0];
           canvasCtx.beginPath();
-
           const sliceWidth = width * 1.0 / bufferLength;
           let x = 0;
-
           for (let i = 0; i < bufferLength; i++) {
             const v = dataArray[i] / 128.0;
             const y = v * height / 2;
-
             if (i === 0) canvasCtx.moveTo(x, y);
             else canvasCtx.lineTo(x, y);
-
             x += sliceWidth;
           }
-
           canvasCtx.lineTo(width, height / 2);
           canvasCtx.stroke();
         }
 
         if (lufsEnabled) {
           analyser.getByteFrequencyData(dataArray);
-          let sum = 0;
-          let peak = 0;
+          let sum = 0, peak = 0;
           for (let i = 0; i < bufferLength; i++) {
             sum += dataArray[i];
             if (dataArray[i] > peak) peak = dataArray[i];
@@ -2086,25 +2278,80 @@ body {
           const avg = sum / bufferLength;
           const approxLUFS = (-0.6 * (255 - avg)).toFixed(1);
           const approxPeak = ((peak / 255) * 0).toFixed(1);
-
           lufsBadge.textContent = `${approxLUFS} LUFS S | Peak: ${approxPeak} dB`;
         }
       }
-
       render();
     }
 
-    // Redimensionar visualizador al cambiar tamaño/orientación
     window.addEventListener('resize', () => {
       if (visualizerMode !== 'off' || lufsEnabled) drawVisualizer();
     });
     window.addEventListener('orientationchange', () => {
-      setTimeout(() => {
-        if (visualizerMode !== 'off' || lufsEnabled) drawVisualizer();
-      }, 250);
+      setTimeout(() => { if (visualizerMode !== 'off' || lufsEnabled) drawVisualizer(); }, 250);
     });
 
-    // EXPORTACIÓN
+    // ============ MANTENER REPRODUCCIÓN EN SEGUNDO PLANO ============
+    function resumeEverything() {
+      if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume().catch(() => {});
+      if (!userPausedManually && mainAudio.paused && mainAudio.src && mainAudio.readyState >= 2) {
+        mainAudio.play().catch(() => {});
+      }
+      if ('mediaSession' in navigator) {
+        try { navigator.mediaSession.playbackState = mainAudio.paused ? 'paused' : 'playing'; } catch (e) {}
+      }
+    }
+
+    function bypassEqForBackground() {
+      if (!audioCtx || eqBypassedForBackground) return;
+      try {
+        if (trackSource) trackSource.disconnect();
+        if (trackSource) trackSource.connect(audioCtx.destination);
+        eqBypassedForBackground = true;
+      } catch (e) { console.warn('Bypass EQ error:', e); }
+    }
+
+    function restoreEqFromBackground() {
+      if (!audioCtx || !eqBypassedForBackground) return;
+      try {
+        if (trackSource) trackSource.disconnect();
+        if (trackSource) trackSource.connect(eqFilters[0]);
+        eqBypassedForBackground = false;
+      } catch (e) { console.warn('Restore EQ error:', e); }
+    }
+
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) {
+        bypassEqForBackground();
+      } else {
+        restoreEqFromBackground();
+        resumeEverything();
+      }
+    });
+
+    window.addEventListener('pageshow', resumeEverything);
+    window.addEventListener('focus', resumeEverything);
+    window.addEventListener('resume', resumeEverything);
+    document.addEventListener('resume', resumeEverything);
+
+    mainAudio.addEventListener('pause', () => {
+      if (!document.hidden && mainAudio.readyState >= 2 && !mainAudio.ended) {
+        // Pausa del sistema, no del usuario
+        setTimeout(() => {
+          if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume().catch(() => {});
+        }, 300);
+      }
+    });
+
+    setInterval(() => {
+      if (audioCtx && audioCtx.state === 'closed') {
+        audioCtx = null;
+        initWebAudio();
+        if (!mainAudio.paused && mainAudio.src) mainAudio.play().catch(() => {});
+      }
+    }, 5000);
+
+    // ============ EXPORTACIÓN ============
     document.getElementById('exportM3u8').addEventListener('click', () => {
       if (playlist.length === 0) return alert("La lista está vacía");
       let content = "#EXTM3U\n";
@@ -2140,9 +2387,18 @@ body {
       setTimeout(() => URL.revokeObjectURL(a.href), 1000);
     }
 
-    // AVISO GATUNO
+    // ============ AVISO ============
     document.addEventListener('DOMContentLoaded', () => {
+      // Cargar skin guardada
+      const savedSkin = localStorage.getItem('meowSkin') || 'classic';
+      applySkin(savedSkin);
+
+      // Cargar estado CRT
+      const savedCrt = localStorage.getItem('meowCrt');
+      applyCrt(savedCrt !== 'false');
+
       loadStoredTracksFromDB();
+
       if (localStorage.getItem('meowOcultarAviso') === 'true') {
         const aviso = document.getElementById('meow-aviso-privacidad');
         if (aviso) aviso.style.display = 'none';
@@ -2151,93 +2407,14 @@ body {
 
     function meowCerrarAviso() {
       const checkbox = document.getElementById('meow-check-no-mostrar');
-      if (checkbox && checkbox.checked) {
-        localStorage.setItem('meowOcultarAviso', 'true');
-      }
+      if (checkbox && checkbox.checked) localStorage.setItem('meowOcultarAviso', 'true');
       const aviso = document.getElementById('meow-aviso-privacidad');
       if (aviso) aviso.style.display = 'none';
     }
 
-    document.addEventListener("visibilitychange", () => {
-      if (audioCtx && audioCtx.state === 'suspended' && !mainAudio.paused) {
-        audioCtx.resume();
-      }
-    });
-
     if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('sw.js').catch(() => {});
+      navigator.serviceWorker.register('sw.js', { updateViaCache: 'none' }).catch(() => {});
     }
-    
-    /* =========================================================
-   🔋 MANTENER REPRODUCCIÓN EN SEGUNDO PLANO
-   Los móviles suspenden el AudioContext; hay que reanudarlo.
-   ========================================================= */
-
-// 1) Reanudar AudioContext cuando la página vuelve a estar visible
-document.addEventListener('visibilitychange', () => {
-  if (!document.hidden && audioCtx && audioCtx.state === 'suspended') {
-    audioCtx.resume().catch(() => {});
-  }
-  // Si estábamos reproduciendo y el audio se pausó sin querer, reanudar
-  if (!document.hidden && audioCtx && !mainAudio.paused && mainAudio.readyState >= 2) {
-    mainAudio.play().catch(() => {});
-  }
-});
-
-// 2) Reanudar AudioContext al volver a la app desde segundo plano
-window.addEventListener('pageshow', () => {
-  if (audioCtx && audioCtx.state === 'suspended') {
-    audioCtx.resume().catch(() => {});
-  }
-});
-
-// 3) Evitar que el navegador suspenda el contexto al perder foco
-window.addEventListener('blur', () => {
-  // No hacemos nada, pero evitamos que algún handler externo lo pause
-});
-window.addEventListener('focus', () => {
-  if (audioCtx && audioCtx.state === 'suspended' && !mainAudio.paused) {
-    audioCtx.resume().catch(() => {});
-  }
-});
-
-// 4) Media Session: mantener estado actualizado (evita que iOS pause al bloquear)
-if ('mediaSession' in navigator) {
-  mainAudio.addEventListener('play', () => {
-    navigator.mediaSession.playbackState = 'playing';
-  });
-  mainAudio.addEventListener('pause', () => {
-    navigator.mediaSession.playbackState = 'paused';
-  });
-}
-
-// 5) Reanudar tras un 'pause' provocado por el sistema (llamada, notificación, etc.)
-mainAudio.addEventListener('pause', () => {
-  // Solo reanudamos si el usuario NO pidió la pausa (heurística: estábamos reproduciendo hace poco)
-  if (audioCtx && audioCtx.state === 'suspended' && !document.hidden && !mainAudio.ended) {
-    // Pequeño delay para dejar que el sistema termine su evento
-    setTimeout(() => {
-      if (mainAudio.paused && !mainAudio.ended && mainAudio.readyState >= 2) {
-        // No forzamos play automático: eso puede molestar. Solo reanudamos el contexto.
-        audioCtx.resume().catch(() => {});
-      }
-    }, 300);
-  }
-});
-
-// 6) Reanudar el contexto en el primer gesto del usuario (requisito de navegadores)
-function resumeCtxOnFirstGesture() {
-  if (audioCtx && audioCtx.state === 'suspended') {
-    audioCtx.resume().catch(() => {});
-  }
-  document.removeEventListener('touchstart', resumeCtxOnFirstGesture);
-  document.removeEventListener('click', resumeCtxOnFirstGesture);
-  document.removeEventListener('keydown', resumeCtxOnFirstGesture);
-}
-document.addEventListener('touchstart', resumeCtxOnFirstGesture, { passive: true });
-document.addEventListener('click', resumeCtxOnFirstGesture);
-document.addEventListener('keydown', resumeCtxOnFirstGesture);
-    
   </script>
 </body>
 </html>
