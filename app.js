@@ -1,5 +1,5 @@
 /* ============================================================
-   MEOW AUDIO APP v4.0 — app.js
+   MEOW AUDIO APP v4.1 — app.js
    ============================================================ */
 
 'use strict';
@@ -407,28 +407,32 @@ const playerHeader = document.getElementById('playerHeader');
 const tuiThemeList = document.getElementById('tuiThemeList');
 const menuHeaderLabel = document.getElementById('menuHeaderLabel');
 
-const distroBgContainer = document.getElementById('distroBgContainer');
 const distroBgAscii = document.getElementById('distroBgAscii');
 
-// ============================================================
-// BOTONES SATÉLITE (solo @distro_01)
-// ============================================================
-const btnFullscreenS = document.getElementById('btnFullscreen_s');
-const btnRotateS = document.getElementById('btnRotate_s');
-const btnCrtS = document.getElementById('btnCrt_s');
-const fileInputS = document.getElementById('fileInput_s');
+// Tools Home (solo @distro_01)
+const toolsHomeItem = document.getElementById('toolsHomeItem');
+const toolFullscreen = document.getElementById('toolFullscreen');
+const toolRotate = document.getElementById('toolRotate');
+const toolCrt = document.getElementById('toolCrt');
+const toolAddSongs = document.getElementById('toolAddSongs');
+const toolFileInput = document.getElementById('toolFileInput');
 
-// Sincronizar eventos de los satélites con los normales
-if (btnFullscreenS) btnFullscreenS.addEventListener('click', () => btnFullscreen.click());
-if (btnRotateS) btnRotateS.addEventListener('click', () => btnRotate.click());
-if (btnCrtS) btnCrtS.addEventListener('click', () => btnCrt.click());
-if (fileInputS) {
-  fileInputS.addEventListener('change', (e) => {
+// Overlay de boot
+const distroBootOverlay = document.getElementById('distroBootOverlay');
+const distroBootText = document.getElementById('distroBootText');
+
+// Conectar Tools Home con las funciones existentes
+if (toolFullscreen) toolFullscreen.addEventListener('click', () => btnFullscreen.click());
+if (toolRotate) toolRotate.addEventListener('click', () => btnRotate.click());
+if (toolCrt) toolCrt.addEventListener('click', () => btnCrt.click());
+if (toolAddSongs && toolFileInput) toolAddSongs.addEventListener('click', () => toolFileInput.click());
+if (toolFileInput) {
+  toolFileInput.addEventListener('change', (e) => {
     const dt = new DataTransfer();
     for (const f of e.target.files) dt.items.add(f);
     fileInput.files = dt.files;
     fileInput.dispatchEvent(new Event('change', { bubbles: true }));
-    fileInputS.value = '';
+    toolFileInput.value = '';
   });
 }
 
@@ -719,9 +723,51 @@ function applyVisualizerForTui() {
 }
 
 // ============================================================
+// 🎬 ANIMACIÓN DE BOOT (al cambiar a @distro_01)
+// ============================================================
+async function playDistroBoot(distroId) {
+  const distro = DISTROS.find(d => d.id === distroId) || DISTROS[0];
+
+  const lines = [
+    `meow@audio-box:~$ switch-skin ${distro.id}`,
+    `[ OK ] Cargando módulo @distro_01...`,
+    `[ OK ] Aplicando paleta ${distro.color}`,
+    `[ OK ] Inicializando logo ASCII ${distro.name}`,
+    `[ OK ] Montando Tools Home en Ajustes`,
+    `meow@audio-box:~$ ¡Listo! Skin @distro_01 activo.`
+  ];
+
+  distroBootOverlay.classList.add('active');
+  distroBootText.textContent = '';
+
+  const delay = (ms) => new Promise(res => setTimeout(res, ms));
+
+  for (const line of lines) {
+    for (let i = 0; i < line.length; i++) {
+      distroBootText.textContent += line[i];
+      await delay(10);
+    }
+    distroBootText.textContent += '\n';
+    await delay(120);
+  }
+
+  await delay(500);
+
+  distroBootOverlay.classList.remove('active');
+  distroBootText.textContent = '';
+}
+
+// ============================================================
 // SKINS
 // ============================================================
-function applySkin(skin) {
+async function applySkin(skin, skipBoot = false) {
+  const previousSkin = localStorage.getItem('meowSkin') || 'classic';
+  const isEnteringDistro = (skin === 'distro-01' && previousSkin !== 'distro-01');
+
+  if (isEnteringDistro && !skipBoot) {
+    await playDistroBoot(localStorage.getItem('meowDistro') || 'arch');
+  }
+
   document.body.classList.remove('skin-classic', 'skin-tui', 'skin-distro-01');
   document.body.classList.add('skin-' + skin);
   localStorage.setItem('meowSkin', skin);
@@ -736,7 +782,7 @@ function applySkin(skin) {
     headerTitle.textContent = '🎵 MEOW AUDIO APP';
     avisoTitle.textContent = '> SISTEMA DE PRIVACIDAD';
     avisoText.textContent = 'Todo el procesamiento de audio se realiza localmente. Ningún archivo o dato es enviado a servidores externos.';
-    versionTitle.textContent = 'MEOW AUDIO APP // TUI v4.0';
+    versionTitle.textContent = 'MEOW AUDIO APP // TUI v4.1';
     versionDesc.textContent = 'Haz clic en el header para cambiar de tema.';
     const theme = TUI_THEMES.find(t => t.id === savedTheme) || TUI_THEMES[0];
     metaThemeEl.content = theme.bg;
@@ -748,7 +794,7 @@ function applySkin(skin) {
     headerTitle.textContent = '🎵 MEOW AUDIO APP';
     avisoTitle.textContent = '> SISTEMA DE PRIVACIDAD';
     avisoText.textContent = 'Todo el procesamiento de audio se realiza localmente. Ningún archivo o dato es enviado a servidores externos.';
-    versionTitle.textContent = 'MEOW AUDIO APP // @distro v4.0';
+    versionTitle.textContent = 'MEOW AUDIO APP // @distro v4.1';
     versionDesc.textContent = 'Haz clic en el header para cambiar de distro.';
     metaThemeEl.content = '#0d1117';
 
@@ -763,7 +809,7 @@ function applySkin(skin) {
     headerTitle.textContent = '🐈 MEOW AUDIO APP 🐈';
     avisoTitle.textContent = '🐾 Aviso Gatuno 🐾';
     avisoText.textContent = 'Todo el procesamiento de audio se realiza de manera local en tu dispositivo. Ningún archivo o dato personal es subido a servidores externos. ¡Miau!';
-    versionTitle.textContent = 'MEOW AUDIO APP v4.0';
+    versionTitle.textContent = 'MEOW AUDIO APP v4.1';
     versionDesc.textContent = 'Skins: Classic, Consola TUI, @distro_01.';
     metaThemeEl.content = '#0f1015';
   }
@@ -1535,7 +1581,7 @@ if (localStorage.getItem('meowOcultarAviso') === 'true') {
 // ============================================================
 function initialize() {
   const savedSkin = localStorage.getItem('meowSkin') || 'classic';
-  applySkin(savedSkin);
+  applySkin(savedSkin, true);  // skipBoot = true al arrancar
 
   if (!localStorage.getItem('meowVisualizerMode')) localStorage.setItem('meowVisualizerMode', 'hybrid');
   if (!localStorage.getItem('meowPalette')) localStorage.setItem('meowPalette', 'plasma');
