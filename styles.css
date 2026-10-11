@@ -376,7 +376,7 @@ body.skin-tui .player-header.menu-open::after,
 body.skin-distro-01 .player-header.menu-open::after { content: ' ▴'; }
 
 .tui-theme-menu {
-  position: absolute;
+  position: fixed;
   top: 100%;
   left: 50%;
   transform: translate(-50%, 8px) scale(0.95);
@@ -389,7 +389,7 @@ body.skin-distro-01 .player-header.menu-open::after { content: ' ▴'; }
   border: 1px solid var(--accent);
   box-shadow: 0 0 30px var(--glow-color);
   padding: 0;
-  z-index: 200;
+  z-index: 9999;
   font-family: 'JetBrains Mono', monospace;
   font-size: 12px;
   opacity: 0;
@@ -398,6 +398,8 @@ body.skin-distro-01 .player-header.menu-open::after { content: ' ▴'; }
   display: none;
   text-align: left;
 }
+
+
 body.skin-tui .tui-theme-menu,
 body.skin-distro-01 .tui-theme-menu { display: block; }
 body.skin-tui .player-header.menu-open .tui-theme-menu,
