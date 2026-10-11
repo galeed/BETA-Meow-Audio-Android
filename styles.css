@@ -1495,7 +1495,9 @@ body.force-landscape .bottom-nav { flex: 0 0 auto; width: 100%; padding: 6px 0; 
    🖥️ MODO TERMINAL — Fuerza monospace en @distro_01
    ============================================================ */
 body.skin-distro-01,
-body.skin-distro-01 * {
+body.skin-distro-01
+body.skin-distro-02,
+body.skin-distro-02 * {
   font-family: 'JetBrains Mono', 'Share Tech Mono', 'Fira Code', 'Courier New', monospace !important;
 }
 
@@ -1510,6 +1512,22 @@ body.skin-distro-01 .header-title {
 body.skin-distro-01 .player-header {
   margin-bottom: 2px !important;
   margin-top: 0 !important;
+}
+
+/* ============================================================
+   🐧 Ajustes específicos de @distro_01 y @distro_02
+   ============================================================ */
+body.skin-distro-01 .cover-art,
+body.skin-distro-02 .cover-art {
+  max-width: 190px;    /* ⬅️ portada más chica solo en distro */
+}
+
+body.skin-distro-01 .header-title,
+body.skin-distro-02 .header-title {
+  font-size: 1.05rem;    /* ⬅️ título más grande */
+  font-weight: 700;
+  letter-spacing: 3px;
+  opacity: 0.95;
 }
 
 /* Reducir tamaño de los metadatos en @distro_01 */
