@@ -1,5 +1,5 @@
 /* ============================================================
-   MEOW AUDIO APP v4.0 — styles.css
+   MEOW AUDIO APP v4.1 — styles.css
    ============================================================ */
 
 /* ============================================================
@@ -609,30 +609,30 @@ body.skin-tui .status-badge,
 body.skin-distro-01 .status-badge { text-shadow: var(--glow); }
 
 /* ============================================================
-   ZONA DEL LOGO DE DISTRO (con botones satélite)
+   ZONA DEL LOGO DE DISTRO (sin botones satélite)
    ============================================================ */
 .distro-display {
   display: none;
   width: 100%;
   flex: 1 1 auto;
-  min-height: 160px;
+  min-height: 120px;
   max-height: 240px;
   align-items: center;
   justify-content: center;
   overflow: hidden;
   position: relative;
-  padding: 48px 50px;
+  padding: 8px;
   margin: 4px 0;
 }
 body.skin-distro-01 .distro-display { display: flex; }
 
 .distro-bg-ascii {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 7px;
+  font-size: 8px;
   line-height: 1.0;
   white-space: pre;
   color: var(--accent);
-  opacity: 0.45;
+  opacity: 0.6;
   user-select: none;
   pointer-events: none;
   margin: 0 auto;
@@ -763,6 +763,10 @@ body.skin-distro-01 .btn-play:hover { background: rgba(255, 255, 255, 0.08); }
   z-index: 3;
 }
 
+body.skin-distro-01 .action-buttons-normal {
+  display: none;
+}
+
 .icon-action-btn {
   background: rgba(255, 255, 255, 0.2);
   border: 1px solid rgba(255, 255, 255, 0.3);
@@ -804,93 +808,24 @@ body.skin-distro-01 .icon-action-btn:active { background: rgba(255, 255, 255, 0.
 }
 
 /* ============================================================
-   🛰️ BOTONES SATÉLITE (solo @distro_01)
+   🛠️ TOOLS HOME (botones de acción en Ajustes, solo @distro_01)
    ============================================================ */
-.action-buttons-satellite {
+#toolsHomeItem {
   display: none;
 }
-
-body.skin-distro-01 .action-buttons-normal {
-  display: none;
-}
-
-body.skin-distro-01 .action-buttons-satellite {
+body.skin-distro-01 #toolsHomeItem {
   display: block;
-  position: absolute;
-  inset: 0;
-  padding: 0;
-  pointer-events: none;
-  z-index: 5;
 }
 
-body.skin-distro-01 .action-buttons-satellite > .icon-action-btn,
-body.skin-distro-01 .action-buttons-satellite > .file-input-wrapper {
-  position: absolute;
-  pointer-events: auto;
+.btn-tool {
+  flex: 1 1 calc(50% - 4px);
+  min-width: 120px;
+  text-align: center;
 }
 
-body.skin-distro-01 .action-buttons-satellite > .icon-action-btn {
-  background: #000;
-  border: 1px solid var(--accent);
-  color: var(--accent);
-  border-radius: 50%;
-  width: 42px;
-  height: 42px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.1rem;
-  box-shadow: 0 0 12px var(--glow-color);
-  transition: transform 0.15s, background 0.2s;
-}
-
-body.skin-distro-01 .action-buttons-satellite > .icon-action-btn:hover {
-  background: rgba(255, 255, 255, 0.08);
-  transform: scale(1.08);
-}
-
-body.skin-distro-01 #btnFullscreen_s {
-  top: 0;
-  left: 0;
-}
-
-body.skin-distro-01 #btnRotate_s {
-  top: 0;
-  right: 0;
-}
-
-body.skin-distro-01 #btnCrt_s {
-  bottom: 0;
-  left: 0;
-}
-
-body.skin-distro-01 .action-buttons-satellite .file-input-wrapper {
-  bottom: 0;
-  right: 0;
-  width: 42px;
-  height: 42px;
-}
-
-body.skin-distro-01 .action-buttons-satellite .file-input-wrapper .icon-action-btn {
-  background: #000;
-  border: 1px solid var(--accent);
-  color: var(--accent);
-  border-radius: 50%;
-  width: 42px;
-  height: 42px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.1rem;
-  box-shadow: 0 0 12px var(--glow-color);
-  position: static;
-  pointer-events: auto;
-  transition: transform 0.15s, background 0.2s;
-}
-
-body.skin-distro-01 .action-buttons-satellite .file-input-wrapper .icon-action-btn:hover {
-  background: rgba(255, 255, 255, 0.08);
-  transform: scale(1.08);
+.btn-tool.active {
+  background: var(--accent);
+  color: #000;
 }
 
 /* ============================================================
@@ -1354,6 +1289,56 @@ body.skin-distro-01 kbd {
   border: 1px solid var(--card-border);
   color: var(--accent);
   border-radius: 0;
+}
+
+/* ============================================================
+   🎬 OVERLAY DE BOOT TERMINAL (al cambiar a @distro_01)
+   ============================================================ */
+.distro-boot-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+.distro-boot-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.distro-boot-terminal {
+  font-family: 'JetBrains Mono', 'Share Tech Mono', monospace;
+  font-size: 13px;
+  line-height: 1.5;
+  color: #00ff66;
+  text-shadow: 0 0 8px rgba(0, 255, 102, 0.5);
+  max-width: 100%;
+  white-space: pre-wrap;
+  word-break: break-word;
+  text-align: left;
+}
+
+.distro-boot-terminal pre {
+  margin: 0;
+  white-space: pre-wrap;
+}
+
+.distro-boot-cursor {
+  display: inline-block;
+  color: #00ff66;
+  animation: bootCursorBlink 0.7s infinite;
+  margin-left: 2px;
+}
+
+@keyframes bootCursorBlink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
 }
 
 /* ============================================================
