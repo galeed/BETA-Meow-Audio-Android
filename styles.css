@@ -1536,3 +1536,19 @@ body.skin-distro-01 .audio-specs-badge {
 body.skin-distro-01 .status-badge {
   font-size: 0.65rem !important;
 }
+
+/* Reparto vertical específico de @distro_01 */
+body.skin-distro-01 .cover-container {
+  margin-top: 16px;
+  margin-bottom: 10px;
+}
+
+body.skin-distro-01 .track-info-container {
+  margin-top: 6px;
+  margin-bottom: 12px;
+}
+
+body.skin-distro-01 .distro-display {
+  margin-top: 12px;
+  margin-bottom: 8px;
+}
