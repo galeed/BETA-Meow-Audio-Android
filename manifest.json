@@ -1,7 +1,7 @@
 {
   "name": "MEOW AUDIO APP",
   "short_name": "MeowAudio",
-  "description": "Reproductor de audio local con EQ, visualizador y Hi-Res. Todo el procesamiento es local.",
+  "description": "Reproductor de audio local con skins Classic, Consola TUI y @distro_01. Todo el procesamiento es local.",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
