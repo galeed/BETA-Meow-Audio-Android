@@ -1,5 +1,5 @@
 /* ============================================================
-   MEOW AUDIO APP v3.8 — styles.css
+   MEOW AUDIO APP v4.0 — styles.css
    ============================================================ */
 
 /* ============================================================
@@ -371,7 +371,6 @@ body.skin-distro-01 .player-header::after {
 body.skin-tui .player-header.menu-open::after,
 body.skin-distro-01 .player-header.menu-open::after { content: ' ▴'; }
 
-/* ⬇️ CAMBIO: position fixed para que el overflow:hidden del player-card no lo corte */
 .tui-theme-menu {
   position: fixed;
   left: 50%;
@@ -616,13 +615,13 @@ body.skin-distro-01 .status-badge { text-shadow: var(--glow); }
   display: none;
   width: 100%;
   flex: 1 1 auto;
-  min-height: 120px;
-  max-height: 220px;
+  min-height: 160px;
+  max-height: 240px;
   align-items: center;
   justify-content: center;
   overflow: hidden;
   position: relative;
-  padding: 52px 52px;
+  padding: 48px 50px;
   margin: 4px 0;
 }
 body.skin-distro-01 .distro-display { display: flex; }
@@ -751,9 +750,9 @@ body.skin-distro-01 .btn-play:hover { background: rgba(255, 255, 255, 0.08); }
 .btn-sub.active { opacity: 1; color: var(--accent); }
 
 /* ============================================================
-   BOTONES DE ACCIÓN
+   BOTONES DE ACCIÓN — versión normal (Classic / TUI)
    ============================================================ */
-.action-buttons-row {
+.action-buttons-normal {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -805,24 +804,32 @@ body.skin-distro-01 .icon-action-btn:active { background: rgba(255, 255, 255, 0.
 }
 
 /* ============================================================
-   🛰️ BOTONES SATÉLITE ALREDEDOR DEL LOGO (solo @distro_01)
+   🛰️ BOTONES SATÉLITE (solo @distro_01)
    ============================================================ */
-body.skin-distro-01 .action-buttons-row {
+.action-buttons-satellite {
+  display: none;
+}
+
+body.skin-distro-01 .action-buttons-normal {
+  display: none;
+}
+
+body.skin-distro-01 .action-buttons-satellite {
+  display: block;
   position: absolute;
   inset: 0;
-  display: block;
   padding: 0;
   pointer-events: none;
   z-index: 5;
 }
 
-body.skin-distro-01 .action-buttons-row > .icon-action-btn,
-body.skin-distro-01 .action-buttons-row > .file-input-wrapper {
+body.skin-distro-01 .action-buttons-satellite > .icon-action-btn,
+body.skin-distro-01 .action-buttons-satellite > .file-input-wrapper {
   position: absolute;
   pointer-events: auto;
 }
 
-body.skin-distro-01 .action-buttons-row > .icon-action-btn {
+body.skin-distro-01 .action-buttons-satellite > .icon-action-btn {
   background: #000;
   border: 1px solid var(--accent);
   color: var(--accent);
@@ -837,34 +844,34 @@ body.skin-distro-01 .action-buttons-row > .icon-action-btn {
   transition: transform 0.15s, background 0.2s;
 }
 
-body.skin-distro-01 .action-buttons-row > .icon-action-btn:hover {
+body.skin-distro-01 .action-buttons-satellite > .icon-action-btn:hover {
   background: rgba(255, 255, 255, 0.08);
   transform: scale(1.08);
 }
 
-body.skin-distro-01 #btnFullscreen {
+body.skin-distro-01 #btnFullscreen_s {
   top: 0;
   left: 0;
 }
 
-body.skin-distro-01 #btnRotate {
+body.skin-distro-01 #btnRotate_s {
   top: 0;
   right: 0;
 }
 
-body.skin-distro-01 #btnCrt {
+body.skin-distro-01 #btnCrt_s {
   bottom: 0;
   left: 0;
 }
 
-body.skin-distro-01 .file-input-wrapper {
+body.skin-distro-01 .action-buttons-satellite .file-input-wrapper {
   bottom: 0;
   right: 0;
   width: 42px;
   height: 42px;
 }
 
-body.skin-distro-01 .file-input-wrapper .icon-action-btn {
+body.skin-distro-01 .action-buttons-satellite .file-input-wrapper .icon-action-btn {
   background: #000;
   border: 1px solid var(--accent);
   color: var(--accent);
@@ -881,7 +888,7 @@ body.skin-distro-01 .file-input-wrapper .icon-action-btn {
   transition: transform 0.15s, background 0.2s;
 }
 
-body.skin-distro-01 .file-input-wrapper .icon-action-btn:hover {
+body.skin-distro-01 .action-buttons-satellite .file-input-wrapper .icon-action-btn:hover {
   background: rgba(255, 255, 255, 0.08);
   transform: scale(1.08);
 }
@@ -1425,7 +1432,7 @@ body.skin-distro-01 kbd {
   .btn-play { width: 42px; height: 42px; font-size: 1.15rem; }
   .btn { font-size: 1.25rem; padding: 4px; }
   .btn-sub { font-size: 1rem; }
-  .action-buttons-row { grid-area: actions; justify-content: flex-start; gap: 10px; padding: 0; }
+  .action-buttons-normal { grid-area: actions; justify-content: flex-start; gap: 10px; padding: 0; }
   .icon-action-btn { width: 34px; height: 34px; font-size: 0.95rem; }
   .bottom-nav { flex: 0 0 auto; width: 100%; padding: 6px 0; border-radius: var(--nav-radius); margin: 0; }
   .nav-btn { font-size: 1.15rem; }
@@ -1495,5 +1502,5 @@ body.force-landscape .status-badge { grid-area: status; text-align: left; }
 body.force-landscape .distro-display { grid-area: display; flex: 0 0 auto; min-height: 40px; max-height: 80px; margin: 0; padding: 0; }
 body.force-landscape .progress-container { grid-area: progress; margin: 0; }
 body.force-landscape .controls { grid-area: controls; margin: 0; padding: 0; }
-body.force-landscape .action-buttons-row { grid-area: actions; justify-content: flex-start; gap: 10px; padding: 0; }
+body.force-landscape .action-buttons-normal { grid-area: actions; justify-content: flex-start; gap: 10px; padding: 0; }
 body.force-landscape .bottom-nav { flex: 0 0 auto; width: 100%; padding: 6px 0; border-radius: var(--nav-radius); margin: 0; }
