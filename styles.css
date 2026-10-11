@@ -1489,3 +1489,49 @@ body.force-landscape .progress-container { grid-area: progress; margin: 0; }
 body.force-landscape .controls { grid-area: controls; margin: 0; padding: 0; }
 body.force-landscape .action-buttons-normal { grid-area: actions; justify-content: flex-start; gap: 10px; padding: 0; }
 body.force-landscape .bottom-nav { flex: 0 0 auto; width: 100%; padding: 6px 0; border-radius: var(--nav-radius); margin: 0; }
+
+/* ============================================================
+   🖥️ MODO TERMINAL — Fuerza monospace en @distro_01
+   ============================================================ */
+body.skin-distro-01,
+body.skin-distro-01 * {
+  font-family: 'JetBrains Mono', 'Share Tech Mono', 'Fira Code', 'Courier New', monospace !important;
+}
+
+/* Ajuste de pesos y tamaños para la estética terminal */
+body.skin-distro-01 .header-title {
+  font-size: 0.78rem !important;
+  font-weight: 500 !important;
+  letter-spacing: 3px !important;
+  opacity: 0.85;
+}
+
+body.skin-distro-01 .player-header {
+  margin-bottom: 2px !important;
+  margin-top: 0 !important;
+}
+
+/* Reducir tamaño de los metadatos en @distro_01 */
+body.skin-distro-01 .track-title {
+  font-size: 1.05rem !important;
+  letter-spacing: 1px;
+}
+
+body.skin-distro-01 .track-artist {
+  font-size: 0.82rem !important;
+  letter-spacing: 0.5px;
+}
+
+body.skin-distro-01 .track-album {
+  font-size: 0.72rem !important;
+  letter-spacing: 0.5px;
+}
+
+body.skin-distro-01 .audio-specs-badge {
+  font-size: 0.68rem !important;
+  letter-spacing: 1px;
+}
+
+body.skin-distro-01 .status-badge {
+  font-size: 0.65rem !important;
+}
