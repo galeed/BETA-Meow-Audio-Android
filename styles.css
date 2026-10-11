@@ -839,19 +839,23 @@ body.skin-distro-01 .icon-action-btn:active { background: rgba(255, 255, 255, 0.
   background: var(--card-bg);
   backdrop-filter: var(--card-blur);
   -webkit-backdrop-filter: var(--card-blur);
-  border-radius: var(--nav-radius);
+  border-radius: var(--nav-radius) var(--nav-radius) 0 0;  /* ⬅️ bordes redondeados solo arriba */
   border: 1px solid var(--card-border);
+  border-bottom: none;                                     /* ⬅️ sin borde inferior */
   box-shadow: var(--nav-shadow);
   display: flex;
   justify-content: space-around;
   align-items: center;
-  padding: 10px 0;
+  padding: 10px 0 calc(env(safe-area-inset-bottom, 0px) + 10px) 0;  /* ⬅️ padding abajo con safe-area */
   z-index: 20;
   margin-top: auto;
+  margin-bottom: 0;                                        /* ⬅️ pegado al borde */
+  margin-left: -10px;                                      /* ⬅️ anula el padding lateral del app-container */
+  margin-right: -10px;                                     /* ⬅️ anula el padding lateral del app-container */
+  margin-top: auto;
+  flex-shrink: 0;
   transition: border-radius 0.3s, background 0.3s;
 }
-body.skin-tui .bottom-nav,
-body.skin-distro-01 .bottom-nav { border-width: 2px; }
 
 .nav-btn {
   background: none;
