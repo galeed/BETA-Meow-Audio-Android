@@ -1,5 +1,5 @@
 /* ============================================================
-   MEOW AUDIO APP v3.0 — app.js
+   MEOW AUDIO APP v3.1 — app.js
    Contiene:
    - Arrays DISTROS (13) y TUI_THEMES (6) con ASCII art
    - Referencias DOM
@@ -659,18 +659,26 @@ function applyTuiTheme(themeKey) {
 }
 
 // ============================================================
-// DISTROS
+// DISTROS — CORREGIDO
 // ============================================================
 function applyDistro(distroId) {
   const distro = DISTROS.find(d => d.id === distroId) || DISTROS[0];
   document.body.dataset.distro = distro.id;
   localStorage.setItem('meowDistro', distro.id);
+
+  // Actualizar el ASCII art de fondo
   distroBgAscii.textContent = distro.ascii;
   distroBgAscii.style.color = distro.color;
+
   if (document.body.classList.contains('skin-distro-01')) {
     metaThemeEl.content = '#0d1117';
   }
+
   markActiveMenuItem();
+
+  // Forzar reflow para asegurar que el ASCII se renderice
+  void distroBgAscii.offsetWidth;
+
   setTimeout(() => { if (visualizerMode !== 'off' || lufsEnabled) drawVisualizer(); }, 80);
 }
 
@@ -719,7 +727,7 @@ function applySkin(skin) {
     headerTitle.textContent = '🎵 MEOW AUDIO APP';
     avisoTitle.textContent = '> SISTEMA DE PRIVACIDAD';
     avisoText.textContent = 'Todo el procesamiento de audio se realiza localmente. Ningún archivo o dato es enviado a servidores externos.';
-    versionTitle.textContent = 'MEOW AUDIO APP // TUI v3.0';
+    versionTitle.textContent = 'MEOW AUDIO APP // TUI v3.1';
     versionDesc.textContent = 'Haz clic en el header para cambiar de tema.';
     const theme = TUI_THEMES.find(t => t.id === savedTheme) || TUI_THEMES[0];
     metaThemeEl.content = theme.bg;
@@ -731,12 +739,15 @@ function applySkin(skin) {
     headerTitle.textContent = '🎵 MEOW AUDIO APP';
     avisoTitle.textContent = '> SISTEMA DE PRIVACIDAD';
     avisoText.textContent = 'Todo el procesamiento de audio se realiza localmente. Ningún archivo o dato es enviado a servidores externos.';
-    versionTitle.textContent = 'MEOW AUDIO APP // @distro v3.0';
+    versionTitle.textContent = 'MEOW AUDIO APP // @distro v3.1';
     versionDesc.textContent = 'Haz clic en el header para cambiar de distro.';
     metaThemeEl.content = '#0d1117';
+
+    // ⬇️ CRÍTICO: actualizar el ASCII art al aplicar el skin
     const distro = DISTROS.find(d => d.id === savedDistro) || DISTROS[0];
     distroBgAscii.textContent = distro.ascii;
     distroBgAscii.style.color = distro.color;
+
     markActiveMenuItem();
   } else {
     document.body.removeAttribute('data-tui-theme');
@@ -744,7 +755,7 @@ function applySkin(skin) {
     headerTitle.textContent = '🐈 MEOW AUDIO APP 🐈';
     avisoTitle.textContent = '🐾 Aviso Gatuno 🐾';
     avisoText.textContent = 'Todo el procesamiento de audio se realiza de manera local en tu dispositivo. Ningún archivo o dato personal es subido a servidores externos. ¡Miau!';
-    versionTitle.textContent = 'MEOW AUDIO APP v3.0';
+    versionTitle.textContent = 'MEOW AUDIO APP v3.1';
     versionDesc.textContent = 'Skins: Classic, Consola TUI, @distro_01.';
     metaThemeEl.content = '#0f1015';
   }
