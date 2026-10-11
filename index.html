@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -181,8 +182,12 @@
       transition: opacity 0.3s;
       display: none;
     }
-    body.skin-tui .crt-overlay { display: block; opacity: 0.18; }
-    body.skin-tui.crt-off .crt-overlay { opacity: 0; }
+    body.skin-tui .crt-overlay,
+    body.skin-distro-01 .crt-overlay,
+    body.skin-distro-02 .crt-overlay { display: block; opacity: 0.18; }
+    body.skin-tui.crt-off .crt-overlay,
+    body.skin-distro-01.crt-off .crt-overlay,
+    body.skin-distro-02.crt-off .crt-overlay { opacity: 0; }
 
     .vignette {
       position: fixed; inset: 0;
@@ -192,8 +197,12 @@
       transition: box-shadow 0.3s;
       display: none;
     }
-    body.skin-tui .vignette { display: block; box-shadow: inset 0 0 120px rgba(0,0,0,0.65); }
-    body.skin-tui.crt-off .vignette { box-shadow: inset 0 0 120px rgba(0,0,0,0); }
+    body.skin-tui .vignette,
+    body.skin-distro-01 .vignette,
+    body.skin-distro-02 .vignette { display: block; box-shadow: inset 0 0 120px rgba(0,0,0,0.65); }
+    body.skin-tui.crt-off .vignette,
+    body.skin-distro-01.crt-off .vignette,
+    body.skin-distro-02.crt-off .vignette { box-shadow: inset 0 0 120px rgba(0,0,0,0); }
 
     .app-container {
       width: 100%;
@@ -226,6 +235,8 @@
       pointer-events: none;
     }
     body.skin-tui .bg-blur { filter: blur(40px) brightness(0.15) saturate(0.3) hue-rotate(80deg); }
+    body.skin-distro-01 .bg-blur { filter: blur(40px) brightness(0.15) saturate(0.4); }
+    body.skin-distro-02 .bg-blur { filter: blur(40px) brightness(0.15) saturate(0.4); }
 
     .player-card {
       background: var(--card-bg);
@@ -247,6 +258,8 @@
       transition: background 0.4s ease, border-color 0.4s ease, border-radius 0.3s ease;
     }
     body.skin-tui .player-card { border-width: 2px; overflow: visible; }
+    body.skin-distro-01 .player-card,
+    body.skin-distro-02 .player-card { border-width: 2px; overflow: visible; }
 
     .player-header {
       display: flex;
@@ -264,24 +277,36 @@
       letter-spacing: var(--header-letter-spacing);
       color: var(--text-muted);
     }
-    body.skin-tui .header-title { color: var(--text); text-shadow: var(--glow); }
-    body.skin-tui .player-header { cursor: pointer; user-select: none; }
-    body.skin-tui .player-header::after {
+    body.skin-tui .header-title,
+    body.skin-distro-01 .header-title,
+    body.skin-distro-02 .header-title { color: var(--text); text-shadow: var(--glow); }
+    body.skin-tui .player-header,
+    body.skin-distro-01 .player-header,
+    body.skin-distro-02 .player-header { cursor: pointer; user-select: none; }
+    body.skin-tui .player-header::after,
+    body.skin-distro-01 .player-header::after,
+    body.skin-distro-02 .player-header::after {
       content: ' ▾';
       color: var(--accent);
       font-size: 0.75rem;
       margin-left: 4px;
       opacity: 0.7;
     }
-    body.skin-tui .player-header.menu-open::after { content: ' ▴'; }
+    body.skin-tui .player-header.menu-open::after,
+    body.skin-distro-01 .player-header.menu-open::after,
+    body.skin-distro-02 .player-header.menu-open::after { content: ' ▴'; }
 
-    /* 🎨 MENÚ DE TEMAS TUI */
+    /* 🎨 MENÚ DE TEMAS / DISTROS */
     .tui-theme-menu {
       position: absolute;
       top: 100%;
       left: 50%;
       transform: translate(-50%, 8px) scale(0.95);
       min-width: 240px;
+      max-width: 90vw;
+      max-height: 50vh;
+      overflow-y: auto;
+      overscroll-behavior: contain;
       background: #000;
       border: 1px solid var(--accent);
       box-shadow: 0 0 30px var(--glow-color);
@@ -295,8 +320,12 @@
       display: none;
       text-align: left;
     }
-    body.skin-tui .tui-theme-menu { display: block; }
-    body.skin-tui .player-header.menu-open .tui-theme-menu {
+    body.skin-tui .tui-theme-menu,
+    body.skin-distro-01 .tui-theme-menu,
+    body.skin-distro-02 .tui-theme-menu { display: block; }
+    body.skin-tui .player-header.menu-open .tui-theme-menu,
+    body.skin-distro-01 .player-header.menu-open .tui-theme-menu,
+    body.skin-distro-02 .player-header.menu-open .tui-theme-menu {
       opacity: 1;
       pointer-events: auto;
       transform: translate(-50%, 8px) scale(1);
@@ -312,6 +341,9 @@
       color: var(--accent);
       font-weight: 700;
       letter-spacing: 0.5px;
+      position: sticky;
+      top: 0;
+      z-index: 1;
     }
     .tui-theme-dots { display: flex; gap: 4px; }
     .tui-dot {
@@ -366,7 +398,9 @@
       z-index: 2;
       transition: border-color 0.3s;
     }
-    body.skin-tui .cover-art {
+    body.skin-tui .cover-art,
+    body.skin-distro-01 .cover-art,
+    body.skin-distro-02 .cover-art {
       border: 2px solid var(--card-border);
       box-shadow: 0 0 20px var(--glow-color);
       filter: contrast(1.1) saturate(1.1);
@@ -386,14 +420,16 @@
       flex-shrink: 0;
       transition: border-radius 0.3s, background 0.3s;
     }
-    body.skin-tui .track-info-container {
+    body.skin-tui .track-info-container,
+    body.skin-distro-01 .track-info-container,
+    body.skin-distro-02 .track-info-container {
       background: #000;
       border: 1px solid var(--card-border);
       border-radius: 0;
       backdrop-filter: none;
       -webkit-backdrop-filter: none;
-      cursor: default;
     }
+    body.skin-tui .track-info-container { cursor: default; }
 
     .visualizer-canvas {
       position: absolute;
@@ -420,7 +456,9 @@
       text-overflow: ellipsis;
       text-shadow: 0 2px 6px rgba(0, 0, 0, 0.9);
     }
-    body.skin-tui .track-title { text-shadow: var(--glow); }
+    body.skin-tui .track-title,
+    body.skin-distro-01 .track-title,
+    body.skin-distro-02 .track-title { text-shadow: var(--glow); }
 
     .track-artist {
       font-size: 0.98rem;
@@ -474,8 +512,12 @@
       vertical-align: middle;
       border-radius: 2px;
     }
-    body.skin-tui .hires-icon { display: none; }
-    body.skin-tui .audio-specs-badge.has-hires::before {
+    body.skin-tui .hires-icon,
+    body.skin-distro-01 .hires-icon,
+    body.skin-distro-02 .hires-icon { display: none; }
+    body.skin-tui .audio-specs-badge.has-hires::before,
+    body.skin-distro-01 .audio-specs-badge.has-hires::before,
+    body.skin-distro-02 .audio-specs-badge.has-hires::before {
       content: "[HI-RES] ";
       color: var(--accent);
       font-weight: 700;
@@ -488,7 +530,9 @@
       font-weight: 600;
       flex-shrink: 0;
     }
-    body.skin-tui .status-badge { text-shadow: var(--glow); }
+    body.skin-tui .status-badge,
+    body.skin-distro-01 .status-badge,
+    body.skin-distro-02 .status-badge { text-shadow: var(--glow); }
 
     .toggle-switch {
       position: relative;
@@ -515,10 +559,14 @@
     }
     input:checked + .slider { background-color: var(--accent); }
     input:checked + .slider:before { transform: translateX(18px); }
-    body.skin-tui .slider { border-radius: 0; background-color: #000; border: 1px solid var(--card-border); }
-    body.skin-tui .slider:before { border-radius: 0; background-color: var(--accent); }
+    body.skin-tui .slider,
+    body.skin-distro-01 .slider,
+    body.skin-distro-02 .slider { border-radius: 0; background-color: #000; border: 1px solid var(--card-border); }
+    body.skin-tui .slider:before,
+    body.skin-distro-01 .slider:before,
+    body.skin-distro-02 .slider:before { border-radius: 0; background-color: var(--accent); }
 
-    .progress-container { width: 100%; margin-bottom: 6px; flex-shrink: 0; }
+    .progress-container { width: 100%; margin-bottom: 6px; flex-shrink: 0; position: relative; z-index: 3; }
 
     .seek-bar {
       width: 100%;
@@ -530,7 +578,9 @@
       outline: none;
       cursor: pointer;
     }
-    body.skin-tui .seek-bar { background: #000; border: 1px solid var(--card-border); border-radius: 0; height: 8px; }
+    body.skin-tui .seek-bar,
+    body.skin-distro-01 .seek-bar,
+    body.skin-distro-02 .seek-bar { background: #000; border: 1px solid var(--card-border); border-radius: 0; height: 8px; }
 
     .seek-bar::-webkit-slider-thumb {
       -webkit-appearance: none;
@@ -541,7 +591,9 @@
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
       cursor: pointer;
     }
-    body.skin-tui .seek-bar::-webkit-slider-thumb {
+    body.skin-tui .seek-bar::-webkit-slider-thumb,
+    body.skin-distro-01 .seek-bar::-webkit-slider-thumb,
+    body.skin-distro-02 .seek-bar::-webkit-slider-thumb {
       border-radius: 0;
       background: var(--accent);
       box-shadow: var(--glow);
@@ -563,6 +615,8 @@
       padding: 0 6px;
       margin-bottom: 8px;
       flex-shrink: 0;
+      position: relative;
+      z-index: 3;
     }
 
     .btn {
@@ -588,13 +642,17 @@
       box-shadow: 0 8px 20px rgba(0,0,0,0.3);
       transition: border-radius 0.3s, background 0.3s, color 0.3s, box-shadow 0.3s;
     }
-    body.skin-tui .btn-play {
+    body.skin-tui .btn-play,
+    body.skin-distro-01 .btn-play,
+    body.skin-distro-02 .btn-play {
       background: transparent;
       color: var(--accent);
       border: 2px solid var(--accent);
       box-shadow: var(--glow);
     }
-    body.skin-tui .btn-play:hover { background: rgba(255, 255, 255, 0.08); }
+    body.skin-tui .btn-play:hover,
+    body.skin-distro-01 .btn-play:hover,
+    body.skin-distro-02 .btn-play:hover { background: rgba(255, 255, 255, 0.08); }
 
     .btn-sub { font-size: 1.15rem; opacity: 0.5; transition: opacity 0.2s, color 0.2s; }
     .btn-sub.active { opacity: 1; color: var(--accent); }
@@ -606,6 +664,8 @@
       width: 100%;
       padding: 0 4px;
       flex-shrink: 0;
+      position: relative;
+      z-index: 3;
     }
 
     .icon-action-btn {
@@ -625,7 +685,9 @@
       position: relative;
     }
     .icon-action-btn:active { transform: scale(0.9); background: rgba(255, 255, 255, 0.35); }
-    body.skin-tui .icon-action-btn {
+    body.skin-tui .icon-action-btn,
+    body.skin-distro-01 .icon-action-btn,
+    body.skin-distro-02 .icon-action-btn {
       background: #000;
       border: 1px solid var(--card-border);
       color: var(--accent);
@@ -633,7 +695,9 @@
       backdrop-filter: none;
       -webkit-backdrop-filter: none;
     }
-    body.skin-tui .icon-action-btn:active { background: rgba(255, 255, 255, 0.08); }
+    body.skin-tui .icon-action-btn:active,
+    body.skin-distro-01 .icon-action-btn:active,
+    body.skin-distro-02 .icon-action-btn:active { background: rgba(255, 255, 255, 0.08); }
 
     .file-input-wrapper { position: relative; display: inline-block; }
 
@@ -661,7 +725,9 @@
       margin-top: auto;
       transition: border-radius 0.3s, background 0.3s;
     }
-    body.skin-tui .bottom-nav { border-width: 2px; }
+    body.skin-tui .bottom-nav,
+    body.skin-distro-01 .bottom-nav,
+    body.skin-distro-02 .bottom-nav { border-width: 2px; }
 
     .nav-btn {
       background: none;
@@ -678,7 +744,9 @@
     }
     .nav-btn.active { opacity: 1; transform: scale(1.15); }
     .nav-btn:active { transform: scale(0.92); }
-    body.skin-tui .nav-btn.active { color: var(--accent); text-shadow: var(--glow); }
+    body.skin-tui .nav-btn.active,
+    body.skin-distro-01 .nav-btn.active,
+    body.skin-distro-02 .nav-btn.active { color: var(--accent); text-shadow: var(--glow); }
 
     .playlist-overlay, .modal-overlay {
       position: absolute;
@@ -697,13 +765,21 @@
       transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
     }
     body.skin-tui .playlist-overlay,
-    body.skin-tui .modal-overlay {
+    body.skin-tui .modal-overlay,
+    body.skin-distro-01 .playlist-overlay,
+    body.skin-distro-01 .modal-overlay,
+    body.skin-distro-02 .playlist-overlay,
+    body.skin-distro-02 .modal-overlay {
       background: rgba(5, 10, 6, 0.98);
       border-radius: 0;
       border: 2px solid var(--card-border);
       backdrop-filter: none;
       -webkit-backdrop-filter: none;
     }
+    body.skin-distro-01 .playlist-overlay,
+    body.skin-distro-01 .modal-overlay,
+    body.skin-distro-02 .playlist-overlay,
+    body.skin-distro-02 .modal-overlay { background: rgba(13, 17, 23, 0.98); }
 
     .playlist-overlay.active, .modal-overlay.active {
       display: flex;
@@ -719,7 +795,9 @@
       padding-bottom: 6px;
       border-bottom: 1px solid rgba(255, 255, 255, 0.15);
     }
-    body.skin-tui .playlist-header { border-bottom: 1px solid var(--card-border); }
+    body.skin-tui .playlist-header,
+    body.skin-distro-01 .playlist-header,
+    body.skin-distro-02 .playlist-header { border-bottom: 1px solid var(--card-border); }
 
     .playlist-title {
       font-size: 0.9rem;
@@ -741,7 +819,9 @@
       font-size: 0.85rem;
       transition: border-radius 0.3s;
     }
-    body.skin-tui .btn-icon {
+    body.skin-tui .btn-icon,
+    body.skin-distro-01 .btn-icon,
+    body.skin-distro-02 .btn-icon {
       background: #000;
       border: 1px solid var(--card-border);
       color: var(--accent);
@@ -759,7 +839,9 @@
       padding: 5px 10px;
       border-radius: 8px;
     }
-    body.skin-tui .sort-bar { background: #000; border: 1px solid var(--card-border); border-radius: 0; }
+    body.skin-tui .sort-bar,
+    body.skin-distro-01 .sort-bar,
+    body.skin-distro-02 .sort-bar { background: #000; border: 1px solid var(--card-border); border-radius: 0; }
 
     .sort-label {
       font-size: 0.72rem;
@@ -780,14 +862,22 @@
       font-family: var(--font-family);
     }
     body.skin-tui .sort-select,
-    body.skin-tui .settings-select { color: var(--accent); }
+    body.skin-tui .settings-select,
+    body.skin-distro-01 .sort-select,
+    body.skin-distro-01 .settings-select,
+    body.skin-distro-02 .sort-select,
+    body.skin-distro-02 .settings-select { color: var(--accent); }
 
     .sort-select option, .settings-select option {
       background: #1c1c24;
       color: var(--text);
     }
     body.skin-tui .sort-select option,
-    body.skin-tui .settings-select option {
+    body.skin-tui .settings-select option,
+    body.skin-distro-01 .sort-select option,
+    body.skin-distro-01 .settings-select option,
+    body.skin-distro-02 .sort-select option,
+    body.skin-distro-02 .settings-select option {
       background: #000;
       color: var(--accent);
     }
@@ -807,7 +897,9 @@
       font-family: var(--font-family);
     }
     .search-input::placeholder { color: var(--text-muted); }
-    body.skin-tui .search-input {
+    body.skin-tui .search-input,
+    body.skin-distro-01 .search-input,
+    body.skin-distro-02 .search-input {
       background: #000;
       border: 1px solid var(--card-border);
       border-radius: 0;
@@ -832,7 +924,9 @@
       background: rgba(255, 255, 255, 0.08);
       border: 1px solid rgba(255, 255, 255, 0.1);
     }
-    body.skin-tui .playlist-item {
+    body.skin-tui .playlist-item,
+    body.skin-distro-01 .playlist-item,
+    body.skin-distro-02 .playlist-item {
       background: transparent;
       border: 1px solid transparent;
       border-radius: 0;
@@ -844,7 +938,9 @@
       background: rgba(255, 71, 87, 0.3);
       border: 1px solid rgba(255, 71, 87, 0.6);
     }
-    body.skin-tui .playlist-item.playing {
+    body.skin-tui .playlist-item.playing,
+    body.skin-distro-01 .playlist-item.playing,
+    body.skin-distro-02 .playlist-item.playing {
       background: rgba(255, 255, 255, 0.08);
       border: 1px solid var(--accent);
       border-radius: 0;
@@ -882,7 +978,9 @@
       padding: 12px;
       border-radius: 14px;
     }
-    body.skin-tui .settings-item {
+    body.skin-tui .settings-item,
+    body.skin-distro-01 .settings-item,
+    body.skin-distro-02 .settings-item {
       background: #000;
       border: 1px solid var(--card-border);
       border-radius: 0;
@@ -901,7 +999,9 @@
       color: var(--text);
       margin-bottom: 2px;
     }
-    body.skin-tui .settings-title {
+    body.skin-tui .settings-title,
+    body.skin-distro-01 .settings-title,
+    body.skin-distro-02 .settings-title {
       text-transform: uppercase;
       letter-spacing: 1px;
       color: var(--accent);
@@ -926,13 +1026,17 @@
       font-family: var(--font-family);
     }
     .btn-action:hover { background: rgba(255, 255, 255, 0.25); }
-    body.skin-tui .btn-action {
+    body.skin-tui .btn-action,
+    body.skin-distro-01 .btn-action,
+    body.skin-distro-02 .btn-action {
       background: #000;
       border: 1px solid var(--card-border);
       color: var(--accent);
       border-radius: 0;
     }
-    body.skin-tui .btn-action:hover { background: rgba(255, 255, 255, 0.08); }
+    body.skin-tui .btn-action:hover,
+    body.skin-distro-01 .btn-action:hover,
+    body.skin-distro-02 .btn-action:hover { background: rgba(255, 255, 255, 0.08); }
 
     .btn-action-magenta {
       border-color: var(--accent);
@@ -953,7 +1057,9 @@
       align-items: center;
       padding: 20px;
     }
-    body.skin-tui .meow-aviso-overlay { background: rgba(0, 0, 0, 0.95); }
+    body.skin-tui .meow-aviso-overlay,
+    body.skin-distro-01 .meow-aviso-overlay,
+    body.skin-distro-02 .meow-aviso-overlay { background: rgba(0, 0, 0, 0.95); }
 
     .meow-aviso-box {
       background: rgba(255, 255, 255, 0.15);
@@ -965,7 +1071,9 @@
       box-shadow: 0 20px 40px rgba(0,0,0,0.5);
       color: #fff;
     }
-    body.skin-tui .meow-aviso-box {
+    body.skin-tui .meow-aviso-box,
+    body.skin-distro-01 .meow-aviso-box,
+    body.skin-distro-02 .meow-aviso-box {
       background: #000;
       border: 2px solid var(--accent);
       border-radius: 0;
@@ -974,7 +1082,9 @@
     }
 
     .meow-aviso-box h3 { margin-bottom: 12px; font-size: 1.2rem; color: var(--accent); }
-    body.skin-tui .meow-aviso-box h3 { text-transform: uppercase; letter-spacing: 2px; text-shadow: var(--glow); }
+    body.skin-tui .meow-aviso-box h3,
+    body.skin-distro-01 .meow-aviso-box h3,
+    body.skin-distro-02 .meow-aviso-box h3 { text-transform: uppercase; letter-spacing: 2px; text-shadow: var(--glow); }
 
     .meow-aviso-box p {
       font-size: 0.9rem;
@@ -982,7 +1092,9 @@
       line-height: 1.4;
       color: rgba(255,255,255,0.85);
     }
-    body.skin-tui .meow-aviso-box p { color: var(--text-muted); }
+    body.skin-tui .meow-aviso-box p,
+    body.skin-distro-01 .meow-aviso-box p,
+    body.skin-distro-02 .meow-aviso-box p { color: var(--text-muted); }
 
     .meow-checkbox-label {
       display: flex;
@@ -1007,7 +1119,9 @@
       font-family: var(--font-family);
     }
     .meow-btn-cerrar:active { transform: scale(0.95); }
-    body.skin-tui .meow-btn-cerrar {
+    body.skin-tui .meow-btn-cerrar,
+    body.skin-distro-01 .meow-btn-cerrar,
+    body.skin-distro-02 .meow-btn-cerrar {
       background: transparent;
       color: var(--accent);
       border: 2px solid var(--accent);
@@ -1015,7 +1129,9 @@
       text-transform: uppercase;
       letter-spacing: 1px;
     }
-    body.skin-tui .meow-btn-cerrar:hover { background: var(--accent); color: #000; }
+    body.skin-tui .meow-btn-cerrar:hover,
+    body.skin-distro-01 .meow-btn-cerrar:hover,
+    body.skin-distro-02 .meow-btn-cerrar:hover { background: var(--accent); color: #000; }
 
     kbd {
       background: rgba(255, 255, 255, 0.15);
@@ -1026,11 +1142,45 @@
       color: var(--accent-cyan);
       font-family: var(--font-family);
     }
-    body.skin-tui kbd {
+    body.skin-tui kbd,
+    body.skin-distro-01 kbd,
+    body.skin-distro-02 kbd {
       background: #000;
       border: 1px solid var(--card-border);
       color: var(--accent);
       border-radius: 0;
+    }
+
+    /* ASCII DISTRO DE FONDO */
+    .distro-bg-container {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+      display: none;
+      align-items: flex-end;
+      justify-content: center;
+      padding-bottom: 8px;
+    }
+    body.skin-distro-01 .distro-bg-container,
+    body.skin-distro-02 .distro-bg-container { display: flex; }
+
+    .distro-bg-ascii {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 8px;
+      line-height: 1.05;
+      white-space: pre;
+      color: var(--accent);
+      opacity: 0.15;
+      text-shadow: 0 0 8px var(--glow-color);
+      user-select: none;
+      pointer-events: none;
+      margin: 0;
+      padding: 0;
+      max-width: 100%;
+      overflow: hidden;
     }
 
     /* 📺 LANDSCAPE */
@@ -1067,7 +1217,9 @@
         overflow: hidden;
         flex: 1;
       }
-      body.skin-tui .player-card { overflow: visible; }
+      body.skin-tui .player-card,
+      body.skin-distro-01 .player-card,
+      body.skin-distro-02 .player-card { overflow: visible; }
       .player-header { display: none; }
       .cover-container {
         grid-area: cover;
@@ -1103,6 +1255,8 @@
       .bottom-nav { flex: 0 0 auto; width: 100%; padding: 6px 0; border-radius: var(--nav-radius); margin: 0; }
       .nav-btn { font-size: 1.15rem; }
       .playlist-overlay, .modal-overlay { border-radius: var(--card-radius); padding: 12px 16px; }
+      .distro-bg-container { align-items: center; padding: 0; }
+      .distro-bg-ascii { font-size: 6px; }
     }
 
     @media screen and (orientation: landscape) and (max-height: 420px) {
@@ -1114,6 +1268,7 @@
       .track-artist { font-size: 0.75rem; }
       .track-album { font-size: 0.65rem; }
       .audio-specs-badge { font-size: 0.62rem; }
+      .distro-bg-ascii { font-size: 5px; }
     }
 
     body.force-landscape .app-container {
@@ -1166,8 +1321,113 @@
     body.force-landscape .controls { grid-area: controls; margin: 0; padding: 0; }
     body.force-landscape .action-buttons-row { grid-area: actions; justify-content: flex-start; gap: 10px; padding: 0; }
     body.force-landscape .bottom-nav { flex: 0 0 auto; width: 100%; padding: 6px 0; border-radius: var(--nav-radius); margin: 0; }
+
+/* ========================================================
+       🎨 SKIN @distro_01 — 13 DISTROS
+       Fondo base: #0d1117 (GitHub dark)
+       Acento: color característico de cada distro
+       ======================================================== */
+
+    /* --- Fondo y estructura comunes a todas las distros --- */
+    body.skin-distro-01 {
+      --font-family: 'JetBrains Mono', 'Share Tech Mono', 'Courier New', monospace;
+      --card-radius: 2px;
+      --cover-radius: 0px;
+      --nav-radius: 0px;
+      --btn-radius: 0px;
+      --card-blur: none;
+      --header-letter-spacing: 2px;
+      --header-transform: uppercase;
+      --glow: 0 0 10px var(--accent);
+      --bg-main: #0d1117;
+      --card-bg: #10161c;
+      --card-border: #21262d;
+      --card-shadow: 0 0 30px var(--glow-color), inset 0 0 20px rgba(255, 255, 255, 0.03);
+      --nav-shadow: 0 0 20px var(--glow-color);
+    }
+
+    /* 🅰️ ARCH */
+    body.skin-distro-01[data-distro="arch"] {
+      --accent: #1793d1; --accent-cyan: #33a1dd;
+      --text: #1793d1; --text-muted: #5a7a8c; --audio-spec-color: #33a1dd;
+      --glow-color: rgba(23, 147, 209, 0.3);
+    }
+    /* 🟠 UBUNTU */
+    body.skin-distro-01[data-distro="ubuntu"] {
+      --accent: #e95420; --accent-cyan: #ff7a4a;
+      --text: #e95420; --text-muted: #8a5c4a; --audio-spec-color: #ff7a4a;
+      --glow-color: rgba(233, 84, 32, 0.3);
+    }
+    /* 🌀 DEBIAN */
+    body.skin-distro-01[data-distro="debian"] {
+      --accent: #d70a53; --accent-cyan: #ff3a7a;
+      --text: #d70a53; --text-muted: #7a4a60; --audio-spec-color: #ff3a7a;
+      --glow-color: rgba(215, 10, 83, 0.3);
+    }
+    /* 🎩 FEDORA */
+    body.skin-distro-01[data-distro="fedora"] {
+      --accent: #51a2da; --accent-cyan: #7ab8e6;
+      --text: #51a2da; --text-muted: #557a94; --audio-spec-color: #7ab8e6;
+      --glow-color: rgba(81, 162, 218, 0.3);
+    }
+    /* 🌿 MINT */
+    body.skin-distro-01[data-distro="mint"] {
+      --accent: #87cf3e; --accent-cyan: #a6e066;
+      --text: #87cf3e; --text-muted: #6b8a4a; --audio-spec-color: #a6e066;
+      --glow-color: rgba(135, 207, 62, 0.3);
+    }
+    /* 🦎 OPENSUSE */
+    body.skin-distro-01[data-distro="opensuse"] {
+      --accent: #73ba25; --accent-cyan: #94d24a;
+      --text: #73ba25; --text-muted: #5a7a3a; --audio-spec-color: #94d24a;
+      --glow-color: rgba(115, 186, 37, 0.3);
+    }
+    /* 🏔️ ALPINE */
+    body.skin-distro-01[data-distro="alpine"] {
+      --accent: #0d597f; --accent-cyan: #3a8fb0;
+      --text: #0d597f; --text-muted: #3a5a6a; --audio-spec-color: #3a8fb0;
+      --glow-color: rgba(13, 89, 127, 0.4);
+    }
+    /* 🐧 GENTOO */
+    body.skin-distro-01[data-distro="gentoo"] {
+      --accent: #54487a; --accent-cyan: #8a7ab0;
+      --text: #54487a; --text-muted: #5c5470; --audio-spec-color: #8a7ab0;
+      --glow-color: rgba(84, 72, 122, 0.4);
+    }
+    /* 🟢 MANJARO */
+    body.skin-distro-01[data-distro="manjaro"] {
+      --accent: #35bfa7; --accent-cyan: #5ed4c0;
+      --text: #35bfa7; --text-muted: #4a7a70; --audio-spec-color: #5ed4c0;
+      --glow-color: rgba(53, 191, 167, 0.3);
+    }
+    /* 🐉 KALI */
+    body.skin-distro-01[data-distro="kali"] {
+      --accent: #557c94; --accent-cyan: #7aa3ba;
+      --text: #557c94; --text-muted: #4a6070; --audio-spec-color: #7aa3ba;
+      --glow-color: rgba(85, 124, 148, 0.35);
+    }
+    /* 👻 VOID */
+    body.skin-distro-01[data-distro="void"] {
+      --accent: #478061; --accent-cyan: #6ba383;
+      --text: #478061; --text-muted: #4a6656; --audio-spec-color: #6ba383;
+      --glow-color: rgba(71, 128, 97, 0.35);
+    }
+    /* ❄️ NIXOS */
+    body.skin-distro-01[data-distro="nixos"] {
+      --accent: #5277c3; --accent-cyan: #7a9ad8;
+      --text: #5277c3; --text-muted: #526a8c; --audio-spec-color: #7a9ad8;
+      --glow-color: rgba(82, 119, 195, 0.3);
+    }
+    /* 🔷 POPOS */
+    body.skin-distro-01[data-distro="popos"] {
+      --accent: #48b9c7; --accent-cyan: #70d1dd;
+      --text: #48b9c7; --text-muted: #4a7a82; --audio-spec-color: #70d1dd;
+      --glow-color: rgba(72, 185, 199, 0.3);
+    }
+
   </style>
 </head>
+
 <body class="skin-classic">
 
   <div class="crt-overlay" id="crtOverlay"></div>
@@ -1207,33 +1467,10 @@
               <i class="tui-dot" style="background:#eab308"></i>
               <i class="tui-dot" style="background:#10b981"></i>
             </span>
-            <span>meow@audio-box:~/themes</span>
+            <span id="menuHeaderLabel">meow@audio-box:~/themes</span>
           </div>
           <ul class="tui-theme-list" id="tuiThemeList">
-            <li class="tui-theme-item" data-theme="green">
-              <span class="tui-dot" style="background:#00ff66"></span> Phosphor Green
-              <span class="tui-check">✓</span>
-            </li>
-            <li class="tui-theme-item" data-theme="amber">
-              <span class="tui-dot" style="background:#ffb000"></span> Amber CRT
-              <span class="tui-check">✓</span>
-            </li>
-            <li class="tui-theme-item" data-theme="cyan">
-              <span class="tui-dot" style="background:#00f0ff"></span> Cyber Cyan
-              <span class="tui-check">✓</span>
-            </li>
-            <li class="tui-theme-item" data-theme="dracula">
-              <span class="tui-dot" style="background:#bd93f9"></span> Dracula Synth
-              <span class="tui-check">✓</span>
-            </li>
-            <li class="tui-theme-item" data-theme="mono">
-              <span class="tui-dot" style="background:#eeeeee"></span> Monochrome
-              <span class="tui-check">✓</span>
-            </li>
-            <li class="tui-theme-item" data-theme="cappuccino">
-              <span class="tui-dot" style="background:#e69a58"></span> Cappuccino
-              <span class="tui-check">✓</span>
-            </li>
+            <!-- Los items se generan dinámicamente por JS -->
           </ul>
         </div>
       </div>
@@ -1255,7 +1492,11 @@
       <div class="audio-specs-badge" id="audioSpecs"></div>
       <div class="status-badge" id="status"></div>
 
+      <!-- Zona con ASCII art de fondo (visible solo en skins @distro_01 y @distro_02) -->
       <div class="progress-container">
+        <div class="distro-bg-container" id="distroBgContainer">
+          <pre class="distro-bg-ascii" id="distroBgAscii"></pre>
+        </div>
         <input type="range" id="seekBar" class="seek-bar" value="0" max="100">
         <div class="time-stamps">
           <span id="currentTime">00:00</span>
@@ -1274,7 +1515,7 @@
       <div class="action-buttons-row">
         <button class="icon-action-btn" id="btnFullscreen" title="Pantalla completa">⛶</button>
         <button class="icon-action-btn" id="btnRotate" title="Girar pantalla">🔄</button>
-        <button class="icon-action-btn" id="btnCrt" title="Efecto CRT (solo TUI)">📺</button>
+        <button class="icon-action-btn" id="btnCrt" title="Efecto CRT">📺</button>
         <div class="file-input-wrapper">
           <button class="icon-action-btn" title="Añadir canciones">➕</button>
           <input type="file" id="fileInput" class="real-file-input" multiple accept=".mp3,.wav,.ogg,.flac,.m4a,.aac,audio/*">
@@ -1318,13 +1559,14 @@
               <select id="skinSelect" class="settings-select">
                 <option value="classic">Classic</option>
                 <option value="tui">Consola TUI</option>
+                <option value="distro-01">@distro_01</option>
               </select>
             </div>
           </div>
 
           <div class="settings-item" id="crtSettingItem">
             <div class="settings-title">📺 Efecto CRT</div>
-            <div class="settings-desc">Scanlines y vignette (solo skin TUI).</div>
+            <div class="settings-desc">Scanlines y vignette (TUI y Distro).</div>
             <div class="settings-row">
               <span class="settings-desc" style="font-weight:600;">Estado:</span>
               <label class="toggle-switch">
@@ -1440,8 +1682,8 @@
           </div>
 
           <div class="settings-item">
-            <div class="settings-title" id="versionTitle">MEOW AUDIO APP v2.8</div>
-            <div class="settings-desc" id="versionDesc">Sistema de skins: Classic + Consola TUI.</div>
+            <div class="settings-title" id="versionTitle">MEOW AUDIO APP v2.9</div>
+            <div class="settings-desc" id="versionDesc">Skins: Classic, Consola TUI, @distro_01.</div>
           </div>
         </div>
       </div>
@@ -1456,8 +1698,330 @@
   </div>
 
   <script>
+    // ============================================================
+    // MEOW AUDIO APP v2.9
+    // ============================================================
+
     const DEFAULT_COVER = "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 24 24' fill='none' stroke='%23ffffff' stroke-width='1.5'><path d='M9 18V5l12-2v13'/><circle cx='6' cy='18' r='3'/><circle cx='18' cy='16' r='3'/></svg>";
     const HI_RES_SVG = `data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'><rect width='200' height='200' fill='%23d4af37' rx='8'/><path d='M0 95 Q100 130 200 95 L200 200 L0 200 Z' fill='%23000000'/><text x='100' y='68' font-family='Arial Black, sans-serif' font-weight='900' font-size='56' fill='%23000000' text-anchor='middle'>Hi-Res</text><text x='100' y='165' font-family='Arial, sans-serif' font-weight='900' font-size='42' fill='%23d4af37' text-anchor='middle'>AUDIO</text></svg>`;
+
+    // ============ DISTROS (13) ============
+    const DISTROS = [
+      {
+        id: 'arch',
+        name: 'Arch Linux',
+        color: '#1793d1',
+        ascii: `                  -\`
+                 .o+\`
+                \`ooo/
+               \`+oooo:
+              \`+oooooo:
+              -+oooooo+:
+            \`/:-:++oooo+:
+           \`/++++/+++++++:
+          \`/++++++++++++++:
+         \`/+++ooooooooooooo/\`
+        ./ooosssso++osssssso+\`
+       .oossssso-\`\`\`\`/ossssss+\`
+      -osssssso.      :ssssssso.
+     :osssssss/        osssso+++.
+    /ossssssss/        +ssssooo/-
+  \`/ossssso+/:-        -:/+osssso+-
+ \`+sso+:-\`                 \`.-/+oso:
+\`++:.                           \`-/+/.
+.                                 /`
+      },
+      {
+        id: 'ubuntu',
+        name: 'Ubuntu',
+        color: '#e95420',
+        ascii: `                             ....
+              .',:clooo:  .:looooo:.
+           .;looooooooc  .oooooooooo'
+        .;looooool:,''.  :ooooooooooc
+       ;looool;.         'oooooooooo,
+      ;clool'             .cooooooc.  ,,
+         ...                ......  .:oo,
+  .;clol:,.                        .loooo'
+ :ooooooooo,                        'ooool
+'ooooooooooo.                        loooo.
+'ooooooooool                         coooo.
+ ,loooooooc.                        .loooo.
+   .,;;;'.                          ;ooooc
+       ...                         ,ooool.
+    .cooooc.              ..',,'.  .cooo.
+      ;ooooo:.           ;oooooooc.  :l.
+       .coooooc,..      coooooooooo.
+         .:ooooooolc:. .ooooooooooo'
+           .':loooooo;  ,oooooooooc
+               ..';::c'  .;loooo:'`
+      },
+      {
+        id: 'debian',
+        name: 'Debian',
+        color: '#d70a53',
+        ascii: `        _,met\$\$\$\$\$\$\$\$\$\$gg.
+     ,g\$\$\$\$\$\$\$\$\$\$\$\$\$\$\$\$\$\$\$\$\$\$\$\$\$\$\$\$P.
+   ,g\$\$\$\$P""       """Y\$\$\$\$.".
+  ,\$\$\$\$P'              \`\$\$\$\$\$\$.
+',\$\$\$\$P       ,ggs.     \`\$\$\$\$b:
+\`d\$\$\$\$'     ,\$P"'   .    \$\$\$\$\$\$
+ \$\$\$\$P      d\$'     ,    \$\$\$\$P
+ \$\$\$\$:      \$\$\$.   -    ,d\$\$\$\$'
+ \$\$\$\$;      Y\$b._   _,d\$P'
+ Y\$\$\$\$.    \`.\`"Y\$\$\$\$\$\$\$\$P"'
+ \`\$\$\$\$b      "-.__
+  \`Y\$\$\$\$b
+   \`Y\$\$\$\$.
+     \`\$\$\$\$b.
+       \`Y\$\$\$\$b.
+         \`"Y\$\$b._
+             \`""""`
+      },
+      {
+        id: 'fedora',
+        name: 'Fedora',
+        color: '#51a2da',
+        ascii: `             .',;::::;,'.
+         .';:cccccccccccc:;,.
+      .;cccccccccccccccccccccc;.
+    .:cccccccccccccccccccccccccc:.
+  .;ccccccccccccc;.:dddl:.;ccccccc;.
+ .:ccccccccccccc;OWMKOOXMWd;ccccccc:.
+.:ccccccccccccc;KMMc;cc;xMMc;ccccccc:.
+,cccccccccccccc;MMM.;cc;;WW:;cccccccc,
+:cccccccccccccc;MMM.;cccccccccccccccc:
+:ccccccc;oxOOOo;MMM000k.;cccccccccccc:
+cccccc;0MMKxdd:;MMMkddc.;cccccccccccc;
+ccccc;XMO';cccc;MMM.;cccccccccccccccc'
+ccccc;MMo;ccccc;MMW.;ccccccccccccccc;
+ccccc;0MNc.ccc.xMMd;ccccccccccccccc;
+cccccc;dNMWXXXWM0:;cccccccccccccc:,
+cccccccc;.:odl:.;cccccccccccccc:,.
+ccccccccccccccccccccccccccccc:'.
+:ccccccccccccccccccccccc:;,..
+ ':cccccccccccccccc::;,.`
+      },
+      {
+        id: 'mint',
+        name: 'Linux Mint',
+        color: '#87cf3e',
+        ascii: `           isMMMMMMMMMMMMMMMMMMh\`
+         .MMMMMMMMMMMMMMMMMMMMMMB.
+        dMMMMMMMMMMMMMMMMMMMMMMMMmd
+      .MMMMMMMMMMMMMMMMMMMMMMMMMMMMh
+     .MMMMMMMMMMMMMMMMMMMMMMMMMMMMMM.
+     hMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMh
+    .MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM.
+    hMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMh
+    hMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMh
+    .MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM.
+     hMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMh
+     .MMMMMMMMMMMMMMMMMMMMMMMMMMMMMM.
+      hMMMMMMMMMMMMMMMMMMMMMMMMMMMMh
+        hmMMMMMMMMMMMMMMMMMMMMMMmh
+          .dMMMMMMMMMMMMMMMMMMd.
+              /hMMMMMMMMMMh/`
+      },
+      {
+        id: 'opensuse',
+        name: 'openSUSE',
+        color: '#73ba25',
+        ascii: `           .;ldkO0000Okdl;.
+       .;d00xl:^''''''^:ok00d;.
+     .d00l'                'o00d.
+   .d0Kd'  Okxol:;,.          :O0d
+  .OKKKK0kOKKKKKKKKKKOxo:,      lKO.
+ ,0KKKKKKKKKKKKKKKK0P^,,,^dx:    ;00,
+.OKKKKKKKKKKKKKKKKk'.oOPPb.'0k.   cKO.
+:KKKKKKKKKKKKKKKKK: kKx..dd lKd   'OK:
+dKKKKKKKKKKKOx0KKKd ^0KKKO' kKKc   dKd
+dKKKKKKKKKKKK;.;oOKx,..^..;kKKK0.  dKd
+:KKKKKKKKKKKK0o;...^cdxxOK0O/^^'  .0K:
+ kKKKKKKKKKKKKKKK0x;,,......,;od  lKk
+ '0KKKKKKKKKKKKKKKKKKKKK00KKOo^  c00'
+  'kKKKOxddxkOO00000Okxoc;''   .dKk'
+    l0Ko.                    .c00l'
+     'l0Kk:.              .;xK0l'
+        'lkK0xl:;,,,,;:ldO0kl'
+            '^:ldxkkkkxdl:^'`
+      },
+      {
+        id: 'alpine',
+        name: 'Alpine Linux',
+        color: '#0d597f',
+        ascii: `       .hddddddddddddddddddddddh.
+      :dddddddddddddddddddddddddd:
+     /dddddddddddddddddddddddddddd/
+    +dddddddddddddddddddddddddddddd+
+  \`sdddddddddddddddddddddddddddddddds\`
+ \`ydddddddddddd++hdddddddddddddddddddy\`
+.hddddddddddd+\`  \`+ddddh:-sdddddddddddh.
+hdddddddddd+\`      \`+y:    .sddddddddddh
+ddddddddh+\`   \`//\`   \`.\`     -sddddddddd
+ddddddh+\`   \`/hddh/\`   \`:s-    -sddddddd
+ddddh+\`   \`/+/dddddh/\`   \`+s-    -sddddd
+ddd+\`   \`/o\` :dddddddh/\`   \`oy-    .yddd
+hdddyo+ohddyosdddddddddho+oydddy++ohdddh
+.hddddddddddddddddddddddddddddddddddddh.
+ \`yddddddddddddddddddddddddddddddddddy\`
+  \`sdddddddddddddddddddddddddddddddds\`
+    +dddddddddddddddddddddddddddddd+
+     /dddddddddddddddddddddddddddd/
+      :dddddddddddddddddddddddddd:
+       .hddddddddddddddddddddddh.`
+      },
+      {
+        id: 'gentoo',
+        name: 'Gentoo',
+        color: '#54487a',
+        ascii: `         -/oyddmdhs+:.
+     -odNMMMMMMMMNNmhy+-\`
+   -yNMMMMMMMMMMMNNNmmdhy+-
+ \`omMMMMMMMMMMMMNmdmmmmddhhy/\`
+ omMMMMMMMMMMMNhhyyyohmdddhhhdo\`
+.ydMMMMMMMMMMdhs++so/smdddhhhhdm+\`
+ oyhdmNMMMMMMMNdyooydmddddhhhhyhNd.
+  :oyhhdNNMMMMMMMNNNmmdddhhhhhyymMh
+    .:+sydNMMMMMNNNmmmdddhhhhhhmMmy
+       /mMMMMMMNNNmmmdddhhhhhmMNhs:
+    \`oNMMMMMMMNNNmmmddddhhdmMNhs+\`
+  \`sNMMMMMMMMNNNmmmdddddmNMmhs/.
+ /NMMMMMMMMNNNNmmmdddmNMNdso:\`
++MMMMMMMNNNNNmmmmdmNMNdso/-
+yMMNNNNNNNmmmmmNNMmhs+/-\`
+/hMMNNNNNNNNMNdhs++/-\`
+\`/ohdmmddhys+++/:.
+  \`-//////:--.`
+      },
+      {
+        id: 'manjaro',
+        name: 'Manjaro',
+        color: '#35bfa7',
+        ascii: `██████████████████  ████████
+██████████████████  ████████
+██████████████████  ████████
+██████████████████  ████████
+████████            ████████
+████████  ████████  ████████
+████████  ████████  ████████
+████████  ████████  ████████
+████████  ████████  ████████
+████████  ████████  ████████
+████████  ████████  ████████
+████████  ████████  ████████
+████████  ████████  ████████
+████████  ████████  ████████`
+      },
+      {
+        id: 'kali',
+        name: 'Kali Linux',
+        color: '#557c94',
+        ascii: `..............
+            ..,;:ccc,.
+          ......''';lxO.
+.....''''..........,:ld;
+           .';;;:::;,,.x,
+      ..'''.            0Xxoc:,.  ...
+  ....                ,ONkc;,;cokOdc',.
+ .                   OMo           ':ddo.
+                    dMc               :OO;
+                    0M.                 .:o.
+                    ;Wd
+                     ;XO,
+                       ,d0Odlc;,..
+                           ..',;:cdOOd::,.
+                                    .:d;.':;.
+                                       'd,  .'
+                                         ;l   ..
+                                          .o
+                                            c
+                                            .'
+                                             .`
+      },
+      {
+        id: 'void',
+        name: 'Void Linux',
+        color: '#478061',
+        ascii: `                __.;=====;.__
+            _.=+==++=++=+=+===;.
+             -=+++=+===+=+=+++++=_
+        .     -=:\`\`     \`--==+=++==.
+       _vi,    \`            --+=++++:
+      .uvnvi.       _._       -==+==+.
+     .vvnvnI\`    .;==|==;.     :|=||=|.
++QmQQmpvvnv; _yYsyQQWUUQQQm #QmQ#:QQQWUV\$QQm.
+ -QQWQWpvvowZ?.wQQQE==<QWWQ/QWQW.QQWW(: jQWQE
+  -\$QQQQmmU'  jQQQ@+=<QWQQ)mQQQ.mQQQC+;jWQQ@'
+   -\$WQ8YnI:   QWQQwgQQWV\`mWQQ.jQWQQgyyWW@!
+     -1vvnvv.     \`~+++\`        ++|+++
+      +vnvnnv,                 \`-|===
+       +vnvnvns.           .      :=-
+        -Invnvvnsi..___..=sv=.     \`
+          +Invnvnvnnnnnnnnvvnn;.
+            ~|Invnvnvvnvvvnnv}+\`
+               -~|{*l}*|~`
+      },
+      {
+        id: 'nixos',
+        name: 'NixOS',
+        color: '#5277c3',
+        ascii: `          ▗▄▄▄       ▗▄▄▄▄    ▄▄▄▖
+          ▜███▙       ▜███▙  ▟███▛
+           ▜███▙       ▜███▙▟███▛
+            ▜███▙       ▜██████▛
+     ▟█████████████████▙ ▜████▛     ▟▙
+    ▟███████████████████▙ ▜███▙    ▟██▙
+           ▄▄▄▄▖           ▜███▙  ▟███▛
+          ▟███▛             ▜██▛ ▟███▛
+         ▟███▛               ▜▛ ▟███▛
+▟███████████▛                  ▟██████████▙
+▜██████████▛                  ▟███████████▛
+      ▟███▛ ▟▙               ▟███▛
+     ▟███▛ ▟██▙             ▟███▛
+    ▟███▛  ▜███▙           ▝▀▀▀▀
+    ▜██▛    ▜███▙ ▜██████████████████▛
+     ▜▛     ▟████▙ ▜████████████████▛
+           ▟██████▙         ▜███▙
+          ▟███▛▜███▙         ▜███▙
+         ▟███▛  ▜███▙         ▜███▙
+         ▝▀▀▀    ▀▀▀▀▘         ▀▀▀▘`
+      },
+      {
+        id: 'popos',
+        name: 'Pop!_OS',
+        color: '#48b9c7',
+        ascii: `             /////////////
+         /////////////////////
+      ///////*767////////////////
+    //////7676767676*//////////////
+   /////76767//7676767//////////////
+  /////767676///*76767///////////////
+ ///////767676///76767.///7676*///////
+/////////767676//76767///767676////////
+//////////76767676767////76767/////////
+///////////76767676//////7676//////////
+////////////,7676,///////767///////////
+/////////////*7676///////76////////////
+///////////////7676////////////////////
+ ///////////////7676///767////////////
+  //////////////////////'////////////
+   //////.7676767676767676767,//////
+    /////767676767676767676767/////
+      ///////////////////////////
+         /////////////////////
+             /////////////`
+      }
+    ];
+
+    const TUI_THEMES = [
+      { id: 'green',      name: 'Phosphor Green', color: '#00ff66', bg: '#0a120b' },
+      { id: 'amber',      name: 'Amber CRT',      color: '#ffb000', bg: '#140d04' },
+      { id: 'cyan',       name: 'Cyber Cyan',     color: '#00f0ff', bg: '#051014' },
+      { id: 'dracula',    name: 'Dracula Synth',  color: '#bd93f9', bg: '#110e1b' },
+      { id: 'mono',       name: 'Monochrome',     color: '#eeeeee', bg: '#0f0f0f' },
+      { id: 'cappuccino', name: 'Cappuccino',     color: '#e69a58', bg: '#1b1411' }
+    ];
 
     // ============ DOM ============
     const bgBlur = document.getElementById('bgBlur');
@@ -1528,6 +2092,10 @@
 
     const playerHeader = document.getElementById('playerHeader');
     const tuiThemeList = document.getElementById('tuiThemeList');
+    const menuHeaderLabel = document.getElementById('menuHeaderLabel');
+
+    const distroBgContainer = document.getElementById('distroBgContainer');
+    const distroBgAscii = document.getElementById('distroBgAscii');
 
     // ============ ESTADO ============
     let playlist = [];
@@ -1706,140 +2274,149 @@
     eqSelect.addEventListener('change', updateAudioEffects);
     dolbyToggle.addEventListener('change', updateAudioEffects);
 
-    // ============ TEMAS TUI ============
-    const TUI_THEMES = {
-      green:      { name: 'Phosphor Green', bg: '#0a120b', accent: '#00ff66' },
-      amber:      { name: 'Amber CRT',      bg: '#140d04', accent: '#ffb000' },
-      cyan:       { name: 'Cyber Cyan',     bg: '#051014', accent: '#00f0ff' },
-      dracula:    { name: 'Dracula Synth',  bg: '#110e1b', accent: '#bd93f9' },
-      mono:       { name: 'Monochrome',     bg: '#0f0f0f', accent: '#eeeeee' },
-      cappuccino: { name: 'Cappuccino',     bg: '#1b1411', accent: '#e69a58' }
-    };
-
-    function applyTuiTheme(themeKey) {
-      if (!TUI_THEMES[themeKey]) themeKey = 'green';
-      document.body.dataset.tuiTheme = themeKey;
-      localStorage.setItem('meowTuiTheme', themeKey);
-
-      if (document.body.classList.contains('skin-tui')) {
-        metaThemeEl.content = TUI_THEMES[themeKey].bg;
+    // ============ MENÚ DINÁMICO DEL HEADER ============
+    function buildMenuItems(skin) {
+      tuiThemeList.innerHTML = '';
+      if (skin === 'tui') {
+        menuHeaderLabel.textContent = 'meow@audio-box:~/themes';
+        TUI_THEMES.forEach(t => {
+          const li = document.createElement('li');
+          li.className = 'tui-theme-item';
+          li.dataset.theme = t.id;
+          li.innerHTML = `<span class="tui-dot" style="background:${t.color}"></span> ${t.name} <span class="tui-check">✓</span>`;
+          tuiThemeList.appendChild(li);
+        });
+      } else if (skin === 'distro-01' || skin === 'distro-02') {
+        menuHeaderLabel.textContent = 'meow@audio-box:~/distros';
+        DISTROS.forEach(d => {
+          const li = document.createElement('li');
+          li.className = 'tui-theme-item';
+          li.dataset.distro = d.id;
+          li.innerHTML = `<span class="tui-dot" style="background:${d.color}"></span> ${d.name} <span class="tui-check">✓</span>`;
+          tuiThemeList.appendChild(li);
+        });
       }
-
-      document.querySelectorAll('.tui-theme-item').forEach(item => {
-        item.classList.toggle('active', item.dataset.theme === themeKey);
-      });
-
-      setTimeout(() => {
-        if (visualizerMode !== 'off' || lufsEnabled) drawVisualizer();
-      }, 80);
     }
 
-    playerHeader.addEventListener('click', (e) => {
-      if (!document.body.classList.contains('skin-tui')) return;
-      e.stopPropagation();
-      playerHeader.classList.toggle('menu-open');
-    });
-
-    tuiThemeList.addEventListener('click', (e) => {
-      const item = e.target.closest('.tui-theme-item');
-      if (!item) return;
-      applyTuiTheme(item.dataset.theme);
-      setTimeout(() => playerHeader.classList.remove('menu-open'), 200);
-    });
-
-    document.addEventListener('click', (e) => {
-      if (!playerHeader.contains(e.target)) {
-        playerHeader.classList.remove('menu-open');
+    function markActiveMenuItem() {
+      const isTui = document.body.classList.contains('skin-tui');
+      const isDistro = document.body.classList.contains('skin-distro-01') || document.body.classList.contains('skin-distro-02');
+      if (isTui) {
+        const activeTheme = document.body.dataset.tuiTheme || 'green';
+        document.querySelectorAll('.tui-theme-item').forEach(item => {
+          item.classList.toggle('active', item.dataset.theme === activeTheme);
+        });
+      } else if (isDistro) {
+        const activeDistro = document.body.dataset.distro || 'arch';
+        document.querySelectorAll('.tui-theme-item').forEach(item => {
+          item.classList.toggle('active', item.dataset.distro === activeDistro);
+        });
       }
-    });
+    }
 
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') playerHeader.classList.remove('menu-open');
-    });
+    // ============ TEMAS TUI ============
+    function applyTuiTheme(themeKey) {
+      const theme = TUI_THEMES.find(t => t.id === themeKey) || TUI_THEMES[0];
+      document.body.dataset.tuiTheme = theme.id;
+      localStorage.setItem('meowTuiTheme', theme.id);
+      if (document.body.classList.contains('skin-tui')) metaThemeEl.content = theme.bg;
+      markActiveMenuItem();
+      setTimeout(() => { if (visualizerMode !== 'off' || lufsEnabled) drawVisualizer(); }, 80);
+    }
+
+    // ============ DISTROS ============
+    function applyDistro(distroId) {
+      const distro = DISTROS.find(d => d.id === distroId) || DISTROS[0];
+      document.body.dataset.distro = distro.id;
+      localStorage.setItem('meowDistro', distro.id);
+      distroBgAscii.textContent = distro.ascii;
+      distroBgAscii.style.color = distro.color;
+      if (document.body.classList.contains('skin-distro-01') || document.body.classList.contains('skin-distro-02')) {
+        metaThemeEl.content = '#0d1117';
+      }
+      markActiveMenuItem();
+      setTimeout(() => { if (visualizerMode !== 'off' || lufsEnabled) drawVisualizer(); }, 80);
+    }
 
     // ============ VISUALIZADOR POR SKIN ============
     function applyVisualizerForClassic() {
       visualizerSettingItem.style.display = '';
       paletteSettingItem.style.display = '';
-
       const savedMode = localStorage.getItem('meowVisualizerMode') || 'hybrid';
       const savedPalette = localStorage.getItem('meowPalette') || 'plasma';
-
       visualizerSelect.value = savedMode;
       paletteSelect.value = savedPalette;
       visualizerMode = savedMode;
       selectedPalette = savedPalette;
-
       canvas.style.display = (visualizerMode === 'off') ? 'none' : 'block';
-
-      if (visualizerMode !== 'off') {
-        initWebAudio();
-        drawVisualizer();
-      } else if (animationFrameId) {
-        cancelAnimationFrame(animationFrameId);
-        animationFrameId = null;
-      }
+      if (visualizerMode !== 'off') { initWebAudio(); drawVisualizer(); }
+      else if (animationFrameId) { cancelAnimationFrame(animationFrameId); animationFrameId = null; }
     }
 
     function applyVisualizerForTui() {
       visualizerSettingItem.style.display = 'none';
       paletteSettingItem.style.display = 'none';
-
       visualizerMode = 'off';
       visualizerSelect.value = 'off';
       canvas.style.display = 'none';
-
-      if (animationFrameId) {
-        cancelAnimationFrame(animationFrameId);
-        animationFrameId = null;
-      }
+      if (animationFrameId) { cancelAnimationFrame(animationFrameId); animationFrameId = null; }
       canvasCtx.clearRect(0, 0, canvas.width, canvas.height);
     }
 
     // ============ SKINS ============
     function applySkin(skin) {
-      document.body.classList.remove('skin-classic', 'skin-tui');
+      document.body.classList.remove('skin-classic', 'skin-tui', 'skin-distro-01', 'skin-distro-02');
       document.body.classList.add('skin-' + skin);
       localStorage.setItem('meowSkin', skin);
       if (skinSelect) skinSelect.value = skin;
 
+      // Construir menú
+      buildMenuItems(skin);
+
       if (skin === 'tui') {
+        document.body.removeAttribute('data-distro');
         const savedTheme = localStorage.getItem('meowTuiTheme') || 'green';
         document.body.dataset.tuiTheme = savedTheme;
-
         headerTitle.textContent = '🎵 MEOW AUDIO APP';
         avisoTitle.textContent = '> SISTEMA DE PRIVACIDAD';
         avisoText.textContent = 'Todo el procesamiento de audio se realiza localmente. Ningún archivo o dato es enviado a servidores externos.';
-        versionTitle.textContent = 'MEOW AUDIO APP // TUI v2.8';
+        versionTitle.textContent = 'MEOW AUDIO APP // TUI v2.9';
         versionDesc.textContent = 'Haz clic en el header para cambiar de tema.';
-
-        const theme = TUI_THEMES[savedTheme] || TUI_THEMES.green;
+        const theme = TUI_THEMES.find(t => t.id === savedTheme) || TUI_THEMES[0];
         metaThemeEl.content = theme.bg;
-
-        document.querySelectorAll('.tui-theme-item').forEach(item => {
-          item.classList.toggle('active', item.dataset.theme === savedTheme);
-        });
+        markActiveMenuItem();
+      } else if (skin === 'distro-01' || skin === 'distro-02') {
+        document.body.removeAttribute('data-tui-theme');
+        const savedDistro = localStorage.getItem('meowDistro') || 'arch';
+        document.body.dataset.distro = savedDistro;
+        headerTitle.textContent = '🎵 MEOW AUDIO APP';
+        avisoTitle.textContent = '> SISTEMA DE PRIVACIDAD';
+        avisoText.textContent = 'Todo el procesamiento de audio se realiza localmente. Ningún archivo o dato es enviado a servidores externos.';
+        versionTitle.textContent = 'MEOW AUDIO APP // @distro v2.9';
+        versionDesc.textContent = 'Haz clic en el header para cambiar de distro.';
+        metaThemeEl.content = '#0d1117';
+        const distro = DISTROS.find(d => d.id === savedDistro) || DISTROS[0];
+        distroBgAscii.textContent = distro.ascii;
+        distroBgAscii.style.color = distro.color;
+        markActiveMenuItem();
       } else {
         document.body.removeAttribute('data-tui-theme');
+        document.body.removeAttribute('data-distro');
         headerTitle.textContent = '🐈 MEOW AUDIO APP 🐈';
         avisoTitle.textContent = '🐾 Aviso Gatuno 🐾';
         avisoText.textContent = 'Todo el procesamiento de audio se realiza de manera local en tu dispositivo. Ningún archivo o dato personal es subido a servidores externos. ¡Miau!';
-        versionTitle.textContent = 'MEOW AUDIO APP v2.8';
-        versionDesc.textContent = 'Sistema de skins: Classic + Consola TUI.';
+        versionTitle.textContent = 'MEOW AUDIO APP v2.9';
+        versionDesc.textContent = 'Skins: Classic, Consola TUI, @distro_01.';
         metaThemeEl.content = '#0f1015';
       }
 
       playerHeader.classList.remove('menu-open');
 
-      if (skin === 'classic') {
-        applyVisualizerForClassic();
-      } else {
-        applyVisualizerForTui();
-      }
+      // Aplicar visualizador según skin
+      if (skin === 'classic') applyVisualizerForClassic();
+      else applyVisualizerForTui();
 
-      setTimeout(() => {
-        if (visualizerMode !== 'off' || lufsEnabled) drawVisualizer();
-      }, 100);
+      setTimeout(() => { if (visualizerMode !== 'off' || lufsEnabled) drawVisualizer(); }, 100);
     }
 
     skinSelect.addEventListener('change', () => { applySkin(skinSelect.value); });
@@ -1859,6 +2436,31 @@
       setTimeout(() => { if (statusEl.textContent.includes('CRT')) statusEl.textContent = ''; }, 1500);
     });
 
+    // ============ HEADER: ABRIR/CERRAR MENÚ ============
+    playerHeader.addEventListener('click', (e) => {
+      const isTui = document.body.classList.contains('skin-tui');
+      const isDistro = document.body.classList.contains('skin-distro-01') || document.body.classList.contains('skin-distro-02');
+      if (!isTui && !isDistro) return;
+      e.stopPropagation();
+      playerHeader.classList.toggle('menu-open');
+    });
+
+    tuiThemeList.addEventListener('click', (e) => {
+      const item = e.target.closest('.tui-theme-item');
+      if (!item) return;
+      if (item.dataset.theme) applyTuiTheme(item.dataset.theme);
+      else if (item.dataset.distro) applyDistro(item.dataset.distro);
+      setTimeout(() => playerHeader.classList.remove('menu-open'), 200);
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!playerHeader.contains(e.target)) playerHeader.classList.remove('menu-open');
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') playerHeader.classList.remove('menu-open');
+    });
+
     // ============ UI ============
     function closeAllOverlays() {
       playlistOverlay.classList.remove('active');
@@ -1873,8 +2475,7 @@
     navHome.addEventListener('click', () => { setActiveTab(navHome); closeAllOverlays(); });
 
     navQueue.addEventListener('click', () => {
-      setActiveTab(navQueue);
-      closeAllOverlays();
+      setActiveTab(navQueue); closeAllOverlays();
       playlistTitle.textContent = "Fila de reproducción";
       sortBar.style.display = 'flex';
       searchBoxContainer.classList.remove('active');
@@ -1884,8 +2485,7 @@
     });
 
     navSearch.addEventListener('click', () => {
-      setActiveTab(navSearch);
-      closeAllOverlays();
+      setActiveTab(navSearch); closeAllOverlays();
       playlistTitle.textContent = "Búsqueda";
       sortBar.style.display = 'none';
       searchBoxContainer.classList.add('active');
@@ -1896,8 +2496,7 @@
     });
 
     navSettings.addEventListener('click', () => {
-      setActiveTab(navSettings);
-      closeAllOverlays();
+      setActiveTab(navSettings); closeAllOverlays();
       settingsOverlay.classList.add('active');
     });
 
@@ -1929,15 +2528,11 @@
 
     function renderPlaylistUI() {
       playlistContainer.innerHTML = '';
-
       const isSearchTab = searchBoxContainer.classList.contains('active');
       const query = searchInput.value.toLowerCase().trim();
 
       if (isSearchTab && query.length === 0) {
-        playlistContainer.innerHTML = `
-          <li style="color:var(--text-muted); font-size:0.82rem; padding:20px 10px; text-align:center;">
-            Escribe algo para buscar...
-          </li>`;
+        playlistContainer.innerHTML = `<li style="color:var(--text-muted); font-size:0.82rem; padding:20px 10px; text-align:center;">Escribe algo para buscar...</li>`;
         return;
       }
 
@@ -2146,13 +2741,8 @@
         sortPlaylist();
         renderPlaylistUI();
 
-        if (isFirstLoad) {
-          currentIndex = 0;
-          playTrack(currentIndex);
-        }
-      } catch (err) {
-        statusEl.textContent = "Error al cargar canciones";
-      }
+        if (isFirstLoad) { currentIndex = 0; playTrack(currentIndex); }
+      } catch (err) { statusEl.textContent = "Error al cargar canciones"; }
     });
 
     // ============ REPRODUCCIÓN ============
@@ -2175,11 +2765,8 @@
         bgBlur.style.backgroundImage = 'none';
       }
 
-      if (track.isHiRes) {
-        audioSpecsEl.classList.add('has-hires');
-      } else {
-        audioSpecsEl.classList.remove('has-hires');
-      }
+      if (track.isHiRes) audioSpecsEl.classList.add('has-hires');
+      else audioSpecsEl.classList.remove('has-hires');
       audioSpecsEl.innerHTML = track.specs || `${track.ext.toUpperCase()} | 16 bit | 44.1 kHz`;
       renderPlaylistUI();
 
@@ -2277,7 +2864,6 @@
     function togglePlay() {
       if (!mainAudio.src) return;
       if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
-
       if (mainAudio.paused) {
         userPausedManually = false;
         mainAudio.play();
@@ -2365,7 +2951,6 @@
 
     trackInfoContainer.addEventListener('click', () => {
       if (document.body.classList.contains('skin-tui')) return;
-
       const modes = ['off', 'bars', 'scope', 'hybrid'];
       const nextIndex = (modes.indexOf(visualizerMode) + 1) % modes.length;
       visualizerMode = modes[nextIndex];
@@ -2541,12 +3126,8 @@
       const savedSkin = localStorage.getItem('meowSkin') || 'classic';
       applySkin(savedSkin);
 
-      if (!localStorage.getItem('meowVisualizerMode')) {
-        localStorage.setItem('meowVisualizerMode', 'hybrid');
-      }
-      if (!localStorage.getItem('meowPalette')) {
-        localStorage.setItem('meowPalette', 'plasma');
-      }
+      if (!localStorage.getItem('meowVisualizerMode')) localStorage.setItem('meowVisualizerMode', 'hybrid');
+      if (!localStorage.getItem('meowPalette')) localStorage.setItem('meowPalette', 'plasma');
 
       visualizerSelect.value = localStorage.getItem('meowVisualizerMode');
       paletteSelect.value = localStorage.getItem('meowPalette');
@@ -2555,6 +3136,9 @@
 
       const savedTuiTheme = localStorage.getItem('meowTuiTheme') || 'green';
       applyTuiTheme(savedTuiTheme);
+
+      const savedDistro = localStorage.getItem('meowDistro') || 'arch';
+      applyDistro(savedDistro);
 
       const savedCrt = localStorage.getItem('meowCrt');
       applyCrt(savedCrt !== 'false');
@@ -2580,3 +3164,4 @@
   </script>
 </body>
 </html>
+
