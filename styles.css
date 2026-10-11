@@ -299,7 +299,7 @@ body.skin-distro-01.crt-off .vignette { box-shadow: inset 0 0 120px rgba(0,0,0,0
   padding:
     calc(env(safe-area-inset-top, 0px) + 10px)
     calc(env(safe-area-inset-right, 0px) + 10px)
-    0                                    /* ⬅️ sin padding inferior */
+    calc(env(safe-area-inset-bottom, 0px) + 10px)   /* ⬅️ vuelve el padding inferior */
     calc(env(safe-area-inset-left, 0px) + 10px);
   position: relative;
   overflow: hidden;
@@ -839,20 +839,18 @@ body.skin-distro-01 .icon-action-btn:active { background: rgba(255, 255, 255, 0.
   background: var(--card-bg);
   backdrop-filter: var(--card-blur);
   -webkit-backdrop-filter: var(--card-blur);
-  border-radius: var(--nav-radius) var(--nav-radius) 0 0;  /* ⬅️ bordes redondeados solo arriba */
-  border: 1px solid var(--card-border);
-  border-bottom: none;                                     /* ⬅️ sin borde inferior */
+  border-radius: var(--nav-radius);              /* ⬅️ las 4 esquinas redondeadas */
+  border: 1px solid var(--card-border);          /* ⬅️ borde completo */
   box-shadow: var(--nav-shadow);
   display: flex;
   justify-content: space-around;
   align-items: center;
-  padding: 10px 0 calc(env(safe-area-inset-bottom, 0px) + 10px) 0;  /* ⬅️ padding abajo con safe-area */
+  padding: 10px 0;
   z-index: 20;
   margin-top: auto;
-  margin-bottom: 0;                                        /* ⬅️ pegado al borde */
-  margin-left: -10px;                                      /* ⬅️ anula el padding lateral del app-container */
-  margin-right: -10px;                                     /* ⬅️ anula el padding lateral del app-container */
-  margin-top: auto;
+  margin-bottom: 0;                              /* ⬅️ sin margen extra */
+  margin-left: 0;                                /* ⬅️ sin negativos */
+  margin-right: 0;                               /* ⬅️ sin negativos */
   flex-shrink: 0;
   transition: border-radius 0.3s, background 0.3s;
 }
