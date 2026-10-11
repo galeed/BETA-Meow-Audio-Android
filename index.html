@@ -105,14 +105,36 @@
       <div class="status-badge" id="status"></div>
 
       <!-- Progreso + ASCII art de fondo (para @distro) -->
-      <div class="progress-container">
+      <!-- Zona inferior: ASCII art de fondo + controles superpuestos -->
+      <div class="distro-zone" id="distroZone">
         <div class="distro-bg-container" id="distroBgContainer">
           <pre class="distro-bg-ascii" id="distroBgAscii"></pre>
         </div>
-        <input type="range" id="seekBar" class="seek-bar" value="0" max="100">
-        <div class="time-stamps">
-          <span id="currentTime">00:00</span>
-          <span id="duration">00:00</span>
+
+        <div class="progress-container">
+          <input type="range" id="seekBar" class="seek-bar" value="0" max="100">
+          <div class="time-stamps">
+            <span id="currentTime">00:00</span>
+            <span id="duration">00:00</span>
+          </div>
+        </div>
+
+        <div class="controls">
+          <button class="btn btn-sub" id="btnShuffle" aria-label="Aleatorio">🔀</button>
+          <button class="btn" id="btnPrev" aria-label="Anterior">⏮</button>
+          <button class="btn btn-play" id="btnPlay" aria-label="Reproducir">▶</button>
+          <button class="btn" id="btnNext" aria-label="Siguiente">⏭</button>
+          <button class="btn btn-sub" id="btnRepeat" aria-label="Repetir">🔁</button>
+        </div>
+
+        <div class="action-buttons-row">
+          <button class="icon-action-btn" id="btnFullscreen" title="Pantalla completa">⛶</button>
+          <button class="icon-action-btn" id="btnRotate" title="Girar pantalla">🔄</button>
+          <button class="icon-action-btn" id="btnCrt" title="Efecto CRT">📺</button>
+          <div class="file-input-wrapper">
+            <button class="icon-action-btn" title="Añadir canciones">➕</button>
+            <input type="file" id="fileInput" class="real-file-input" multiple accept=".mp3,.wav,.ogg,.flac,.m4a,.aac,audio/*">
+          </div>
         </div>
       </div>
 
