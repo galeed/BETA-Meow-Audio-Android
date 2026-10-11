@@ -89,20 +89,9 @@
       <div class="audio-specs-badge" id="audioSpecs"></div>
       <div class="status-badge" id="status"></div>
 
-      <!-- ZONA ASCII: logo de la distro + botones satélite (solo @distro_01) -->
+      <!-- ZONA ASCII: logo de la distro (solo @distro_01) -->
       <div class="distro-display" id="distroDisplay">
         <pre class="distro-bg-ascii" id="distroBgAscii"></pre>
-
-        <!-- Botones satélite: SOLO se ven en skin @distro_01 -->
-        <div class="action-buttons-row action-buttons-satellite">
-          <button class="icon-action-btn" id="btnFullscreen_s" title="Pantalla completa">⛶</button>
-          <button class="icon-action-btn" id="btnRotate_s" title="Girar pantalla">🔄</button>
-          <button class="icon-action-btn" id="btnCrt_s" title="Efecto CRT">📺</button>
-          <div class="file-input-wrapper">
-            <button class="icon-action-btn" title="Añadir canciones">➕</button>
-            <input type="file" id="fileInput_s" class="real-file-input" multiple accept=".mp3,.wav,.ogg,.flac,.m4a,.aac,audio/*">
-          </div>
-        </div>
       </div>
 
       <!-- ZONA INFERIOR: controles -->
@@ -165,6 +154,19 @@
           <button class="btn-icon" id="btnCloseSettings" aria-label="Cerrar">✕</button>
         </div>
         <div class="settings-body">
+
+          <!-- 🛠️ Tools Home (solo @distro_01) -->
+          <div class="settings-item" id="toolsHomeItem">
+            <div class="settings-title">🛠️ Tools Home</div>
+            <div class="settings-desc">Acciones rápidas exclusivas del skin @distro_01.</div>
+            <div class="settings-row" style="flex-wrap: wrap; gap: 8px;">
+              <button class="btn-action btn-tool" id="toolFullscreen">⛶ Pantalla completa</button>
+              <button class="btn-action btn-tool" id="toolRotate">🔄 Girar pantalla</button>
+              <button class="btn-action btn-tool" id="toolCrt">📺 Efecto CRT</button>
+              <button class="btn-action btn-tool" id="toolAddSongs">➕ Añadir canciones</button>
+              <input type="file" id="toolFileInput" class="real-file-input" multiple accept=".mp3,.wav,.ogg,.flac,.m4a,.aac,audio/*" style="display:none;">
+            </div>
+          </div>
 
           <div class="settings-item">
             <div class="settings-title">🎨 Skin de la App</div>
@@ -297,7 +299,7 @@
           </div>
 
           <div class="settings-item">
-            <div class="settings-title" id="versionTitle">MEOW AUDIO APP v4.0</div>
+            <div class="settings-title" id="versionTitle">MEOW AUDIO APP v4.1</div>
             <div class="settings-desc" id="versionDesc">Skins: Classic, Consola TUI, @distro_01.</div>
           </div>
         </div>
@@ -309,6 +311,14 @@
       <button class="nav-btn" id="navQueue" title="Fila">☰</button>
       <button class="nav-btn" id="navSearch" title="Buscar">🔍</button>
       <button class="nav-btn" id="navSettings" title="Ajustes">⚙️</button>
+    </div>
+  </div>
+
+  <!-- Overlay de boot animado (al cambiar a @distro_01) -->
+  <div class="distro-boot-overlay" id="distroBootOverlay">
+    <div class="distro-boot-terminal">
+      <pre id="distroBootText"></pre>
+      <span class="distro-boot-cursor">█</span>
     </div>
   </div>
 
