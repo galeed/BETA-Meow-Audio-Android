@@ -1,18 +1,20 @@
 /* =========================================================
-   MEOW AUDIO APP — Service Worker v2.9
+   MEOW AUDIO APP — Service Worker v3.0
    Estrategia:
    - App shell (HTML/CSS/JS/iconos/fuentes): cache-first
    - Recursos externos (CDN): stale-while-revalidate
    - Audios locales: nunca se cachean (van por IndexedDB)
    ========================================================= */
 
-const CACHE_NAME = 'meow-audio-v2.9';
-const RUNTIME_CACHE = 'meow-runtime-v2.9';
+const CACHE_NAME = 'meow-audio-v3.0';
+const RUNTIME_CACHE = 'meow-runtime-v3.0';
 
 // Archivos del app shell que SIEMPRE deben estar disponibles offline
 const APP_SHELL = [
   './',
   './index.html',
+  './styles.css',
+  './app.js',
   './manifest.json',
   './favicon-16x16.png',
   './favicon-32x32.png',
