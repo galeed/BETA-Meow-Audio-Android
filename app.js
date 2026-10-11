@@ -1,16 +1,5 @@
 /* ============================================================
-   MEOW AUDIO APP v3.1 — app.js
-   Contiene:
-   - Arrays DISTROS (13) y TUI_THEMES (6) con ASCII art
-   - Referencias DOM
-   - Estado global
-   - IndexedDB (persistencia de canciones)
-   - Web Audio API (EQ, Dolby, Analizador, keepAlive)
-   - Skins (Classic, TUI, @distro_01)
-   - Reproducción, controles, Media Session
-   - Visualizador, LUFS
-   - Background playback
-   - Exportación
+   MEOW AUDIO APP v4.0 — app.js
    ============================================================ */
 
 'use strict';
@@ -422,6 +411,28 @@ const distroBgContainer = document.getElementById('distroBgContainer');
 const distroBgAscii = document.getElementById('distroBgAscii');
 
 // ============================================================
+// BOTONES SATÉLITE (solo @distro_01)
+// ============================================================
+const btnFullscreenS = document.getElementById('btnFullscreen_s');
+const btnRotateS = document.getElementById('btnRotate_s');
+const btnCrtS = document.getElementById('btnCrt_s');
+const fileInputS = document.getElementById('fileInput_s');
+
+// Sincronizar eventos de los satélites con los normales
+if (btnFullscreenS) btnFullscreenS.addEventListener('click', () => btnFullscreen.click());
+if (btnRotateS) btnRotateS.addEventListener('click', () => btnRotate.click());
+if (btnCrtS) btnCrtS.addEventListener('click', () => btnCrt.click());
+if (fileInputS) {
+  fileInputS.addEventListener('change', (e) => {
+    const dt = new DataTransfer();
+    for (const f of e.target.files) dt.items.add(f);
+    fileInput.files = dt.files;
+    fileInput.dispatchEvent(new Event('change', { bubbles: true }));
+    fileInputS.value = '';
+  });
+}
+
+// ============================================================
 // ESTADO GLOBAL
 // ============================================================
 let playlist = [];
@@ -659,14 +670,13 @@ function applyTuiTheme(themeKey) {
 }
 
 // ============================================================
-// DISTROS — CORREGIDO
+// DISTROS
 // ============================================================
 function applyDistro(distroId) {
   const distro = DISTROS.find(d => d.id === distroId) || DISTROS[0];
   document.body.dataset.distro = distro.id;
   localStorage.setItem('meowDistro', distro.id);
 
-  // Actualizar el ASCII art de fondo
   distroBgAscii.textContent = distro.ascii;
   distroBgAscii.style.color = distro.color;
 
@@ -676,7 +686,6 @@ function applyDistro(distroId) {
 
   markActiveMenuItem();
 
-  // Forzar reflow para asegurar que el ASCII se renderice
   void distroBgAscii.offsetWidth;
 
   setTimeout(() => { if (visualizerMode !== 'off' || lufsEnabled) drawVisualizer(); }, 80);
@@ -727,7 +736,7 @@ function applySkin(skin) {
     headerTitle.textContent = '🎵 MEOW AUDIO APP';
     avisoTitle.textContent = '> SISTEMA DE PRIVACIDAD';
     avisoText.textContent = 'Todo el procesamiento de audio se realiza localmente. Ningún archivo o dato es enviado a servidores externos.';
-    versionTitle.textContent = 'MEOW AUDIO APP // TUI v3.1';
+    versionTitle.textContent = 'MEOW AUDIO APP // TUI v4.0';
     versionDesc.textContent = 'Haz clic en el header para cambiar de tema.';
     const theme = TUI_THEMES.find(t => t.id === savedTheme) || TUI_THEMES[0];
     metaThemeEl.content = theme.bg;
@@ -739,11 +748,10 @@ function applySkin(skin) {
     headerTitle.textContent = '🎵 MEOW AUDIO APP';
     avisoTitle.textContent = '> SISTEMA DE PRIVACIDAD';
     avisoText.textContent = 'Todo el procesamiento de audio se realiza localmente. Ningún archivo o dato es enviado a servidores externos.';
-    versionTitle.textContent = 'MEOW AUDIO APP // @distro v3.1';
+    versionTitle.textContent = 'MEOW AUDIO APP // @distro v4.0';
     versionDesc.textContent = 'Haz clic en el header para cambiar de distro.';
     metaThemeEl.content = '#0d1117';
 
-    // ⬇️ CRÍTICO: actualizar el ASCII art al aplicar el skin
     const distro = DISTROS.find(d => d.id === savedDistro) || DISTROS[0];
     distroBgAscii.textContent = distro.ascii;
     distroBgAscii.style.color = distro.color;
@@ -755,7 +763,7 @@ function applySkin(skin) {
     headerTitle.textContent = '🐈 MEOW AUDIO APP 🐈';
     avisoTitle.textContent = '🐾 Aviso Gatuno 🐾';
     avisoText.textContent = 'Todo el procesamiento de audio se realiza de manera local en tu dispositivo. Ningún archivo o dato personal es subido a servidores externos. ¡Miau!';
-    versionTitle.textContent = 'MEOW AUDIO APP v3.1';
+    versionTitle.textContent = 'MEOW AUDIO APP v4.0';
     versionDesc.textContent = 'Skins: Classic, Consola TUI, @distro_01.';
     metaThemeEl.content = '#0f1015';
   }
@@ -804,6 +812,14 @@ playerHeader.addEventListener('click', (e) => {
   } else {
     playerHeader.classList.remove('menu-open');
   }
+});
+
+tuiThemeList.addEventListener('click', (e) => {
+  const item = e.target.closest('.tui-theme-item');
+  if (!item) return;
+  if (item.dataset.theme) applyTuiTheme(item.dataset.theme);
+  else if (item.dataset.distro) applyDistro(item.dataset.distro);
+  setTimeout(() => playerHeader.classList.remove('menu-open'), 200);
 });
 
 document.addEventListener('click', (e) => {
@@ -1075,8 +1091,7 @@ function formatTime(seconds) {
 // ============================================================
 // ARCHIVOS
 // ============================================================
-fileInput.addEventListener('change', async (e) => {
-  const files = Array.from(e.target.files || []);
+async function handleFiles(files) {
   if (files.length === 0) return;
   statusEl.textContent = "Procesando...";
 
@@ -1106,7 +1121,9 @@ fileInput.addEventListener('change', async (e) => {
 
     if (isFirstLoad) { currentIndex = 0; playTrack(currentIndex); }
   } catch (err) { statusEl.textContent = "Error al cargar canciones"; }
-});
+}
+
+fileInput.addEventListener('change', (e) => handleFiles(Array.from(e.target.files || [])));
 
 // ============================================================
 // REPRODUCCIÓN
@@ -1540,7 +1557,6 @@ function initialize() {
   loadStoredTracksFromDB();
 }
 
-// Esperar a que el DOM esté listo (por el defer del script, ya lo está, pero por seguridad)
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', initialize);
 } else {
