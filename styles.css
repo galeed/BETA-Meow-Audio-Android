@@ -299,9 +299,10 @@ body.skin-distro-01.crt-off .vignette { box-shadow: inset 0 0 120px rgba(0,0,0,0
   padding:
     calc(env(safe-area-inset-top, 0px) + 10px)
     calc(env(safe-area-inset-right, 0px) + 10px)
-    calc(env(safe-area-inset-bottom, 0px) + 10px)
+    0                                    /* ⬅️ sin padding inferior */
     calc(env(safe-area-inset-left, 0px) + 10px);
   position: relative;
+  overflow: hidden;
 }
 
 .bg-blur {
