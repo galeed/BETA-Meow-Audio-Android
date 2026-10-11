@@ -331,6 +331,7 @@ body.skin-distro-01 .bg-blur { filter: blur(40px) brightness(0.15) saturate(0.4)
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  gap: 4px;                /* ⬅️ NUEVO: separa ligeramente los hijos */
   overflow: hidden;
   transition: background 0.4s ease, border-color 0.4s ease, border-radius 0.3s ease;
 }
@@ -452,7 +453,7 @@ body.skin-distro-01 .player-header.menu-open .tui-theme-menu {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 6px 0;
+  margin: 12px 0 8px 0;   /* ⬅️ más arriba, un poco menos abajo */
   flex-shrink: 1;
   min-height: 0;
   position: relative;
@@ -484,8 +485,8 @@ body.skin-distro-01 .cover-art {
    ============================================================ */
 .track-info-container {
   position: relative;
-  margin: 4px 0;
-  padding: 8px 6px;
+  margin: 8px 0 10px 0;   /* ⬅️ más espacio arriba y abajo */
+  padding: 10px 8px;      /* ⬅️ un poco más de padding interno */
   border-radius: 14px;
   background: rgba(0, 0, 0, 0.35);
   backdrop-filter: blur(8px);
