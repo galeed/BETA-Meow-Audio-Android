@@ -1,5 +1,5 @@
 /* ============================================================
-   MEOW AUDIO APP v3.6 — styles.css
+   MEOW AUDIO APP v3.8 — styles.css
    ============================================================ */
 
 /* ============================================================
@@ -293,7 +293,6 @@ body.skin-distro-01.crt-off .vignette { box-shadow: inset 0 0 120px rgba(0,0,0,0
     calc(env(safe-area-inset-left, 0px) + 10px);
   position: relative;
   overflow: hidden;
-  /* ⬇️ Cambios: quitar space-between, usar min-height: 0 */
 }
 
 .bg-blur {
@@ -335,11 +334,8 @@ body.skin-distro-01 .bg-blur { filter: blur(40px) brightness(0.15) saturate(0.4)
   overflow: hidden;
   transition: background 0.4s ease, border-color 0.4s ease, border-radius 0.3s ease;
 }
-body.skin-tui .player-card { border-width: 2px; overflow: visible; }
-body.skin-distro-01 .player-card {
-  border-width: 2px;
-  overflow: hidden;    /* ⬅️ CAMBIO: hidden para que no desborde */
-}
+body.skin-tui .player-card { border-width: 2px; overflow: hidden; }
+body.skin-distro-01 .player-card { border-width: 2px; overflow: hidden; }
 
 /* ============================================================
    HEADER + MENÚ DESPLEGABLE
@@ -375,9 +371,9 @@ body.skin-distro-01 .player-header::after {
 body.skin-tui .player-header.menu-open::after,
 body.skin-distro-01 .player-header.menu-open::after { content: ' ▴'; }
 
+/* ⬇️ CAMBIO: position fixed para que el overflow:hidden del player-card no lo corte */
 .tui-theme-menu {
   position: fixed;
-  top: 100%;
   left: 50%;
   transform: translate(-50%, 8px) scale(0.95);
   min-width: 240px;
@@ -398,8 +394,6 @@ body.skin-distro-01 .player-header.menu-open::after { content: ' ▴'; }
   display: none;
   text-align: left;
 }
-
-
 body.skin-tui .tui-theme-menu,
 body.skin-distro-01 .tui-theme-menu { display: block; }
 body.skin-tui .player-header.menu-open .tui-theme-menu,
@@ -616,19 +610,19 @@ body.skin-tui .status-badge,
 body.skin-distro-01 .status-badge { text-shadow: var(--glow); }
 
 /* ============================================================
-   ZONA DEL LOGO DE DISTRO (marca de agua)
+   ZONA DEL LOGO DE DISTRO (con botones satélite)
    ============================================================ */
 .distro-display {
   display: none;
   width: 100%;
   flex: 1 1 auto;
-  min-height: 60px;
-  max-height: 140px;
+  min-height: 120px;
+  max-height: 220px;
   align-items: center;
   justify-content: center;
   overflow: hidden;
   position: relative;
-  padding: 4px 6px;
+  padding: 52px 52px;
   margin: 4px 0;
 }
 body.skin-distro-01 .distro-display { display: flex; }
@@ -811,6 +805,88 @@ body.skin-distro-01 .icon-action-btn:active { background: rgba(255, 255, 255, 0.
 }
 
 /* ============================================================
+   🛰️ BOTONES SATÉLITE ALREDEDOR DEL LOGO (solo @distro_01)
+   ============================================================ */
+body.skin-distro-01 .action-buttons-row {
+  position: absolute;
+  inset: 0;
+  display: block;
+  padding: 0;
+  pointer-events: none;
+  z-index: 5;
+}
+
+body.skin-distro-01 .action-buttons-row > .icon-action-btn,
+body.skin-distro-01 .action-buttons-row > .file-input-wrapper {
+  position: absolute;
+  pointer-events: auto;
+}
+
+body.skin-distro-01 .action-buttons-row > .icon-action-btn {
+  background: #000;
+  border: 1px solid var(--accent);
+  color: var(--accent);
+  border-radius: 50%;
+  width: 42px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  box-shadow: 0 0 12px var(--glow-color);
+  transition: transform 0.15s, background 0.2s;
+}
+
+body.skin-distro-01 .action-buttons-row > .icon-action-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  transform: scale(1.08);
+}
+
+body.skin-distro-01 #btnFullscreen {
+  top: 0;
+  left: 0;
+}
+
+body.skin-distro-01 #btnRotate {
+  top: 0;
+  right: 0;
+}
+
+body.skin-distro-01 #btnCrt {
+  bottom: 0;
+  left: 0;
+}
+
+body.skin-distro-01 .file-input-wrapper {
+  bottom: 0;
+  right: 0;
+  width: 42px;
+  height: 42px;
+}
+
+body.skin-distro-01 .file-input-wrapper .icon-action-btn {
+  background: #000;
+  border: 1px solid var(--accent);
+  color: var(--accent);
+  border-radius: 50%;
+  width: 42px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  box-shadow: 0 0 12px var(--glow-color);
+  position: static;
+  pointer-events: auto;
+  transition: transform 0.15s, background 0.2s;
+}
+
+body.skin-distro-01 .file-input-wrapper .icon-action-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  transform: scale(1.08);
+}
+
+/* ============================================================
    NAVEGACIÓN INFERIOR (isla flotante)
    ============================================================ */
 .bottom-nav {
@@ -827,10 +903,6 @@ body.skin-distro-01 .icon-action-btn:active { background: rgba(255, 255, 255, 0.
   z-index: 20;
   flex: 0 0 auto;
   margin-top: 0;
-  margin-bottom: 0;
-  margin-left: 0;
-  margin-right: 0;
-  flex-shrink: 0;
   transition: border-radius 0.3s, background 0.3s;
 }
 body.skin-tui .bottom-nav,
@@ -1314,8 +1386,6 @@ body.skin-distro-01 kbd {
     overflow: hidden;
     flex: 1;
   }
-  body.skin-tui .player-card,
-  body.skin-distro-01 .player-card { overflow: visible; }
   .player-header { display: none; }
   .cover-container {
     grid-area: cover;
@@ -1346,8 +1416,8 @@ body.skin-distro-01 kbd {
     flex: 0 0 auto;
     min-height: 40px;
     max-height: 80px;
-    margin: 0;
     padding: 0;
+    margin: 0;
   }
   .distro-bg-ascii { font-size: 5px; opacity: 0.5; }
   .progress-container { grid-area: progress; margin: 0; }
