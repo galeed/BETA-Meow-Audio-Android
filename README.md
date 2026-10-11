@@ -1,5 +1,3 @@
-# BETA-Meow-Audio-Android
-
 =========================================================
 MEOW AUDIO APP v2.9
 Reproductor de audio local PWA con skins
