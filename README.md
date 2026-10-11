@@ -1,12 +1,14 @@
 =========================================================
-MEOW AUDIO APP v2.9
+MEOW AUDIO APP v3.0
 Reproductor de audio local PWA con skins
 =========================================================
 
 CONTENIDO DEL PROYECTO
 -----------------------
 📁 tu-carpeta/
-├── index.html               ← App principal (HTML + CSS + JS)
+├── index.html               ← Estructura HTML
+├── styles.css               ← Todos los estilos
+├── app.js                   ← Toda la lógica JS
 ├── sw.js                    ← Service Worker
 ├── manifest.json            ← Manifiesto PWA
 ├── favicon-16x16.png
@@ -18,14 +20,17 @@ CONTENIDO DEL PROYECTO
 ├── icon-512-maskable.png
 └── README.txt               ← Este archivo
 
+Nota v3.0: el proyecto se dividió en index.html + styles.css + app.js
+para mejor mantenibilidad. Antes todo estaba inline en un solo HTML.
 
-SKINS DISPONIBLES (v2.9)
--------------------------
+
+SKINS DISPONIBLES
+-----------------
 1. Classic
    - Diseño original con glassmorphism
    - Acento rojo (#ff4757) + cyan (#00ffcc)
    - Blur, bordes redondeados, fuentes del sistema
-   - Visualizador de audio configurable
+   - Visualizador de audio configurable (híbrido/plasma por defecto)
    - Portada del álbum cuadrada
 
 2. Consola TUI
@@ -58,6 +63,8 @@ SKINS DISPONIBLES (v2.9)
      * NixOS (#5277c3)
      * Pop!_OS (#48b9c7)
    - ASCII art de cada distro como marca de agua de fondo
+     (opacidad 0.15, ubicado detrás de la barra de progreso,
+      controles y botones de acción)
    - Menú desplegable en el header para cambiar de distro
    - Fondo base #0d1117 (GitHub dark) + acento por distro
 
@@ -138,9 +145,20 @@ Opción 3: HTTPS temporal (para probar en móvil)
 SOLUCIÓN DE PROBLEMAS
 ----------------------
 ❌ La app no se actualiza después de subir cambios
-   → Sube el número de versión en sw.js (v2.9 → v2.10)
+   → Sube el número de versión en sw.js (v3.0 → v3.1)
    → Borra datos del sitio en el navegador
    → Reinstala la PWA
+
+❌ El skin @distro_01 no aparece en el <select>
+   → Verifica que en index.html el <select id="skinSelect"> tenga
+     la opción <option value="distro-01">@distro_01</option>
+   → Verifica que styles.css tenga los bloques
+     body.skin-distro-01[data-distro="..."] { ... }
+
+❌ No se ven los colores al elegir una distro
+   → Abre la consola del navegador (F12) y verifica que no haya
+     errores de JS
+   → Asegúrate de que app.js se cargue (pestaña Network)
 
 ❌ La música se pausa al bloquear pantalla
    → Debe estar instalada como PWA (no desde Safari)
@@ -158,12 +176,12 @@ SOLUCIÓN DE PROBLEMAS
 
 PRÓXIMAS VERSIONES
 -------------------
-v2.10 → @distro_02 con las otras 13 distros
+v3.1 → @distro_02 con las otras 13 distros
         (elementary, CachyOS, EndeavourOS, CentOS Stream,
          Slackware, Parrot, Raspberry Pi OS, Proxmox,
          TrueNAS, Android, macOS, Windows 11, GNU Hurd)
 
-v2.11 → Más temas para TUI
+v3.2 → Más temas para TUI
         + Crossfade real entre pistas
 
 
