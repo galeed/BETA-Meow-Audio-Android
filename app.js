@@ -793,18 +793,7 @@ playerHeader.addEventListener('click', (e) => {
   const isDistro = document.body.classList.contains('skin-distro-01');
   if (!isTui && !isDistro) return;
   e.stopPropagation();
-
-  const menu = document.getElementById('tuiThemeMenu');
-  const willOpen = !playerHeader.classList.contains('menu-open');
-
-  if (willOpen) {
-    // Calcular posición debajo del header
-    const headerRect = playerHeader.getBoundingClientRect();
-    menu.style.top = (headerRect.bottom + 8) + 'px';
-    playerHeader.classList.add('menu-open');
-  } else {
-    playerHeader.classList.remove('menu-open');
-  }
+  playerHeader.classList.toggle('menu-open');
 });
 
 tuiThemeList.addEventListener('click', (e) => {
