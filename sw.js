@@ -1,13 +1,13 @@
 /* =========================================================
-   MEOW AUDIO APP — Service Worker v2.8
+   MEOW AUDIO APP — Service Worker v2.9
    Estrategia:
    - App shell (HTML/CSS/JS/iconos/fuentes): cache-first
    - Recursos externos (CDN): stale-while-revalidate
    - Audios locales: nunca se cachean (van por IndexedDB)
    ========================================================= */
 
-const CACHE_NAME = 'meow-audio-v2.8';
-const RUNTIME_CACHE = 'meow-runtime-v2.8';
+const CACHE_NAME = 'meow-audio-v2.9';
+const RUNTIME_CACHE = 'meow-runtime-v2.9';
 
 // Archivos del app shell que SIEMPRE deben estar disponibles offline
 const APP_SHELL = [
@@ -30,7 +30,6 @@ self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME)
       .then((cache) => {
-        // addAll falla si UNO falla, así que los añadimos uno por uno
         return Promise.all(
           APP_SHELL.map((url) =>
             cache.add(url).catch((err) => {
@@ -60,18 +59,15 @@ self.addEventListener('activate', (event) => {
 self.addEventListener('fetch', (event) => {
   const req = event.request;
 
-  // Solo manejamos GET
   if (req.method !== 'GET') return;
 
   const url = new URL(req.url);
 
-  // 1) Ignorar blob:, data:, chrome-extension: y esquemas raros
   if (!url.protocol.startsWith('http')) return;
 
-  // 2) Nunca interceptar audios locales servidos por blob (IndexedDB)
   if (req.destination === 'audio') return;
 
-  // 3) Peticiones de navegación (HTML) → network-first con fallback a cache
+  // Navegación HTML → network-first con fallback
   if (req.mode === 'navigate') {
     event.respondWith(
       fetch(req)
@@ -85,7 +81,7 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // 4) Recursos del mismo origen → cache-first
+  // Recursos del mismo origen → cache-first
   if (url.origin === self.location.origin) {
     event.respondWith(
       caches.match(req).then((cached) => {
@@ -103,7 +99,7 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // 5) Recursos externos (CDN, Google Fonts) → stale-while-revalidate
+  // Recursos externos → stale-while-revalidate
   event.respondWith(
     caches.open(RUNTIME_CACHE).then((cache) =>
       cache.match(req).then((cached) => {
@@ -115,14 +111,13 @@ self.addEventListener('fetch', (event) => {
             return res;
           })
           .catch(() => cached);
-
         return cached || fetchPromise;
       })
     )
   );
 });
 
-// Mensajes desde el cliente (por si quieres forzar update)
+// Mensajes desde el cliente
 self.addEventListener('message', (event) => {
   if (event.data && event.data.type === 'SKIP_WAITING') {
     self.skipWaiting();
