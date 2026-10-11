@@ -793,15 +793,17 @@ playerHeader.addEventListener('click', (e) => {
   const isDistro = document.body.classList.contains('skin-distro-01');
   if (!isTui && !isDistro) return;
   e.stopPropagation();
-  playerHeader.classList.toggle('menu-open');
-});
 
-tuiThemeList.addEventListener('click', (e) => {
-  const item = e.target.closest('.tui-theme-item');
-  if (!item) return;
-  if (item.dataset.theme) applyTuiTheme(item.dataset.theme);
-  else if (item.dataset.distro) applyDistro(item.dataset.distro);
-  setTimeout(() => playerHeader.classList.remove('menu-open'), 200);
+  const menu = document.getElementById('tuiThemeMenu');
+  const willOpen = !playerHeader.classList.contains('menu-open');
+
+  if (willOpen) {
+    const headerRect = playerHeader.getBoundingClientRect();
+    menu.style.top = (headerRect.bottom + 8) + 'px';
+    playerHeader.classList.add('menu-open');
+  } else {
+    playerHeader.classList.remove('menu-open');
+  }
 });
 
 document.addEventListener('click', (e) => {
