@@ -1492,42 +1492,111 @@ body.force-landscape .action-buttons-normal { grid-area: actions; justify-conten
 body.force-landscape .bottom-nav { flex: 0 0 auto; width: 100%; padding: 6px 0; border-radius: var(--nav-radius); margin: 0; }
 
 /* ============================================================
-   🖥️ MODO TERMINAL — Fuerza monospace en @distro_01
+   🖥️ MODO TERMINAL — @distro_01 y @distro_02
+   Monospace forzado + ajustes de espaciado y tamaños
    ============================================================ */
+
+/* 🔤 Forzar monospace en todo el skin (muy agresivo) */
 body.skin-distro-01,
-body.skin-distro-01
+body.skin-distro-01 *,
+body.skin-distro-01 *::before,
+body.skin-distro-01 *::after,
 body.skin-distro-02,
-body.skin-distro-02 * {
+body.skin-distro-02 *,
+body.skin-distro-02 *::before,
+body.skin-distro-02 *::after {
   font-family: 'JetBrains Mono', 'Share Tech Mono', 'Fira Code', 'Courier New', monospace !important;
+  font-variant-ligatures: none !important;
 }
 
-/* Ajuste de pesos y tamaños para la estética terminal */
-body.skin-distro-01 .header-title {
-  font-size: 0.78rem !important;
-  font-weight: 500 !important;
+/* 🎵 Título del header — un poco más grande */
+body.skin-distro-01 .header-title,
+body.skin-distro-02 .header-title {
+  font-size: 1.15rem !important;
+  font-weight: 700 !important;
   letter-spacing: 3px !important;
-  opacity: 0.85;
+  opacity: 0.95;
 }
 
-body.skin-distro-01 .player-header {
-  margin-bottom: 2px !important;
+/* 📏 Espacio entre header y portada */
+body.skin-distro-01 .player-header,
+body.skin-distro-02 .player-header {
+  margin-bottom: 12px !important;
   margin-top: 0 !important;
 }
 
-/* ============================================================
-   🐧 Ajustes específicos de @distro_01 y @distro_02
-   ============================================================ */
+/* 🖼️ Portada del álbum — MÁS GRANDE en distros */
 body.skin-distro-01 .cover-art,
 body.skin-distro-02 .cover-art {
-  max-width: 190px;    /* ⬅️ portada más chica solo en distro */
+  max-width: 280px !important;   /* ⬅️ antes 240px (Classic/TUI) → 280px */
 }
 
-body.skin-distro-01 .header-title,
-body.skin-distro-02 .header-title {
-  font-size: 1.05rem;    /* ⬅️ título más grande */
+/* 📏 Espacio entre portada y metadatos */
+body.skin-distro-01 .cover-container,
+body.skin-distro-02 .cover-container {
+  margin-top: 6px !important;
+  margin-bottom: 8px !important;   /* ⬅️ reducido para acercar un poco la portada a los metadatos */
+}
+
+/* 📝 Contenedor de metadatos — más compacto */
+body.skin-distro-01 .track-info-container,
+body.skin-distro-02 .track-info-container {
+  margin-top: 0 !important;
+  margin-bottom: 8px !important;
+  padding: 6px 8px !important;   /* ⬅️ reducido de 10px a 6px */
+}
+
+/* 📝 Título de la canción — más chico */
+body.skin-distro-01 .track-title,
+body.skin-distro-02 .track-title {
+  font-size: 0.95rem !important;   /* ⬅️ antes 1.05rem */
+  letter-spacing: 0.8px;
   font-weight: 700;
-  letter-spacing: 3px;
-  opacity: 0.95;
+}
+
+/* 📝 Artista — más chico */
+body.skin-distro-01 .track-artist,
+body.skin-distro-02 .track-artist {
+  font-size: 0.75rem !important;   /* ⬅️ antes 0.82rem */
+  letter-spacing: 0.4px;
+}
+
+/* 📝 Álbum — más chico */
+body.skin-distro-01 .track-album,
+body.skin-distro-02 .track-album {
+  font-size: 0.66rem !important;   /* ⬅️ antes 0.72rem */
+  letter-spacing: 0.3px;
+}
+
+/* 🏷️ Specs y status — más chicos también */
+body.skin-distro-01 .audio-specs-badge,
+body.skin-distro-02 .audio-specs-badge {
+  font-size: 0.62rem !important;
+  letter-spacing: 0.8px;
+  min-height: 14px !important;
+}
+
+body.skin-distro-01 .status-badge,
+body.skin-distro-02 .status-badge {
+  font-size: 0.6rem !important;
+  min-height: 10px !important;
+}
+
+/* 🐧 ASCII distro — MÁS GRANDE para llenar el hueco */
+body.skin-distro-01 .distro-display,
+body.skin-distro-02 .distro-display {
+  margin-top: 4px !important;
+  margin-bottom: 4px !important;
+  min-height: 100px !important;
+  max-height: 260px !important;   /* ⬅️ antes 240px → más grande */
+  padding: 4px !important;
+}
+
+body.skin-distro-01 .distro-bg-ascii,
+body.skin-distro-02 .distro-bg-ascii {
+  font-size: 9px !important;      /* ⬅️ antes 8px → más grande */
+  line-height: 1.0;
+  opacity: 0.62;                  /* ⬅️ ligeramente más visible */
 }
 
 /* Reducir tamaño de los metadatos en @distro_01 */
