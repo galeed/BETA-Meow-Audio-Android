@@ -1493,10 +1493,10 @@ body.force-landscape .bottom-nav { flex: 0 0 auto; width: 100%; padding: 6px 0; 
 
 /* ============================================================
    🖥️ MODO TERMINAL — @distro_01 y @distro_02
-   Monospace forzado + ajustes de espaciado y tamaños
+   Monospace forzado + layout balanceado
    ============================================================ */
 
-/* 🔤 Forzar monospace en todo el skin (muy agresivo) */
+/* 🔤 Forzar monospace en todo el skin */
 body.skin-distro-01,
 body.skin-distro-01 *,
 body.skin-distro-01 *::before,
@@ -1509,133 +1509,94 @@ body.skin-distro-02 *::after {
   font-variant-ligatures: none !important;
 }
 
-/* 🎵 Título del header — un poco más grande */
+/* 🎵 Header título */
 body.skin-distro-01 .header-title,
 body.skin-distro-02 .header-title {
-  font-size: 1.15rem !important;
+  font-size: 1.05rem !important;
   font-weight: 700 !important;
   letter-spacing: 3px !important;
   opacity: 0.95;
 }
 
-/* 📏 Espacio entre header y portada */
 body.skin-distro-01 .player-header,
 body.skin-distro-02 .player-header {
-  margin-bottom: 12px !important;
+  margin-bottom: 10px !important;
   margin-top: 0 !important;
 }
 
-/* 🖼️ Portada del álbum — MÁS GRANDE en distros */
-body.skin-distro-01 .cover-art,
-body.skin-distro-02 .cover-art {
-  max-width: 280px !important;   /* ⬅️ antes 240px (Classic/TUI) → 280px */
-}
-
-/* 📏 Espacio entre portada y metadatos */
+/* 🖼️ Portada — un poco más chica que Classic/TUI */
 body.skin-distro-01 .cover-container,
 body.skin-distro-02 .cover-container {
-  margin-top: 6px !important;
-  margin-bottom: 8px !important;   /* ⬅️ reducido para acercar un poco la portada a los metadatos */
+  margin-top: 0 !important;
+  margin-bottom: 10px !important;
 }
 
-/* 📝 Contenedor de metadatos — más compacto */
+body.skin-distro-01 .cover-art,
+body.skin-distro-02 .cover-art {
+  max-width: 230px !important;
+}
+
+/* 📝 Contenedor de metadatos */
 body.skin-distro-01 .track-info-container,
 body.skin-distro-02 .track-info-container {
   margin-top: 0 !important;
-  margin-bottom: 8px !important;
-  padding: 6px 8px !important;   /* ⬅️ reducido de 10px a 6px */
+  margin-bottom: 14px !important;
+  padding: 8px 8px !important;
 }
 
-/* 📝 Título de la canción — más chico */
 body.skin-distro-01 .track-title,
 body.skin-distro-02 .track-title {
-  font-size: 0.95rem !important;   /* ⬅️ antes 1.05rem */
+  font-size: 1rem !important;
   letter-spacing: 0.8px;
   font-weight: 700;
 }
 
-/* 📝 Artista — más chico */
 body.skin-distro-01 .track-artist,
 body.skin-distro-02 .track-artist {
-  font-size: 0.75rem !important;   /* ⬅️ antes 0.82rem */
+  font-size: 0.78rem !important;
   letter-spacing: 0.4px;
 }
 
-/* 📝 Álbum — más chico */
 body.skin-distro-01 .track-album,
 body.skin-distro-02 .track-album {
-  font-size: 0.66rem !important;   /* ⬅️ antes 0.72rem */
+  font-size: 0.68rem !important;
   letter-spacing: 0.3px;
 }
 
-/* 🏷️ Specs y status — más chicos también */
+/* 🏷️ Specs y status */
 body.skin-distro-01 .audio-specs-badge,
 body.skin-distro-02 .audio-specs-badge {
-  font-size: 0.62rem !important;
+  font-size: 0.66rem !important;
   letter-spacing: 0.8px;
   min-height: 14px !important;
+  margin: 0 0 4px 0 !important;
 }
 
 body.skin-distro-01 .status-badge,
 body.skin-distro-02 .status-badge {
-  font-size: 0.6rem !important;
+  font-size: 0.62rem !important;
   min-height: 10px !important;
 }
 
-/* 🐧 ASCII distro — MÁS GRANDE para llenar el hueco */
+/* 🐧 ASCII distro — más grande y visible */
 body.skin-distro-01 .distro-display,
 body.skin-distro-02 .distro-display {
-  margin-top: 4px !important;
-  margin-bottom: 4px !important;
-  min-height: 100px !important;
-  max-height: 260px !important;   /* ⬅️ antes 240px → más grande */
+  margin-top: 6px !important;
+  margin-bottom: 6px !important;
+  min-height: 120px !important;
+  max-height: 220px !important;
   padding: 4px !important;
 }
 
 body.skin-distro-01 .distro-bg-ascii,
 body.skin-distro-02 .distro-bg-ascii {
-  font-size: 9px !important;      /* ⬅️ antes 8px → más grande */
+  font-size: 10px !important;
   line-height: 1.0;
-  opacity: 0.62;                  /* ⬅️ ligeramente más visible */
+  opacity: 0.55;
 }
 
-/* Reducir tamaño de los metadatos en @distro_01 */
-body.skin-distro-01 .track-title {
-  font-size: 1.05rem !important;
-  letter-spacing: 1px;
-}
-
-body.skin-distro-01 .track-artist {
-  font-size: 0.82rem !important;
-  letter-spacing: 0.5px;
-}
-
-body.skin-distro-01 .track-album {
-  font-size: 0.72rem !important;
-  letter-spacing: 0.5px;
-}
-
-body.skin-distro-01 .audio-specs-badge {
-  font-size: 0.68rem !important;
-  letter-spacing: 1px;
-}
-
-body.skin-distro-01 .status-badge {
-  font-size: 0.65rem !important;
-}
-
-/* Reparto vertical específico de @distro_01 */
-body.skin-distro-01 .cover-container {
-  margin-top: 16px;
-  margin-bottom: 10px;
-}
-
-body.skin-distro-01 .track-info-container {
-  margin-top: 6px;
-  margin-bottom: 12px;
-}
-
-body.skin-distro-01 .distro-display {
-  margin-top: 12px;
-  margin-bottom: 8px;
+/* 📏 Reducir el gap general del player-card en distros */
+body.skin-distro-01 .player-card,
+body.skin-distro-02 .player-card {
+  gap: 0 !important;
 }
