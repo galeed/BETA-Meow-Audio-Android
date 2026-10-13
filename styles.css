@@ -1493,7 +1493,7 @@ body.force-landscape .bottom-nav { flex: 0 0 auto; width: 100%; padding: 6px 0; 
 
 /* ============================================================
    🖥️ MODO TERMINAL — @distro_01 y @distro_02
-   Monospace forzado + layout balanceado
+   Monospace forzado + layout con aire entre bloques
    ============================================================ */
 
 /* 🔤 Forzar monospace en todo el skin */
@@ -1509,7 +1509,23 @@ body.skin-distro-02 *::after {
   font-variant-ligatures: none !important;
 }
 
-/* 🎵 Header título */
+/* 🔧 IMPORTANTE: desactivar el justify-content: space-between
+   del player-card para poder controlar los espacios manualmente */
+body.skin-distro-01 .player-card,
+body.skin-distro-02 .player-card {
+  justify-content: flex-start !important;   /* ⬅️ clave: apilar desde arriba */
+  gap: 0 !important;
+}
+
+/* ──────────────────────────────────────────── */
+/* 🎵 HEADER (título de la app)                 */
+/* ──────────────────────────────────────────── */
+body.skin-distro-01 .player-header,
+body.skin-distro-02 .player-header {
+  margin: 0 0 18px 0 !important;   /* ⬅️ 18px de aire abajo del header */
+  padding: 0 !important;
+}
+
 body.skin-distro-01 .header-title,
 body.skin-distro-02 .header-title {
   font-size: 1.05rem !important;
@@ -1518,17 +1534,13 @@ body.skin-distro-02 .header-title {
   opacity: 0.95;
 }
 
-body.skin-distro-01 .player-header,
-body.skin-distro-02 .player-header {
-  margin-bottom: 10px !important;
-  margin-top: 0 !important;
-}
-
-/* 🖼️ Portada — un poco más chica que Classic/TUI */
+/* ──────────────────────────────────────────── */
+/* 🖼️ PORTADA DEL ÁLBUM                         */
+/* ──────────────────────────────────────────── */
 body.skin-distro-01 .cover-container,
 body.skin-distro-02 .cover-container {
-  margin-top: 0 !important;
-  margin-bottom: 10px !important;
+  margin: 0 0 18px 0 !important;   /* ⬅️ 18px de aire abajo de la portada */
+  padding: 0 !important;
 }
 
 body.skin-distro-01 .cover-art,
@@ -1536,12 +1548,13 @@ body.skin-distro-02 .cover-art {
   max-width: 230px !important;
 }
 
-/* 📝 Contenedor de metadatos */
+/* ──────────────────────────────────────────── */
+/* 📝 METADATOS (Sin reproducción, artista, etc.) */
+/* ──────────────────────────────────────────── */
 body.skin-distro-01 .track-info-container,
 body.skin-distro-02 .track-info-container {
-  margin-top: 0 !important;
-  margin-bottom: 14px !important;
-  padding: 8px 8px !important;
+  margin: 0 0 20px 0 !important;   /* ⬅️ 20px de aire abajo de los metadatos */
+  padding: 10px 8px !important;
 }
 
 body.skin-distro-01 .track-title,
@@ -1563,29 +1576,34 @@ body.skin-distro-02 .track-album {
   letter-spacing: 0.3px;
 }
 
-/* 🏷️ Specs y status */
+/* ──────────────────────────────────────────── */
+/* 🏷️ SPECS Y STATUS                            */
+/* ──────────────────────────────────────────── */
 body.skin-distro-01 .audio-specs-badge,
 body.skin-distro-02 .audio-specs-badge {
   font-size: 0.66rem !important;
   letter-spacing: 0.8px;
   min-height: 14px !important;
-  margin: 0 0 4px 0 !important;
+  margin: 0 0 6px 0 !important;
 }
 
 body.skin-distro-01 .status-badge,
 body.skin-distro-02 .status-badge {
   font-size: 0.62rem !important;
   min-height: 10px !important;
+  margin: 0 0 10px 0 !important;
 }
 
-/* 🐧 ASCII distro — más grande y visible */
+/* ──────────────────────────────────────────── */
+/* 🐧 ASCII DISTRO (ocupa el resto del espacio)  */
+/* ──────────────────────────────────────────── */
 body.skin-distro-01 .distro-display,
 body.skin-distro-02 .distro-display {
-  margin-top: 6px !important;
-  margin-bottom: 6px !important;
-  min-height: 120px !important;
-  max-height: 220px !important;
+  margin: 0 0 8px 0 !important;
   padding: 4px !important;
+  flex: 1 1 auto !important;         /* ⬅️ absorbe el espacio restante */
+  min-height: 100px;
+  max-height: none;                  /* ⬅️ sin límite, se adapta */
 }
 
 body.skin-distro-01 .distro-bg-ascii,
@@ -1595,8 +1613,16 @@ body.skin-distro-02 .distro-bg-ascii {
   opacity: 0.55;
 }
 
-/* 📏 Reducir el gap general del player-card en distros */
-body.skin-distro-01 .player-card,
-body.skin-distro-02 .player-card {
-  gap: 0 !important;
+/* ──────────────────────────────────────────── */
+/* 📏 ZONA INFERIOR (progress + controles)       */
+/* ──────────────────────────────────────────── */
+body.skin-distro-01 .progress-container,
+body.skin-distro-02 .progress-container {
+  margin-top: 0 !important;
+  margin-bottom: 6px !important;
+}
+
+body.skin-distro-01 .controls,
+body.skin-distro-02 .controls {
+  margin-bottom: 0 !important;
 }
