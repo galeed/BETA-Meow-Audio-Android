@@ -124,4 +124,10 @@ self.addEventListener('message', (event) => {
   if (event.data && event.data.type === 'SKIP_WAITING') {
     self.skipWaiting();
   }
+  if (event.data && event.data.type === 'ENABLE_OFFLINE') {
+    console.log('[SW] Modo offline activado por el usuario');
+  }
+  if (event.data && event.data.type === 'DISABLE_OFFLINE') {
+    console.log('[SW] Modo offline desactivado');
+  }
 });
