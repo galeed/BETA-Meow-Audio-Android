@@ -155,16 +155,44 @@
         </div>
         <div class="settings-body">
 
-          <!-- 🛠️ Tools Home (solo @distro_01) -->
+          <!-- 🛠️ Tools Home (solo @distro_01 y @distro_02) -->
           <div class="settings-item" id="toolsHomeItem">
             <div class="settings-title">🛠️ Tools Home</div>
-            <div class="settings-desc">Acciones rápidas exclusivas del skin @distro_01.</div>
+            <div class="settings-desc">Acciones rápidas exclusivas de los skins @distro.</div>
             <div class="settings-row" style="flex-wrap: wrap; gap: 8px;">
               <button class="btn-action btn-tool" id="toolFullscreen">⛶ Pantalla completa</button>
               <button class="btn-action btn-tool" id="toolRotate">🔄 Girar pantalla</button>
               <button class="btn-action btn-tool" id="toolCrt">📺 Efecto CRT</button>
               <button class="btn-action btn-tool" id="toolAddSongs">➕ Añadir canciones</button>
               <input type="file" id="toolFileInput" class="real-file-input" multiple accept=".mp3,.wav,.ogg,.flac,.m4a,.aac,audio/*" style="display:none;">
+            </div>
+          </div>
+
+          <!-- 📁 Gestor de Archivos -->
+          <div class="settings-item" id="storageManagerItem">
+            <div class="settings-title">📁 Gestor de Archivos</div>
+            <div class="settings-desc">Administra la caché y el modo offline.</div>
+
+            <div class="settings-row" style="flex-direction: column; align-items: stretch; gap: 6px; margin-top: 10px;">
+              <div style="display: flex; justify-content: space-between; font-size: 0.72rem; color: var(--text-muted);">
+                <span>Almacenamiento usado:</span>
+                <span id="storageUsed">-- MB</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; font-size: 0.72rem; color: var(--text-muted);">
+                <span>Service Worker:</span>
+                <span id="swStatus">--</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; font-size: 0.72rem; color: var(--text-muted);">
+                <span>Modo offline:</span>
+                <span id="offlineStatus">Desactivado</span>
+              </div>
+            </div>
+
+            <div class="settings-row" style="flex-wrap: wrap; gap: 8px; margin-top: 10px;">
+              <button class="btn-action btn-tool" id="btnClearCache">🗑️ Borrar caché</button>
+              <button class="btn-action btn-tool" id="btnToggleOffline">📴 Activar offline</button>
+              <button class="btn-action btn-tool" id="btnRefreshSW">🔄 Actualizar SW</button>
+              <button class="btn-action btn-tool" id="btnStorageDetails">📊 Ver detalles</button>
             </div>
           </div>
 
@@ -299,7 +327,7 @@
           </div>
 
           <div class="settings-item">
-            <div class="settings-title" id="versionTitle">MEOW AUDIO APP v4.1</div>
+            <div class="settings-title" id="versionTitle">MEOW AUDIO APP v4.8</div>
             <div class="settings-desc" id="versionDesc">Skins: Classic, Consola TUI, @distro_01.</div>
           </div>
         </div>
