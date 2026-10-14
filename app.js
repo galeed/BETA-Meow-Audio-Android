@@ -1837,3 +1837,324 @@ if ('serviceWorker' in navigator) {
   updateOfflineStatus();
   setInterval(updateStorageInfo, 5000);
 })();
+
+/* ============================================================
+   💡 ILUMINACIÓN Y CONTRASTE — TUI, @distro_01, @distro_02
+   Mejora visibilidad en entornos con mucha o poca luz
+   ============================================================ */
+
+/* ──────────────────────────────────────────── */
+/* 🎵 SKIN CONSOLA TUI (aplica a los 6 temas)   */
+/* ──────────────────────────────────────────── */
+
+/* Fondo del reproductor semitranslúcido */
+body.skin-tui .player-card {
+  background: rgba(0, 0, 0, 0.55) !important;    /* antes #0d1a0e opaco */
+  backdrop-filter: blur(20px) saturate(140%) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(140%) !important;
+  border: 2px solid var(--accent) !important;
+  box-shadow:
+    0 0 25px var(--glow-color),
+    0 0 60px rgba(0, 0, 0, 0.5),
+    inset 0 0 20px rgba(255, 255, 255, 0.04) !important;
+}
+
+/* Fondo de la isla inferior semitranslúcido */
+body.skin-tui .bottom-nav {
+  background: rgba(0, 0, 0, 0.6) !important;
+  backdrop-filter: blur(20px) saturate(140%) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(140%) !important;
+  border: 2px solid var(--accent) !important;
+  box-shadow:
+    0 0 20px var(--glow-color),
+    0 0 40px rgba(0, 0, 0, 0.5) !important;
+}
+
+/* Overlays (Fila y Ajustes) más translúcidos */
+body.skin-tui .playlist-overlay,
+body.skin-tui .modal-overlay {
+  background: rgba(0, 0, 0, 0.85) !important;   /* antes rgba(5,10,6,0.98) */
+  backdrop-filter: blur(25px) saturate(140%) !important;
+  -webkit-backdrop-filter: blur(25px) saturate(140%) !important;
+  border: 2px solid var(--accent) !important;
+  box-shadow:
+    0 0 30px var(--glow-color),
+    inset 0 0 30px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* Items de Ajustes con borde más brillante */
+body.skin-tui .settings-item {
+  background: rgba(0, 0, 0, 0.5) !important;
+  border: 1px solid var(--accent) !important;
+  box-shadow: 0 0 8px var(--glow-color) !important;
+}
+
+/* Items de la lista con borde más notorio */
+body.skin-tui .playlist-item {
+  border-bottom: 1px solid var(--accent) !important;
+  padding: 10px !important;
+}
+body.skin-tui .playlist-item.playing {
+  background: rgba(0, 0, 0, 0.4) !important;
+  box-shadow: inset 0 0 12px var(--glow-color) !important;
+}
+
+/* Botones con glow más intenso */
+body.skin-tui .icon-action-btn {
+  box-shadow:
+    0 0 10px var(--glow-color),
+    inset 0 0 6px var(--glow-color) !important;
+}
+body.skin-tui .btn-play {
+  box-shadow:
+    0 0 15px var(--accent),
+    0 0 30px var(--glow-color),
+    inset 0 0 10px var(--glow-color) !important;
+}
+
+/* Inputs y selects con borde brillante */
+body.skin-tui .search-input,
+body.skin-tui .sort-bar,
+body.skin-tui .btn-action {
+  border: 1px solid var(--accent) !important;
+  box-shadow: 0 0 6px var(--glow-color) !important;
+}
+
+/* Textos con glow más intenso para mejor lectura */
+body.skin-tui .track-title,
+body.skin-tui .header-title,
+body.skin-tui .playlist-title,
+body.skin-tui .settings-title,
+body.skin-tui .playlist-item-title {
+  text-shadow:
+    0 0 8px var(--glow-color),
+    0 0 2px var(--accent) !important;
+}
+
+body.skin-tui .track-artist,
+body.skin-tui .track-album,
+body.skin-tui .settings-desc,
+body.skin-tui .playlist-item-artist,
+body.skin-tui .sort-label {
+  color: var(--text) !important;
+  opacity: 0.85 !important;
+}
+
+/* ──────────────────────────────────────────── */
+/* 🐧 SKIN @distro_01                            */
+/* ──────────────────────────────────────────── */
+
+body.skin-distro-01 .player-card {
+  background: rgba(10, 15, 20, 0.55) !important;   /* antes #10161c opaco */
+  backdrop-filter: blur(20px) saturate(140%) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(140%) !important;
+  border: 2px solid var(--accent) !important;
+  box-shadow:
+    0 0 25px var(--glow-color),
+    0 0 60px rgba(0, 0, 0, 0.5),
+    inset 0 0 20px rgba(255, 255, 255, 0.04) !important;
+}
+
+body.skin-distro-01 .bottom-nav {
+  background: rgba(10, 15, 20, 0.6) !important;
+  backdrop-filter: blur(20px) saturate(140%) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(140%) !important;
+  border: 2px solid var(--accent) !important;
+  box-shadow:
+    0 0 20px var(--glow-color),
+    0 0 40px rgba(0, 0, 0, 0.5) !important;
+}
+
+body.skin-distro-01 .playlist-overlay,
+body.skin-distro-01 .modal-overlay {
+  background: rgba(10, 15, 20, 0.85) !important;
+  backdrop-filter: blur(25px) saturate(140%) !important;
+  -webkit-backdrop-filter: blur(25px) saturate(140%) !important;
+  border: 2px solid var(--accent) !important;
+  box-shadow:
+    0 0 30px var(--glow-color),
+    inset 0 0 30px rgba(0, 0, 0, 0.3) !important;
+}
+
+body.skin-distro-01 .settings-item {
+  background: rgba(10, 15, 20, 0.5) !important;
+  border: 1px solid var(--accent) !important;
+  box-shadow: 0 0 8px var(--glow-color) !important;
+}
+
+body.skin-distro-01 .playlist-item {
+  border-bottom: 1px solid var(--accent) !important;
+  padding: 10px !important;
+}
+body.skin-distro-01 .playlist-item.playing {
+  background: rgba(0, 0, 0, 0.4) !important;
+  box-shadow: inset 0 0 12px var(--glow-color) !important;
+}
+
+body.skin-distro-01 .icon-action-btn {
+  box-shadow:
+    0 0 10px var(--glow-color),
+    inset 0 0 6px var(--glow-color) !important;
+}
+body.skin-distro-01 .btn-play {
+  box-shadow:
+    0 0 15px var(--accent),
+    0 0 30px var(--glow-color),
+    inset 0 0 10px var(--glow-color) !important;
+}
+
+body.skin-distro-01 .search-input,
+body.skin-distro-01 .sort-bar,
+body.skin-distro-01 .btn-action {
+  border: 1px solid var(--accent) !important;
+  box-shadow: 0 0 6px var(--glow-color) !important;
+}
+
+body.skin-distro-01 .track-title,
+body.skin-distro-01 .header-title,
+body.skin-distro-01 .playlist-title,
+body.skin-distro-01 .settings-title,
+body.skin-distro-01 .playlist-item-title {
+  text-shadow:
+    0 0 8px var(--glow-color),
+    0 0 2px var(--accent) !important;
+}
+
+body.skin-distro-01 .track-artist,
+body.skin-distro-01 .track-album,
+body.skin-distro-01 .settings-desc,
+body.skin-distro-01 .playlist-item-artist,
+body.skin-distro-01 .sort-label {
+  color: var(--text) !important;
+  opacity: 0.85 !important;
+}
+
+/* ──────────────────────────────────────────── */
+/* 🐧 SKIN @distro_02 (preparado para el futuro) */
+/* ──────────────────────────────────────────── */
+
+body.skin-distro-02 .player-card {
+  background: rgba(10, 15, 20, 0.55) !important;
+  backdrop-filter: blur(20px) saturate(140%) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(140%) !important;
+  border: 2px solid var(--accent) !important;
+  box-shadow:
+    0 0 25px var(--glow-color),
+    0 0 60px rgba(0, 0, 0, 0.5),
+    inset 0 0 20px rgba(255, 255, 255, 0.04) !important;
+}
+
+body.skin-distro-02 .bottom-nav {
+  background: rgba(10, 15, 20, 0.6) !important;
+  backdrop-filter: blur(20px) saturate(140%) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(140%) !important;
+  border: 2px solid var(--accent) !important;
+  box-shadow:
+    0 0 20px var(--glow-color),
+    0 0 40px rgba(0, 0, 0, 0.5) !important;
+}
+
+body.skin-distro-02 .playlist-overlay,
+body.skin-distro-02 .modal-overlay {
+  background: rgba(10, 15, 20, 0.85) !important;
+  backdrop-filter: blur(25px) saturate(140%) !important;
+  -webkit-backdrop-filter: blur(25px) saturate(140%) !important;
+  border: 2px solid var(--accent) !important;
+  box-shadow:
+    0 0 30px var(--glow-color),
+    inset 0 0 30px rgba(0, 0, 0, 0.3) !important;
+}
+
+body.skin-distro-02 .settings-item {
+  background: rgba(10, 15, 20, 0.5) !important;
+  border: 1px solid var(--accent) !important;
+  box-shadow: 0 0 8px var(--glow-color) !important;
+}
+
+body.skin-distro-02 .playlist-item {
+  border-bottom: 1px solid var(--accent) !important;
+  padding: 10px !important;
+}
+body.skin-distro-02 .playlist-item.playing {
+  background: rgba(0, 0, 0, 0.4) !important;
+  box-shadow: inset 0 0 12px var(--glow-color) !important;
+}
+
+body.skin-distro-02 .icon-action-btn {
+  box-shadow:
+    0 0 10px var(--glow-color),
+    inset 0 0 6px var(--glow-color) !important;
+}
+body.skin-distro-02 .btn-play {
+  box-shadow:
+    0 0 15px var(--accent),
+    0 0 30px var(--glow-color),
+    inset 0 0 10px var(--glow-color) !important;
+}
+
+body.skin-distro-02 .search-input,
+body.skin-distro-02 .sort-bar,
+body.skin-distro-02 .btn-action {
+  border: 1px solid var(--accent) !important;
+  box-shadow: 0 0 6px var(--glow-color) !important;
+}
+
+body.skin-distro-02 .track-title,
+body.skin-distro-02 .header-title,
+body.skin-distro-02 .playlist-title,
+body.skin-distro-02 .settings-title,
+body.skin-distro-02 .playlist-item-title {
+  text-shadow:
+    0 0 8px var(--glow-color),
+    0 0 2px var(--accent) !important;
+}
+
+body.skin-distro-02 .track-artist,
+body.skin-distro-02 .track-album,
+body.skin-distro-02 .settings-desc,
+body.skin-distro-02 .playlist-item-artist,
+body.skin-distro-02 .sort-label {
+  color: var(--text) !important;
+  opacity: 0.85 !important;
+}
+
+/* ──────────────────────────────────────────── */
+/* 🔆 AUMENTAR GLOW EN TODOS LOS TEMAS TUI     */
+/* ──────────────────────────────────────────── */
+
+body.skin-tui[data-tui-theme="green"] {
+  --glow-color: rgba(0, 255, 102, 0.5) !important;
+}
+body.skin-tui[data-tui-theme="amber"] {
+  --glow-color: rgba(255, 176, 0, 0.5) !important;
+}
+body.skin-tui[data-tui-theme="cyan"] {
+  --glow-color: rgba(0, 240, 255, 0.5) !important;
+}
+body.skin-tui[data-tui-theme="dracula"] {
+  --glow-color: rgba(189, 147, 249, 0.5) !important;
+}
+body.skin-tui[data-tui-theme="mono"] {
+  --glow-color: rgba(255, 255, 255, 0.4) !important;
+}
+body.skin-tui[data-tui-theme="cappuccino"] {
+  --glow-color: rgba(230, 154, 88, 0.5) !important;
+}
+
+/* ──────────────────────────────────────────── */
+/* 🔆 AUMENTAR GLOW EN DISTROS                  */
+/* ──────────────────────────────────────────── */
+
+body.skin-distro-01[data-distro="arch"] { --glow-color: rgba(23, 147, 209, 0.55) !important; }
+body.skin-distro-01[data-distro="ubuntu"] { --glow-color: rgba(233, 84, 32, 0.55) !important; }
+body.skin-distro-01[data-distro="debian"] { --glow-color: rgba(215, 10, 83, 0.55) !important; }
+body.skin-distro-01[data-distro="fedora"] { --glow-color: rgba(81, 162, 218, 0.55) !important; }
+body.skin-distro-01[data-distro="mint"] { --glow-color: rgba(135, 207, 62, 0.55) !important; }
+body.skin-distro-01[data-distro="opensuse"] { --glow-color: rgba(115, 186, 37, 0.55) !important; }
+body.skin-distro-01[data-distro="alpine"] { --glow-color: rgba(13, 89, 127, 0.6) !important; }
+body.skin-distro-01[data-distro="gentoo"] { --glow-color: rgba(84, 72, 122, 0.6) !important; }
+body.skin-distro-01[data-distro="manjaro"] { --glow-color: rgba(53, 191, 167, 0.55) !important; }
+body.skin-distro-01[data-distro="kali"] { --glow-color: rgba(85, 124, 148, 0.55) !important; }
+body.skin-distro-01[data-distro="void"] { --glow-color: rgba(71, 128, 97, 0.55) !important; }
+body.skin-distro-01[data-distro="nixos"] { --glow-color: rgba(82, 119, 195, 0.55) !important; }
+body.skin-distro-01[data-distro="popos"] { --glow-color: rgba(72, 185, 199, 0.55) !important; }
