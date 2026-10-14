@@ -1613,3 +1613,227 @@ if (document.readyState === 'loading') {
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('sw.js', { updateViaCache: 'none' }).catch(() => {});
 }
+
+// ============================================================
+// 📁 GESTOR DE ARCHIVOS (caché + offline + SW)
+// Versión defensiva: no rompe si algún elemento no existe
+// ============================================================
+(function initStorageManager() {
+  const btnClearCache = document.getElementById('btnClearCache');
+  const btnToggleOffline = document.getElementById('btnToggleOffline');
+  const btnRefreshSW = document.getElementById('btnRefreshSW');
+  const btnStorageDetails = document.getElementById('btnStorageDetails');
+  const storageUsedEl = document.getElementById('storageUsed');
+  const swStatusEl = document.getElementById('swStatus');
+  const offlineStatusEl = document.getElementById('offlineStatus');
+
+  // Si los elementos no existen, avisamos y no rompemos nada
+  if (!btnClearCache || !btnToggleOffline || !btnRefreshSW || !btnStorageDetails) {
+    console.warn('[StorageManager] Elementos no encontrados. ¿HTML actualizado?');
+    console.log('btnClearCache:', !!btnClearCache);
+    console.log('btnToggleOffline:', !!btnToggleOffline);
+    console.log('btnRefreshSW:', !!btnRefreshSW);
+    console.log('btnStorageDetails:', !!btnStorageDetails);
+    return;
+  }
+
+  console.log('[StorageManager] Inicializado correctamente');
+
+  // --- Info de almacenamiento ---
+  async function updateStorageInfo() {
+    try {
+      if (navigator.storage && navigator.storage.estimate) {
+        const estimate = await navigator.storage.estimate();
+        const usedMB = (estimate.usage / 1024 / 1024).toFixed(2);
+        const quotaMB = (estimate.quota / 1024 / 1024).toFixed(0);
+        if (storageUsedEl) storageUsedEl.textContent = `${usedMB} MB / ${quotaMB} MB`;
+      } else {
+        if (storageUsedEl) storageUsedEl.textContent = 'No disponible';
+      }
+    } catch (e) {
+      if (storageUsedEl) storageUsedEl.textContent = 'Error';
+    }
+  }
+
+  // --- Estado SW ---
+  async function updateSWStatus() {
+    if (!('serviceWorker' in navigator)) {
+      if (swStatusEl) swStatusEl.textContent = 'No soportado';
+      return;
+    }
+    try {
+      const reg = await navigator.serviceWorker.getRegistration();
+      if (reg && reg.active) {
+        if (swStatusEl) swStatusEl.textContent = 'Activo ✅';
+      } else if (reg && reg.installing) {
+        if (swStatusEl) swStatusEl.textContent = 'Instalando...';
+      } else {
+        if (swStatusEl) swStatusEl.textContent = 'Inactivo';
+      }
+    } catch (e) {
+      if (swStatusEl) swStatusEl.textContent = 'Error';
+    }
+  }
+
+  // --- Estado offline ---
+  function updateOfflineStatus() {
+    const isOffline = localStorage.getItem('meowOfflineMode') === 'true';
+    if (offlineStatusEl) offlineStatusEl.textContent = isOffline ? 'Activado ✅' : 'Desactivado';
+    if (btnToggleOffline) {
+      btnToggleOffline.textContent = isOffline ? '📴 Desactivar offline' : '📴 Activar offline';
+      btnToggleOffline.classList.toggle('active', isOffline);
+    }
+  }
+
+  // --- Botón: Borrar caché ---
+  btnClearCache.addEventListener('click', async () => {
+    const confirm1 = confirm('¿Borrar TODA la caché? Se eliminarán las canciones guardadas y los estilos cacheados. Tendrás que volver a añadir las canciones.');
+    if (!confirm1) return;
+
+    if (statusEl) statusEl.textContent = 'Borrando caché...';
+
+    try {
+      const dbs = await indexedDB.databases();
+      for (const db of dbs) {
+        if (db.name) indexedDB.deleteDatabase(db.name);
+      }
+
+      if ('caches' in window) {
+        const keys = await caches.keys();
+        await Promise.all(keys.map(k => caches.delete(k)));
+      }
+
+      if (statusEl) statusEl.textContent = '✅ Caché borrada. Recargando...';
+      setTimeout(() => location.reload(), 1200);
+    } catch (e) {
+      console.warn(e);
+      if (statusEl) statusEl.textContent = '❌ Error al borrar caché';
+    }
+  });
+
+  // --- Botón: Toggle offline ---
+  btnToggleOffline.addEventListener('click', async () => {
+    const isOffline = localStorage.getItem('meowOfflineMode') === 'true';
+
+    if (!isOffline) {
+      if (!('serviceWorker' in navigator)) {
+        alert('Service Worker no soportado');
+        return;
+      }
+
+      if (statusEl) statusEl.textContent = 'Activando modo offline...';
+
+      try {
+        const cache = await caches.open('meow-offline-v1');
+        const urlsToCache = [
+          './',
+          './index.html',
+          './styles.css',
+          './app.js',
+          './manifest.json',
+          'https://cdnjs.cloudflare.com/ajax/libs/jsmediatags/3.9.5/jsmediatags.min.js',
+          'https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600;700&family=Share+Tech+Mono&display=swap'
+        ];
+        await Promise.all(
+          urlsToCache.map(url => cache.add(url).catch(() => {}))
+        );
+
+        localStorage.setItem('meowOfflineMode', 'true');
+        updateOfflineStatus();
+        if (statusEl) statusEl.textContent = '✅ Modo offline activado';
+
+        const reg = await navigator.serviceWorker.getRegistration();
+        if (reg && reg.active) {
+          reg.active.postMessage({ type: 'ENABLE_OFFLINE' });
+        }
+      } catch (e) {
+        console.warn(e);
+        if (statusEl) statusEl.textContent = '❌ Error al activar offline';
+      }
+    } else {
+      localStorage.setItem('meowOfflineMode', 'false');
+      updateOfflineStatus();
+      if (statusEl) statusEl.textContent = 'Modo offline desactivado';
+
+      const reg = await navigator.serviceWorker.getRegistration();
+      if (reg && reg.active) {
+        reg.active.postMessage({ type: 'DISABLE_OFFLINE' });
+      }
+    }
+
+    setTimeout(() => {
+      if (statusEl && statusEl.textContent.includes('offline')) statusEl.textContent = '';
+    }, 2000);
+  });
+
+  // --- Botón: Actualizar SW ---
+  btnRefreshSW.addEventListener('click', async () => {
+    if (!('serviceWorker' in navigator)) return;
+    if (statusEl) statusEl.textContent = 'Actualizando SW...';
+
+    try {
+      const reg = await navigator.serviceWorker.getRegistration();
+      if (reg) {
+        await reg.update();
+        if (statusEl) statusEl.textContent = '✅ SW actualizado. Recargando...';
+        setTimeout(() => location.reload(), 1000);
+      } else {
+        if (statusEl) statusEl.textContent = '❌ No hay SW registrado';
+      }
+    } catch (e) {
+      console.warn(e);
+      if (statusEl) statusEl.textContent = '❌ Error al actualizar';
+    }
+  });
+
+  // --- Botón: Ver detalles ---
+  btnStorageDetails.addEventListener('click', async () => {
+    let msg = '📊 DETALLES DE ALMACENAMIENTO\n\n';
+
+    try {
+      const dbs = await indexedDB.databases();
+      msg += '🗄️ IndexedDB:\n';
+      if (dbs.length === 0) msg += '  (ninguna base de datos)\n';
+      dbs.forEach(db => {
+        msg += `  • ${db.name} v${db.version}\n`;
+      });
+      msg += '\n';
+
+      if ('caches' in window) {
+        const cacheNames = await caches.keys();
+        msg += '📦 Cache Storage:\n';
+        if (cacheNames.length === 0) msg += '  (sin cachés)\n';
+        for (const name of cacheNames) {
+          const cache = await caches.open(name);
+          const keys = await cache.keys();
+          msg += `  • ${name} (${keys.length} archivos)\n`;
+        }
+        msg += '\n';
+      }
+
+      msg += '💾 localStorage:\n';
+      const keys = ['meowSkin', 'meowTuiTheme', 'meowDistro', 'meowVisualizerMode', 'meowPalette', 'meowCrt', 'meowOcultarAviso', 'meowOfflineMode'];
+      keys.forEach(k => {
+        const v = localStorage.getItem(k);
+        msg += `  • ${k}: ${v || '(vacío)'}\n`;
+      });
+      msg += '\n';
+
+      if (navigator.storage && navigator.storage.estimate) {
+        const est = await navigator.storage.estimate();
+        msg += `📏 Espacio usado: ${(est.usage / 1024 / 1024).toFixed(2)} MB\n`;
+        msg += `📏 Cuota total: ${(est.quota / 1024 / 1024).toFixed(0)} MB\n`;
+      }
+    } catch (e) {
+      msg += '\n❌ Error: ' + e.message;
+    }
+
+    alert(msg);
+  });
+
+  // Inicializar
+  updateStorageInfo();
+  updateSWStatus();
+  updateOfflineStatus();
+  setInterval(updateStorageInfo, 5000);
+})();
