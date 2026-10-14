@@ -1,5 +1,16 @@
 /* ============================================================
-   MEOW AUDIO APP v4.1 — app.js
+   MEOW AUDIO APP v5.0 — app.js
+   Incluye:
+   - DISTROS (13) con ASCII art
+   - TUI_THEMES (6)
+   - IndexedDB (persistencia)
+   - Web Audio (EQ + Dolby + Analizador + keepAlive)
+   - Skins: Classic / Consola TUI / @distro_01
+   - Boot animado al entrar a distro
+   - Tools Home en Ajustes (solo distro)
+   - 📁 Gestor de Archivos (caché + offline + SW)
+   - Reproductor, Media Session, Background playback
+   - Visualizador, LUFS, Exportación
    ============================================================ */
 
 'use strict';
@@ -723,7 +734,7 @@ function applyVisualizerForTui() {
 }
 
 // ============================================================
-// 🎬 ANIMACIÓN DE BOOT (al cambiar a @distro_01)
+// 🎬 ANIMACIÓN DE BOOT
 // ============================================================
 async function playDistroBoot(distroId) {
   const distro = DISTROS.find(d => d.id === distroId) || DISTROS[0];
@@ -782,7 +793,7 @@ async function applySkin(skin, skipBoot = false) {
     headerTitle.textContent = '🎵 MEOW AUDIO APP';
     avisoTitle.textContent = '> SISTEMA DE PRIVACIDAD';
     avisoText.textContent = 'Todo el procesamiento de audio se realiza localmente. Ningún archivo o dato es enviado a servidores externos.';
-    versionTitle.textContent = 'MEOW AUDIO APP // TUI v4.1';
+    versionTitle.textContent = 'MEOW AUDIO APP // TUI v5.0';
     versionDesc.textContent = 'Haz clic en el header para cambiar de tema.';
     const theme = TUI_THEMES.find(t => t.id === savedTheme) || TUI_THEMES[0];
     metaThemeEl.content = theme.bg;
@@ -794,7 +805,7 @@ async function applySkin(skin, skipBoot = false) {
     headerTitle.textContent = '🎵 MEOW AUDIO APP';
     avisoTitle.textContent = '> SISTEMA DE PRIVACIDAD';
     avisoText.textContent = 'Todo el procesamiento de audio se realiza localmente. Ningún archivo o dato es enviado a servidores externos.';
-    versionTitle.textContent = 'MEOW AUDIO APP // @distro v4.1';
+    versionTitle.textContent = 'MEOW AUDIO APP // @distro v5.0';
     versionDesc.textContent = 'Haz clic en el header para cambiar de distro.';
     metaThemeEl.content = '#0d1117';
 
@@ -809,7 +820,7 @@ async function applySkin(skin, skipBoot = false) {
     headerTitle.textContent = '🐈 MEOW AUDIO APP 🐈';
     avisoTitle.textContent = '🐾 Aviso Gatuno 🐾';
     avisoText.textContent = 'Todo el procesamiento de audio se realiza de manera local en tu dispositivo. Ningún archivo o dato personal es subido a servidores externos. ¡Miau!';
-    versionTitle.textContent = 'MEOW AUDIO APP v4.1';
+    versionTitle.textContent = 'MEOW AUDIO APP v5.0';
     versionDesc.textContent = 'Skins: Classic, Consola TUI, @distro_01.';
     metaThemeEl.content = '#0f1015';
   }
@@ -877,7 +888,7 @@ document.addEventListener('keydown', (e) => {
 });
 
 // ============================================================
-// UI — Navegación de pantallas
+// UI — Navegación
 // ============================================================
 function closeAllOverlays() {
   playlistOverlay.classList.remove('active');
@@ -1347,7 +1358,7 @@ mainAudio.addEventListener('ended', () => {
 });
 
 // ============================================================
-// ATAJOS DE TECLADO
+// ATAJOS
 // ============================================================
 document.addEventListener('keydown', (e) => {
   if (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT') return;
@@ -1562,59 +1573,6 @@ function downloadFile(content, fileName, mimeType) {
 }
 
 // ============================================================
-// AVISO DE PRIVACIDAD
-// ============================================================
-btnCerrarAviso.addEventListener('click', () => {
-  const checkbox = document.getElementById('meow-check-no-mostrar');
-  if (checkbox && checkbox.checked) localStorage.setItem('meowOcultarAviso', 'true');
-  const aviso = document.getElementById('meow-aviso-privacidad');
-  if (aviso) aviso.style.display = 'none';
-});
-
-if (localStorage.getItem('meowOcultarAviso') === 'true') {
-  const aviso = document.getElementById('meow-aviso-privacidad');
-  if (aviso) aviso.style.display = 'none';
-}
-
-// ============================================================
-// INICIALIZACIÓN
-// ============================================================
-function initialize() {
-  const savedSkin = localStorage.getItem('meowSkin') || 'classic';
-  applySkin(savedSkin, true);  // skipBoot = true al arrancar
-
-  if (!localStorage.getItem('meowVisualizerMode')) localStorage.setItem('meowVisualizerMode', 'hybrid');
-  if (!localStorage.getItem('meowPalette')) localStorage.setItem('meowPalette', 'plasma');
-
-  visualizerSelect.value = localStorage.getItem('meowVisualizerMode');
-  paletteSelect.value = localStorage.getItem('meowPalette');
-  visualizerMode = visualizerSelect.value;
-  selectedPalette = paletteSelect.value;
-
-  const savedTuiTheme = localStorage.getItem('meowTuiTheme') || 'green';
-  applyTuiTheme(savedTuiTheme);
-
-  const savedDistro = localStorage.getItem('meowDistro') || 'arch';
-  applyDistro(savedDistro);
-
-  const savedCrt = localStorage.getItem('meowCrt');
-  applyCrt(savedCrt !== 'false');
-
-  loadStoredTracksFromDB();
-}
-
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', initialize);
-} else {
-  initialize();
-}
-
-// Service Worker
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('sw.js', { updateViaCache: 'none' }).catch(() => {});
-}
-
-// ============================================================
 // 📁 GESTOR DE ARCHIVOS (caché + offline + SW)
 // Versión defensiva: no rompe si algún elemento no existe
 // ============================================================
@@ -1627,7 +1585,6 @@ if ('serviceWorker' in navigator) {
   const swStatusEl = document.getElementById('swStatus');
   const offlineStatusEl = document.getElementById('offlineStatus');
 
-  // Si los elementos no existen, avisamos y no rompemos nada
   if (!btnClearCache || !btnToggleOffline || !btnRefreshSW || !btnStorageDetails) {
     console.warn('[StorageManager] Elementos no encontrados. ¿HTML actualizado?');
     console.log('btnClearCache:', !!btnClearCache);
@@ -1639,7 +1596,6 @@ if ('serviceWorker' in navigator) {
 
   console.log('[StorageManager] Inicializado correctamente');
 
-  // --- Info de almacenamiento ---
   async function updateStorageInfo() {
     try {
       if (navigator.storage && navigator.storage.estimate) {
@@ -1655,7 +1611,6 @@ if ('serviceWorker' in navigator) {
     }
   }
 
-  // --- Estado SW ---
   async function updateSWStatus() {
     if (!('serviceWorker' in navigator)) {
       if (swStatusEl) swStatusEl.textContent = 'No soportado';
@@ -1675,7 +1630,6 @@ if ('serviceWorker' in navigator) {
     }
   }
 
-  // --- Estado offline ---
   function updateOfflineStatus() {
     const isOffline = localStorage.getItem('meowOfflineMode') === 'true';
     if (offlineStatusEl) offlineStatusEl.textContent = isOffline ? 'Activado ✅' : 'Desactivado';
@@ -1685,7 +1639,6 @@ if ('serviceWorker' in navigator) {
     }
   }
 
-  // --- Botón: Borrar caché ---
   btnClearCache.addEventListener('click', async () => {
     const confirm1 = confirm('¿Borrar TODA la caché? Se eliminarán las canciones guardadas y los estilos cacheados. Tendrás que volver a añadir las canciones.');
     if (!confirm1) return;
@@ -1711,7 +1664,6 @@ if ('serviceWorker' in navigator) {
     }
   });
 
-  // --- Botón: Toggle offline ---
   btnToggleOffline.addEventListener('click', async () => {
     const isOffline = localStorage.getItem('meowOfflineMode') === 'true';
 
@@ -1766,7 +1718,6 @@ if ('serviceWorker' in navigator) {
     }, 2000);
   });
 
-  // --- Botón: Actualizar SW ---
   btnRefreshSW.addEventListener('click', async () => {
     if (!('serviceWorker' in navigator)) return;
     if (statusEl) statusEl.textContent = 'Actualizando SW...';
@@ -1786,7 +1737,6 @@ if ('serviceWorker' in navigator) {
     }
   });
 
-  // --- Botón: Ver detalles ---
   btnStorageDetails.addEventListener('click', async () => {
     let msg = '📊 DETALLES DE ALMACENAMIENTO\n\n';
 
@@ -1831,330 +1781,61 @@ if ('serviceWorker' in navigator) {
     alert(msg);
   });
 
-  // Inicializar
   updateStorageInfo();
   updateSWStatus();
   updateOfflineStatus();
   setInterval(updateStorageInfo, 5000);
 })();
 
-/* ============================================================
-   💡 ILUMINACIÓN Y CONTRASTE — TUI, @distro_01, @distro_02
-   Mejora visibilidad en entornos con mucha o poca luz
-   ============================================================ */
+// ============================================================
+// AVISO DE PRIVACIDAD
+// ============================================================
+btnCerrarAviso.addEventListener('click', () => {
+  const checkbox = document.getElementById('meow-check-no-mostrar');
+  if (checkbox && checkbox.checked) localStorage.setItem('meowOcultarAviso', 'true');
+  const aviso = document.getElementById('meow-aviso-privacidad');
+  if (aviso) aviso.style.display = 'none';
+});
 
-/* ──────────────────────────────────────────── */
-/* 🎵 SKIN CONSOLA TUI (aplica a los 6 temas)   */
-/* ──────────────────────────────────────────── */
-
-/* Fondo del reproductor semitranslúcido */
-body.skin-tui .player-card {
-  background: rgba(0, 0, 0, 0.55) !important;    /* antes #0d1a0e opaco */
-  backdrop-filter: blur(20px) saturate(140%) !important;
-  -webkit-backdrop-filter: blur(20px) saturate(140%) !important;
-  border: 2px solid var(--accent) !important;
-  box-shadow:
-    0 0 25px var(--glow-color),
-    0 0 60px rgba(0, 0, 0, 0.5),
-    inset 0 0 20px rgba(255, 255, 255, 0.04) !important;
+if (localStorage.getItem('meowOcultarAviso') === 'true') {
+  const aviso = document.getElementById('meow-aviso-privacidad');
+  if (aviso) aviso.style.display = 'none';
 }
 
-/* Fondo de la isla inferior semitranslúcido */
-body.skin-tui .bottom-nav {
-  background: rgba(0, 0, 0, 0.6) !important;
-  backdrop-filter: blur(20px) saturate(140%) !important;
-  -webkit-backdrop-filter: blur(20px) saturate(140%) !important;
-  border: 2px solid var(--accent) !important;
-  box-shadow:
-    0 0 20px var(--glow-color),
-    0 0 40px rgba(0, 0, 0, 0.5) !important;
+// ============================================================
+// INICIALIZACIÓN
+// ============================================================
+function initialize() {
+  const savedSkin = localStorage.getItem('meowSkin') || 'classic';
+  applySkin(savedSkin, true);
+
+  if (!localStorage.getItem('meowVisualizerMode')) localStorage.setItem('meowVisualizerMode', 'hybrid');
+  if (!localStorage.getItem('meowPalette')) localStorage.setItem('meowPalette', 'plasma');
+
+  visualizerSelect.value = localStorage.getItem('meowVisualizerMode');
+  paletteSelect.value = localStorage.getItem('meowPalette');
+  visualizerMode = visualizerSelect.value;
+  selectedPalette = paletteSelect.value;
+
+  const savedTuiTheme = localStorage.getItem('meowTuiTheme') || 'green';
+  applyTuiTheme(savedTuiTheme);
+
+  const savedDistro = localStorage.getItem('meowDistro') || 'arch';
+  applyDistro(savedDistro);
+
+  const savedCrt = localStorage.getItem('meowCrt');
+  applyCrt(savedCrt !== 'false');
+
+  loadStoredTracksFromDB();
 }
 
-/* Overlays (Fila y Ajustes) más translúcidos */
-body.skin-tui .playlist-overlay,
-body.skin-tui .modal-overlay {
-  background: rgba(0, 0, 0, 0.85) !important;   /* antes rgba(5,10,6,0.98) */
-  backdrop-filter: blur(25px) saturate(140%) !important;
-  -webkit-backdrop-filter: blur(25px) saturate(140%) !important;
-  border: 2px solid var(--accent) !important;
-  box-shadow:
-    0 0 30px var(--glow-color),
-    inset 0 0 30px rgba(0, 0, 0, 0.3) !important;
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initialize);
+} else {
+  initialize();
 }
 
-/* Items de Ajustes con borde más brillante */
-body.skin-tui .settings-item {
-  background: rgba(0, 0, 0, 0.5) !important;
-  border: 1px solid var(--accent) !important;
-  box-shadow: 0 0 8px var(--glow-color) !important;
+// Service Worker
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('sw.js', { updateViaCache: 'none' }).catch(() => {});
 }
-
-/* Items de la lista con borde más notorio */
-body.skin-tui .playlist-item {
-  border-bottom: 1px solid var(--accent) !important;
-  padding: 10px !important;
-}
-body.skin-tui .playlist-item.playing {
-  background: rgba(0, 0, 0, 0.4) !important;
-  box-shadow: inset 0 0 12px var(--glow-color) !important;
-}
-
-/* Botones con glow más intenso */
-body.skin-tui .icon-action-btn {
-  box-shadow:
-    0 0 10px var(--glow-color),
-    inset 0 0 6px var(--glow-color) !important;
-}
-body.skin-tui .btn-play {
-  box-shadow:
-    0 0 15px var(--accent),
-    0 0 30px var(--glow-color),
-    inset 0 0 10px var(--glow-color) !important;
-}
-
-/* Inputs y selects con borde brillante */
-body.skin-tui .search-input,
-body.skin-tui .sort-bar,
-body.skin-tui .btn-action {
-  border: 1px solid var(--accent) !important;
-  box-shadow: 0 0 6px var(--glow-color) !important;
-}
-
-/* Textos con glow más intenso para mejor lectura */
-body.skin-tui .track-title,
-body.skin-tui .header-title,
-body.skin-tui .playlist-title,
-body.skin-tui .settings-title,
-body.skin-tui .playlist-item-title {
-  text-shadow:
-    0 0 8px var(--glow-color),
-    0 0 2px var(--accent) !important;
-}
-
-body.skin-tui .track-artist,
-body.skin-tui .track-album,
-body.skin-tui .settings-desc,
-body.skin-tui .playlist-item-artist,
-body.skin-tui .sort-label {
-  color: var(--text) !important;
-  opacity: 0.85 !important;
-}
-
-/* ──────────────────────────────────────────── */
-/* 🐧 SKIN @distro_01                            */
-/* ──────────────────────────────────────────── */
-
-body.skin-distro-01 .player-card {
-  background: rgba(10, 15, 20, 0.55) !important;   /* antes #10161c opaco */
-  backdrop-filter: blur(20px) saturate(140%) !important;
-  -webkit-backdrop-filter: blur(20px) saturate(140%) !important;
-  border: 2px solid var(--accent) !important;
-  box-shadow:
-    0 0 25px var(--glow-color),
-    0 0 60px rgba(0, 0, 0, 0.5),
-    inset 0 0 20px rgba(255, 255, 255, 0.04) !important;
-}
-
-body.skin-distro-01 .bottom-nav {
-  background: rgba(10, 15, 20, 0.6) !important;
-  backdrop-filter: blur(20px) saturate(140%) !important;
-  -webkit-backdrop-filter: blur(20px) saturate(140%) !important;
-  border: 2px solid var(--accent) !important;
-  box-shadow:
-    0 0 20px var(--glow-color),
-    0 0 40px rgba(0, 0, 0, 0.5) !important;
-}
-
-body.skin-distro-01 .playlist-overlay,
-body.skin-distro-01 .modal-overlay {
-  background: rgba(10, 15, 20, 0.85) !important;
-  backdrop-filter: blur(25px) saturate(140%) !important;
-  -webkit-backdrop-filter: blur(25px) saturate(140%) !important;
-  border: 2px solid var(--accent) !important;
-  box-shadow:
-    0 0 30px var(--glow-color),
-    inset 0 0 30px rgba(0, 0, 0, 0.3) !important;
-}
-
-body.skin-distro-01 .settings-item {
-  background: rgba(10, 15, 20, 0.5) !important;
-  border: 1px solid var(--accent) !important;
-  box-shadow: 0 0 8px var(--glow-color) !important;
-}
-
-body.skin-distro-01 .playlist-item {
-  border-bottom: 1px solid var(--accent) !important;
-  padding: 10px !important;
-}
-body.skin-distro-01 .playlist-item.playing {
-  background: rgba(0, 0, 0, 0.4) !important;
-  box-shadow: inset 0 0 12px var(--glow-color) !important;
-}
-
-body.skin-distro-01 .icon-action-btn {
-  box-shadow:
-    0 0 10px var(--glow-color),
-    inset 0 0 6px var(--glow-color) !important;
-}
-body.skin-distro-01 .btn-play {
-  box-shadow:
-    0 0 15px var(--accent),
-    0 0 30px var(--glow-color),
-    inset 0 0 10px var(--glow-color) !important;
-}
-
-body.skin-distro-01 .search-input,
-body.skin-distro-01 .sort-bar,
-body.skin-distro-01 .btn-action {
-  border: 1px solid var(--accent) !important;
-  box-shadow: 0 0 6px var(--glow-color) !important;
-}
-
-body.skin-distro-01 .track-title,
-body.skin-distro-01 .header-title,
-body.skin-distro-01 .playlist-title,
-body.skin-distro-01 .settings-title,
-body.skin-distro-01 .playlist-item-title {
-  text-shadow:
-    0 0 8px var(--glow-color),
-    0 0 2px var(--accent) !important;
-}
-
-body.skin-distro-01 .track-artist,
-body.skin-distro-01 .track-album,
-body.skin-distro-01 .settings-desc,
-body.skin-distro-01 .playlist-item-artist,
-body.skin-distro-01 .sort-label {
-  color: var(--text) !important;
-  opacity: 0.85 !important;
-}
-
-/* ──────────────────────────────────────────── */
-/* 🐧 SKIN @distro_02 (preparado para el futuro) */
-/* ──────────────────────────────────────────── */
-
-body.skin-distro-02 .player-card {
-  background: rgba(10, 15, 20, 0.55) !important;
-  backdrop-filter: blur(20px) saturate(140%) !important;
-  -webkit-backdrop-filter: blur(20px) saturate(140%) !important;
-  border: 2px solid var(--accent) !important;
-  box-shadow:
-    0 0 25px var(--glow-color),
-    0 0 60px rgba(0, 0, 0, 0.5),
-    inset 0 0 20px rgba(255, 255, 255, 0.04) !important;
-}
-
-body.skin-distro-02 .bottom-nav {
-  background: rgba(10, 15, 20, 0.6) !important;
-  backdrop-filter: blur(20px) saturate(140%) !important;
-  -webkit-backdrop-filter: blur(20px) saturate(140%) !important;
-  border: 2px solid var(--accent) !important;
-  box-shadow:
-    0 0 20px var(--glow-color),
-    0 0 40px rgba(0, 0, 0, 0.5) !important;
-}
-
-body.skin-distro-02 .playlist-overlay,
-body.skin-distro-02 .modal-overlay {
-  background: rgba(10, 15, 20, 0.85) !important;
-  backdrop-filter: blur(25px) saturate(140%) !important;
-  -webkit-backdrop-filter: blur(25px) saturate(140%) !important;
-  border: 2px solid var(--accent) !important;
-  box-shadow:
-    0 0 30px var(--glow-color),
-    inset 0 0 30px rgba(0, 0, 0, 0.3) !important;
-}
-
-body.skin-distro-02 .settings-item {
-  background: rgba(10, 15, 20, 0.5) !important;
-  border: 1px solid var(--accent) !important;
-  box-shadow: 0 0 8px var(--glow-color) !important;
-}
-
-body.skin-distro-02 .playlist-item {
-  border-bottom: 1px solid var(--accent) !important;
-  padding: 10px !important;
-}
-body.skin-distro-02 .playlist-item.playing {
-  background: rgba(0, 0, 0, 0.4) !important;
-  box-shadow: inset 0 0 12px var(--glow-color) !important;
-}
-
-body.skin-distro-02 .icon-action-btn {
-  box-shadow:
-    0 0 10px var(--glow-color),
-    inset 0 0 6px var(--glow-color) !important;
-}
-body.skin-distro-02 .btn-play {
-  box-shadow:
-    0 0 15px var(--accent),
-    0 0 30px var(--glow-color),
-    inset 0 0 10px var(--glow-color) !important;
-}
-
-body.skin-distro-02 .search-input,
-body.skin-distro-02 .sort-bar,
-body.skin-distro-02 .btn-action {
-  border: 1px solid var(--accent) !important;
-  box-shadow: 0 0 6px var(--glow-color) !important;
-}
-
-body.skin-distro-02 .track-title,
-body.skin-distro-02 .header-title,
-body.skin-distro-02 .playlist-title,
-body.skin-distro-02 .settings-title,
-body.skin-distro-02 .playlist-item-title {
-  text-shadow:
-    0 0 8px var(--glow-color),
-    0 0 2px var(--accent) !important;
-}
-
-body.skin-distro-02 .track-artist,
-body.skin-distro-02 .track-album,
-body.skin-distro-02 .settings-desc,
-body.skin-distro-02 .playlist-item-artist,
-body.skin-distro-02 .sort-label {
-  color: var(--text) !important;
-  opacity: 0.85 !important;
-}
-
-/* ──────────────────────────────────────────── */
-/* 🔆 AUMENTAR GLOW EN TODOS LOS TEMAS TUI     */
-/* ──────────────────────────────────────────── */
-
-body.skin-tui[data-tui-theme="green"] {
-  --glow-color: rgba(0, 255, 102, 0.5) !important;
-}
-body.skin-tui[data-tui-theme="amber"] {
-  --glow-color: rgba(255, 176, 0, 0.5) !important;
-}
-body.skin-tui[data-tui-theme="cyan"] {
-  --glow-color: rgba(0, 240, 255, 0.5) !important;
-}
-body.skin-tui[data-tui-theme="dracula"] {
-  --glow-color: rgba(189, 147, 249, 0.5) !important;
-}
-body.skin-tui[data-tui-theme="mono"] {
-  --glow-color: rgba(255, 255, 255, 0.4) !important;
-}
-body.skin-tui[data-tui-theme="cappuccino"] {
-  --glow-color: rgba(230, 154, 88, 0.5) !important;
-}
-
-/* ──────────────────────────────────────────── */
-/* 🔆 AUMENTAR GLOW EN DISTROS                  */
-/* ──────────────────────────────────────────── */
-
-body.skin-distro-01[data-distro="arch"] { --glow-color: rgba(23, 147, 209, 0.55) !important; }
-body.skin-distro-01[data-distro="ubuntu"] { --glow-color: rgba(233, 84, 32, 0.55) !important; }
-body.skin-distro-01[data-distro="debian"] { --glow-color: rgba(215, 10, 83, 0.55) !important; }
-body.skin-distro-01[data-distro="fedora"] { --glow-color: rgba(81, 162, 218, 0.55) !important; }
-body.skin-distro-01[data-distro="mint"] { --glow-color: rgba(135, 207, 62, 0.55) !important; }
-body.skin-distro-01[data-distro="opensuse"] { --glow-color: rgba(115, 186, 37, 0.55) !important; }
-body.skin-distro-01[data-distro="alpine"] { --glow-color: rgba(13, 89, 127, 0.6) !important; }
-body.skin-distro-01[data-distro="gentoo"] { --glow-color: rgba(84, 72, 122, 0.6) !important; }
-body.skin-distro-01[data-distro="manjaro"] { --glow-color: rgba(53, 191, 167, 0.55) !important; }
-body.skin-distro-01[data-distro="kali"] { --glow-color: rgba(85, 124, 148, 0.55) !important; }
-body.skin-distro-01[data-distro="void"] { --glow-color: rgba(71, 128, 97, 0.55) !important; }
-body.skin-distro-01[data-distro="nixos"] { --glow-color: rgba(82, 119, 195, 0.55) !important; }
-body.skin-distro-01[data-distro="popos"] { --glow-color: rgba(72, 185, 199, 0.55) !important; }
