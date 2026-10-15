@@ -7,7 +7,7 @@
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="theme-color" content="#0f1015" id="metaTheme">
-  <meta name="description" content="Reproductor de audio local con skins Classic, Consola TUI, @distro_01 y @distro_02. Todo el procesamiento es local.">
+  <meta name="description" content="Reproductor de audio local con skins Classic, Consola TUI y @distro_01. Todo el procesamiento es local.">
 
   <title>MEOW AUDIO APP</title>
 
@@ -89,10 +89,12 @@
       <div class="audio-specs-badge" id="audioSpecs"></div>
       <div class="status-badge" id="status"></div>
 
+      <!-- ZONA ASCII: logo de la distro (solo @distro_01) -->
       <div class="distro-display" id="distroDisplay">
         <pre class="distro-bg-ascii" id="distroBgAscii"></pre>
       </div>
 
+      <!-- ZONA INFERIOR: controles -->
       <div class="distro-zone" id="distroZone">
 
         <div class="progress-container">
@@ -111,6 +113,7 @@
           <button class="btn btn-sub" id="btnRepeat" aria-label="Repetir">🔁</button>
         </div>
 
+        <!-- Botones de acción NORMALES: se ven en Classic y TUI -->
         <div class="action-buttons-row action-buttons-normal">
           <button class="icon-action-btn" id="btnFullscreen" title="Pantalla completa">⛶</button>
           <button class="icon-action-btn" id="btnRotate" title="Girar pantalla">🔄</button>
@@ -202,7 +205,6 @@
                 <option value="classic">Classic</option>
                 <option value="tui">Consola TUI</option>
                 <option value="distro-01">@distro_01</option>
-                <option value="distro-02">@distro_02</option>
               </select>
             </div>
           </div>
@@ -243,10 +245,9 @@
           </div>
 
           <div class="settings-item" id="paletteSettingItem">
-            <div class="settings-title">🎨 Paleta-terminal del Espectro</div">
->
-                 <div class="settings-desc">Es <quemas científicos de alto contraste.</div>
-pre            <div class="settings-row">
+            <div class="settings-title">🎨 Paleta del Espectro</div>
+            <div class="settings-desc">Esquemas científicos de alto contraste.</div>
+            <div class="settings-row">
               <span class="settings-desc" style="font-weight:600;">Esquema:</span>
               <select id="paletteSelect" class="settings-select">
                 <option value="neon">Neón Cyan / Magenta</option>
@@ -326,8 +327,8 @@ pre            <div class="settings-row">
           </div>
 
           <div class="settings-item">
-            <div class="settings-title" id="versionTitle">MEOW AUDIO APP v6.0</div>
-            <div class="settings-desc" id="versionDesc">Skins: Classic, Consola TUI, @distro_01, @distro_02.</div>
+            <div class="settings-title" id="versionTitle">MEOW AUDIO APP v4.8</div>
+            <div class="settings-desc" id="versionDesc">Skins: Classic, Consola TUI, @distro_01.</div>
           </div>
         </div>
       </div>
@@ -341,9 +342,10 @@ pre            <div class="settings-row">
     </div>
   </div>
 
-  <!-- Overlay de boot animado (al cambiar a @distro_01 o @distro_02) -->
+  <!-- Overlay de boot animado (al cambiar a @distro_01) -->
   <div class="distro-boot-overlay" id="distroBootOverlay">
-    <div class="distro-boot id="distroBootText"></pre>
+    <div class="distro-boot-terminal">
+      <pre id="distroBootText"></pre>
       <span class="distro-boot-cursor">█</span>
     </div>
   </div>
