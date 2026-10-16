@@ -2248,3 +2248,550 @@ body.skin-distro-02 .meow-toast {
     font-size: 1.15rem;
   }
 }
+
+/* ============================================================
+   📋 PLAYLISTS — Ajustes por skin + Refinamientos visuales
+   ============================================================ */
+
+/* ============================================================
+   🎨 CLASSIC — Estilos premium para las playlists
+   ============================================================ */
+body.skin-classic .playlists-item {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+body.skin-classic .playlists-item:hover {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0.1));
+  border-color: rgba(255, 255, 255, 0.25);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+}
+
+body.skin-classic .playlist-item-more {
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+body.skin-classic .playlist-item-more:hover {
+  background: rgba(255, 71, 87, 0.2);
+  border-color: rgba(255, 71, 87, 0.4);
+  color: #ff4757;
+}
+
+body.skin-classic .playlist-item-reorder button:hover {
+  background: rgba(0, 255, 204, 0.15);
+  border-color: rgba(0, 255, 204, 0.4);
+  color: #00ffcc;
+}
+
+body.skin-classic .playlists-item-fav {
+  background: linear-gradient(135deg, rgba(255, 71, 87, 0.15), rgba(255, 71, 87, 0.05));
+  border: 1px solid rgba(255, 71, 87, 0.4);
+  box-shadow: 0 4px 12px rgba(255, 71, 87, 0.15);
+}
+
+body.skin-classic .playlists-item-fav:hover {
+  background: linear-gradient(135deg, rgba(255, 71, 87, 0.25), rgba(255, 71, 87, 0.1));
+  box-shadow: 0 6px 16px rgba(255, 71, 87, 0.25);
+}
+
+/* Efecto glow sutil en el bottom-sheet de Classic */
+body.skin-classic .bottom-sheet {
+  box-shadow:
+    0 -10px 40px rgba(0, 0, 0, 0.7),
+    0 0 60px rgba(255, 71, 87, 0.15);
+}
+
+/* ============================================================
+   🖥️ TUI — Estilo terminal puro para las playlists
+   ============================================================ */
+body.skin-tui .playlists-list {
+  font-family: 'JetBrains Mono', monospace;
+}
+
+body.skin-tui .playlists-item {
+  position: relative;
+}
+
+/* Prefijo estilo terminal en cada playlist */
+body.skin-tui .playlists-item::before {
+  content: '>';
+  position: absolute;
+  left: 4px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--accent);
+  font-weight: 700;
+  font-size: 0.9rem;
+  opacity: 0.6;
+}
+
+body.skin-tui .playlists-item {
+  padding-left: 22px;
+}
+
+/* Item seleccionado */
+body.skin-tui .playlists-item:active {
+  background: rgba(0, 0, 0, 0.6);
+  box-shadow:
+    inset 0 0 15px var(--glow-color),
+    0 0 15px var(--glow-color);
+}
+
+body.skin-tui .playlists-item-name {
+  text-shadow: 0 0 6px var(--glow-color);
+}
+
+/* Bottom-sheet estilo terminal */
+body.skin-tui .bottom-sheet {
+  border-radius: 0;
+}
+
+body.skin-tui .bottom-sheet-header {
+  background: rgba(0, 0, 0, 0.6);
+}
+
+body.skin-tui .bottom-sheet-title {
+  font-family: 'JetBrains Mono', monospace;
+  letter-spacing: 1px;
+  text-shadow: 0 0 8px var(--glow-color);
+  text-transform: uppercase;
+  font-size: 0.85rem;
+}
+
+/* Prefijo '>' en cada acción del bottom-sheet */
+body.skin-tui .bottom-sheet-item::before {
+  content: '$';
+  color: var(--accent);
+  opacity: 0.5;
+  margin-right: 4px;
+  font-weight: 700;
+}
+
+body.skin-tui .bottom-sheet-item {
+  padding-left: 14px;
+}
+
+/* Modal de crear playlist estilo terminal */
+body.skin-tui .modal-box-title::before {
+  content: '$ mkdir ';
+  color: var(--accent);
+  opacity: 0.6;
+  font-weight: 400;
+  font-size: 0.85rem;
+}
+
+/* ============================================================
+   🐧 @distro_01 y @distro_02 — Estilo consistente con las distros
+   ============================================================ */
+body.skin-distro-01 .playlists-item,
+body.skin-distro-02 .playlists-item {
+  position: relative;
+  padding-left: 22px;
+}
+
+/* Prefijo '>' también en distros */
+body.skin-distro-01 .playlists-item::before,
+body.skin-distro-02 .playlists-item::before {
+  content: '>';
+  position: absolute;
+  left: 6px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--accent);
+  font-weight: 700;
+  font-size: 0.9rem;
+  opacity: 0.5;
+}
+
+body.skin-distro-01 .playlists-item:active,
+body.skin-distro-02 .playlists-item:active {
+  background: rgba(10, 15, 20, 0.8);
+  box-shadow:
+    inset 0 0 15px var(--glow-color),
+    0 0 15px var(--glow-color);
+}
+
+body.skin-distro-01 .playlists-item-name,
+body.skin-distro-02 .playlists-item-name {
+  text-shadow: 0 0 6px var(--glow-color);
+}
+
+body.skin-distro-01 .bottom-sheet,
+body.skin-distro-02 .bottom-sheet {
+  border-radius: 0;
+}
+
+body.skin-distro-01 .bottom-sheet-title,
+body.skin-distro-02 .bottom-sheet-title {
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  text-shadow: 0 0 8px var(--glow-color);
+}
+
+body.skin-distro-01 .bottom-sheet-item::before,
+body.skin-distro-02 .bottom-sheet-item::before {
+  content: '$';
+  color: var(--accent);
+  opacity: 0.5;
+  margin-right: 4px;
+  font-weight: 700;
+}
+
+body.skin-distro-01 .bottom-sheet-item,
+body.skin-distro-02 .bottom-sheet-item {
+  padding-left: 14px;
+}
+
+body.skin-distro-01 .modal-box-title::before,
+body.skin-distro-02 .modal-box-title::before {
+  content: '$ mkdir ';
+  color: var(--accent);
+  opacity: 0.6;
+  font-weight: 400;
+  font-size: 0.85rem;
+}
+
+/* ============================================================
+   ✨ TRANSICIONES Y ANIMACIONES GLOBALES
+   ============================================================ */
+
+/* Entrada de items de playlist */
+@keyframes playlistItemIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.playlists-item,
+.playlist-item {
+  animation: playlistItemIn 0.25s ease backwards;
+}
+
+/* Delays escalonados para efecto cascada */
+.playlists-item:nth-child(1) { animation-delay: 0.02s; }
+.playlists-item:nth-child(2) { animation-delay: 0.04s; }
+.playlists-item:nth-child(3) { animation-delay: 0.06s; }
+.playlists-item:nth-child(4) { animation-delay: 0.08s; }
+.playlists-item:nth-child(5) { animation-delay: 0.10s; }
+.playlists-item:nth-child(6) { animation-delay: 0.12s; }
+.playlists-item:nth-child(7) { animation-delay: 0.14s; }
+.playlists-item:nth-child(8) { animation-delay: 0.16s; }
+
+/* Fade in de overlays */
+.playlist-overlay.active,
+.modal-overlay.active {
+  animation: overlayFadeIn 0.25s ease;
+}
+
+@keyframes overlayFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Pulse de favorito */
+@keyframes favPulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.3); }
+  100% { transform: scale(1); }
+}
+
+.playlist-item-fav {
+  animation: favPulse 0.4s ease;
+}
+
+/* Shake en el modal al validar error */
+@keyframes modalShake {
+  0%, 100% { transform: scale(1) translateX(0); }
+  20% { transform: scale(1) translateX(-6px); }
+  40% { transform: scale(1) translateX(6px); }
+  60% { transform: scale(1) translateX(-4px); }
+  80% { transform: scale(1) translateX(4px); }
+}
+
+.modal-box.shake {
+  animation: modalShake 0.4s ease;
+}
+
+/* ============================================================
+   📱 AJUSTES FINOS PARA LOS BOTONES DE ACCIÓN EN ITEMS
+   ============================================================ */
+
+/* En pantallas muy pequeñas, reducir un poco */
+@media (max-width: 380px) {
+  .playlist-item-more {
+    width: 26px;
+    height: 26px;
+    font-size: 0.85rem;
+  }
+  .playlist-item-reorder button {
+    width: 22px;
+    height: 15px;
+    font-size: 0.55rem;
+  }
+  .playlist-item-title {
+    font-size: 0.78rem;
+    max-width: 140px;
+  }
+  .playlist-item-artist {
+    font-size: 0.68rem;
+  }
+}
+
+/* En landscape con poca altura, comprimir todavía más */
+@media screen and (orientation: landscape) and (max-height: 500px) {
+  .playlists-item {
+    padding: 8px 12px;
+    margin-bottom: 4px;
+  }
+  .playlists-item-name {
+    font-size: 0.82rem;
+  }
+  .bottom-sheet {
+    max-height: 90vh;
+  }
+  .bottom-sheet-item {
+    padding: 11px 20px;
+    font-size: 0.88rem;
+  }
+}
+
+/* ============================================================
+   🎯 SCROLL SUAVE EN LISTAS
+   ============================================================ */
+.playlists-list,
+.playlist-list,
+.settings-body,
+.bottom-sheet-list {
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Scrollbar estilizada en desktop */
+@media (pointer: fine) {
+  .playlists-list::-webkit-scrollbar,
+  .playlist-list::-webkit-scrollbar,
+  .settings-body::-webkit-scrollbar,
+  .bottom-sheet-list::-webkit-scrollbar {
+    width: 8px;
+  }
+  .playlists-list::-webkit-scrollbar-track,
+  .playlist-list::-webkit-scrollbar-track,
+  .settings-body::-webkit-scrollbar-track,
+  .bottom-sheet-list::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 4px;
+  }
+  .playlists-list::-webkit-scrollbar-thumb,
+  .playlist-list::-webkit-scrollbar-thumb,
+  .settings-body::-webkit-scrollbar-thumb,
+  .bottom-sheet-list::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+  }
+  .playlists-list::-webkit-scrollbar-thumb:hover,
+  .playlist-list::-webkit-scrollbar-thumb:hover,
+  .settings-body::-webkit-scrollbar-thumb:hover,
+  .bottom-sheet-list::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.3);
+  }
+  body.skin-tui .playlists-list::-webkit-scrollbar-thumb,
+  body.skin-tui .playlist-list::-webkit-scrollbar-thumb,
+  body.skin-tui .settings-body::-webkit-scrollbar-thumb,
+  body.skin-tui .bottom-sheet-list::-webkit-scrollbar-thumb,
+  body.skin-distro-01 .playlists-list::-webkit-scrollbar-thumb,
+  body.skin-distro-01 .playlist-list::-webkit-scrollbar-thumb,
+  body.skin-distro-01 .settings-body::-webkit-scrollbar-thumb,
+  body.skin-distro-01 .bottom-sheet-list::-webkit-scrollbar-thumb,
+  body.skin-distro-02 .playlists-list::-webkit-scrollbar-thumb,
+  body.skin-distro-02 .playlist-list::-webkit-scrollbar-thumb,
+  body.skin-distro-02 .settings-body::-webkit-scrollbar-thumb,
+  body.skin-distro-02 .bottom-sheet-list::-webkit-scrollbar-thumb {
+    background: var(--accent);
+    box-shadow: 0 0 6px var(--glow-color);
+  }
+}
+
+/* ============================================================
+   🎨 MEJORAS DEL BOTÓN "❤️ FAVORITO" EN ITEMS
+   ============================================================ */
+
+/* Corazón pulsable en los items */
+.playlist-item-fav-btn {
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.3);
+  font-size: 1rem;
+  cursor: pointer;
+  padding: 4px;
+  transition: color 0.2s ease, transform 0.15s ease;
+  flex-shrink: 0;
+  line-height: 1;
+}
+.playlist-item-fav-btn:hover {
+  color: #ff4757;
+  transform: scale(1.15);
+}
+.playlist-item-fav-btn:active {
+  transform: scale(0.9);
+}
+.playlist-item-fav-btn.fav-active {
+  color: #ff4757;
+  text-shadow: 0 0 8px rgba(255, 71, 87, 0.6);
+}
+
+body.skin-tui .playlist-item-fav-btn,
+body.skin-distro-01 .playlist-item-fav-btn,
+body.skin-distro-02 .playlist-item-fav-btn {
+  color: var(--text-muted);
+}
+body.skin-tui .playlist-item-fav-btn.fav-active,
+body.skin-distro-01 .playlist-item-fav-btn.fav-active,
+body.skin-distro-02 .playlist-item-fav-btn.fav-active {
+  color: var(--accent);
+  text-shadow: 0 0 8px var(--glow-color);
+}
+
+/* ============================================================
+   🎯 INDICADOR "REPRODUCIENDO" MÁS VISIBLE
+   ============================================================ */
+.playlist-item.playing::before {
+  content: '▶';
+  position: absolute;
+  left: 2px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--accent);
+  font-size: 0.7rem;
+  animation: playingPulse 1s ease infinite;
+}
+
+@keyframes playingPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+body.skin-tui .playlist-item.playing::before,
+body.skin-distro-01 .playlist-item.playing::before,
+body.skin-distro-02 .playlist-item.playing::before {
+  text-shadow: 0 0 6px var(--glow-color);
+}
+
+/* Ajustar padding si es "playing" */
+.playlist-item.playing {
+  padding-left: 18px;
+}
+
+/* ============================================================
+   🎯 BOTÓN "＋ AÑADIR CANCIÓN ACTUAL" EN PLAYLIST
+   ============================================================ */
+#btnAddCurrentToPlaylist:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+#btnAddCurrentToPlaylist:disabled:hover {
+  background: inherit;
+}
+
+/* ============================================================
+   🎯 BOTONES DEL HEADER DE DETALLE DE PLAYLIST
+   ============================================================ */
+#btnBackToPlaylists {
+  background: transparent;
+  border: none;
+  color: var(--text);
+  font-size: 1.2rem;
+  padding: 4px 8px;
+  cursor: pointer;
+  transition: transform 0.15s ease, color 0.2s ease;
+}
+#btnBackToPlaylists:hover {
+  transform: translateX(-2px);
+  color: var(--accent);
+}
+#btnBackToPlaylists:active {
+  transform: translateX(-2px) scale(0.9);
+}
+
+body.skin-tui #btnBackToPlaylists,
+body.skin-distro-01 #btnBackToPlaylists,
+body.skin-distro-02 #btnBackToPlaylists {
+  color: var(--accent);
+}
+
+/* ============================================================
+   🎯 ANIMACIÓN DEL BOTÓN ⋯
+   ============================================================ */
+@keyframes moreBtnRotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(90deg); }
+}
+
+.playlist-item-more:active {
+  transform: rotate(90deg) scale(0.9);
+  transition: transform 0.15s ease;
+}
+
+/* ============================================================
+   🎯 MENSAJE DE PLAYLIST VACÍA
+   ============================================================ */
+.playlists-empty-icon {
+  animation: emptyIconFloat 3s ease-in-out infinite;
+}
+
+@keyframes emptyIconFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+/* ============================================================
+   🎯 BOTONES DE LA BARRA DE NAVEGACIÓN (5 pestañas)
+   ============================================================ */
+.bottom-nav .nav-btn {
+  padding: 8px 2px;
+  font-size: 1.25rem;   /* ⬅️ un poco más pequeño que los 1.35rem anteriores */
+}
+
+@media (max-width: 360px) {
+  .bottom-nav .nav-btn {
+    font-size: 1.15rem;
+    padding: 6px 1px;
+  }
+}
+
+/* Asegurar que el 5º botón no se sale */
+.bottom-nav {
+  overflow: hidden;
+}
+
+/* ============================================================
+   🎯 TRANSICIÓN ENTRE OVERLAYS (Queue ↔ Playlists ↔ Detalle)
+   ============================================================ */
+.playlist-overlay {
+  will-change: transform, opacity;
+}
+
+/* Animación al cambiar de overlay */
+@keyframes slideInFromRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+#playlistDetailOverlay.active {
+  animation: slideInFromRight 0.25s ease;
+}
