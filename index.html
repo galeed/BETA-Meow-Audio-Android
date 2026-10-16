@@ -7,7 +7,7 @@
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="theme-color" content="#0f1015" id="metaTheme">
-  <meta name="description" content="Reproductor de audio local con skins Classic, Consola TUI y @distro_01. Todo el procesamiento es local.">
+  <meta name="description" content="Reproductor de audio local con skins Classic, Consola TUI, @distro_01 y @distro_02. Todo el procesamiento es local.">
 
   <title>MEOW AUDIO APP</title>
 
@@ -89,12 +89,10 @@
       <div class="audio-specs-badge" id="audioSpecs"></div>
       <div class="status-badge" id="status"></div>
 
-      <!-- ZONA ASCII: logo de la distro (solo @distro_01) -->
       <div class="distro-display" id="distroDisplay">
         <pre class="distro-bg-ascii" id="distroBgAscii"></pre>
       </div>
 
-      <!-- ZONA INFERIOR: controles -->
       <div class="distro-zone" id="distroZone">
 
         <div class="progress-container">
@@ -113,7 +111,6 @@
           <button class="btn btn-sub" id="btnRepeat" aria-label="Repetir">🔁</button>
         </div>
 
-        <!-- Botones de acción NORMALES: se ven en Classic y TUI -->
         <div class="action-buttons-row action-buttons-normal">
           <button class="icon-action-btn" id="btnFullscreen" title="Pantalla completa">⛶</button>
           <button class="icon-action-btn" id="btnRotate" title="Girar pantalla">🔄</button>
@@ -126,6 +123,7 @@
 
       </div>
 
+      <!-- OVERLAY: FILA DE REPRODUCCIÓN -->
       <div class="playlist-overlay" id="playlistOverlay">
         <div class="playlist-header">
           <span class="playlist-title" id="playlistTitle">Fila</span>
@@ -148,6 +146,44 @@
         <ul class="playlist-list" id="playlistContainer"></ul>
       </div>
 
+      <!-- OVERLAY: PLAYLISTS (nueva pestaña) -->
+      <div class="playlist-overlay" id="playlistsOverlay">
+        <div class="playlist-header">
+          <span class="playlist-title">Playlists</span>
+          <button class="btn-icon" id="btnClosePlaylists" aria-label="Cerrar">✕</button>
+        </div>
+        <div class="playlist-tools">
+          <div class="sort-bar">
+            <span class="sort-label">Tus listas guardadas</span>
+            <button class="btn-action" id="btnNewPlaylist" style="padding: 4px 10px; font-size: 0.72rem;">➕ Nueva</button>
+          </div>
+        </div>
+        <ul class="playlists-list" id="playlistsList"></ul>
+      </div>
+
+      <!-- OVERLAY: DETALLE DE PLAYLIST -->
+      <div class="playlist-overlay" id="playlistDetailOverlay">
+        <div class="playlist-header">
+          <div style="display: flex; align-items: center; gap: 8px; flex: 1; min-width: 0;">
+            <button class="btn-icon" id="btnBackToPlaylists" aria-label="Atrás">←</button>
+            <span class="playlist-title" id="playlistDetailTitle" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Playlist</span>
+          </div>
+          <div style="display: flex; gap: 6px;">
+            <button class="btn-icon" id="btnPlayPlaylist" aria-label="Reproducir" title="Reproducir">▶</button>
+            <button class="btn-icon" id="btnPlaylistMenu" aria-label="Más opciones" title="Más">⋯</button>
+            <button class="btn-icon" id="btnClosePlaylistDetail" aria-label="Cerrar">✕</button>
+          </div>
+        </div>
+        <div class="playlist-tools" id="playlistDetailTools">
+          <div class="sort-bar" id="playlistDetailInfoBar">
+            <span class="sort-label" id="playlistDetailInfo">0 canciones</span>
+            <button class="btn-action" id="btnAddCurrentToPlaylist" style="padding: 4px 10px; font-size: 0.72rem;">➕ Añadir canción actual</button>
+          </div>
+        </div>
+        <ul class="playlist-list" id="playlistDetailList"></ul>
+      </div>
+
+      <!-- OVERLAY: AJUSTES -->
       <div class="modal-overlay" id="settingsOverlay">
         <div class="playlist-header">
           <span class="playlist-title">Ajustes ⚙️</span>
@@ -155,7 +191,6 @@
         </div>
         <div class="settings-body">
 
-          <!-- 🛠️ Tools Home (solo @distro_01 y @distro_02) -->
           <div class="settings-item" id="toolsHomeItem">
             <div class="settings-title">🛠️ Tools Home</div>
             <div class="settings-desc">Acciones rápidas exclusivas de los skins @distro.</div>
@@ -168,11 +203,9 @@
             </div>
           </div>
 
-          <!-- 📁 Gestor de Archivos -->
           <div class="settings-item" id="storageManagerItem">
             <div class="settings-title">📁 Gestor de Archivos</div>
             <div class="settings-desc">Administra la caché y el modo offline.</div>
-
             <div class="settings-row" style="flex-direction: column; align-items: stretch; gap: 6px; margin-top: 10px;">
               <div style="display: flex; justify-content: space-between; font-size: 0.72rem; color: var(--text-muted);">
                 <span>Almacenamiento usado:</span>
@@ -187,7 +220,6 @@
                 <span id="offlineStatus">Desactivado</span>
               </div>
             </div>
-
             <div class="settings-row" style="flex-wrap: wrap; gap: 8px; margin-top: 10px;">
               <button class="btn-action btn-tool" id="btnClearCache">🗑️ Borrar caché</button>
               <button class="btn-action btn-tool" id="btnToggleOffline">📴 Activar offline</button>
@@ -205,6 +237,7 @@
                 <option value="classic">Classic</option>
                 <option value="tui">Consola TUI</option>
                 <option value="distro-01">@distro_01</option>
+                <option value="distro-02">@distro_02</option>
               </select>
             </div>
           </div>
@@ -327,22 +360,87 @@
           </div>
 
           <div class="settings-item">
-            <div class="settings-title" id="versionTitle">MEOW AUDIO APP v4.8</div>
-            <div class="settings-desc" id="versionDesc">Skins: Classic, Consola TUI, @distro_01.</div>
+            <div class="settings-title" id="versionTitle">MEOW AUDIO APP v7.0</div>
+            <div class="settings-desc" id="versionDesc">Skins: Classic, TUI, @distro_01, @distro_02. Playlists + Favoritos.</div>
           </div>
         </div>
       </div>
     </div>
 
+    <!-- NAVEGACIÓN INFERIOR (5 pestañas) -->
     <div class="bottom-nav">
       <button class="nav-btn active" id="navHome" title="Inicio">🏠</button>
       <button class="nav-btn" id="navQueue" title="Fila">☰</button>
+      <button class="nav-btn" id="navPlaylists" title="Playlists">📋</button>
       <button class="nav-btn" id="navSearch" title="Buscar">🔍</button>
       <button class="nav-btn" id="navSettings" title="Ajustes">⚙️</button>
     </div>
   </div>
 
-  <!-- Overlay de boot animado (al cambiar a @distro_01) -->
+  <!-- ============================================================
+       BOTTOM SHEET: MENÚ CONTEXTUAL (⋯)
+       ============================================================ -->
+  <div class="bottom-sheet-overlay" id="contextMenuOverlay">
+    <div class="bottom-sheet" id="contextMenu">
+      <div class="bottom-sheet-header">
+        <div class="bottom-sheet-title" id="contextMenuTitle">Canción</div>
+        <div class="bottom-sheet-subtitle" id="contextMenuSubtitle">Artista • Álbum</div>
+      </div>
+      <ul class="bottom-sheet-list" id="contextMenuList">
+        <li class="bottom-sheet-item" data-action="play-now">▶ Reproducir ahora</li>
+        <li class="bottom-sheet-item" data-action="enqueue-next">⏭ Añadir a continuación</li>
+        <li class="bottom-sheet-item" data-action="enqueue-end">📋 Añadir al final de la fila</li>
+        <li class="bottom-sheet-item" data-action="toggle-favorite">❤️ Añadir a Favoritas</li>
+        <li class="bottom-sheet-item" data-action="add-to-playlist">💾 Añadir a playlist...</li>
+        <li class="bottom-sheet-item bottom-sheet-item-danger" data-action="remove-from-queue">❌ Quitar de la fila</li>
+      </ul>
+      <button class="bottom-sheet-cancel" id="btnCancelContextMenu">Cancelar</button>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       BOTTOM SHEET: AÑADIR A PLAYLIST
+       ============================================================ -->
+  <div class="bottom-sheet-overlay" id="addToPlaylistOverlay">
+    <div class="bottom-sheet" id="addToPlaylistSheet">
+      <div class="bottom-sheet-header">
+        <div class="bottom-sheet-title">Añadir a playlist</div>
+        <div class="bottom-sheet-subtitle" id="addToPlaylistSubtitle">Canción</div>
+      </div>
+      <ul class="bottom-sheet-list" id="addToPlaylistList"></ul>
+      <button class="bottom-sheet-cancel" id="btnCancelAddToPlaylist">Cancelar</button>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       MODAL: CREAR/EDITAR PLAYLIST
+       ============================================================ -->
+  <div class="modal-overlay-simple" id="playlistModalOverlay">
+    <div class="modal-box">
+      <div class="modal-box-title" id="playlistModalTitle">Nueva playlist</div>
+      <input type="text" class="modal-input" id="playlistNameInput" placeholder="Nombre de la playlist..." maxlength="50" autocomplete="off">
+      <div class="modal-box-actions">
+        <button class="btn-action" id="btnCancelPlaylistModal">Cancelar</button>
+        <button class="btn-action btn-action-magenta" id="btnConfirmPlaylistModal">Crear</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       MODAL: CONFIRMACIÓN GENERAL
+       ============================================================ -->
+  <div class="modal-overlay-simple" id="confirmModalOverlay">
+    <div class="modal-box">
+      <div class="modal-box-title" id="confirmModalTitle">Confirmar</div>
+      <div class="modal-box-message" id="confirmModalMessage">¿Estás seguro?</div>
+      <div class="modal-box-actions">
+        <button class="btn-action" id="btnCancelConfirmModal">Cancelar</button>
+        <button class="btn-action btn-action-magenta" id="btnConfirmConfirmModal">Confirmar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Overlay de boot animado -->
   <div class="distro-boot-overlay" id="distroBootOverlay">
     <div class="distro-boot-terminal">
       <pre id="distroBootText"></pre>
@@ -353,4 +451,3 @@
   <script src="app.js" defer></script>
 </body>
 </html>
-
