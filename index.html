@@ -89,9 +89,7 @@
       <div class="audio-specs-badge" id="audioSpecs"></div>
       <div class="status-badge" id="status"></div>
 
-      <div class="distro-display" id="distroDisplay">
-        <pre class="distro-bg-ascii" id="distroBgAscii"></pre>
-      </div>
+      <!-- ⚠️ ELIMINADO: ya no hay distro-display en el reproductor principal -->
 
       <div class="distro-zone" id="distroZone">
 
@@ -125,6 +123,9 @@
 
       <!-- OVERLAY: FILA DE REPRODUCCIÓN -->
       <div class="playlist-overlay" id="playlistOverlay">
+        <div class="overlay-ascii-bg" aria-hidden="true">
+          <pre class="overlay-ascii-content" data-ascii-bg="queue"></pre>
+        </div>
         <div class="playlist-header">
           <span class="playlist-title" id="playlistTitle">Fila</span>
           <button class="btn-icon" id="btnCloseQueue" aria-label="Cerrar">✕</button>
@@ -146,8 +147,11 @@
         <ul class="playlist-list" id="playlistContainer"></ul>
       </div>
 
-      <!-- OVERLAY: PLAYLISTS (nueva pestaña) -->
+      <!-- OVERLAY: PLAYLISTS -->
       <div class="playlist-overlay" id="playlistsOverlay">
+        <div class="overlay-ascii-bg" aria-hidden="true">
+          <pre class="overlay-ascii-content" data-ascii-bg="playlists"></pre>
+        </div>
         <div class="playlist-header">
           <span class="playlist-title">Playlists</span>
           <button class="btn-icon" id="btnClosePlaylists" aria-label="Cerrar">✕</button>
@@ -163,6 +167,9 @@
 
       <!-- OVERLAY: DETALLE DE PLAYLIST -->
       <div class="playlist-overlay" id="playlistDetailOverlay">
+        <div class="overlay-ascii-bg" aria-hidden="true">
+          <pre class="overlay-ascii-content" data-ascii-bg="playlist-detail"></pre>
+        </div>
         <div class="playlist-header">
           <div style="display: flex; align-items: center; gap: 8px; flex: 1; min-width: 0;">
             <button class="btn-icon" id="btnBackToPlaylists" aria-label="Atrás">←</button>
@@ -185,6 +192,9 @@
 
       <!-- OVERLAY: AJUSTES -->
       <div class="modal-overlay" id="settingsOverlay">
+        <div class="overlay-ascii-bg" aria-hidden="true">
+          <pre class="overlay-ascii-content" data-ascii-bg="settings"></pre>
+        </div>
         <div class="playlist-header">
           <span class="playlist-title">Ajustes ⚙️</span>
           <button class="btn-icon" id="btnCloseSettings" aria-label="Cerrar">✕</button>
@@ -360,7 +370,7 @@
           </div>
 
           <div class="settings-item">
-            <div class="settings-title" id="versionTitle">MEOW AUDIO APP v7.0</div>
+            <div class="settings-title" id="versionTitle">MEOW AUDIO APP v7.1</div>
             <div class="settings-desc" id="versionDesc">Skins: Classic, TUI, @distro_01, @distro_02. Playlists + Favoritos.</div>
           </div>
         </div>
@@ -377,9 +387,7 @@
     </div>
   </div>
 
-  <!-- ============================================================
-       BOTTOM SHEET: MENÚ CONTEXTUAL (⋯)
-       ============================================================ -->
+  <!-- BOTTOM SHEET: MENÚ CONTEXTUAL (⋯) -->
   <div class="bottom-sheet-overlay" id="contextMenuOverlay">
     <div class="bottom-sheet" id="contextMenu">
       <div class="bottom-sheet-header">
@@ -398,9 +406,7 @@
     </div>
   </div>
 
-  <!-- ============================================================
-       BOTTOM SHEET: AÑADIR A PLAYLIST
-       ============================================================ -->
+  <!-- BOTTOM SHEET: AÑADIR A PLAYLIST -->
   <div class="bottom-sheet-overlay" id="addToPlaylistOverlay">
     <div class="bottom-sheet" id="addToPlaylistSheet">
       <div class="bottom-sheet-header">
@@ -412,9 +418,7 @@
     </div>
   </div>
 
-  <!-- ============================================================
-       MODAL: CREAR/EDITAR PLAYLIST
-       ============================================================ -->
+  <!-- MODAL: CREAR/EDITAR PLAYLIST -->
   <div class="modal-overlay-simple" id="playlistModalOverlay">
     <div class="modal-box">
       <div class="modal-box-title" id="playlistModalTitle">Nueva playlist</div>
@@ -426,9 +430,7 @@
     </div>
   </div>
 
-  <!-- ============================================================
-       MODAL: CONFIRMACIÓN GENERAL
-       ============================================================ -->
+  <!-- MODAL: CONFIRMACIÓN GENERAL -->
   <div class="modal-overlay-simple" id="confirmModalOverlay">
     <div class="modal-box">
       <div class="modal-box-title" id="confirmModalTitle">Confirmar</div>
@@ -440,7 +442,7 @@
     </div>
   </div>
 
-  <!-- Overlay de boot animado -->
+  <!-- OVERLAY DE BOOT -->
   <div class="distro-boot-overlay" id="distroBootOverlay">
     <div class="distro-boot-terminal">
       <pre id="distroBootText"></pre>
