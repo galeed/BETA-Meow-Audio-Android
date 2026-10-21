@@ -1,18 +1,8 @@
 /* ============================================================
-   MEOW AUDIO APP v7.0 — app.js
-   Incluye:
-   - DISTROS_01 (13) + DISTROS_02 (13) con ASCII art
-   - TUI_THEMES (6)
-   - IndexedDB v3 (songs + playlists)
-   - Web Audio (EQ + Dolby + Analizador + keepAlive)
-   - Skins: Classic / Consola TUI / @distro_01 / @distro_02
-   - Boot animado al entrar a cualquier distro
-   - Tools Home en Ajustes
-   - 📁 Gestor de Archivos
-   - 📋 Playlists + Favoritos + Cola editable
-   - Bottom sheet contextual con toque largo
-   - Reproductor, Media Session, Background playback
-   - Visualizador, LUFS, Exportación
+   MEOW AUDIO APP v7.1 — app.js
+   - ASCII distro ahora es fondo de overlays (no del player)
+   - Playlists + Favoritos + Cola editable
+   - 4 skins, boot animado, gestor de archivos
    ============================================================ */
 
 'use strict';
@@ -510,7 +500,7 @@ const TUI_THEMES = [
 ];
 
 // ============================================================
-// DOM — Referencias
+// DOM
 // ============================================================
 const bgBlur = document.getElementById('bgBlur');
 const mainAudio = document.getElementById('mainAudioPlayer');
@@ -560,7 +550,6 @@ const playlistContainer = document.getElementById('playlistContainer');
 const playlistTitle = document.getElementById('playlistTitle');
 const sortBar = document.getElementById('sortBar');
 
-// Playlists
 const playlistsOverlay = document.getElementById('playlistsOverlay');
 const playlistsList = document.getElementById('playlistsList');
 const btnClosePlaylists = document.getElementById('btnClosePlaylists');
@@ -576,7 +565,6 @@ const btnPlaylistMenu = document.getElementById('btnPlaylistMenu');
 const btnClosePlaylistDetail = document.getElementById('btnClosePlaylistDetail');
 const btnAddCurrentToPlaylist = document.getElementById('btnAddCurrentToPlaylist');
 
-// Context menu (bottom sheet ⋯)
 const contextMenuOverlay = document.getElementById('contextMenuOverlay');
 const contextMenu = document.getElementById('contextMenu');
 const contextMenuTitle = document.getElementById('contextMenuTitle');
@@ -584,13 +572,11 @@ const contextMenuSubtitle = document.getElementById('contextMenuSubtitle');
 const contextMenuList = document.getElementById('contextMenuList');
 const btnCancelContextMenu = document.getElementById('btnCancelContextMenu');
 
-// Add to playlist (bottom sheet)
 const addToPlaylistOverlay = document.getElementById('addToPlaylistOverlay');
 const addToPlaylistList = document.getElementById('addToPlaylistList');
 const addToPlaylistSubtitle = document.getElementById('addToPlaylistSubtitle');
 const btnCancelAddToPlaylist = document.getElementById('btnCancelAddToPlaylist');
 
-// Modals
 const playlistModalOverlay = document.getElementById('playlistModalOverlay');
 const playlistModalTitle = document.getElementById('playlistModalTitle');
 const playlistNameInput = document.getElementById('playlistNameInput');
@@ -603,7 +589,6 @@ const confirmModalMessage = document.getElementById('confirmModalMessage');
 const btnCancelConfirmModal = document.getElementById('btnCancelConfirmModal');
 const btnConfirmConfirmModal = document.getElementById('btnConfirmConfirmModal');
 
-// Settings overlay
 const settingsOverlay = document.getElementById('settingsOverlay');
 const btnCloseSettings = document.getElementById('btnCloseSettings');
 
@@ -611,7 +596,6 @@ const searchBoxContainer = document.getElementById('searchBoxContainer');
 const searchInput = document.getElementById('searchInput');
 const sortSelect = document.getElementById('sortSelect');
 
-// Nav
 const navHome = document.getElementById('navHome');
 const navQueue = document.getElementById('navQueue');
 const navPlaylists = document.getElementById('navPlaylists');
@@ -628,16 +612,15 @@ const metaThemeEl = document.getElementById('metaTheme');
 const playerHeader = document.getElementById('playerHeader');
 const tuiThemeList = document.getElementById('tuiThemeList');
 const menuHeaderLabel = document.getElementById('menuHeaderLabel');
-const distroBgAscii = document.getElementById('distroBgAscii');
 
-// Tools Home
+// NOTA: ya no existe distroBgAscii en el reproductor
+
 const toolFullscreen = document.getElementById('toolFullscreen');
 const toolRotate = document.getElementById('toolRotate');
 const toolCrt = document.getElementById('toolCrt');
 const toolAddSongs = document.getElementById('toolAddSongs');
 const toolFileInput = document.getElementById('toolFileInput');
 
-// Boot overlay
 const distroBootOverlay = document.getElementById('distroBootOverlay');
 const distroBootText = document.getElementById('distroBootText');
 
@@ -657,20 +640,20 @@ if (toolFileInput) {
 }
 
 // ============================================================
-// ESTADO GLOBAL
+// ESTADO
 // ============================================================
-let playlist = [];           // Cola de reproducción actual (editable)
+let playlist = [];
 let currentIndex = 0;
 let currentObjectUrl = null;
 let isUserSeeking = false;
 let isShuffle = false;
 let repeatMode = 'off';
 
-let playlists = [];          // Playlists guardadas (con favoritos)
+let playlists = [];
 let currentPlaylistId = null;
 let contextMenuTargetIndex = -1;
 let addToPlaylistTargetTrack = null;
-let playlistModalMode = 'create'; // 'create' | 'edit'
+let playlistModalMode = 'create';
 let playlistModalEditId = null;
 let confirmModalCallback = null;
 
@@ -692,7 +675,7 @@ let visualizerDataArray = null;
 let userPausedManually = false;
 
 // ============================================================
-// INDEXEDDB v3 — songs + playlists
+// INDEXEDDB v3
 // ============================================================
 const DB_NAME = 'MeowAudioDB';
 const DB_VERSION = 3;
@@ -704,17 +687,9 @@ function openDB() {
     const request = indexedDB.open(DB_NAME, DB_VERSION);
     request.onupgradeneeded = (e) => {
       const db = e.target.result;
-
-      // Store de canciones (siempre recrear en upgrades)
-      if (db.objectStoreNames.contains(STORE_SONGS)) {
-        db.deleteObjectStore(STORE_SONGS);
-      }
+      if (db.objectStoreNames.contains(STORE_SONGS)) db.deleteObjectStore(STORE_SONGS);
       db.createObjectStore(STORE_SONGS, { keyPath: 'id', autoIncrement: true });
-
-      // Store de playlists (nuevo en v3)
-      if (db.objectStoreNames.contains(STORE_PLAYLISTS)) {
-        db.deleteObjectStore(STORE_PLAYLISTS);
-      }
+      if (db.objectStoreNames.contains(STORE_PLAYLISTS)) db.deleteObjectStore(STORE_PLAYLISTS);
       db.createObjectStore(STORE_PLAYLISTS, { keyPath: 'id', autoIncrement: true });
     };
     request.onsuccess = () => resolve(request.result);
@@ -727,21 +702,15 @@ async function saveTracksToDB(tracks) {
     const db = await openDB();
     const tx = db.transaction(STORE_SONGS, 'readwrite');
     const store = tx.objectStore(STORE_SONGS);
-    const ids = [];
     for (const track of tracks) {
-      const req = store.add({
+      store.add({
         filename: track.filename, ext: track.ext,
         title: track.title, artist: track.artist, album: track.album,
         coverBase64: track.coverBase64 || null,
         specs: track.specs, fileBlob: track.file
       });
-      req.onsuccess = () => ids.push(req.result);
     }
-    return new Promise(res => {
-      tx.oncomplete = () => res(ids);
-      tx.onerror = () => res([]);
-    });
-  } catch (err) { console.warn("DB Save error:", err); return []; }
+  } catch (err) { console.warn("DB Save error:", err); }
 }
 
 async function savePlaylistsToDB() {
@@ -749,10 +718,8 @@ async function savePlaylistsToDB() {
     const db = await openDB();
     const tx = db.transaction(STORE_PLAYLISTS, 'readwrite');
     const store = tx.objectStore(STORE_PLAYLISTS);
-    // Limpiar y reescribir todas
     store.clear();
     for (const pl of playlists) {
-      // No guardar el id (autoIncrement), guardar todo lo demás
       const { id, ...rest } = pl;
       if (id !== undefined && id !== null && id !== 'fav') {
         store.put({ id, ...rest });
@@ -760,11 +727,7 @@ async function savePlaylistsToDB() {
         store.add(rest);
       }
     }
-    return new Promise(res => {
-      tx.oncomplete = () => res(true);
-      tx.onerror = () => res(false);
-    });
-  } catch (err) { console.warn("DB Save playlists error:", err); return false; }
+  } catch (err) { console.warn("DB Save playlists error:", err); }
 }
 
 async function loadStoredTracksFromDB() {
@@ -808,7 +771,6 @@ async function loadStoredPlaylistsFromDB() {
         isFavorite: item.name === FAVORITES_PLAYLIST_NAME,
         tracks: item.tracks || []
       }));
-      // Asegurar que la playlist de favoritos existe
       ensureFavoritesPlaylist();
       renderPlaylistsUI();
     };
@@ -816,7 +778,7 @@ async function loadStoredPlaylistsFromDB() {
 }
 
 // ============================================================
-// PLAYLISTS — Helpers
+// PLAYLISTS
 // ============================================================
 function ensureFavoritesPlaylist() {
   let fav = playlists.find(p => p.name === FAVORITES_PLAYLIST_NAME || p.isFavorite);
@@ -910,22 +872,16 @@ function addTrackToPlaylist(playlistId, track) {
 }
 
 // ============================================================
-// COLA DE REPRODUCCIÓN — Helpers
+// COLA
 // ============================================================
 function enqueueNext(track) {
-  // Inserta la canción justo después de la actual
-  const trackCopy = {
-    ...track,
-    dbId: track.dbId || null
-  };
-  // Eliminar si ya existe en la cola
+  const trackCopy = { ...track, dbId: track.dbId || null };
   const key = getTrackKey(track);
   const existingIdx = playlist.findIndex(t => getTrackKey(t) === key);
   if (existingIdx !== -1 && existingIdx !== currentIndex) {
     playlist.splice(existingIdx, 1);
     if (existingIdx < currentIndex) currentIndex--;
   }
-  // Insertar después del actual
   const insertAt = currentIndex + 1;
   playlist.splice(insertAt, 0, trackCopy);
   renderPlaylistUI();
@@ -933,10 +889,7 @@ function enqueueNext(track) {
 }
 
 function enqueueEnd(track) {
-  const trackCopy = {
-    ...track,
-    dbId: track.dbId || null
-  };
+  const trackCopy = { ...track, dbId: track.dbId || null };
   const key = getTrackKey(track);
   if (!playlist.some(t => getTrackKey(t) === key)) {
     playlist.push(trackCopy);
@@ -986,7 +939,7 @@ function showToast(message, duration = 1800) {
 }
 
 // ============================================================
-// WEB AUDIO API
+// WEB AUDIO
 // ============================================================
 const FREQUENCIES = [32, 64, 125, 250, 500, 1000, 2000, 4000, 8000, 16000];
 const EQ_PRESETS = {
@@ -1006,7 +959,7 @@ function ensureKeepAlive() {
     keepAliveNode.offset.value = 0;
     keepAliveNode.connect(audioCtx.destination);
     keepAliveNode.start();
-  } catch (e) { console.warn('keepAlive error:', e); }
+  } catch (e) {}
 }
 
 function initWebAudio() {
@@ -1054,7 +1007,7 @@ function initWebAudio() {
           audioCtx.resume().catch(() => {});
         }
       };
-    } catch (e) { console.warn("WebAudio init error:", e); }
+    } catch (e) {}
   }
 }
 
@@ -1080,7 +1033,7 @@ eqSelect.addEventListener('change', updateAudioEffects);
 dolbyToggle.addEventListener('change', updateAudioEffects);
 
 // ============================================================
-// HELPERS DE DISTRO
+// HELPERS
 // ============================================================
 function getCurrentDistroList(skin) {
   if (skin === 'distro-01') return DISTROS_01;
@@ -1088,8 +1041,40 @@ function getCurrentDistroList(skin) {
   return [];
 }
 
+function escapeHtml(s) {
+  return String(s || '').replace(/[&<>"']/g, c => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+  }[c]));
+}
+
 // ============================================================
-// MENÚ DINÁMICO DEL HEADER
+// 🖼️ OVERLAY ASCII — ACTUALIZAR FONDOS
+// ============================================================
+function updateOverlayAscii(skin, distroId) {
+  // Solo en skins distro
+  if (skin !== 'distro-01' && skin !== 'distro-02') return;
+
+  const list = getCurrentDistroList(skin);
+  const distro = list.find(d => d.id === distroId) || list[0];
+  if (!distro) return;
+
+  // Actualizar TODOS los fondos ASCII de overlays
+  document.querySelectorAll('.overlay-ascii-content').forEach(el => {
+    el.textContent = distro.ascii;
+    el.style.color = distro.color;
+    el.style.textShadow = `0 0 8px rgba(${hexToRgb(distro.color)}, 0.4)`;
+  });
+}
+
+function hexToRgb(hex) {
+  const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+  return result
+    ? `${parseInt(result[1], 16)}, ${parseInt(result[2], 16)}, ${parseInt(result[3], 16)}`
+    : '255, 255, 255';
+}
+
+// ============================================================
+// MENÚ DINÁMICO HEADER
 // ============================================================
 function buildMenuItems(skin) {
   tuiThemeList.innerHTML = '';
@@ -1155,8 +1140,8 @@ function applyDistro(distroId) {
   document.body.dataset.distro = distro.id;
   localStorage.setItem('meowDistro', distro.id);
 
-  distroBgAscii.textContent = distro.ascii;
-  distroBgAscii.style.color = distro.color;
+  // Actualizar fondos ASCII de overlays
+  updateOverlayAscii(skin, distro.id);
 
   if (document.body.classList.contains('skin-distro-01') ||
       document.body.classList.contains('skin-distro-02')) {
@@ -1164,7 +1149,6 @@ function applyDistro(distroId) {
   }
 
   markActiveMenuItem();
-  void distroBgAscii.offsetWidth;
   setTimeout(() => { if (visualizerMode !== 'off' || lufsEnabled) drawVisualizer(); }, 80);
 }
 
@@ -1196,7 +1180,7 @@ function applyVisualizerForTui() {
 }
 
 // ============================================================
-// BOOT ANIMADO
+// BOOT
 // ============================================================
 async function playDistroBoot(skin, distroId) {
   const list = getCurrentDistroList(skin);
@@ -1210,7 +1194,8 @@ async function playDistroBoot(skin, distroId) {
     `[ OK ] Cargando módulo ${skinName}...`,
     `[ OK ] Aplicando paleta ${distro.color}`,
     `[ OK ] Inicializando logo ASCII ${distro.name}`,
-    `[ OK ] Montando Tools Home en Ajustes`,
+    `[ OK ] Montando fondos ASCII en overlays`,
+    `[ OK ] Tools Home disponible en Ajustes`,
     `meow@audio-box:~$ ¡Listo! Skin ${skinName} activo.`
   ];
 
@@ -1264,7 +1249,7 @@ async function applySkin(skin, skipBoot = false) {
     headerTitle.textContent = '🎵 MEOW AUDIO APP';
     avisoTitle.textContent = '> SISTEMA DE PRIVACIDAD';
     avisoText.textContent = 'Todo el procesamiento de audio se realiza localmente. Ningún archivo o dato es enviado a servidores externos.';
-    versionTitle.textContent = 'MEOW AUDIO APP // TUI v7.0';
+    versionTitle.textContent = 'MEOW AUDIO APP // TUI v7.1';
     versionDesc.textContent = 'Haz clic en el header para cambiar de tema.';
     const theme = TUI_THEMES.find(t => t.id === savedTheme) || TUI_THEMES[0];
     metaThemeEl.content = theme.bg;
@@ -1278,15 +1263,11 @@ async function applySkin(skin, skipBoot = false) {
     headerTitle.textContent = '🎵 MEOW AUDIO APP';
     avisoTitle.textContent = '> SISTEMA DE PRIVACIDAD';
     avisoText.textContent = 'Todo el procesamiento de audio se realiza localmente. Ningún archivo o dato es enviado a servidores externos.';
-    versionTitle.textContent = `MEOW AUDIO APP // ${skin === 'distro-01' ? '@distro_01' : '@distro_02'} v7.0`;
+    versionTitle.textContent = `MEOW AUDIO APP // ${skin === 'distro-01' ? '@distro_01' : '@distro_02'} v7.1`;
     versionDesc.textContent = 'Haz clic en el header para cambiar de distro.';
     metaThemeEl.content = '#0d1117';
 
-    const list = getCurrentDistroList(skin);
-    const distro = list.find(d => d.id === savedDistro) || list[0];
-    distroBgAscii.textContent = distro.ascii;
-    distroBgAscii.style.color = distro.color;
-
+    updateOverlayAscii(skin, savedDistro);
     markActiveMenuItem();
   } else {
     document.body.removeAttribute('data-tui-theme');
@@ -1294,7 +1275,7 @@ async function applySkin(skin, skipBoot = false) {
     headerTitle.textContent = '🐈 MEOW AUDIO APP 🐈';
     avisoTitle.textContent = '🐾 Aviso Gatuno 🐾';
     avisoText.textContent = 'Todo el procesamiento de audio se realiza de manera local en tu dispositivo. Ningún archivo o dato personal es subido a servidores externos. ¡Miau!';
-    versionTitle.textContent = 'MEOW AUDIO APP v7.0';
+    versionTitle.textContent = 'MEOW AUDIO APP v7.1';
     versionDesc.textContent = 'Skins: Classic, TUI, @distro_01, @distro_02. Playlists + Favoritos.';
     metaThemeEl.content = '#0f1015';
   }
@@ -1437,7 +1418,7 @@ btnCloseSettings.addEventListener('click', () => {
 });
 
 // ============================================================
-// RENDER — COLA DE REPRODUCCIÓN
+// BÚSQUEDA / ORDEN
 // ============================================================
 searchInput.addEventListener('input', renderPlaylistUI);
 sortSelect.addEventListener('change', () => { sortPlaylist(); renderPlaylistUI(); });
@@ -1495,9 +1476,7 @@ function renderPlaylistUI() {
       closeAllOverlays();
       setActiveTab(navHome);
     });
-    // Long press para menú contextual
     setupLongPress(li, () => openContextMenu(originalIndex));
-    // Click en ⋯
     const moreBtn = li.querySelector('.playlist-item-more');
     if (moreBtn) {
       moreBtn.addEventListener('click', (e) => {
@@ -1515,7 +1494,6 @@ function renderPlaylistUI() {
 function renderPlaylistsUI() {
   playlistsList.innerHTML = '';
 
-  // Ordenar: favoritas primero, luego por nombre
   const sorted = [...playlists].sort((a, b) => {
     if (a.isFavorite && !b.isFavorite) return -1;
     if (!a.isFavorite && b.isFavorite) return 1;
@@ -1549,16 +1527,14 @@ function renderPlaylistsUI() {
 }
 
 // ============================================================
-// RENDER — DETALLE DE PLAYLIST
+// DETALLE PLAYLIST
 // ============================================================
 function openPlaylistDetail(playlistId) {
   const pl = getPlaylistById(playlistId);
   if (!pl) return;
   currentPlaylistId = playlistId;
-
   playlistsOverlay.classList.remove('active');
   playlistDetailOverlay.classList.add('active');
-
   playlistDetailTitle.textContent = pl.name;
   renderPlaylistDetailUI();
 }
@@ -1602,7 +1578,6 @@ function renderPlaylistDetailUI() {
         <button class="playlist-item-more" data-index="${index}" title="Opciones">⋯</button>
       </div>
     `;
-    // Botones de reordenar
     li.querySelectorAll('.playlist-item-reorder button').forEach(btn => {
       btn.addEventListener('click', (e) => {
         e.stopPropagation();
@@ -1611,13 +1586,11 @@ function renderPlaylistDetailUI() {
         moveTrackInPlaylist(currentPlaylistId, idx, action === 'up' ? -1 : 1);
       });
     });
-    // Botón ⋯
     const moreBtn = li.querySelector('.playlist-item-more');
     moreBtn.addEventListener('click', (e) => {
       e.stopPropagation();
       openTrackInPlaylistMenu(currentPlaylistId, index);
     });
-    // Click en el item → reproduce desde esa canción
     li.addEventListener('click', (e) => {
       if (e.target.closest('button')) return;
       playFromPlaylist(currentPlaylistId, index);
@@ -1642,10 +1615,8 @@ function playFromPlaylist(playlistId, index) {
   const pl = getPlaylistById(playlistId);
   if (!pl || !pl.tracks.length) return;
 
-  // Cargar los tracks de la playlist en la cola de reproducción
   const newQueue = [];
   for (const storedTrack of pl.tracks) {
-    // Buscar el track real en la biblioteca
     const realTrack = playlist.find(t =>
       t.title === storedTrack.title &&
       t.artist === storedTrack.artist &&
@@ -1658,7 +1629,6 @@ function playFromPlaylist(playlistId, index) {
     return;
   }
 
-  // Reordenar para empezar por el seleccionado
   const startTrack = pl.tracks[index];
   const startIdx = newQueue.findIndex(t =>
     t.title === startTrack.title &&
@@ -1674,7 +1644,7 @@ function playFromPlaylist(playlistId, index) {
 }
 
 // ============================================================
-// MENÚ CONTEXTUAL (⋯)
+// MENÚ CONTEXTUAL
 // ============================================================
 function openContextMenu(index) {
   const track = playlist[index];
@@ -1684,12 +1654,21 @@ function openContextMenu(index) {
   contextMenuTitle.textContent = track.title || track.filename;
   contextMenuSubtitle.textContent = `${track.artist || 'Artista'}${track.album ? ' • ' + track.album : ''}`;
 
-  // Actualizar texto del botón favorito
   const isFav = isTrackFavorite(track);
   const favItem = contextMenuList.querySelector('[data-action="toggle-favorite"]');
   if (favItem) {
     favItem.textContent = isFav ? '💔 Quitar de Favoritas' : '❤️ Añadir a Favoritas';
   }
+
+  // Restaurar el HTML original por si veníamos del menú de playlist
+  contextMenuList.innerHTML = `
+    <li class="bottom-sheet-item" data-action="play-now">▶ Reproducir ahora</li>
+    <li class="bottom-sheet-item" data-action="enqueue-next">⏭ Añadir a continuación</li>
+    <li class="bottom-sheet-item" data-action="enqueue-end">📋 Añadir al final de la fila</li>
+    <li class="bottom-sheet-item" data-action="toggle-favorite">${isFav ? '💔 Quitar de Favoritas' : '❤️ Añadir a Favoritas'}</li>
+    <li class="bottom-sheet-item" data-action="add-to-playlist">💾 Añadir a playlist...</li>
+    <li class="bottom-sheet-item bottom-sheet-item-danger" data-action="remove-from-queue">❌ Quitar de la fila</li>
+  `;
 
   contextMenuOverlay.classList.add('active');
 }
@@ -1717,12 +1696,13 @@ contextMenuList.addEventListener('click', (e) => {
       case 'enqueue-end':
         enqueueEnd(track);
         break;
-      case 'toggle-favorite':
+      case 'toggle-favorite': {
         const wasFav = isTrackFavorite(track);
         toggleFavorite(track);
         showToast(wasFav ? '💔 Quitado de Favoritas' : '❤️ Añadido a Favoritas');
         renderPlaylistUI();
         break;
+      }
       case 'add-to-playlist':
         openAddToPlaylist(track);
         break;
@@ -1743,7 +1723,7 @@ contextMenuOverlay.addEventListener('click', (e) => {
   }
 });
 
-// Menú contextual para canciones DENTRO de una playlist
+// Menú dentro de playlist
 function openTrackInPlaylistMenu(playlistId, index) {
   const pl = getPlaylistById(playlistId);
   if (!pl) return;
@@ -1753,8 +1733,6 @@ function openTrackInPlaylistMenu(playlistId, index) {
   contextMenuTitle.textContent = track.title || track.filename;
   contextMenuSubtitle.textContent = `${track.artist || 'Artista'}${track.album ? ' • ' + track.album : ''}`;
 
-  // Cambiar temporalmente las acciones
-  const originalListHTML = contextMenuList.innerHTML;
   const isFav = isTrackFavorite(track);
 
   contextMenuList.innerHTML = `
@@ -1767,7 +1745,6 @@ function openTrackInPlaylistMenu(playlistId, index) {
 
   contextMenuOverlay.classList.add('active');
 
-  // Handler temporal
   const handler = (e) => {
     const item = e.target.closest('.bottom-sheet-item');
     if (!item) return;
@@ -1776,19 +1753,32 @@ function openTrackInPlaylistMenu(playlistId, index) {
 
     contextMenuOverlay.classList.remove('active');
     contextMenuList.removeEventListener('click', handler);
-    contextMenuList.innerHTML = originalListHTML;
 
     setTimeout(() => {
       switch (action) {
         case 'pl-play-now':
           playFromPlaylist(playlistId, index);
           break;
-        case 'pl-enqueue-next':
-          enqueueNextFromStored(track);
+        case 'pl-enqueue-next': {
+          const realTrack = playlist.find(t =>
+            t.title === track.title &&
+            t.artist === track.artist &&
+            t.filename === track.filename
+          );
+          if (realTrack) enqueueNext(realTrack);
+          else showToast('Canción no está en la biblioteca');
           break;
-        case 'pl-enqueue-end':
-          enqueueEndFromStored(track);
+        }
+        case 'pl-enqueue-end': {
+          const realTrack = playlist.find(t =>
+            t.title === track.title &&
+            t.artist === track.artist &&
+            t.filename === track.filename
+          );
+          if (realTrack) enqueueEnd(realTrack);
+          else showToast('Canción no está en la biblioteca');
           break;
+        }
         case 'pl-toggle-favorite': {
           const wasFav = isTrackFavorite(track);
           toggleFavorite(track);
@@ -1796,43 +1786,16 @@ function openTrackInPlaylistMenu(playlistId, index) {
           renderPlaylistDetailUI();
           break;
         }
-        case 'pl-remove': {
+        case 'pl-remove':
           pl.tracks.splice(index, 1);
           savePlaylistsToDB();
           renderPlaylistDetailUI();
           showToast('❌ Quitado de la playlist');
           break;
-        }
       }
     }, 180);
   };
   contextMenuList.addEventListener('click', handler);
-}
-
-function enqueueNextFromStored(storedTrack) {
-  const realTrack = playlist.find(t =>
-    t.title === storedTrack.title &&
-    t.artist === storedTrack.artist &&
-    t.filename === storedTrack.filename
-  );
-  if (realTrack) {
-    enqueueNext(realTrack);
-  } else {
-    showToast('Canción no está en la biblioteca');
-  }
-}
-
-function enqueueEndFromStored(storedTrack) {
-  const realTrack = playlist.find(t =>
-    t.title === storedTrack.title &&
-    t.artist === storedTrack.artist &&
-    t.filename === storedTrack.filename
-  );
-  if (realTrack) {
-    enqueueEnd(realTrack);
-  } else {
-    showToast('Canción no está en la biblioteca');
-  }
 }
 
 // ============================================================
@@ -1844,7 +1807,6 @@ function openAddToPlaylist(track) {
 
   addToPlaylistList.innerHTML = '';
 
-  // Opción: nueva playlist
   const newLi = document.createElement('li');
   newLi.className = 'bottom-sheet-item';
   newLi.innerHTML = '➕ Crear nueva playlist';
@@ -1859,12 +1821,10 @@ function openAddToPlaylist(track) {
   });
   addToPlaylistList.appendChild(newLi);
 
-  // Separador
   const sep = document.createElement('li');
   sep.style.cssText = 'border-top: 1px solid rgba(255,255,255,0.1); margin: 6px 20px; list-style: none;';
   addToPlaylistList.appendChild(sep);
 
-  // Playlists existentes
   const sorted = [...playlists].sort((a, b) => {
     if (a.isFavorite && !b.isFavorite) return -1;
     if (!a.isFavorite && b.isFavorite) return 1;
@@ -1907,7 +1867,7 @@ addToPlaylistOverlay.addEventListener('click', (e) => {
 });
 
 // ============================================================
-// MODAL — CREAR / EDITAR PLAYLIST
+// MODAL CREAR / EDITAR PLAYLIST
 // ============================================================
 function openPlaylistModal(mode = 'create', editId = null, onConfirm = null) {
   playlistModalMode = mode;
@@ -1935,11 +1895,11 @@ btnCancelPlaylistModal.addEventListener('click', () => {
 btnConfirmPlaylistModal.addEventListener('click', () => {
   const name = playlistNameInput.value.trim();
   if (!name) {
-    playlistModalOverlay.classList.add('shake');
-    setTimeout(() => {
-      const box = playlistModalOverlay.querySelector('.modal-box');
-      if (box) box.classList.add('shake');
-    }, 20);
+    const box = playlistModalOverlay.querySelector('.modal-box');
+    if (box) {
+      box.classList.add('shake');
+      setTimeout(() => box.classList.remove('shake'), 400);
+    }
     return;
   }
 
@@ -1955,7 +1915,6 @@ btnConfirmPlaylistModal.addEventListener('click', () => {
       showToast('✏️ Playlist actualizada');
     }
   } else {
-    // Crear nueva
     const newPl = {
       name,
       createdAt: Date.now(),
@@ -1964,11 +1923,9 @@ btnConfirmPlaylistModal.addEventListener('click', () => {
     };
     playlists.push(newPl);
     savePlaylistsToDB().then(async () => {
-      // Recargar para obtener el id asignado
       await loadStoredPlaylistsFromDB();
       renderPlaylistsUI();
       if (confirmModalCallback) {
-        // Buscar por nombre
         const created = playlists.find(p => p.name === name && !p.isFavorite);
         confirmModalCallback(created ? created.id : null);
       }
@@ -1991,7 +1948,7 @@ btnNewPlaylist.addEventListener('click', () => {
 });
 
 // ============================================================
-// MODAL — CONFIRMAR
+// MODAL CONFIRMAR
 // ============================================================
 function openConfirmModal(title, message, onConfirm) {
   confirmModalTitle.textContent = title;
@@ -2012,7 +1969,7 @@ btnConfirmConfirmModal.addEventListener('click', () => {
 });
 
 // ============================================================
-// MENÚ DE PLAYLIST (⋯ del header de detalle)
+// MENÚ DE PLAYLIST (⋯ del header)
 // ============================================================
 btnPlaylistMenu.addEventListener('click', () => {
   const pl = getPlaylistById(currentPlaylistId);
@@ -2021,7 +1978,6 @@ btnPlaylistMenu.addEventListener('click', () => {
   contextMenuTitle.textContent = pl.name;
   contextMenuSubtitle.textContent = `${pl.tracks.length} canciones`;
 
-  const originalListHTML = contextMenuList.innerHTML;
   const items = [];
   if (!pl.isFavorite) {
     items.push('<li class="bottom-sheet-item" data-action="plm-rename">✏️ Renombrar</li>');
@@ -2043,7 +1999,6 @@ btnPlaylistMenu.addEventListener('click', () => {
 
     contextMenuOverlay.classList.remove('active');
     contextMenuList.removeEventListener('click', handler);
-    contextMenuList.innerHTML = originalListHTML;
 
     setTimeout(() => {
       switch (action) {
@@ -2085,12 +2040,10 @@ btnPlaylistMenu.addEventListener('click', () => {
   contextMenuList.addEventListener('click', handler);
 });
 
-// Reproducir playlist completa
 btnPlayPlaylist.addEventListener('click', () => {
   if (currentPlaylistId) playFromPlaylist(currentPlaylistId, 0);
 });
 
-// Añadir canción actual a la playlist abierta
 btnAddCurrentToPlaylist.addEventListener('click', () => {
   if (!playlist[currentIndex]) {
     showToast('Sin canción actual');
@@ -2126,12 +2079,9 @@ function exportPlaylist(pl) {
 // ============================================================
 function setupLongPress(element, callback) {
   let pressTimer = null;
-  let didLongPress = false;
 
   const start = (e) => {
-    didLongPress = false;
     pressTimer = setTimeout(() => {
-      didLongPress = true;
       callback();
       if (navigator.vibrate) navigator.vibrate(30);
     }, 500);
@@ -2150,15 +2100,6 @@ function setupLongPress(element, callback) {
   element.addEventListener('mousedown', start);
   element.addEventListener('mouseup', cancel);
   element.addEventListener('mouseleave', cancel);
-}
-
-// ============================================================
-// HELPERS
-// ============================================================
-function escapeHtml(s) {
-  return String(s || '').replace(/[&<>"']/g, c => ({
-    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
-  }[c]));
 }
 
 // ============================================================
@@ -2714,10 +2655,7 @@ function downloadFile(content, fileName, mimeType) {
   const swStatusEl = document.getElementById('swStatus');
   const offlineStatusEl = document.getElementById('offlineStatus');
 
-  if (!btnClearCache || !btnToggleOffline || !btnRefreshSW || !btnStorageDetails) {
-    console.warn('[StorageManager] Elementos no encontrados.');
-    return;
-  }
+  if (!btnClearCache || !btnToggleOffline || !btnRefreshSW || !btnStorageDetails) return;
 
   async function updateStorageInfo() {
     try {
@@ -2755,7 +2693,7 @@ function downloadFile(content, fileName, mimeType) {
   }
 
   btnClearCache.addEventListener('click', async () => {
-    openConfirmModal('Borrar caché', '¿Borrar TODA la caché? Se eliminarán las canciones y playlists guardadas.', async () => {
+    openConfirmModal('Borrar caché', '¿Borrar TODA la caché? Se eliminarán canciones y playlists.', async () => {
       if (statusEl) statusEl.textContent = 'Borrando caché...';
       try {
         const dbs = await indexedDB.databases();
@@ -2831,7 +2769,7 @@ function downloadFile(content, fileName, mimeType) {
 })();
 
 // ============================================================
-// AVISO DE PRIVACIDAD
+// AVISO
 // ============================================================
 btnCerrarAviso.addEventListener('click', () => {
   const checkbox = document.getElementById('meow-check-no-mostrar');
@@ -2849,7 +2787,6 @@ if (localStorage.getItem('meowOcultarAviso') === 'true') {
 // INICIALIZACIÓN
 // ============================================================
 async function initialize() {
-  // Cargar playlists primero (incluye favoritos)
   await loadStoredPlaylistsFromDB();
 
   const savedSkin = localStorage.getItem('meowSkin') || 'classic';
