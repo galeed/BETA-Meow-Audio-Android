@@ -1,5 +1,7 @@
 /* ============================================================
-   MEOW AUDIO APP v4.8 — styles.css
+   MEOW AUDIO APP v7.1 — styles.css
+   Skins: Classic, TUI (6 temas), @distro_01, @distro_02
+   Playlists + Favoritos + Bottom Sheets + Modales
    ============================================================ */
 
 /* ============================================================
@@ -80,43 +82,44 @@ body.skin-tui[data-tui-theme="green"] {
   --bg: #0a120b; --card-bg: #0d1a0e; --card-border: #00441b;
   --accent: #00ff66; --accent-cyan: #00ffcc;
   --text: #00ff66; --text-muted: #00aa44; --audio-spec-color: #00ffcc;
-  --glow-color: rgba(0, 255, 102, 0.25); --bg-main: #0a120b;
+  --glow-color: rgba(0, 255, 102, 0.5); --bg-main: #0a120b;
 }
 body.skin-tui[data-tui-theme="amber"] {
   --bg: #140d04; --card-bg: #1d1306; --card-border: #4a3200;
   --accent: #ffb000; --accent-cyan: #ffcc00;
   --text: #ffb000; --text-muted: #b37b00; --audio-spec-color: #ffcc00;
-  --glow-color: rgba(255, 176, 0, 0.3); --bg-main: #140d04;
+  --glow-color: rgba(255, 176, 0, 0.5); --bg-main: #140d04;
 }
 body.skin-tui[data-tui-theme="cyan"] {
   --bg: #051014; --card-bg: #091920; --card-border: #003d47;
   --accent: #00f0ff; --accent-cyan: #ff007f;
   --text: #00f0ff; --text-muted: #009cb3; --audio-spec-color: #ff007f;
-  --glow-color: rgba(0, 240, 255, 0.3); --bg-main: #051014;
+  --glow-color: rgba(0, 240, 255, 0.5); --bg-main: #051014;
 }
 body.skin-tui[data-tui-theme="dracula"] {
   --bg: #110e1b; --card-bg: #191428; --card-border: #3b2c59;
   --accent: #bd93f9; --accent-cyan: #ff79c6;
   --text: #bd93f9; --text-muted: #7f5eb3; --audio-spec-color: #ff79c6;
-  --glow-color: rgba(189, 147, 249, 0.3); --bg-main: #110e1b;
+  --glow-color: rgba(189, 147, 249, 0.5); --bg-main: #110e1b;
 }
 body.skin-tui[data-tui-theme="mono"] {
   --bg: #0f0f0f; --card-bg: #191919; --card-border: #333333;
   --accent: #eeeeee; --accent-cyan: #00e5ff;
   --text: #eeeeee; --text-muted: #888888; --audio-spec-color: #00e5ff;
-  --glow-color: rgba(255, 255, 255, 0.2); --bg-main: #0f0f0f;
+  --glow-color: rgba(255, 255, 255, 0.4); --bg-main: #0f0f0f;
 }
 body.skin-tui[data-tui-theme="cappuccino"] {
   --bg: #1b1411; --card-bg: #251c18; --card-border: #4a352c;
   --accent: #e69a58; --accent-cyan: #f5e6d3;
   --text: #f5e6d3; --text-muted: #a88e79; --audio-spec-color: #e69a58;
-  --glow-color: rgba(230, 154, 88, 0.3); --bg-main: #1b1411;
+  --glow-color: rgba(230, 154, 88, 0.5); --bg-main: #1b1411;
 }
 
 /* ============================================================
-   🎨 SKIN @distro_01 — Estructura común
+   🎨 SKIN @distro_01 y @distro_02 — Estructura común
    ============================================================ */
-body.skin-distro-01 {
+body.skin-distro-01,
+body.skin-distro-02 {
   --font-family: 'JetBrains Mono', 'Share Tech Mono', 'Courier New', monospace;
   --card-radius: 2px;
   --cover-radius: 0px;
@@ -139,67 +142,136 @@ body.skin-distro-01 {
 body.skin-distro-01[data-distro="arch"] {
   --accent: #1793d1; --accent-cyan: #33a1dd;
   --text: #1793d1; --text-muted: #5a7a8c; --audio-spec-color: #33a1dd;
-  --glow-color: rgba(23, 147, 209, 0.3);
+  --glow-color: rgba(23, 147, 209, 0.5);
 }
 body.skin-distro-01[data-distro="ubuntu"] {
   --accent: #e95420; --accent-cyan: #ff7a4a;
   --text: #e95420; --text-muted: #8a5c4a; --audio-spec-color: #ff7a4a;
-  --glow-color: rgba(233, 84, 32, 0.3);
+  --glow-color: rgba(233, 84, 32, 0.5);
 }
 body.skin-distro-01[data-distro="debian"] {
   --accent: #d70a53; --accent-cyan: #ff3a7a;
   --text: #d70a53; --text-muted: #7a4a60; --audio-spec-color: #ff3a7a;
-  --glow-color: rgba(215, 10, 83, 0.3);
+  --glow-color: rgba(215, 10, 83, 0.5);
 }
 body.skin-distro-01[data-distro="fedora"] {
   --accent: #51a2da; --accent-cyan: #7ab8e6;
   --text: #51a2da; --text-muted: #557a94; --audio-spec-color: #7ab8e6;
-  --glow-color: rgba(81, 162, 218, 0.3);
+  --glow-color: rgba(81, 162, 218, 0.5);
 }
 body.skin-distro-01[data-distro="mint"] {
   --accent: #87cf3e; --accent-cyan: #a6e066;
   --text: #87cf3e; --text-muted: #6b8a4a; --audio-spec-color: #a6e066;
-  --glow-color: rgba(135, 207, 62, 0.3);
+  --glow-color: rgba(135, 207, 62, 0.5);
 }
 body.skin-distro-01[data-distro="opensuse"] {
   --accent: #73ba25; --accent-cyan: #94d24a;
   --text: #73ba25; --text-muted: #5a7a3a; --audio-spec-color: #94d24a;
-  --glow-color: rgba(115, 186, 37, 0.3);
+  --glow-color: rgba(115, 186, 37, 0.5);
 }
 body.skin-distro-01[data-distro="alpine"] {
   --accent: #0d597f; --accent-cyan: #3a8fb0;
   --text: #0d597f; --text-muted: #3a5a6a; --audio-spec-color: #3a8fb0;
-  --glow-color: rgba(13, 89, 127, 0.4);
+  --glow-color: rgba(13, 89, 127, 0.55);
 }
 body.skin-distro-01[data-distro="gentoo"] {
   --accent: #54487a; --accent-cyan: #8a7ab0;
   --text: #54487a; --text-muted: #5c5470; --audio-spec-color: #8a7ab0;
-  --glow-color: rgba(84, 72, 122, 0.4);
+  --glow-color: rgba(84, 72, 122, 0.55);
 }
 body.skin-distro-01[data-distro="manjaro"] {
   --accent: #35bfa7; --accent-cyan: #5ed4c0;
   --text: #35bfa7; --text-muted: #4a7a70; --audio-spec-color: #5ed4c0;
-  --glow-color: rgba(53, 191, 167, 0.3);
+  --glow-color: rgba(53, 191, 167, 0.5);
 }
 body.skin-distro-01[data-distro="kali"] {
   --accent: #557c94; --accent-cyan: #7aa3ba;
   --text: #557c94; --text-muted: #4a6070; --audio-spec-color: #7aa3ba;
-  --glow-color: rgba(85, 124, 148, 0.35);
+  --glow-color: rgba(85, 124, 148, 0.5);
 }
 body.skin-distro-01[data-distro="void"] {
   --accent: #478061; --accent-cyan: #6ba383;
   --text: #478061; --text-muted: #4a6656; --audio-spec-color: #6ba383;
-  --glow-color: rgba(71, 128, 97, 0.35);
+  --glow-color: rgba(71, 128, 97, 0.5);
 }
 body.skin-distro-01[data-distro="nixos"] {
   --accent: #5277c3; --accent-cyan: #7a9ad8;
   --text: #5277c3; --text-muted: #526a8c; --audio-spec-color: #7a9ad8;
-  --glow-color: rgba(82, 119, 195, 0.3);
+  --glow-color: rgba(82, 119, 195, 0.5);
 }
 body.skin-distro-01[data-distro="popos"] {
   --accent: #48b9c7; --accent-cyan: #70d1dd;
   --text: #48b9c7; --text-muted: #4a7a82; --audio-spec-color: #70d1dd;
-  --glow-color: rgba(72, 185, 199, 0.3);
+  --glow-color: rgba(72, 185, 199, 0.5);
+}
+
+/* ============================================================
+   🎨 SKIN @distro_02 — 13 DISTROS
+   ============================================================ */
+body.skin-distro-02[data-distro="elementary"] {
+  --accent: #64baff; --accent-cyan: #8acbff;
+  --text: #64baff; --text-muted: #5a7a9c; --audio-spec-color: #8acbff;
+  --glow-color: rgba(100, 186, 255, 0.5);
+}
+body.skin-distro-02[data-distro="cachyos"] {
+  --accent: #00aaff; --accent-cyan: #33bbff;
+  --text: #00aaff; --text-muted: #4a7a9c; --audio-spec-color: #33bbff;
+  --glow-color: rgba(0, 170, 255, 0.5);
+}
+body.skin-distro-02[data-distro="endeavouros"] {
+  --accent: #7f3fbf; --accent-cyan: #a070d0;
+  --text: #7f3fbf; --text-muted: #6a5a8c; --audio-spec-color: #a070d0;
+  --glow-color: rgba(127, 63, 191, 0.55);
+}
+body.skin-distro-02[data-distro="centos"] {
+  --accent: #932279; --accent-cyan: #b8509a;
+  --text: #932279; --text-muted: #7a4a6a; --audio-spec-color: #b8509a;
+  --glow-color: rgba(147, 34, 121, 0.5);
+}
+body.skin-distro-02[data-distro="slackware"] {
+  --accent: #8b0000; --accent-cyan: #b83333;
+  --text: #8b0000; --text-muted: #6a3a3a; --audio-spec-color: #b83333;
+  --glow-color: rgba(139, 0, 0, 0.55);
+}
+body.skin-distro-02[data-distro="parrot"] {
+  --accent: #19b3ff; --accent-cyan: #55ccff;
+  --text: #19b3ff; --text-muted: #4a7a9c; --audio-spec-color: #55ccff;
+  --glow-color: rgba(25, 179, 255, 0.5);
+}
+body.skin-distro-02[data-distro="raspberry"] {
+  --accent: #c51a4a; --accent-cyan: #e65078;
+  --text: #c51a4a; --text-muted: #8a4a60; --audio-spec-color: #e65078;
+  --glow-color: rgba(197, 26, 74, 0.5);
+}
+body.skin-distro-02[data-distro="proxmox"] {
+  --accent: #e57000; --accent-cyan: #ff9522;
+  --text: #e57000; --text-muted: #8a6a4a; --audio-spec-color: #ff9522;
+  --glow-color: rgba(229, 112, 0, 0.5);
+}
+body.skin-distro-02[data-distro="truenas"] {
+  --accent: #0095d5; --accent-cyan: #33b0e0;
+  --text: #0095d5; --text-muted: #4a6a80; --audio-spec-color: #33b0e0;
+  --glow-color: rgba(0, 149, 213, 0.5);
+}
+body.skin-distro-02[data-distro="android"] {
+  --accent: #3ddc84; --accent-cyan: #6ee6a0;
+  --text: #3ddc84; --text-muted: #4a7a60; --audio-spec-color: #6ee6a0;
+  --glow-color: rgba(61, 220, 132, 0.5);
+}
+body.skin-distro-02[data-distro="macos"] {
+  --accent: #a2aaad; --accent-cyan: #c0c8cb;
+  --text: #a2aaad; --text-muted: #6a6e70; --audio-spec-color: #c0c8cb;
+  --glow-color: rgba(162, 170, 173, 0.5);
+}
+body.skin-distro-02[data-distro="windows11"] {
+  --accent: #0078d4; --accent-cyan: #33a0e0;
+  --text: #0078d4; --text-muted: #4a6a8c; --audio-spec-color: #33a0e0;
+  --glow-color: rgba(0, 120, 212, 0.5);
+}
+body.skin-distro-02[data-distro="gnuhurd"] {
+  --accent: #8b0000; --accent-cyan: #b83333;
+  --text: #8b0000; --text-muted: #6a3a3a; --audio-spec-color: #b83333;
+  --glow-color: rgba(139, 0, 0, 0.55);
 }
 
 /* ============================================================
@@ -258,9 +330,11 @@ body.skin-tui { animation: crtFlicker 0.15s infinite; }
   display: none;
 }
 body.skin-tui .crt-overlay,
-body.skin-distro-01 .crt-overlay { display: block; opacity: 0.18; }
+body.skin-distro-01 .crt-overlay,
+body.skin-distro-02 .crt-overlay { display: block; opacity: 0.18; }
 body.skin-tui.crt-off .crt-overlay,
-body.skin-distro-01.crt-off .crt-overlay { opacity: 0; }
+body.skin-distro-01.crt-off .crt-overlay,
+body.skin-distro-02.crt-off .crt-overlay { opacity: 0; }
 
 .vignette {
   position: fixed; inset: 0;
@@ -271,9 +345,11 @@ body.skin-distro-01.crt-off .crt-overlay { opacity: 0; }
   display: none;
 }
 body.skin-tui .vignette,
-body.skin-distro-01 .vignette { display: block; box-shadow: inset 0 0 120px rgba(0,0,0,0.65); }
+body.skin-distro-01 .vignette,
+body.skin-distro-02 .vignette { display: block; box-shadow: inset 0 0 120px rgba(0,0,0,0.65); }
 body.skin-tui.crt-off .vignette,
-body.skin-distro-01.crt-off .vignette { box-shadow: inset 0 0 120px rgba(0,0,0,0); }
+body.skin-distro-01.crt-off .vignette,
+body.skin-distro-02.crt-off .vignette { box-shadow: inset 0 0 120px rgba(0,0,0,0); }
 
 /* ============================================================
    APP CONTAINER
@@ -309,7 +385,8 @@ body.skin-distro-01.crt-off .vignette { box-shadow: inset 0 0 120px rgba(0,0,0,0
   pointer-events: none;
 }
 body.skin-tui .bg-blur { filter: blur(40px) brightness(0.15) saturate(0.3) hue-rotate(80deg); }
-body.skin-distro-01 .bg-blur { filter: blur(40px) brightness(0.15) saturate(0.4); }
+body.skin-distro-01 .bg-blur,
+body.skin-distro-02 .bg-blur { filter: blur(40px) brightness(0.15) saturate(0.4); }
 
 /* ============================================================
    PLAYER CARD
@@ -335,7 +412,8 @@ body.skin-distro-01 .bg-blur { filter: blur(40px) brightness(0.15) saturate(0.4)
   transition: background 0.4s ease, border-color 0.4s ease, border-radius 0.3s ease;
 }
 body.skin-tui .player-card { border-width: 2px; overflow: hidden; }
-body.skin-distro-01 .player-card { border-width: 2px; overflow: hidden; }
+body.skin-distro-01 .player-card,
+body.skin-distro-02 .player-card { border-width: 2px; overflow: hidden; }
 
 /* ============================================================
    HEADER + MENÚ DESPLEGABLE
@@ -357,11 +435,14 @@ body.skin-distro-01 .player-card { border-width: 2px; overflow: hidden; }
   color: var(--text-muted);
 }
 body.skin-tui .header-title,
-body.skin-distro-01 .header-title { color: var(--text); text-shadow: var(--glow); }
+body.skin-distro-01 .header-title,
+body.skin-distro-02 .header-title { color: var(--text); text-shadow: var(--glow); }
 body.skin-tui .player-header,
-body.skin-distro-01 .player-header { cursor: pointer; user-select: none; }
+body.skin-distro-01 .player-header,
+body.skin-distro-02 .player-header { cursor: pointer; user-select: none; }
 body.skin-tui .player-header::after,
-body.skin-distro-01 .player-header::after {
+body.skin-distro-01 .player-header::after,
+body.skin-distro-02 .player-header::after {
   content: ' ▾';
   color: var(--accent);
   font-size: 0.75rem;
@@ -369,7 +450,8 @@ body.skin-distro-01 .player-header::after {
   opacity: 0.7;
 }
 body.skin-tui .player-header.menu-open::after,
-body.skin-distro-01 .player-header.menu-open::after { content: ' ▴'; }
+body.skin-distro-01 .player-header.menu-open::after,
+body.skin-distro-02 .player-header.menu-open::after { content: ' ▴'; }
 
 .tui-theme-menu {
   position: fixed;
@@ -394,9 +476,11 @@ body.skin-distro-01 .player-header.menu-open::after { content: ' ▴'; }
   text-align: left;
 }
 body.skin-tui .tui-theme-menu,
-body.skin-distro-01 .tui-theme-menu { display: block; }
+body.skin-distro-01 .tui-theme-menu,
+body.skin-distro-02 .tui-theme-menu { display: block; }
 body.skin-tui .player-header.menu-open .tui-theme-menu,
-body.skin-distro-01 .player-header.menu-open .tui-theme-menu {
+body.skin-distro-01 .player-header.menu-open .tui-theme-menu,
+body.skin-distro-02 .player-header.menu-open .tui-theme-menu {
   opacity: 1;
   pointer-events: auto;
   transform: translate(-50%, 8px) scale(1);
@@ -473,7 +557,8 @@ body.skin-distro-01 .player-header.menu-open .tui-theme-menu {
   transition: border-color 0.3s;
 }
 body.skin-tui .cover-art,
-body.skin-distro-01 .cover-art {
+body.skin-distro-01 .cover-art,
+body.skin-distro-02 .cover-art {
   border: 2px solid var(--card-border);
   box-shadow: 0 0 20px var(--glow-color);
   filter: contrast(1.1) saturate(1.1);
@@ -497,7 +582,8 @@ body.skin-distro-01 .cover-art {
   transition: border-radius 0.3s, background 0.3s;
 }
 body.skin-tui .track-info-container,
-body.skin-distro-01 .track-info-container {
+body.skin-distro-01 .track-info-container,
+body.skin-distro-02 .track-info-container {
   background: #000;
   border: 1px solid var(--card-border);
   border-radius: 0;
@@ -532,7 +618,8 @@ body.skin-tui .track-info-container { cursor: default; }
   text-shadow: 0 2px 6px rgba(0, 0, 0, 0.9);
 }
 body.skin-tui .track-title,
-body.skin-distro-01 .track-title { text-shadow: var(--glow); }
+body.skin-distro-01 .track-title,
+body.skin-distro-02 .track-title { text-shadow: var(--glow); }
 
 .track-artist {
   font-size: 0.98rem;
@@ -590,9 +677,11 @@ body.skin-distro-01 .track-title { text-shadow: var(--glow); }
   border-radius: 2px;
 }
 body.skin-tui .hires-icon,
-body.skin-distro-01 .hires-icon { display: none; }
+body.skin-distro-01 .hires-icon,
+body.skin-distro-02 .hires-icon { display: none; }
 body.skin-tui .audio-specs-badge.has-hires::before,
-body.skin-distro-01 .audio-specs-badge.has-hires::before {
+body.skin-distro-01 .audio-specs-badge.has-hires::before,
+body.skin-distro-02 .audio-specs-badge.has-hires::before {
   content: "[HI-RES] ";
   color: var(--accent);
   font-weight: 700;
@@ -606,44 +695,8 @@ body.skin-distro-01 .audio-specs-badge.has-hires::before {
   flex-shrink: 0;
 }
 body.skin-tui .status-badge,
-body.skin-distro-01 .status-badge { text-shadow: var(--glow); }
-
-/* ============================================================
-   ZONA DEL LOGO DE DISTRO
-   ============================================================ */
-.distro-display {
-  display: none;
-  width: 100%;
-  flex: 1 1 auto;
-  min-height: 120px;
-  max-height: 240px;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  position: relative;
-  padding: 8px;
-  margin: 4px 0;
-}
-body.skin-distro-01 .distro-display { display: flex; }
-
-.distro-bg-ascii {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 8px;
-  line-height: 1.0;
-  white-space: pre;
-  color: var(--accent);
-  opacity: 0.6;
-  user-select: none;
-  pointer-events: none;
-  margin: 0 auto;
-  padding: 0;
-  max-width: 100%;
-  max-height: 100%;
-  overflow: hidden;
-  text-align: center;
-  display: block;
-  width: fit-content;
-}
+body.skin-distro-01 .status-badge,
+body.skin-distro-02 .status-badge { text-shadow: var(--glow); }
 
 /* ============================================================
    PROGRESO
@@ -667,7 +720,8 @@ body.skin-distro-01 .distro-display { display: flex; }
   cursor: pointer;
 }
 body.skin-tui .seek-bar,
-body.skin-distro-01 .seek-bar {
+body.skin-distro-01 .seek-bar,
+body.skin-distro-02 .seek-bar {
   background: #000;
   border: 1px solid var(--card-border);
   border-radius: 0;
@@ -684,7 +738,8 @@ body.skin-distro-01 .seek-bar {
   cursor: pointer;
 }
 body.skin-tui .seek-bar::-webkit-slider-thumb,
-body.skin-distro-01 .seek-bar::-webkit-slider-thumb {
+body.skin-distro-01 .seek-bar::-webkit-slider-thumb,
+body.skin-distro-02 .seek-bar::-webkit-slider-thumb {
   border-radius: 0;
   background: var(--accent);
   box-shadow: var(--glow);
@@ -737,20 +792,25 @@ body.skin-distro-01 .seek-bar::-webkit-slider-thumb {
   transition: border-radius 0.3s, background 0.3s, color 0.3s, box-shadow 0.3s;
 }
 body.skin-tui .btn-play,
-body.skin-distro-01 .btn-play {
+body.skin-distro-01 .btn-play,
+body.skin-distro-02 .btn-play {
   background: transparent;
   color: var(--accent);
   border: 2px solid var(--accent);
-  box-shadow: var(--glow);
+  box-shadow:
+    0 0 15px var(--accent),
+    0 0 30px var(--glow-color),
+    inset 0 0 10px var(--glow-color);
 }
 body.skin-tui .btn-play:hover,
-body.skin-distro-01 .btn-play:hover { background: rgba(255, 255, 255, 0.08); }
+body.skin-distro-01 .btn-play:hover,
+body.skin-distro-02 .btn-play:hover { background: rgba(255, 255, 255, 0.08); }
 
 .btn-sub { font-size: 1.15rem; opacity: 0.5; transition: opacity 0.2s, color 0.2s; }
 .btn-sub.active { opacity: 1; color: var(--accent); }
 
 /* ============================================================
-   BOTONES DE ACCIÓN — versión normal (Classic / TUI)
+   BOTONES DE ACCIÓN
    ============================================================ */
 .action-buttons-normal {
   display: flex;
@@ -763,7 +823,8 @@ body.skin-distro-01 .btn-play:hover { background: rgba(255, 255, 255, 0.08); }
   z-index: 3;
 }
 
-body.skin-distro-01 .action-buttons-normal {
+body.skin-distro-01 .action-buttons-normal,
+body.skin-distro-02 .action-buttons-normal {
   display: none;
 }
 
@@ -785,16 +846,21 @@ body.skin-distro-01 .action-buttons-normal {
 }
 .icon-action-btn:active { transform: scale(0.9); background: rgba(255, 255, 255, 0.35); }
 body.skin-tui .icon-action-btn,
-body.skin-distro-01 .icon-action-btn {
+body.skin-distro-01 .icon-action-btn,
+body.skin-distro-02 .icon-action-btn {
   background: #000;
   border: 1px solid var(--card-border);
   color: var(--accent);
   border-radius: 0;
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
+  box-shadow:
+    0 0 10px var(--glow-color),
+    inset 0 0 6px var(--glow-color);
 }
 body.skin-tui .icon-action-btn:active,
-body.skin-distro-01 .icon-action-btn:active { background: rgba(255, 255, 255, 0.08); }
+body.skin-distro-01 .icon-action-btn:active,
+body.skin-distro-02 .icon-action-btn:active { background: rgba(255, 255, 255, 0.08); }
 
 .file-input-wrapper { position: relative; display: inline-block; }
 
@@ -808,40 +874,75 @@ body.skin-distro-01 .icon-action-btn:active { background: rgba(255, 255, 255, 0.
 }
 
 /* ============================================================
-   🛠️ TOOLS HOME y 📁 GESTOR (solo @distro_01)
+   🖼️ OVERLAY ASCII BACKGROUND (nuevo)
+   Se muestra SOLO en skins @distro_01 / @distro_02
    ============================================================ */
-#toolsHomeItem {
+.overlay-ascii-bg {
+  position: absolute;
+  inset: 0;
   display: none;
-}
-body.skin-distro-01 #toolsHomeItem {
-  display: block;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 0;
+  padding: 20px;
+  opacity: 0;
+  transition: opacity 0.4s ease;
 }
 
-.btn-tool {
-  flex: 1 1 calc(50% - 4px);
-  min-width: 120px;
+body.skin-distro-01 .overlay-ascii-bg,
+body.skin-distro-02 .overlay-ascii-bg {
+  display: flex;
+}
+
+/* Fade-in al abrir el overlay */
+body.skin-distro-01 .playlist-overlay.active .overlay-ascii-bg,
+body.skin-distro-01 .modal-overlay.active .overlay-ascii-bg,
+body.skin-distro-02 .playlist-overlay.active .overlay-ascii-bg,
+body.skin-distro-02 .modal-overlay.active .overlay-ascii-bg {
+  opacity: 1;
+  animation: overlayAsciiFadeIn 0.6s ease;
+}
+
+@keyframes overlayAsciiFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.overlay-ascii-content {
+  font-family: 'JetBrains Mono', 'Share Tech Mono', 'Fira Code', 'Courier New', monospace;
+  font-size: 6px;
+  line-height: 1;
+  white-space: pre;
+  color: var(--accent);
+  opacity: 0.12;
+  margin: 0;
+  padding: 0;
+  max-width: 100%;
+  max-height: 100%;
+  overflow: hidden;
   text-align: center;
+  text-shadow: 0 0 8px var(--glow-color);
+  user-select: none;
+  pointer-events: none;
+  transform: scale(1);
+  transition: transform 0.3s ease;
 }
 
-.btn-tool.active {
-  background: var(--accent);
-  color: #000;
-}
-
-/* Gestor de archivos */
-#storageManagerItem .btn-tool {
-  font-size: 0.72rem;
-  padding: 8px 10px;
-}
-
-#storageManagerItem .btn-tool.active {
-  background: var(--accent);
-  color: #000;
-  border-color: var(--accent);
+/* El contenido de los overlays debe estar por encima del ASCII */
+.playlist-overlay > .playlist-header,
+.playlist-overlay > .playlist-tools,
+.playlist-overlay > .playlist-list,
+.playlist-overlay > .playlists-list,
+.modal-overlay > .playlist-header,
+.modal-overlay > .settings-body {
+  position: relative;
+  z-index: 1;
 }
 
 /* ============================================================
-   NAVEGACIÓN INFERIOR (isla flotante)
+   NAVEGACIÓN INFERIOR (5 pestañas)
    ============================================================ */
 .bottom-nav {
   background: var(--card-bg);
@@ -858,9 +959,11 @@ body.skin-distro-01 #toolsHomeItem {
   flex: 0 0 auto;
   margin-top: 0;
   transition: border-radius 0.3s, background 0.3s;
+  overflow: hidden;
 }
 body.skin-tui .bottom-nav,
-body.skin-distro-01 .bottom-nav { border-width: 2px; }
+body.skin-distro-01 .bottom-nav,
+body.skin-distro-02 .bottom-nav { border-width: 2px; }
 
 .nav-btn {
   background: none;
@@ -870,18 +973,20 @@ body.skin-distro-01 .bottom-nav { border-width: 2px; }
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  font-size: 1.35rem;
-  width: 25%;
+  font-size: 1.25rem;
+  width: 20%;
+  padding: 8px 2px;
   transition: transform 0.1s, opacity 0.2s, color 0.2s;
   opacity: 0.6;
 }
 .nav-btn.active { opacity: 1; transform: scale(1.15); }
 .nav-btn:active { transform: scale(0.92); }
 body.skin-tui .nav-btn.active,
-body.skin-distro-01 .nav-btn.active { color: var(--accent); text-shadow: var(--glow); }
+body.skin-distro-01 .nav-btn.active,
+body.skin-distro-02 .nav-btn.active { color: var(--accent); text-shadow: var(--glow); }
 
 /* ============================================================
-   OVERLAYS (Fila y Ajustes)
+   OVERLAYS (Fila, Playlists, Detalle, Ajustes)
    ============================================================ */
 .playlist-overlay, .modal-overlay {
   position: absolute;
@@ -898,11 +1003,14 @@ body.skin-distro-01 .nav-btn.active { color: var(--accent); text-shadow: var(--g
   opacity: 0;
   transform: translateY(100%);
   transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
+  overflow: hidden;
 }
 body.skin-tui .playlist-overlay,
 body.skin-tui .modal-overlay,
 body.skin-distro-01 .playlist-overlay,
-body.skin-distro-01 .modal-overlay {
+body.skin-distro-01 .modal-overlay,
+body.skin-distro-02 .playlist-overlay,
+body.skin-distro-02 .modal-overlay {
   background: rgba(5, 10, 6, 0.98);
   border-radius: 0;
   border: 2px solid var(--card-border);
@@ -910,7 +1018,9 @@ body.skin-distro-01 .modal-overlay {
   -webkit-backdrop-filter: none;
 }
 body.skin-distro-01 .playlist-overlay,
-body.skin-distro-01 .modal-overlay { background: rgba(13, 17, 23, 0.98); }
+body.skin-distro-01 .modal-overlay,
+body.skin-distro-02 .playlist-overlay,
+body.skin-distro-02 .modal-overlay { background: rgba(13, 17, 23, 0.98); }
 
 .playlist-overlay.active, .modal-overlay.active {
   display: flex;
@@ -925,9 +1035,11 @@ body.skin-distro-01 .modal-overlay { background: rgba(13, 17, 23, 0.98); }
   margin-bottom: 8px;
   padding-bottom: 6px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+  flex-shrink: 0;
 }
 body.skin-tui .playlist-header,
-body.skin-distro-01 .playlist-header { border-bottom: 1px solid var(--card-border); }
+body.skin-distro-01 .playlist-header,
+body.skin-distro-02 .playlist-header { border-bottom: 1px solid var(--card-border); }
 
 .playlist-title {
   font-size: 0.9rem;
@@ -948,16 +1060,18 @@ body.skin-distro-01 .playlist-header { border-bottom: 1px solid var(--card-borde
   cursor: pointer;
   font-size: 0.85rem;
   transition: border-radius 0.3s;
+  flex-shrink: 0;
 }
 body.skin-tui .btn-icon,
-body.skin-distro-01 .btn-icon {
+body.skin-distro-01 .btn-icon,
+body.skin-distro-02 .btn-icon {
   background: #000;
   border: 1px solid var(--card-border);
   color: var(--accent);
   border-radius: 0;
 }
 
-.playlist-tools { display: flex; flex-direction: column; gap: 6px; margin-bottom: 8px; }
+.playlist-tools { display: flex; flex-direction: column; gap: 6px; margin-bottom: 8px; flex-shrink: 0; }
 
 .sort-bar {
   display: flex;
@@ -969,7 +1083,8 @@ body.skin-distro-01 .btn-icon {
   border-radius: 8px;
 }
 body.skin-tui .sort-bar,
-body.skin-distro-01 .sort-bar { background: #000; border: 1px solid var(--card-border); border-radius: 0; }
+body.skin-distro-01 .sort-bar,
+body.skin-distro-02 .sort-bar { background: #000; border: 1px solid var(--card-border); border-radius: 0; }
 
 .sort-label {
   font-size: 0.72rem;
@@ -992,7 +1107,9 @@ body.skin-distro-01 .sort-bar { background: #000; border: 1px solid var(--card-b
 body.skin-tui .sort-select,
 body.skin-tui .settings-select,
 body.skin-distro-01 .sort-select,
-body.skin-distro-01 .settings-select { color: var(--accent); }
+body.skin-distro-01 .settings-select,
+body.skin-distro-02 .sort-select,
+body.skin-distro-02 .settings-select { color: var(--accent); }
 
 .sort-select option, .settings-select option {
   background: #1c1c24;
@@ -1001,7 +1118,9 @@ body.skin-distro-01 .settings-select { color: var(--accent); }
 body.skin-tui .sort-select option,
 body.skin-tui .settings-select option,
 body.skin-distro-01 .sort-select option,
-body.skin-distro-01 .settings-select option {
+body.skin-distro-01 .settings-select option,
+body.skin-distro-02 .sort-select option,
+body.skin-distro-02 .settings-select option {
   background: #000;
   color: var(--accent);
 }
@@ -1022,11 +1141,13 @@ body.skin-distro-01 .settings-select option {
 }
 .search-input::placeholder { color: var(--text-muted); }
 body.skin-tui .search-input,
-body.skin-distro-01 .search-input {
+body.skin-distro-01 .search-input,
+body.skin-distro-02 .search-input {
   background: #000;
-  border: 1px solid var(--card-border);
+  border: 1px solid var(--accent);
   border-radius: 0;
   color: var(--accent);
+  box-shadow: 0 0 6px var(--glow-color);
 }
 
 .playlist-list {
@@ -1034,6 +1155,8 @@ body.skin-distro-01 .search-input {
   overflow-y: auto;
   flex: 1;
   text-align: left;
+  position: relative;
+  z-index: 1;
 }
 
 .playlist-item {
@@ -1046,13 +1169,16 @@ body.skin-distro-01 .search-input {
   align-items: center;
   background: rgba(255, 255, 255, 0.08);
   border: 1px solid rgba(255, 255, 255, 0.1);
+  position: relative;
 }
 body.skin-tui .playlist-item,
-body.skin-distro-01 .playlist-item {
+body.skin-distro-01 .playlist-item,
+body.skin-distro-02 .playlist-item {
   background: transparent;
   border: 1px solid transparent;
   border-radius: 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid var(--accent);
+  padding: 10px;
   margin-bottom: 0;
 }
 
@@ -1061,11 +1187,37 @@ body.skin-distro-01 .playlist-item {
   border: 1px solid rgba(255, 71, 87, 0.6);
 }
 body.skin-tui .playlist-item.playing,
-body.skin-distro-01 .playlist-item.playing {
-  background: rgba(255, 255, 255, 0.08);
+body.skin-distro-01 .playlist-item.playing,
+body.skin-distro-02 .playlist-item.playing {
+  background: rgba(0, 0, 0, 0.4);
   border: 1px solid var(--accent);
   border-radius: 0;
+  box-shadow: inset 0 0 12px var(--glow-color);
 }
+
+.playlist-item.playing::before {
+  content: '▶';
+  position: absolute;
+  left: 2px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--accent);
+  font-size: 0.7rem;
+  animation: playingPulse 1s ease infinite;
+}
+
+@keyframes playingPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+body.skin-tui .playlist-item.playing::before,
+body.skin-distro-01 .playlist-item.playing::before,
+body.skin-distro-02 .playlist-item.playing::before {
+  text-shadow: 0 0 6px var(--glow-color);
+}
+
+.playlist-item.playing { padding-left: 18px; }
 
 .playlist-item-title {
   font-size: 0.82rem;
@@ -1094,6 +1246,8 @@ body.skin-distro-01 .playlist-item.playing {
   display: flex;
   flex-direction: column;
   gap: 12px;
+  position: relative;
+  z-index: 1;
 }
 
 .settings-item {
@@ -1103,10 +1257,12 @@ body.skin-distro-01 .playlist-item.playing {
   border-radius: 14px;
 }
 body.skin-tui .settings-item,
-body.skin-distro-01 .settings-item {
+body.skin-distro-01 .settings-item,
+body.skin-distro-02 .settings-item {
   background: #000;
-  border: 1px solid var(--card-border);
+  border: 1px solid var(--accent);
   border-radius: 0;
+  box-shadow: 0 0 8px var(--glow-color);
 }
 
 .settings-row {
@@ -1123,7 +1279,8 @@ body.skin-distro-01 .settings-item {
   margin-bottom: 2px;
 }
 body.skin-tui .settings-title,
-body.skin-distro-01 .settings-title {
+body.skin-distro-01 .settings-title,
+body.skin-distro-02 .settings-title {
   text-transform: uppercase;
   letter-spacing: 1px;
   color: var(--accent);
@@ -1133,6 +1290,12 @@ body.skin-distro-01 .settings-title {
   color: var(--text-muted);
   font-size: 0.75rem;
   line-height: 1.3;
+}
+body.skin-tui .settings-desc,
+body.skin-distro-01 .settings-desc,
+body.skin-distro-02 .settings-desc {
+  color: var(--text);
+  opacity: 0.85;
 }
 
 .btn-action {
@@ -1149,14 +1312,17 @@ body.skin-distro-01 .settings-title {
 }
 .btn-action:hover { background: rgba(255, 255, 255, 0.25); }
 body.skin-tui .btn-action,
-body.skin-distro-01 .btn-action {
+body.skin-distro-01 .btn-action,
+body.skin-distro-02 .btn-action {
   background: #000;
-  border: 1px solid var(--card-border);
+  border: 1px solid var(--accent);
   color: var(--accent);
   border-radius: 0;
+  box-shadow: 0 0 6px var(--glow-color);
 }
 body.skin-tui .btn-action:hover,
-body.skin-distro-01 .btn-action:hover { background: rgba(255, 255, 255, 0.08); }
+body.skin-distro-01 .btn-action:hover,
+body.skin-distro-02 .btn-action:hover { background: rgba(255, 255, 255, 0.08); }
 
 .btn-action-magenta {
   border-color: var(--accent);
@@ -1194,9 +1360,636 @@ body.skin-distro-01 .btn-action:hover { background: rgba(255, 255, 255, 0.08); }
 input:checked + .slider { background-color: var(--accent); }
 input:checked + .slider:before { transform: translateX(18px); }
 body.skin-tui .slider,
-body.skin-distro-01 .slider { border-radius: 0; background-color: #000; border: 1px solid var(--card-border); }
+body.skin-distro-01 .slider,
+body.skin-distro-02 .slider { border-radius: 0; background-color: #000; border: 1px solid var(--accent); }
 body.skin-tui .slider:before,
-body.skin-distro-01 .slider:before { border-radius: 0; background-color: var(--accent); }
+body.skin-distro-01 .slider:before,
+body.skin-distro-02 .slider:before { border-radius: 0; background-color: var(--accent); }
+
+/* ============================================================
+   TOOLS HOME y GESTOR (solo distros)
+   ============================================================ */
+#toolsHomeItem {
+  display: none;
+}
+body.skin-distro-01 #toolsHomeItem,
+body.skin-distro-02 #toolsHomeItem {
+  display: block;
+}
+
+.btn-tool {
+  flex: 1 1 calc(50% - 4px);
+  min-width: 120px;
+  text-align: center;
+}
+
+.btn-tool.active {
+  background: var(--accent);
+  color: #000;
+}
+
+#storageManagerItem .btn-tool {
+  font-size: 0.72rem;
+  padding: 8px 10px;
+}
+
+#storageManagerItem .btn-tool.active {
+  background: var(--accent);
+  color: #000;
+  border-color: var(--accent);
+}
+
+/* ============================================================
+   PLAYLISTS
+   ============================================================ */
+.playlists-list {
+  list-style: none;
+  overflow-y: auto;
+  flex: 1;
+  text-align: left;
+  padding: 0;
+  margin: 0;
+  position: relative;
+  z-index: 1;
+}
+
+.playlists-item {
+  padding: 12px 14px;
+  border-radius: 12px;
+  margin-bottom: 6px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: background 0.15s ease, transform 0.1s ease;
+  position: relative;
+}
+.playlists-item:hover { background: rgba(255, 255, 255, 0.14); }
+.playlists-item:active { transform: scale(0.98); }
+
+body.skin-tui .playlists-item,
+body.skin-distro-01 .playlists-item,
+body.skin-distro-02 .playlists-item {
+  background: transparent;
+  border: 1px solid var(--accent);
+  border-radius: 0;
+  margin-bottom: 6px;
+  padding-left: 22px;
+  box-shadow: 0 0 6px var(--glow-color);
+}
+body.skin-tui .playlists-item:hover,
+body.skin-distro-01 .playlists-item:hover,
+body.skin-distro-02 .playlists-item:hover { background: rgba(255, 255, 255, 0.06); }
+
+body.skin-tui .playlists-item::before,
+body.skin-distro-01 .playlists-item::before,
+body.skin-distro-02 .playlists-item::before {
+  content: '>';
+  position: absolute;
+  left: 6px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--accent);
+  font-weight: 700;
+  font-size: 0.9rem;
+  opacity: 0.6;
+}
+
+.playlists-item-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.playlists-item-name {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-bottom: 2px;
+}
+body.skin-tui .playlists-item-name,
+body.skin-distro-01 .playlists-item-name,
+body.skin-distro-02 .playlists-item-name {
+  text-shadow: 0 0 6px var(--glow-color);
+}
+
+.playlists-item-count {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  opacity: 0.8;
+}
+
+.playlists-item-icon {
+  font-size: 1.3rem;
+  flex-shrink: 0;
+  opacity: 0.9;
+}
+
+.playlists-item-fav {
+  background: linear-gradient(135deg, rgba(255, 71, 87, 0.15), rgba(255, 71, 87, 0.05));
+  border: 1px solid rgba(255, 71, 87, 0.4);
+  box-shadow: 0 4px 12px rgba(255, 71, 87, 0.15);
+}
+body.skin-tui .playlists-item-fav,
+body.skin-distro-01 .playlists-item-fav,
+body.skin-distro-02 .playlists-item-fav {
+  background: rgba(255, 71, 87, 0.08);
+  border-color: var(--accent);
+}
+
+.playlists-empty {
+  padding: 30px 20px;
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  line-height: 1.5;
+  list-style: none;
+}
+
+.playlists-empty-icon {
+  font-size: 3rem;
+  display: block;
+  margin-bottom: 12px;
+  opacity: 0.5;
+  animation: emptyIconFloat 3s ease-in-out infinite;
+}
+
+@keyframes emptyIconFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+/* Botones contextuales en items */
+.playlist-item-actions {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.playlist-item-more {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: var(--text-muted);
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease, transform 0.1s ease;
+  flex-shrink: 0;
+  padding: 0;
+  font-family: inherit;
+  line-height: 1;
+}
+.playlist-item-more:hover {
+  background: rgba(255, 255, 255, 0.2);
+  color: var(--text);
+}
+.playlist-item-more:active { transform: rotate(90deg) scale(0.9); }
+
+body.skin-tui .playlist-item-more,
+body.skin-distro-01 .playlist-item-more,
+body.skin-distro-02 .playlist-item-more {
+  background: #000;
+  border: 1px solid var(--card-border);
+  color: var(--accent);
+  border-radius: 0;
+}
+
+.playlist-item-fav {
+  color: #ff4757;
+  font-size: 0.85rem;
+  flex-shrink: 0;
+}
+body.skin-tui .playlist-item-fav,
+body.skin-distro-01 .playlist-item-fav,
+body.skin-distro-02 .playlist-item-fav {
+  color: var(--accent);
+  text-shadow: 0 0 6px var(--glow-color);
+}
+
+.playlist-item-reorder {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  flex-shrink: 0;
+}
+
+.playlist-item-reorder button {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: var(--text-muted);
+  width: 24px;
+  height: 16px;
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.6rem;
+  cursor: pointer;
+  padding: 0;
+  font-family: inherit;
+  line-height: 1;
+  transition: background 0.15s ease, color 0.15s ease, transform 0.1s ease;
+}
+.playlist-item-reorder button:hover {
+  background: rgba(255, 255, 255, 0.2);
+  color: var(--text);
+}
+.playlist-item-reorder button:active { transform: scale(0.85); }
+
+body.skin-tui .playlist-item-reorder button,
+body.skin-distro-01 .playlist-item-reorder button,
+body.skin-distro-02 .playlist-item-reorder button {
+  background: #000;
+  border: 1px solid var(--card-border);
+  color: var(--accent);
+  border-radius: 0;
+}
+
+/* ============================================================
+   BOTTOM SHEETS
+   ============================================================ */
+.bottom-sheet-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  z-index: 10000;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+.bottom-sheet-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.bottom-sheet {
+  background: #1c1c24;
+  border-radius: 20px 20px 0 0;
+  width: 100%;
+  max-width: 500px;
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  transform: translateY(100%);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  padding-bottom: env(safe-area-inset-bottom, 0);
+  box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.6);
+  overflow: hidden;
+}
+.bottom-sheet-overlay.active .bottom-sheet { transform: translateY(0); }
+
+body.skin-tui .bottom-sheet,
+body.skin-distro-01 .bottom-sheet,
+body.skin-distro-02 .bottom-sheet {
+  background: #000;
+  border-top: 2px solid var(--accent);
+  border-left: 2px solid var(--accent);
+  border-right: 2px solid var(--accent);
+  border-radius: 0;
+  box-shadow:
+    0 -10px 40px rgba(0, 0, 0, 0.8),
+    0 0 30px var(--glow-color);
+}
+
+.bottom-sheet::before {
+  content: '';
+  display: block;
+  width: 40px;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.25);
+  border-radius: 2px;
+  margin: 10px auto 4px auto;
+  flex-shrink: 0;
+}
+body.skin-tui .bottom-sheet::before,
+body.skin-distro-01 .bottom-sheet::before,
+body.skin-distro-02 .bottom-sheet::before {
+  background: var(--accent);
+  border-radius: 0;
+  box-shadow: 0 0 6px var(--glow-color);
+}
+
+.bottom-sheet-header {
+  padding: 8px 20px 14px 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  flex-shrink: 0;
+}
+body.skin-tui .bottom-sheet-header,
+body.skin-distro-01 .bottom-sheet-header,
+body.skin-distro-02 .bottom-sheet-header {
+  border-bottom: 1px solid var(--card-border);
+  background: rgba(0, 0, 0, 0.6);
+}
+
+.bottom-sheet-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 3px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+body.skin-tui .bottom-sheet-title,
+body.skin-distro-01 .bottom-sheet-title,
+body.skin-distro-02 .bottom-sheet-title {
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 0.85rem;
+  text-shadow: 0 0 8px var(--glow-color);
+}
+
+.bottom-sheet-subtitle {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.bottom-sheet-list {
+  list-style: none;
+  padding: 6px 0;
+  margin: 0;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.bottom-sheet-item {
+  padding: 14px 20px;
+  font-size: 0.92rem;
+  color: var(--text);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: background 0.12s ease;
+  user-select: none;
+  -webkit-user-select: none;
+}
+.bottom-sheet-item:hover,
+.bottom-sheet-item:active { background: rgba(255, 255, 255, 0.08); }
+
+body.skin-tui .bottom-sheet-item,
+body.skin-distro-01 .bottom-sheet-item,
+body.skin-distro-02 .bottom-sheet-item {
+  color: var(--accent);
+  padding-left: 14px;
+  font-family: 'JetBrains Mono', monospace;
+}
+body.skin-tui .bottom-sheet-item:hover,
+body.skin-distro-01 .bottom-sheet-item:hover,
+body.skin-distro-02 .bottom-sheet-item:hover {
+  background: rgba(255, 255, 255, 0.05);
+  box-shadow: inset 0 0 12px var(--glow-color);
+}
+
+body.skin-tui .bottom-sheet-item::before,
+body.skin-distro-01 .bottom-sheet-item::before,
+body.skin-distro-02 .bottom-sheet-item::before {
+  content: '$';
+  color: var(--accent);
+  opacity: 0.5;
+  margin-right: 4px;
+  font-weight: 700;
+}
+
+.bottom-sheet-item-danger { color: #ff6b7a; }
+body.skin-tui .bottom-sheet-item-danger,
+body.skin-distro-01 .bottom-sheet-item-danger,
+body.skin-distro-02 .bottom-sheet-item-danger { color: #ff6b7a; }
+
+.bottom-sheet-item-current { opacity: 0.5; pointer-events: none; }
+
+.bottom-sheet-item-check {
+  margin-left: auto;
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.bottom-sheet-cancel {
+  background: rgba(255, 255, 255, 0.08);
+  border: none;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--text);
+  padding: 16px 20px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  width: 100%;
+  font-family: inherit;
+  transition: background 0.15s ease;
+  flex-shrink: 0;
+}
+.bottom-sheet-cancel:hover,
+.bottom-sheet-cancel:active { background: rgba(255, 255, 255, 0.14); }
+
+body.skin-tui .bottom-sheet-cancel,
+body.skin-distro-01 .bottom-sheet-cancel,
+body.skin-distro-02 .bottom-sheet-cancel {
+  background: #000;
+  border-top: 1px solid var(--accent);
+  color: var(--accent);
+  font-family: 'JetBrains Mono', monospace;
+}
+body.skin-tui .bottom-sheet-cancel:hover,
+body.skin-distro-01 .bottom-sheet-cancel:hover,
+body.skin-distro-02 .bottom-sheet-cancel:hover {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+/* ============================================================
+   MODAL SIMPLE
+   ============================================================ */
+.modal-overlay-simple {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  z-index: 10001;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+.modal-overlay-simple.active { opacity: 1; pointer-events: auto; }
+
+.modal-box {
+  background: #1c1c24;
+  border-radius: 18px;
+  padding: 22px 20px 18px 20px;
+  width: 100%;
+  max-width: 380px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
+  transform: scale(0.9);
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.modal-overlay-simple.active .modal-box { transform: scale(1); }
+
+body.skin-tui .modal-box,
+body.skin-distro-01 .modal-box,
+body.skin-distro-02 .modal-box {
+  background: #000;
+  border: 2px solid var(--accent);
+  border-radius: 0;
+  box-shadow:
+    0 20px 50px rgba(0, 0, 0, 0.8),
+    0 0 40px var(--glow-color);
+}
+
+.modal-box-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 14px;
+  text-align: center;
+}
+body.skin-tui .modal-box-title,
+body.skin-distro-01 .modal-box-title,
+body.skin-distro-02 .modal-box-title {
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  text-shadow: 0 0 8px var(--glow-color);
+}
+
+body.skin-tui .modal-box-title::before,
+body.skin-distro-01 .modal-box-title::before,
+body.skin-distro-02 .modal-box-title::before {
+  content: '$ mkdir ';
+  color: var(--accent);
+  opacity: 0.6;
+  font-weight: 400;
+  font-size: 0.85rem;
+}
+
+.modal-box-message {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-bottom: 18px;
+  text-align: center;
+  line-height: 1.5;
+}
+
+.modal-input {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+  padding: 12px 14px;
+  color: var(--text);
+  font-size: 0.95rem;
+  font-family: inherit;
+  outline: none;
+  margin-bottom: 16px;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+.modal-input:focus {
+  border-color: var(--accent);
+  background: rgba(255, 255, 255, 0.12);
+}
+.modal-input::placeholder { color: var(--text-muted); opacity: 0.6; }
+
+body.skin-tui .modal-input,
+body.skin-distro-01 .modal-input,
+body.skin-distro-02 .modal-input {
+  background: #000;
+  border: 1px solid var(--card-border);
+  border-radius: 0;
+  color: var(--accent);
+  font-family: 'JetBrains Mono', monospace;
+}
+body.skin-tui .modal-input:focus,
+body.skin-distro-01 .modal-input:focus,
+body.skin-distro-02 .modal-input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 8px var(--glow-color);
+}
+
+.modal-box-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+.modal-box-actions .btn-action {
+  flex: 1;
+  padding: 10px 16px;
+  font-size: 0.85rem;
+}
+
+@keyframes modalShake {
+  0%, 100% { transform: scale(1) translateX(0); }
+  20% { transform: scale(1) translateX(-6px); }
+  40% { transform: scale(1) translateX(6px); }
+  60% { transform: scale(1) translateX(-4px); }
+  80% { transform: scale(1) translateX(4px); }
+}
+
+.modal-box.shake { animation: modalShake 0.4s ease; }
+
+/* ============================================================
+   TOAST
+   ============================================================ */
+.meow-toast {
+  position: fixed;
+  bottom: calc(env(safe-area-inset-bottom, 0px) + 100px);
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: rgba(20, 20, 25, 0.95);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: var(--text);
+  padding: 10px 18px;
+  border-radius: 24px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  z-index: 10002;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+  max-width: 90%;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.meow-toast.active { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+body.skin-tui .meow-toast,
+body.skin-distro-01 .meow-toast,
+body.skin-distro-02 .meow-toast {
+  background: #000;
+  border: 1px solid var(--accent);
+  border-radius: 0;
+  color: var(--accent);
+  box-shadow:
+    0 8px 20px rgba(0, 0, 0, 0.6),
+    0 0 15px var(--glow-color);
+  font-family: 'JetBrains Mono', monospace;
+}
 
 /* ============================================================
    AVISO DE PRIVACIDAD
@@ -1214,7 +2007,8 @@ body.skin-distro-01 .slider:before { border-radius: 0; background-color: var(--a
   padding: 20px;
 }
 body.skin-tui .meow-aviso-overlay,
-body.skin-distro-01 .meow-aviso-overlay { background: rgba(0, 0, 0, 0.95); }
+body.skin-distro-01 .meow-aviso-overlay,
+body.skin-distro-02 .meow-aviso-overlay { background: rgba(0, 0, 0, 0.95); }
 
 .meow-aviso-box {
   background: rgba(255, 255, 255, 0.15);
@@ -1227,7 +2021,8 @@ body.skin-distro-01 .meow-aviso-overlay { background: rgba(0, 0, 0, 0.95); }
   color: #fff;
 }
 body.skin-tui .meow-aviso-box,
-body.skin-distro-01 .meow-aviso-box {
+body.skin-distro-01 .meow-aviso-box,
+body.skin-distro-02 .meow-aviso-box {
   background: #000;
   border: 2px solid var(--accent);
   border-radius: 0;
@@ -1237,7 +2032,8 @@ body.skin-distro-01 .meow-aviso-box {
 
 .meow-aviso-box h3 { margin-bottom: 12px; font-size: 1.2rem; color: var(--accent); }
 body.skin-tui .meow-aviso-box h3,
-body.skin-distro-01 .meow-aviso-box h3 { text-transform: uppercase; letter-spacing: 2px; text-shadow: var(--glow); }
+body.skin-distro-01 .meow-aviso-box h3,
+body.skin-distro-02 .meow-aviso-box h3 { text-transform: uppercase; letter-spacing: 2px; text-shadow: var(--glow); }
 
 .meow-aviso-box p {
   font-size: 0.9rem;
@@ -1246,7 +2042,8 @@ body.skin-distro-01 .meow-aviso-box h3 { text-transform: uppercase; letter-spaci
   color: rgba(255,255,255,0.85);
 }
 body.skin-tui .meow-aviso-box p,
-body.skin-distro-01 .meow-aviso-box p { color: var(--text-muted); }
+body.skin-distro-01 .meow-aviso-box p,
+body.skin-distro-02 .meow-aviso-box p { color: var(--text-muted); }
 
 .meow-checkbox-label {
   display: flex;
@@ -1272,7 +2069,8 @@ body.skin-distro-01 .meow-aviso-box p { color: var(--text-muted); }
 }
 .meow-btn-cerrar:active { transform: scale(0.95); }
 body.skin-tui .meow-btn-cerrar,
-body.skin-distro-01 .meow-btn-cerrar {
+body.skin-distro-01 .meow-btn-cerrar,
+body.skin-distro-02 .meow-btn-cerrar {
   background: transparent;
   color: var(--accent);
   border: 2px solid var(--accent);
@@ -1281,10 +2079,11 @@ body.skin-distro-01 .meow-btn-cerrar {
   letter-spacing: 1px;
 }
 body.skin-tui .meow-btn-cerrar:hover,
-body.skin-distro-01 .meow-btn-cerrar:hover { background: var(--accent); color: #000; }
+body.skin-distro-01 .meow-btn-cerrar:hover,
+body.skin-distro-02 .meow-btn-cerrar:hover { background: var(--accent); color: #000; }
 
 /* ============================================================
-   KBD (teclas de atajo)
+   KBD
    ============================================================ */
 kbd {
   background: rgba(255, 255, 255, 0.15);
@@ -1296,7 +2095,8 @@ kbd {
   font-family: var(--font-family);
 }
 body.skin-tui kbd,
-body.skin-distro-01 kbd {
+body.skin-distro-01 kbd,
+body.skin-distro-02 kbd {
   background: #000;
   border: 1px solid var(--card-border);
   color: var(--accent);
@@ -1304,7 +2104,7 @@ body.skin-distro-01 kbd {
 }
 
 /* ============================================================
-   🎬 OVERLAY DE BOOT TERMINAL
+   BOOT OVERLAY
    ============================================================ */
 .distro-boot-overlay {
   position: fixed;
@@ -1319,10 +2119,7 @@ body.skin-distro-01 kbd {
   pointer-events: none;
   transition: opacity 0.3s ease;
 }
-.distro-boot-overlay.active {
-  opacity: 1;
-  pointer-events: auto;
-}
+.distro-boot-overlay.active { opacity: 1; pointer-events: auto; }
 
 .distro-boot-terminal {
   font-family: 'JetBrains Mono', 'Share Tech Mono', monospace;
@@ -1354,97 +2151,252 @@ body.skin-distro-01 kbd {
 }
 
 /* ============================================================
-   🖥️ MODO TERMINAL — @distro_01 (monospace + layout)
+   🖥️ MODO TERMINAL — @distro_01 y @distro_02
+   Monospace + iluminación + layout
    ============================================================ */
 body.skin-distro-01,
 body.skin-distro-01 *,
 body.skin-distro-01 *::before,
-body.skin-distro-01 *::after {
+body.skin-distro-01 *::after,
+body.skin-distro-02,
+body.skin-distro-02 *,
+body.skin-distro-02 *::before,
+body.skin-distro-02 *::after {
   font-family: 'JetBrains Mono', 'Share Tech Mono', 'Fira Code', 'Courier New', monospace !important;
   font-variant-ligatures: none !important;
 }
 
-body.skin-distro-01 .player-card {
+/* Fondo translúcido en distros */
+body.skin-distro-01 .player-card,
+body.skin-distro-02 .player-card {
+  background: rgba(10, 15, 20, 0.55) !important;
+  backdrop-filter: blur(20px) saturate(140%) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(140%) !important;
+  border: 2px solid var(--accent) !important;
+  box-shadow:
+    0 0 25px var(--glow-color),
+    0 0 60px rgba(0, 0, 0, 0.5),
+    inset 0 0 20px rgba(255, 255, 255, 0.04) !important;
+}
+
+body.skin-distro-01 .bottom-nav,
+body.skin-distro-02 .bottom-nav {
+  background: rgba(10, 15, 20, 0.6) !important;
+  backdrop-filter: blur(20px) saturate(140%) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(140%) !important;
+  border: 2px solid var(--accent) !important;
+  box-shadow:
+    0 0 20px var(--glow-color),
+    0 0 40px rgba(0, 0, 0, 0.5) !important;
+}
+
+body.skin-distro-01 .playlist-overlay,
+body.skin-distro-01 .modal-overlay,
+body.skin-distro-02 .playlist-overlay,
+body.skin-distro-02 .modal-overlay {
+  background: rgba(10, 15, 20, 0.85) !important;
+  backdrop-filter: blur(25px) saturate(140%) !important;
+  -webkit-backdrop-filter: blur(25px) saturate(140%) !important;
+  border: 2px solid var(--accent) !important;
+  box-shadow:
+    0 0 30px var(--glow-color),
+    inset 0 0 30px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* Layout del player en distros */
+body.skin-distro-01 .player-card,
+body.skin-distro-02 .player-card {
   justify-content: flex-start !important;
   gap: 0 !important;
 }
 
-body.skin-distro-01 .player-header {
+body.skin-distro-01 .player-header,
+body.skin-distro-02 .player-header {
   margin: 0 0 18px 0 !important;
   padding: 0 !important;
 }
 
-body.skin-distro-01 .header-title {
+body.skin-distro-01 .header-title,
+body.skin-distro-02 .header-title {
   font-size: 1.05rem !important;
   font-weight: 700 !important;
   letter-spacing: 3px !important;
   opacity: 0.95;
+  text-shadow:
+    0 0 8px var(--glow-color),
+    0 0 2px var(--accent) !important;
 }
 
-body.skin-distro-01 .cover-container {
+body.skin-distro-01 .cover-container,
+body.skin-distro-02 .cover-container {
   margin: 0 0 18px 0 !important;
   padding: 0 !important;
 }
 
-body.skin-distro-01 .cover-art {
+body.skin-distro-01 .cover-art,
+body.skin-distro-02 .cover-art {
   max-width: 230px !important;
 }
 
-body.skin-distro-01 .track-info-container {
-  margin: 0 0 20px 0 !important;
+body.skin-distro-01 .track-info-container,
+body.skin-distro-02 .track-info-container {
+  margin: 0 0 8px 0 !important;
   padding: 10px 8px !important;
 }
 
-body.skin-distro-01 .track-title {
+body.skin-distro-01 .track-title,
+body.skin-distro-02 .track-title {
   font-size: 1rem !important;
   letter-spacing: 0.8px;
   font-weight: 700;
+  text-shadow:
+    0 0 8px var(--glow-color),
+    0 0 2px var(--accent) !important;
 }
 
-body.skin-distro-01 .track-artist {
+body.skin-distro-01 .track-artist,
+body.skin-distro-02 .track-artist {
   font-size: 0.78rem !important;
   letter-spacing: 0.4px;
+  color: var(--text) !important;
+  opacity: 0.85 !important;
 }
 
-body.skin-distro-01 .track-album {
+body.skin-distro-01 .track-album,
+body.skin-distro-02 .track-album {
   font-size: 0.68rem !important;
   letter-spacing: 0.3px;
+  color: var(--text) !important;
+  opacity: 0.85 !important;
 }
 
-body.skin-distro-01 .audio-specs-badge {
+body.skin-distro-01 .audio-specs-badge,
+body.skin-distro-02 .audio-specs-badge {
   font-size: 0.66rem !important;
   letter-spacing: 0.8px;
   min-height: 14px !important;
   margin: 0 0 6px 0 !important;
 }
 
-body.skin-distro-01 .status-badge {
+body.skin-distro-01 .status-badge,
+body.skin-distro-02 .status-badge {
   font-size: 0.62rem !important;
   min-height: 10px !important;
   margin: 0 0 10px 0 !important;
 }
 
-body.skin-distro-01 .distro-display {
-  margin: 0 0 8px 0 !important;
-  padding: 4px !important;
-  flex: 1 1 auto !important;
-  min-height: 100px;
-  max-height: none;
+/* En distros, el reproductor ocupa todo el espacio disponible
+   ya que ya no hay distro-display */
+body.skin-distro-01 .distro-zone,
+body.skin-distro-02 .distro-zone {
+  margin-top: auto !important;
 }
 
-body.skin-distro-01 .distro-bg-ascii {
-  font-size: 10px !important;
-  line-height: 1.0;
-  opacity: 0.55;
-}
-
-body.skin-distro-01 .progress-container {
+body.skin-distro-01 .progress-container,
+body.skin-distro-02 .progress-container {
   margin-top: 0 !important;
   margin-bottom: 6px !important;
 }
 
-body.skin-distro-01 .controls {
+body.skin-distro-01 .controls,
+body.skin-distro-02 .controls {
   margin-bottom: 0 !important;
+}
+
+body.skin-distro-01 .playlist-title,
+body.skin-distro-01 .settings-title,
+body.skin-distro-01 .playlist-item-title,
+body.skin-distro-01 .playlists-item-name,
+body.skin-distro-02 .playlist-title,
+body.skin-distro-02 .settings-title,
+body.skin-distro-02 .playlist-item-title,
+body.skin-distro-02 .playlists-item-name {
+  text-shadow:
+    0 0 8px var(--glow-color),
+    0 0 2px var(--accent) !important;
+}
+
+body.skin-distro-01 .settings-desc,
+body.skin-distro-01 .playlist-item-artist,
+body.skin-distro-01 .sort-label,
+body.skin-distro-01 .playlists-item-count,
+body.skin-distro-02 .settings-desc,
+body.skin-distro-02 .playlist-item-artist,
+body.skin-distro-02 .sort-label,
+body.skin-distro-02 .playlists-item-count {
+  color: var(--text) !important;
+  opacity: 0.85 !important;
+}
+
+/* Iluminación en TUI */
+body.skin-tui .player-card {
+  background: rgba(0, 0, 0, 0.55) !important;
+  backdrop-filter: blur(20px) saturate(140%) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(140%) !important;
+  border: 2px solid var(--accent) !important;
+  box-shadow:
+    0 0 25px var(--glow-color),
+    0 0 60px rgba(0, 0, 0, 0.5),
+    inset 0 0 20px rgba(255, 255, 255, 0.04) !important;
+}
+
+body.skin-tui .bottom-nav {
+  background: rgba(0, 0, 0, 0.6) !important;
+  backdrop-filter: blur(20px) saturate(140%) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(140%) !important;
+  border: 2px solid var(--accent) !important;
+  box-shadow:
+    0 0 20px var(--glow-color),
+    0 0 40px rgba(0, 0, 0, 0.5) !important;
+}
+
+body.skin-tui .playlist-overlay,
+body.skin-tui .modal-overlay {
+  background: rgba(0, 0, 0, 0.85) !important;
+  backdrop-filter: blur(25px) saturate(140%) !important;
+  -webkit-backdrop-filter: blur(25px) saturate(140%) !important;
+  border: 2px solid var(--accent) !important;
+  box-shadow:
+    0 0 30px var(--glow-color),
+    inset 0 0 30px rgba(0, 0, 0, 0.3) !important;
+}
+
+body.skin-tui .settings-item {
+  background: rgba(0, 0, 0, 0.5) !important;
+  border: 1px solid var(--accent) !important;
+  box-shadow: 0 0 8px var(--glow-color) !important;
+}
+
+body.skin-tui .icon-action-btn {
+  box-shadow:
+    0 0 10px var(--glow-color),
+    inset 0 0 6px var(--glow-color) !important;
+}
+
+body.skin-tui .search-input,
+body.skin-tui .sort-bar,
+body.skin-tui .btn-action {
+  border: 1px solid var(--accent) !important;
+  box-shadow: 0 0 6px var(--glow-color) !important;
+}
+
+body.skin-tui .track-title,
+body.skin-tui .header-title,
+body.skin-tui .playlist-title,
+body.skin-tui .settings-title,
+body.skin-tui .playlist-item-title {
+  text-shadow:
+    0 0 8px var(--glow-color),
+    0 0 2px var(--accent) !important;
+}
+
+body.skin-tui .track-artist,
+body.skin-tui .track-album,
+body.skin-tui .settings-desc,
+body.skin-tui .playlist-item-artist,
+body.skin-tui .sort-label {
+  color: var(--text) !important;
+  opacity: 0.85 !important;
 }
 
 /* ============================================================
@@ -1473,7 +2425,6 @@ body.skin-distro-01 .controls {
       "info    cover"
       "specs   cover"
       "status  cover"
-      "display cover"
       "progress cover"
       "controls cover"
       "actions cover";
@@ -1509,15 +2460,6 @@ body.skin-distro-01 .controls {
     min-height: 14px;
   }
   .status-badge { grid-area: status; text-align: left; min-height: 10px; font-size: 0.68rem; }
-  .distro-display {
-    grid-area: display;
-    flex: 0 0 auto;
-    min-height: 40px;
-    max-height: 80px;
-    padding: 0;
-    margin: 0;
-  }
-  .distro-bg-ascii { font-size: 5px; opacity: 0.5; }
   .progress-container { grid-area: progress; margin: 0; }
   .controls { grid-area: controls; margin: 0; padding: 0; }
   .btn-play { width: 42px; height: 42px; font-size: 1.15rem; }
@@ -1539,10 +2481,8 @@ body.skin-distro-01 .controls {
   .track-artist { font-size: 0.75rem; }
   .track-album { font-size: 0.65rem; }
   .audio-specs-badge { font-size: 0.62rem; }
-  .distro-bg-ascii { font-size: 4px; }
 }
 
-/* Rotación manual forzada (fallback iOS) */
 body.force-landscape .app-container {
   width: 100vh; height: 100vw;
   max-width: 100vh; max-height: 100vw;
@@ -1565,7 +2505,6 @@ body.force-landscape .player-card {
     "info    cover"
     "specs   cover"
     "status  cover"
-    "display cover"
     "progress cover"
     "controls cover"
     "actions cover";
@@ -1590,650 +2529,29 @@ body.force-landscape .cover-art {
 body.force-landscape .track-info-container { grid-area: info; margin: 0; padding: 6px 10px; }
 body.force-landscape .audio-specs-badge { grid-area: specs; justify-content: flex-start; margin: 0; }
 body.force-landscape .status-badge { grid-area: status; text-align: left; }
-body.force-landscape .distro-display { grid-area: display; flex: 0 0 auto; min-height: 40px; max-height: 80px; margin: 0; padding: 0; }
 body.force-landscape .progress-container { grid-area: progress; margin: 0; }
 body.force-landscape .controls { grid-area: controls; margin: 0; padding: 0; }
 body.force-landscape .action-buttons-normal { grid-area: actions; justify-content: flex-start; gap: 10px; padding: 0; }
 body.force-landscape .bottom-nav { flex: 0 0 auto; width: 100%; padding: 6px 0; border-radius: var(--nav-radius); margin: 0; }
 
 /* ============================================================
-   📋 PLAYLISTS + BOTTOM SHEETS + MODALES (v7.0)
-   Estilos base — se aplican a todos los skins
-   ============================================================ */
-
-/* ============================================================
-   🎨 BOTTOM-NAV con 5 pestañas
-   ============================================================ */
-.bottom-nav .nav-btn {
-  width: 20%;   /* ⬅️ antes era 25% para 4 botones, ahora 20% para 5 */
-}
-
-/* ============================================================
-   📋 OVERLAY: PLAYLISTS (lista de listas guardadas)
-   ============================================================ */
-.playlists-list {
-  list-style: none;
-  overflow-y: auto;
-  flex: 1;
-  text-align: left;
-  padding: 0;
-  margin: 0;
-}
-
-.playlists-item {
-  padding: 12px 14px;
-  border-radius: 12px;
-  margin-bottom: 6px;
-  cursor: pointer;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 10px;
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  transition: background 0.15s ease, transform 0.1s ease;
-}
-.playlists-item:hover {
-  background: rgba(255, 255, 255, 0.14);
-}
-.playlists-item:active {
-  transform: scale(0.98);
-}
-
-body.skin-tui .playlists-item,
-body.skin-distro-01 .playlists-item,
-body.skin-distro-02 .playlists-item {
-  background: transparent;
-  border: 1px solid var(--accent);
-  border-radius: 0;
-  margin-bottom: 6px;
-  box-shadow: 0 0 6px var(--glow-color);
-}
-body.skin-tui .playlists-item:hover,
-body.skin-distro-01 .playlists-item:hover,
-body.skin-distro-02 .playlists-item:hover {
-  background: rgba(255, 255, 255, 0.06);
-}
-
-.playlists-item-info {
-  flex: 1;
-  min-width: 0;
-}
-
-.playlists-item-name {
-  font-size: 0.9rem;
-  font-weight: 700;
-  color: var(--text);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  margin-bottom: 2px;
-}
-
-.playlists-item-count {
-  font-size: 0.72rem;
-  color: var(--text-muted);
-  opacity: 0.8;
-}
-
-.playlists-item-icon {
-  font-size: 1.3rem;
-  flex-shrink: 0;
-  opacity: 0.9;
-}
-
-.playlists-item-fav {
-  background: rgba(255, 71, 87, 0.1);
-  border-color: rgba(255, 71, 87, 0.4);
-}
-body.skin-tui .playlists-item-fav,
-body.skin-distro-01 .playlists-item-fav,
-body.skin-distro-02 .playlists-item-fav {
-  background: rgba(255, 71, 87, 0.08);
-  border-color: var(--accent);
-}
-
-.playlists-empty {
-  padding: 30px 20px;
-  text-align: center;
-  color: var(--text-muted);
-  font-size: 0.85rem;
-  line-height: 1.5;
-}
-
-.playlists-empty-icon {
-  font-size: 3rem;
-  display: block;
-  margin-bottom: 12px;
-  opacity: 0.5;
-}
-
-/* ============================================================
-   🎵 OVERLAY: DETALLE DE PLAYLIST
-   ============================================================ */
-#playlistDetailOverlay .playlist-header {
-  gap: 6px;
-}
-
-#playlistDetailOverlay .playlist-title {
-  font-size: 0.95rem;
-}
-
-#playlistDetailOverlay .btn-icon {
-  flex-shrink: 0;
-}
-
-.playlist-detail-actions {
-  display: flex;
-  gap: 6px;
-  margin-left: auto;
-}
-
-/* ============================================================
-   ⋯ BOTÓN CONTEXTUAL EN CADA CANCIÓN
-   ============================================================ */
-.playlist-item {
-  position: relative;
-}
-
-.playlist-item-actions {
-  display: flex;
-  gap: 4px;
-  align-items: center;
-  flex-shrink: 0;
-}
-
-.playlist-item-more {
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  color: var(--text-muted);
-  width: 28px;
-  height: 28px;
-  border-radius: 6px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 0.95rem;
-  cursor: pointer;
-  transition: background 0.15s ease, color 0.15s ease, transform 0.1s ease;
-  flex-shrink: 0;
-  padding: 0;
-  font-family: inherit;
-  line-height: 1;
-}
-.playlist-item-more:hover {
-  background: rgba(255, 255, 255, 0.2);
-  color: var(--text);
-}
-.playlist-item-more:active {
-  transform: scale(0.9);
-}
-
-body.skin-tui .playlist-item-more,
-body.skin-distro-01 .playlist-item-more,
-body.skin-distro-02 .playlist-item-more {
-  background: #000;
-  border: 1px solid var(--card-border);
-  color: var(--accent);
-  border-radius: 0;
-}
-
-/* Indicador de favorito */
-.playlist-item-fav {
-  color: #ff4757;
-  font-size: 0.85rem;
-  flex-shrink: 0;
-}
-body.skin-tui .playlist-item-fav,
-body.skin-distro-01 .playlist-item-fav,
-body.skin-distro-02 .playlist-item-fav {
-  color: var(--accent);
-  text-shadow: 0 0 6px var(--glow-color);
-}
-
-/* Flechas ⬆ ⬇ para reordenar en playlists */
-.playlist-item-reorder {
-  display: flex;
-  flex-direction: column;
-  gap: 1px;
-  flex-shrink: 0;
-}
-
-.playlist-item-reorder button {
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  color: var(--text-muted);
-  width: 24px;
-  height: 16px;
-  border-radius: 3px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 0.6rem;
-  cursor: pointer;
-  padding: 0;
-  font-family: inherit;
-  line-height: 1;
-  transition: background 0.15s ease, color 0.15s ease, transform 0.1s ease;
-}
-.playlist-item-reorder button:hover {
-  background: rgba(255, 255, 255, 0.2);
-  color: var(--text);
-}
-.playlist-item-reorder button:active {
-  transform: scale(0.85);
-}
-
-body.skin-tui .playlist-item-reorder button,
-body.skin-distro-01 .playlist-item-reorder button,
-body.skin-distro-02 .playlist-item-reorder button {
-  background: #000;
-  border: 1px solid var(--card-border);
-  color: var(--accent);
-  border-radius: 0;
-}
-
-/* ============================================================
-   📱 BOTTOM SHEET — Overlay base
-   ============================================================ */
-.bottom-sheet-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.6);
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
-  z-index: 10000;
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.25s ease;
-}
-.bottom-sheet-overlay.active {
-  opacity: 1;
-  pointer-events: auto;
-}
-
-/* ============================================================
-   📱 BOTTOM SHEET — Cuerpo
-   ============================================================ */
-.bottom-sheet {
-  background: #1c1c24;
-  border-radius: 20px 20px 0 0;
-  width: 100%;
-  max-width: 500px;
-  max-height: 85vh;
-  display: flex;
-  flex-direction: column;
-  transform: translateY(100%);
-  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  padding-bottom: env(safe-area-inset-bottom, 0);
-  box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.6);
-  overflow: hidden;
-}
-.bottom-sheet-overlay.active .bottom-sheet {
-  transform: translateY(0);
-}
-
-body.skin-tui .bottom-sheet,
-body.skin-distro-01 .bottom-sheet,
-body.skin-distro-02 .bottom-sheet {
-  background: #000;
-  border-top: 2px solid var(--accent);
-  border-left: 2px solid var(--accent);
-  border-right: 2px solid var(--accent);
-  border-radius: 0;
-  box-shadow:
-    0 -10px 40px rgba(0, 0, 0, 0.8),
-    0 0 30px var(--glow-color);
-}
-
-/* Handle visual (barrita arriba) */
-.bottom-sheet::before {
-  content: '';
-  display: block;
-  width: 40px;
-  height: 4px;
-  background: rgba(255, 255, 255, 0.25);
-  border-radius: 2px;
-  margin: 10px auto 4px auto;
-  flex-shrink: 0;
-}
-body.skin-tui .bottom-sheet::before,
-body.skin-distro-01 .bottom-sheet::before,
-body.skin-distro-02 .bottom-sheet::before {
-  background: var(--accent);
-  border-radius: 0;
-  box-shadow: 0 0 6px var(--glow-color);
-}
-
-/* ============================================================
-   📱 BOTTOM SHEET — Header
-   ============================================================ */
-.bottom-sheet-header {
-  padding: 8px 20px 14px 20px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  flex-shrink: 0;
-}
-body.skin-tui .bottom-sheet-header,
-body.skin-distro-01 .bottom-sheet-header,
-body.skin-distro-02 .bottom-sheet-header {
-  border-bottom: 1px solid var(--card-border);
-}
-
-.bottom-sheet-title {
-  font-size: 0.95rem;
-  font-weight: 700;
-  color: var(--text);
-  margin-bottom: 3px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.bottom-sheet-subtitle {
-  font-size: 0.75rem;
-  color: var(--text-muted);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-/* ============================================================
-   📱 BOTTOM SHEET — Lista de acciones
-   ============================================================ */
-.bottom-sheet-list {
-  list-style: none;
-  padding: 6px 0;
-  margin: 0;
-  overflow-y: auto;
-  flex: 1;
-}
-
-.bottom-sheet-item {
-  padding: 14px 20px;
-  font-size: 0.92rem;
-  color: var(--text);
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  transition: background 0.12s ease;
-  user-select: none;
-  -webkit-user-select: none;
-}
-.bottom-sheet-item:hover,
-.bottom-sheet-item:active {
-  background: rgba(255, 255, 255, 0.08);
-}
-
-body.skin-tui .bottom-sheet-item,
-body.skin-distro-01 .bottom-sheet-item,
-body.skin-distro-02 .bottom-sheet-item {
-  color: var(--accent);
-  font-family: 'JetBrains Mono', monospace;
-}
-body.skin-tui .bottom-sheet-item:hover,
-body.skin-distro-01 .bottom-sheet-item:hover,
-body.skin-distro-02 .bottom-sheet-item:hover {
-  background: rgba(255, 255, 255, 0.05);
-  box-shadow: inset 0 0 12px var(--glow-color);
-}
-
-.bottom-sheet-item-danger {
-  color: #ff6b7a;
-}
-body.skin-tui .bottom-sheet-item-danger,
-body.skin-distro-01 .bottom-sheet-item-danger,
-body.skin-distro-02 .bottom-sheet-item-danger {
-  color: #ff6b7a;
-}
-
-.bottom-sheet-item-current {
-  opacity: 0.5;
-  pointer-events: none;
-}
-
-.bottom-sheet-item-check {
-  margin-left: auto;
-  color: var(--accent);
-  font-weight: 700;
-}
-
-/* ============================================================
-   📱 BOTTOM SHEET — Botón Cancelar
-   ============================================================ */
-.bottom-sheet-cancel {
-  background: rgba(255, 255, 255, 0.08);
-  border: none;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-  color: var(--text);
-  padding: 16px 20px;
-  font-size: 0.95rem;
-  font-weight: 600;
-  cursor: pointer;
-  width: 100%;
-  font-family: inherit;
-  transition: background 0.15s ease;
-  flex-shrink: 0;
-}
-.bottom-sheet-cancel:hover,
-.bottom-sheet-cancel:active {
-  background: rgba(255, 255, 255, 0.14);
-}
-
-body.skin-tui .bottom-sheet-cancel,
-body.skin-distro-01 .bottom-sheet-cancel,
-body.skin-distro-02 .bottom-sheet-cancel {
-  background: #000;
-  border-top: 1px solid var(--accent);
-  color: var(--accent);
-  font-family: 'JetBrains Mono', monospace;
-}
-body.skin-tui .bottom-sheet-cancel:hover,
-body.skin-distro-01 .bottom-sheet-cancel:hover,
-body.skin-distro-02 .bottom-sheet-cancel:hover {
-  background: rgba(255, 255, 255, 0.06);
-}
-
-/* ============================================================
-   🪟 MODAL SIMPLE (crear playlist, confirmar)
-   ============================================================ */
-.modal-overlay-simple {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.7);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
-  z-index: 10001;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.2s ease;
-}
-.modal-overlay-simple.active {
-  opacity: 1;
-  pointer-events: auto;
-}
-
-.modal-box {
-  background: #1c1c24;
-  border-radius: 18px;
-  padding: 22px 20px 18px 20px;
-  width: 100%;
-  max-width: 380px;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
-  transform: scale(0.9);
-  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-}
-.modal-overlay-simple.active .modal-box {
-  transform: scale(1);
-}
-
-body.skin-tui .modal-box,
-body.skin-distro-01 .modal-box,
-body.skin-distro-02 .modal-box {
-  background: #000;
-  border: 2px solid var(--accent);
-  border-radius: 0;
-  box-shadow:
-    0 20px 50px rgba(0, 0, 0, 0.8),
-    0 0 40px var(--glow-color);
-}
-
-.modal-box-title {
-  font-size: 1.05rem;
-  font-weight: 700;
-  color: var(--text);
-  margin-bottom: 14px;
-  text-align: center;
-}
-body.skin-tui .modal-box-title,
-body.skin-distro-01 .modal-box-title,
-body.skin-distro-02 .modal-box-title {
-  color: var(--accent);
-  text-transform: uppercase;
-  letter-spacing: 1.5px;
-  text-shadow: 0 0 8px var(--glow-color);
-}
-
-.modal-box-message {
-  font-size: 0.85rem;
-  color: var(--text-muted);
-  margin-bottom: 18px;
-  text-align: center;
-  line-height: 1.5;
-}
-
-.modal-input {
-  width: 100%;
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 10px;
-  padding: 12px 14px;
-  color: var(--text);
-  font-size: 0.95rem;
-  font-family: inherit;
-  outline: none;
-  margin-bottom: 16px;
-  transition: border-color 0.15s ease, background 0.15s ease;
-}
-.modal-input:focus {
-  border-color: var(--accent);
-  background: rgba(255, 255, 255, 0.12);
-}
-.modal-input::placeholder {
-  color: var(--text-muted);
-  opacity: 0.6;
-}
-
-body.skin-tui .modal-input,
-body.skin-distro-01 .modal-input,
-body.skin-distro-02 .modal-input {
-  background: #000;
-  border: 1px solid var(--card-border);
-  border-radius: 0;
-  color: var(--accent);
-  font-family: 'JetBrains Mono', monospace;
-}
-body.skin-tui .modal-input:focus,
-body.skin-distro-01 .modal-input:focus,
-body.skin-distro-02 .modal-input:focus {
-  border-color: var(--accent);
-  box-shadow: 0 0 8px var(--glow-color);
-}
-
-.modal-box-actions {
-  display: flex;
-  gap: 10px;
-  justify-content: flex-end;
-}
-
-.modal-box-actions .btn-action {
-  flex: 1;
-  padding: 10px 16px;
-  font-size: 0.85rem;
-}
-
-/* ============================================================
-   ✨ TOAST — Notificación breve
-   ============================================================ */
-.meow-toast {
-  position: fixed;
-  bottom: calc(env(safe-area-inset-bottom, 0px) + 100px);
-  left: 50%;
-  transform: translateX(-50%) translateY(20px);
-  background: rgba(20, 20, 25, 0.95);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  color: var(--text);
-  padding: 10px 18px;
-  border-radius: 24px;
-  font-size: 0.82rem;
-  font-weight: 600;
-  z-index: 10002;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.25s ease, transform 0.25s ease;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
-  max-width: 90%;
-  text-align: center;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.meow-toast.active {
-  opacity: 1;
-  transform: translateX(-50%) translateY(0);
-}
-
-body.skin-tui .meow-toast,
-body.skin-distro-01 .meow-toast,
-body.skin-distro-02 .meow-toast {
-  background: #000;
-  border: 1px solid var(--accent);
-  border-radius: 0;
-  color: var(--accent);
-  box-shadow:
-    0 8px 20px rgba(0, 0, 0, 0.6),
-    0 0 15px var(--glow-color);
-  font-family: 'JetBrains Mono', monospace;
-}
-
-/* ============================================================
    📱 RESPONSIVE — Tablet y Desktop
    ============================================================ */
 @media (min-width: 600px) {
-  .bottom-sheet {
-    max-width: 560px;
-  }
-  .modal-box {
-    max-width: 420px;
-  }
+  .bottom-sheet { max-width: 560px; }
+  .modal-box { max-width: 420px; }
 }
 
 @media (min-width: 1024px) {
-  /* En desktop, el bottom-sheet se convierte en un popover centrado */
-  .bottom-sheet-overlay {
-    align-items: center;
-  }
+  .bottom-sheet-overlay { align-items: center; }
   .bottom-sheet {
     border-radius: 16px;
     max-width: 420px;
     max-height: 70vh;
     transform: scale(0.95);
   }
-  .bottom-sheet-overlay.active .bottom-sheet {
-    transform: scale(1);
-  }
-  .bottom-sheet::before {
-    display: none;
-  }
+  .bottom-sheet-overlay.active .bottom-sheet { transform: scale(1); }
+  .bottom-sheet::before { display: none; }
   body.skin-tui .bottom-sheet,
   body.skin-distro-01 .bottom-sheet,
   body.skin-distro-02 .bottom-sheet {
@@ -2242,330 +2560,26 @@ body.skin-distro-02 .meow-toast {
   }
 }
 
-/* Ajustes para el nuevo layout con 5 pestañas */
-@media screen and (orientation: landscape) and (max-height: 600px) {
-  .bottom-nav .nav-btn {
-    font-size: 1.15rem;
-  }
-}
-
 /* ============================================================
-   📋 PLAYLISTS — Ajustes por skin + Refinamientos visuales
+   📱 Ajustes para pantallas pequeñas
    ============================================================ */
-
-/* ============================================================
-   🎨 CLASSIC — Estilos premium para las playlists
-   ============================================================ */
-body.skin-classic .playlists-item {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-}
-
-body.skin-classic .playlists-item:hover {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0.1));
-  border-color: rgba(255, 255, 255, 0.25);
-  transform: translateY(-1px);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
-}
-
-body.skin-classic .playlist-item-more {
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-}
-
-body.skin-classic .playlist-item-more:hover {
-  background: rgba(255, 71, 87, 0.2);
-  border-color: rgba(255, 71, 87, 0.4);
-  color: #ff4757;
-}
-
-body.skin-classic .playlist-item-reorder button:hover {
-  background: rgba(0, 255, 204, 0.15);
-  border-color: rgba(0, 255, 204, 0.4);
-  color: #00ffcc;
-}
-
-body.skin-classic .playlists-item-fav {
-  background: linear-gradient(135deg, rgba(255, 71, 87, 0.15), rgba(255, 71, 87, 0.05));
-  border: 1px solid rgba(255, 71, 87, 0.4);
-  box-shadow: 0 4px 12px rgba(255, 71, 87, 0.15);
-}
-
-body.skin-classic .playlists-item-fav:hover {
-  background: linear-gradient(135deg, rgba(255, 71, 87, 0.25), rgba(255, 71, 87, 0.1));
-  box-shadow: 0 6px 16px rgba(255, 71, 87, 0.25);
-}
-
-/* Efecto glow sutil en el bottom-sheet de Classic */
-body.skin-classic .bottom-sheet {
-  box-shadow:
-    0 -10px 40px rgba(0, 0, 0, 0.7),
-    0 0 60px rgba(255, 71, 87, 0.15);
-}
-
-/* ============================================================
-   🖥️ TUI — Estilo terminal puro para las playlists
-   ============================================================ */
-body.skin-tui .playlists-list {
-  font-family: 'JetBrains Mono', monospace;
-}
-
-body.skin-tui .playlists-item {
-  position: relative;
-}
-
-/* Prefijo estilo terminal en cada playlist */
-body.skin-tui .playlists-item::before {
-  content: '>';
-  position: absolute;
-  left: 4px;
-  top: 50%;
-  transform: translateY(-50%);
-  color: var(--accent);
-  font-weight: 700;
-  font-size: 0.9rem;
-  opacity: 0.6;
-}
-
-body.skin-tui .playlists-item {
-  padding-left: 22px;
-}
-
-/* Item seleccionado */
-body.skin-tui .playlists-item:active {
-  background: rgba(0, 0, 0, 0.6);
-  box-shadow:
-    inset 0 0 15px var(--glow-color),
-    0 0 15px var(--glow-color);
-}
-
-body.skin-tui .playlists-item-name {
-  text-shadow: 0 0 6px var(--glow-color);
-}
-
-/* Bottom-sheet estilo terminal */
-body.skin-tui .bottom-sheet {
-  border-radius: 0;
-}
-
-body.skin-tui .bottom-sheet-header {
-  background: rgba(0, 0, 0, 0.6);
-}
-
-body.skin-tui .bottom-sheet-title {
-  font-family: 'JetBrains Mono', monospace;
-  letter-spacing: 1px;
-  text-shadow: 0 0 8px var(--glow-color);
-  text-transform: uppercase;
-  font-size: 0.85rem;
-}
-
-/* Prefijo '>' en cada acción del bottom-sheet */
-body.skin-tui .bottom-sheet-item::before {
-  content: '$';
-  color: var(--accent);
-  opacity: 0.5;
-  margin-right: 4px;
-  font-weight: 700;
-}
-
-body.skin-tui .bottom-sheet-item {
-  padding-left: 14px;
-}
-
-/* Modal de crear playlist estilo terminal */
-body.skin-tui .modal-box-title::before {
-  content: '$ mkdir ';
-  color: var(--accent);
-  opacity: 0.6;
-  font-weight: 400;
-  font-size: 0.85rem;
-}
-
-/* ============================================================
-   🐧 @distro_01 y @distro_02 — Estilo consistente con las distros
-   ============================================================ */
-body.skin-distro-01 .playlists-item,
-body.skin-distro-02 .playlists-item {
-  position: relative;
-  padding-left: 22px;
-}
-
-/* Prefijo '>' también en distros */
-body.skin-distro-01 .playlists-item::before,
-body.skin-distro-02 .playlists-item::before {
-  content: '>';
-  position: absolute;
-  left: 6px;
-  top: 50%;
-  transform: translateY(-50%);
-  color: var(--accent);
-  font-weight: 700;
-  font-size: 0.9rem;
-  opacity: 0.5;
-}
-
-body.skin-distro-01 .playlists-item:active,
-body.skin-distro-02 .playlists-item:active {
-  background: rgba(10, 15, 20, 0.8);
-  box-shadow:
-    inset 0 0 15px var(--glow-color),
-    0 0 15px var(--glow-color);
-}
-
-body.skin-distro-01 .playlists-item-name,
-body.skin-distro-02 .playlists-item-name {
-  text-shadow: 0 0 6px var(--glow-color);
-}
-
-body.skin-distro-01 .bottom-sheet,
-body.skin-distro-02 .bottom-sheet {
-  border-radius: 0;
-}
-
-body.skin-distro-01 .bottom-sheet-title,
-body.skin-distro-02 .bottom-sheet-title {
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  font-size: 0.85rem;
-  text-shadow: 0 0 8px var(--glow-color);
-}
-
-body.skin-distro-01 .bottom-sheet-item::before,
-body.skin-distro-02 .bottom-sheet-item::before {
-  content: '$';
-  color: var(--accent);
-  opacity: 0.5;
-  margin-right: 4px;
-  font-weight: 700;
-}
-
-body.skin-distro-01 .bottom-sheet-item,
-body.skin-distro-02 .bottom-sheet-item {
-  padding-left: 14px;
-}
-
-body.skin-distro-01 .modal-box-title::before,
-body.skin-distro-02 .modal-box-title::before {
-  content: '$ mkdir ';
-  color: var(--accent);
-  opacity: 0.6;
-  font-weight: 400;
-  font-size: 0.85rem;
-}
-
-/* ============================================================
-   ✨ TRANSICIONES Y ANIMACIONES GLOBALES
-   ============================================================ */
-
-/* Entrada de items de playlist */
-@keyframes playlistItemIn {
-  from {
-    opacity: 0;
-    transform: translateY(8px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.playlists-item,
-.playlist-item {
-  animation: playlistItemIn 0.25s ease backwards;
-}
-
-/* Delays escalonados para efecto cascada */
-.playlists-item:nth-child(1) { animation-delay: 0.02s; }
-.playlists-item:nth-child(2) { animation-delay: 0.04s; }
-.playlists-item:nth-child(3) { animation-delay: 0.06s; }
-.playlists-item:nth-child(4) { animation-delay: 0.08s; }
-.playlists-item:nth-child(5) { animation-delay: 0.10s; }
-.playlists-item:nth-child(6) { animation-delay: 0.12s; }
-.playlists-item:nth-child(7) { animation-delay: 0.14s; }
-.playlists-item:nth-child(8) { animation-delay: 0.16s; }
-
-/* Fade in de overlays */
-.playlist-overlay.active,
-.modal-overlay.active {
-  animation: overlayFadeIn 0.25s ease;
-}
-
-@keyframes overlayFadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-/* Pulse de favorito */
-@keyframes favPulse {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.3); }
-  100% { transform: scale(1); }
-}
-
-.playlist-item-fav {
-  animation: favPulse 0.4s ease;
-}
-
-/* Shake en el modal al validar error */
-@keyframes modalShake {
-  0%, 100% { transform: scale(1) translateX(0); }
-  20% { transform: scale(1) translateX(-6px); }
-  40% { transform: scale(1) translateX(6px); }
-  60% { transform: scale(1) translateX(-4px); }
-  80% { transform: scale(1) translateX(4px); }
-}
-
-.modal-box.shake {
-  animation: modalShake 0.4s ease;
-}
-
-/* ============================================================
-   📱 AJUSTES FINOS PARA LOS BOTONES DE ACCIÓN EN ITEMS
-   ============================================================ */
-
-/* En pantallas muy pequeñas, reducir un poco */
 @media (max-width: 380px) {
-  .playlist-item-more {
-    width: 26px;
-    height: 26px;
-    font-size: 0.85rem;
-  }
-  .playlist-item-reorder button {
-    width: 22px;
-    height: 15px;
-    font-size: 0.55rem;
-  }
-  .playlist-item-title {
-    font-size: 0.78rem;
-    max-width: 140px;
-  }
-  .playlist-item-artist {
-    font-size: 0.68rem;
-  }
+  .playlist-item-more { width: 26px; height: 26px; font-size: 0.85rem; }
+  .playlist-item-reorder button { width: 22px; height: 15px; font-size: 0.55rem; }
+  .playlist-item-title { font-size: 0.78rem; max-width: 140px; }
+  .playlist-item-artist { font-size: 0.68rem; }
+  .nav-btn { font-size: 1.15rem; padding: 6px 1px; }
 }
 
-/* En landscape con poca altura, comprimir todavía más */
 @media screen and (orientation: landscape) and (max-height: 500px) {
-  .playlists-item {
-    padding: 8px 12px;
-    margin-bottom: 4px;
-  }
-  .playlists-item-name {
-    font-size: 0.82rem;
-  }
-  .bottom-sheet {
-    max-height: 90vh;
-  }
-  .bottom-sheet-item {
-    padding: 11px 20px;
-    font-size: 0.88rem;
-  }
+  .playlists-item { padding: 8px 12px; margin-bottom: 4px; }
+  .playlists-item-name { font-size: 0.82rem; }
+  .bottom-sheet { max-height: 90vh; }
+  .bottom-sheet-item { padding: 11px 20px; font-size: 0.88rem; }
 }
 
 /* ============================================================
-   🎯 SCROLL SUAVE EN LISTAS
+   Scroll suave
    ============================================================ */
 .playlists-list,
 .playlist-list,
@@ -2575,14 +2589,11 @@ body.skin-distro-02 .modal-box-title::before {
   -webkit-overflow-scrolling: touch;
 }
 
-/* Scrollbar estilizada en desktop */
 @media (pointer: fine) {
   .playlists-list::-webkit-scrollbar,
   .playlist-list::-webkit-scrollbar,
   .settings-body::-webkit-scrollbar,
-  .bottom-sheet-list::-webkit-scrollbar {
-    width: 8px;
-  }
+  .bottom-sheet-list::-webkit-scrollbar { width: 8px; }
   .playlists-list::-webkit-scrollbar-track,
   .playlist-list::-webkit-scrollbar-track,
   .settings-body::-webkit-scrollbar-track,
@@ -2597,201 +2608,33 @@ body.skin-distro-02 .modal-box-title::before {
     background: rgba(255, 255, 255, 0.2);
     border-radius: 4px;
   }
-  .playlists-list::-webkit-scrollbar-thumb:hover,
-  .playlist-list::-webkit-scrollbar-thumb:hover,
-  .settings-body::-webkit-scrollbar-thumb:hover,
-  .bottom-sheet-list::-webkit-scrollbar-thumb:hover {
-    background: rgba(255, 255, 255, 0.3);
-  }
   body.skin-tui .playlists-list::-webkit-scrollbar-thumb,
   body.skin-tui .playlist-list::-webkit-scrollbar-thumb,
-  body.skin-tui .settings-body::-webkit-scrollbar-thumb,
-  body.skin-tui .bottom-sheet-list::-webkit-scrollbar-thumb,
   body.skin-distro-01 .playlists-list::-webkit-scrollbar-thumb,
   body.skin-distro-01 .playlist-list::-webkit-scrollbar-thumb,
-  body.skin-distro-01 .settings-body::-webkit-scrollbar-thumb,
-  body.skin-distro-01 .bottom-sheet-list::-webkit-scrollbar-thumb,
   body.skin-distro-02 .playlists-list::-webkit-scrollbar-thumb,
-  body.skin-distro-02 .playlist-list::-webkit-scrollbar-thumb,
-  body.skin-distro-02 .settings-body::-webkit-scrollbar-thumb,
-  body.skin-distro-02 .bottom-sheet-list::-webkit-scrollbar-thumb {
+  body.skin-distro-02 .playlist-list::-webkit-scrollbar-thumb {
     background: var(--accent);
     box-shadow: 0 0 6px var(--glow-color);
   }
 }
 
 /* ============================================================
-   🎨 MEJORAS DEL BOTÓN "❤️ FAVORITO" EN ITEMS
+   Animaciones adicionales
    ============================================================ */
-
-/* Corazón pulsable en los items */
-.playlist-item-fav-btn {
-  background: transparent;
-  border: none;
-  color: rgba(255, 255, 255, 0.3);
-  font-size: 1rem;
-  cursor: pointer;
-  padding: 4px;
-  transition: color 0.2s ease, transform 0.15s ease;
-  flex-shrink: 0;
-  line-height: 1;
-}
-.playlist-item-fav-btn:hover {
-  color: #ff4757;
-  transform: scale(1.15);
-}
-.playlist-item-fav-btn:active {
-  transform: scale(0.9);
-}
-.playlist-item-fav-btn.fav-active {
-  color: #ff4757;
-  text-shadow: 0 0 8px rgba(255, 71, 87, 0.6);
+@keyframes playlistItemIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-body.skin-tui .playlist-item-fav-btn,
-body.skin-distro-01 .playlist-item-fav-btn,
-body.skin-distro-02 .playlist-item-fav-btn {
-  color: var(--text-muted);
-}
-body.skin-tui .playlist-item-fav-btn.fav-active,
-body.skin-distro-01 .playlist-item-fav-btn.fav-active,
-body.skin-distro-02 .playlist-item-fav-btn.fav-active {
-  color: var(--accent);
-  text-shadow: 0 0 8px var(--glow-color);
+.playlists-item,
+.playlist-item {
+  animation: playlistItemIn 0.25s ease backwards;
 }
 
-/* ============================================================
-   🎯 INDICADOR "REPRODUCIENDO" MÁS VISIBLE
-   ============================================================ */
-.playlist-item.playing::before {
-  content: '▶';
-  position: absolute;
-  left: 2px;
-  top: 50%;
-  transform: translateY(-50%);
-  color: var(--accent);
-  font-size: 0.7rem;
-  animation: playingPulse 1s ease infinite;
-}
-
-@keyframes playingPulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.4; }
-}
-
-body.skin-tui .playlist-item.playing::before,
-body.skin-distro-01 .playlist-item.playing::before,
-body.skin-distro-02 .playlist-item.playing::before {
-  text-shadow: 0 0 6px var(--glow-color);
-}
-
-/* Ajustar padding si es "playing" */
-.playlist-item.playing {
-  padding-left: 18px;
-}
-
-/* ============================================================
-   🎯 BOTÓN "＋ AÑADIR CANCIÓN ACTUAL" EN PLAYLIST
-   ============================================================ */
-#btnAddCurrentToPlaylist:disabled {
-  opacity: 0.4;
-  cursor: not-allowed;
-}
-
-#btnAddCurrentToPlaylist:disabled:hover {
-  background: inherit;
-}
-
-/* ============================================================
-   🎯 BOTONES DEL HEADER DE DETALLE DE PLAYLIST
-   ============================================================ */
-#btnBackToPlaylists {
-  background: transparent;
-  border: none;
-  color: var(--text);
-  font-size: 1.2rem;
-  padding: 4px 8px;
-  cursor: pointer;
-  transition: transform 0.15s ease, color 0.2s ease;
-}
-#btnBackToPlaylists:hover {
-  transform: translateX(-2px);
-  color: var(--accent);
-}
-#btnBackToPlaylists:active {
-  transform: translateX(-2px) scale(0.9);
-}
-
-body.skin-tui #btnBackToPlaylists,
-body.skin-distro-01 #btnBackToPlaylists,
-body.skin-distro-02 #btnBackToPlaylists {
-  color: var(--accent);
-}
-
-/* ============================================================
-   🎯 ANIMACIÓN DEL BOTÓN ⋯
-   ============================================================ */
-@keyframes moreBtnRotate {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(90deg); }
-}
-
-.playlist-item-more:active {
-  transform: rotate(90deg) scale(0.9);
-  transition: transform 0.15s ease;
-}
-
-/* ============================================================
-   🎯 MENSAJE DE PLAYLIST VACÍA
-   ============================================================ */
-.playlists-empty-icon {
-  animation: emptyIconFloat 3s ease-in-out infinite;
-}
-
-@keyframes emptyIconFloat {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-8px); }
-}
-
-/* ============================================================
-   🎯 BOTONES DE LA BARRA DE NAVEGACIÓN (5 pestañas)
-   ============================================================ */
-.bottom-nav .nav-btn {
-  padding: 8px 2px;
-  font-size: 1.25rem;   /* ⬅️ un poco más pequeño que los 1.35rem anteriores */
-}
-
-@media (max-width: 360px) {
-  .bottom-nav .nav-btn {
-    font-size: 1.15rem;
-    padding: 6px 1px;
-  }
-}
-
-/* Asegurar que el 5º botón no se sale */
-.bottom-nav {
-  overflow: hidden;
-}
-
-/* ============================================================
-   🎯 TRANSICIÓN ENTRE OVERLAYS (Queue ↔ Playlists ↔ Detalle)
-   ============================================================ */
-.playlist-overlay {
-  will-change: transform, opacity;
-}
-
-/* Animación al cambiar de overlay */
-@keyframes slideInFromRight {
-  from {
-    opacity: 0;
-    transform: translateX(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-#playlistDetailOverlay.active {
-  animation: slideInFromRight 0.25s ease;
-}
+.playlists-item:nth-child(1) { animation-delay: 0.02s; }
+.playlists-item:nth-child(2) { animation-delay: 0.04s; }
+.playlists-item:nth-child(3) { animation-delay: 0.06s; }
+.playlists-item:nth-child(4) { animation-delay: 0.08s; }
+.playlists-item:nth-child(5) { animation-delay: 0.10s; }
+.playlists-item:nth-child(6) { animation-delay: 0.12s; }
