@@ -926,18 +926,40 @@ body.skin-distro-02 .modal-overlay.active .overlay-ascii-bg {
   line-height: 1;
   white-space: pre;
   color: var(--accent);
-  opacity: 0.12;
+  /* ⬇️ ANTES 0.12 → AHORA 0.45 (bien visible) */
+  opacity: 0.45;
   margin: 0;
   padding: 0;
   max-width: 100%;
   max-height: 100%;
   overflow: hidden;
   text-align: center;
-  text-shadow: 0 0 8px var(--glow-color);
+  /* ⬇️ EFECTO NEÓN: múltiples sombras para simular glow intenso */
+  text-shadow:
+    0 0 2px var(--accent),
+    0 0 4px var(--accent),
+    0 0 8px var(--accent),
+    0 0 16px var(--accent),
+    0 0 32px var(--glow-color),
+    0 0 48px var(--glow-color);
   user-select: none;
   pointer-events: none;
   transform: scale(1);
-  transition: transform 0.3s ease;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  filter: brightness(1.2);
+  animation: neonPulse 4s ease-in-out infinite;
+}
+
+/* Efecto pulso tipo neón */
+@keyframes neonPulse {
+  0%, 100% {
+    filter: brightness(1.2);
+    opacity: 0.45;
+  }
+  50% {
+    filter: brightness(1.4);
+    opacity: 0.55;
+  }
 }
 
 .playlist-overlay > .playlist-header,
