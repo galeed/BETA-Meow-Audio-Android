@@ -2620,3 +2620,42 @@ body.force-landscape .bottom-nav { flex: 0 0 auto; width: 100%; padding: 6px 0; 
 .playlists-item:nth-child(4) { animation-delay: 0.08s; }
 .playlists-item:nth-child(5) { animation-delay: 0.10s; }
 .playlists-item:nth-child(6) { animation-delay: 0.12s; }
+
+/* ============================================================
+   🎯 FIX v7.2.1 — Forzar botones de acción visibles en distros
+   ============================================================ */
+
+/* 1) Mostrar SIEMPRE la fila de botones en distros */
+body.skin-distro-01 .action-buttons-normal,
+body.skin-distro-02 .action-buttons-normal {
+  display: flex !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  margin-top: 8px !important;
+  margin-bottom: 0 !important;
+  padding: 0 4px !important;
+  width: 100% !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+}
+
+/* 2) Quitar el margin-top:auto del distro-zone para que no empuje todo */
+body.skin-distro-01 .distro-zone,
+body.skin-distro-02 .distro-zone {
+  margin-top: 0 !important;
+}
+
+/* 3) Dar un poco de aire entre el bloque de info y el seekBar */
+body.skin-distro-01 .track-info-container,
+body.skin-distro-02 .track-info-container {
+  margin: 0 0 20px 0 !important;
+}
+
+/* 4) Asegurar que los botones tengan el mismo tamaño en distros */
+body.skin-distro-01 .icon-action-btn,
+body.skin-distro-02 .icon-action-btn {
+  width: 42px !important;
+  height: 42px !important;
+  font-size: 1.1rem !important;
+  display: flex !important;
+}
