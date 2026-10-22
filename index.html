@@ -89,8 +89,6 @@
       <div class="audio-specs-badge" id="audioSpecs"></div>
       <div class="status-badge" id="status"></div>
 
-      <!-- ⚠️ ELIMINADO: ya no hay distro-display en el reproductor principal -->
-
       <div class="distro-zone" id="distroZone">
 
         <div class="progress-container">
@@ -201,10 +199,11 @@
         </div>
         <div class="settings-body">
 
-
+          <!-- 📁 Gestor de Archivos -->
           <div class="settings-item" id="storageManagerItem">
             <div class="settings-title">📁 Gestor de Archivos</div>
             <div class="settings-desc">Administra la caché y el modo offline.</div>
+
             <div class="settings-row" style="flex-direction: column; align-items: stretch; gap: 6px; margin-top: 10px;">
               <div style="display: flex; justify-content: space-between; font-size: 0.72rem; color: var(--text-muted);">
                 <span>Almacenamiento usado:</span>
@@ -219,6 +218,7 @@
                 <span id="offlineStatus">Desactivado</span>
               </div>
             </div>
+
             <div class="settings-row" style="flex-wrap: wrap; gap: 8px; margin-top: 10px;">
               <button class="btn-action btn-tool" id="btnClearCache">🗑️ Borrar caché</button>
               <button class="btn-action btn-tool" id="btnToggleOffline">📴 Activar offline</button>
@@ -359,8 +359,8 @@
           </div>
 
           <div class="settings-item">
-            <div class="settings-title" id="versionTitle">MEOW AUDIO APP v7.1</div>
-            <div class="settings-desc" id="versionDesc">Skins: Classic, TUI, @distro_01, @distro_02. Playlists + Favoritos.</div>
+            <div class="settings-title" id="versionTitle">MEOW AUDIO APP v7.2</div>
+            <div class="settings-desc" id="versionDesc">Skins: Classic, TUI, @distro_01, @distro_02. Botones de acción en todos los skins.</div>
           </div>
         </div>
       </div>
