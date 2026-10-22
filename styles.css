@@ -2681,3 +2681,17 @@ body.skin-distro-02 .icon-action-btn {
   font-size: 1.1rem !important;
   display: flex !important;
 }
+
+/* Refuerzo para que el ASCII se vea SIEMPRE */
+body.skin-distro-01 .playlist-overlay .overlay-ascii-bg,
+body.skin-distro-02 .playlist-overlay .overlay-ascii-bg,
+body.skin-distro-01 .modal-overlay .overlay-ascii-bg,
+body.skin-distro-02 .modal-overlay .overlay-ascii-bg {
+  z-index: 0 !important;
+  opacity: 1 !important;
+}
+
+body.skin-distro-01 .overlay-ascii-content,
+body.skin-distro-02 .overlay-ascii-content {
+  opacity: 0.55 !important;
+}
