@@ -1,7 +1,8 @@
 /* ============================================================
-   MEOW AUDIO APP v7.1 — styles.css
+   MEOW AUDIO APP v7.2 — styles.css
    Skins: Classic, TUI (6 temas), @distro_01, @distro_02
    Playlists + Favoritos + Bottom Sheets + Modales
+   Botones de acción visibles en TODOS los skins
    ============================================================ */
 
 /* ============================================================
@@ -810,10 +811,10 @@ body.skin-distro-02 .btn-play:hover { background: rgba(255, 255, 255, 0.08); }
 .btn-sub.active { opacity: 1; color: var(--accent); }
 
 /* ============================================================
-   BOTONES DE ACCIÓN
+   BOTONES DE ACCIÓN (visible en TODOS los skins)
    ============================================================ */
 .action-buttons-normal {
-  display: flex;
+  display: flex !important;
   justify-content: space-between;
   align-items: center;
   width: 100%;
@@ -821,11 +822,12 @@ body.skin-distro-02 .btn-play:hover { background: rgba(255, 255, 255, 0.08); }
   flex-shrink: 0;
   position: relative;
   z-index: 3;
+  margin-top: 8px;
 }
 
 body.skin-distro-01 .action-buttons-normal,
 body.skin-distro-02 .action-buttons-normal {
-  display: none;
+  margin-top: 10px;
 }
 
 .icon-action-btn {
@@ -845,6 +847,7 @@ body.skin-distro-02 .action-buttons-normal {
   position: relative;
 }
 .icon-action-btn:active { transform: scale(0.9); background: rgba(255, 255, 255, 0.35); }
+
 body.skin-tui .icon-action-btn,
 body.skin-distro-01 .icon-action-btn,
 body.skin-distro-02 .icon-action-btn {
@@ -862,6 +865,14 @@ body.skin-tui .icon-action-btn:active,
 body.skin-distro-01 .icon-action-btn:active,
 body.skin-distro-02 .icon-action-btn:active { background: rgba(255, 255, 255, 0.08); }
 
+/* Tamaño ajustado en distros */
+body.skin-distro-01 .icon-action-btn,
+body.skin-distro-02 .icon-action-btn {
+  width: 42px;
+  height: 42px;
+  font-size: 1.1rem;
+}
+
 .file-input-wrapper { position: relative; display: inline-block; }
 
 .real-file-input {
@@ -874,8 +885,8 @@ body.skin-distro-02 .icon-action-btn:active { background: rgba(255, 255, 255, 0.
 }
 
 /* ============================================================
-   🖼️ OVERLAY ASCII BACKGROUND (nuevo)
-   Se muestra SOLO en skins @distro_01 / @distro_02
+   🖼️ OVERLAY ASCII BACKGROUND
+   Solo en skins @distro_01 / @distro_02
    ============================================================ */
 .overlay-ascii-bg {
   position: absolute;
@@ -896,7 +907,6 @@ body.skin-distro-02 .overlay-ascii-bg {
   display: flex;
 }
 
-/* Fade-in al abrir el overlay */
 body.skin-distro-01 .playlist-overlay.active .overlay-ascii-bg,
 body.skin-distro-01 .modal-overlay.active .overlay-ascii-bg,
 body.skin-distro-02 .playlist-overlay.active .overlay-ascii-bg,
@@ -930,7 +940,6 @@ body.skin-distro-02 .modal-overlay.active .overlay-ascii-bg {
   transition: transform 0.3s ease;
 }
 
-/* El contenido de los overlays debe estar por encima del ASCII */
 .playlist-overlay > .playlist-header,
 .playlist-overlay > .playlist-tools,
 .playlist-overlay > .playlist-list,
@@ -986,7 +995,7 @@ body.skin-distro-01 .nav-btn.active,
 body.skin-distro-02 .nav-btn.active { color: var(--accent); text-shadow: var(--glow); }
 
 /* ============================================================
-   OVERLAYS (Fila, Playlists, Detalle, Ajustes)
+   OVERLAYS
    ============================================================ */
 .playlist-overlay, .modal-overlay {
   position: absolute;
@@ -1367,21 +1376,8 @@ body.skin-distro-01 .slider:before,
 body.skin-distro-02 .slider:before { border-radius: 0; background-color: var(--accent); }
 
 /* ============================================================
-   TOOLS HOME y GESTOR (solo distros)
+   GESTOR DE ARCHIVOS (botones)
    ============================================================ */
-
-
-.btn-tool {
-  flex: 1 1 calc(50% - 4px);
-  min-width: 120px;
-  text-align: center;
-}
-
-.btn-tool.active {
-  background: var(--accent);
-  color: #000;
-}
-
 #storageManagerItem .btn-tool {
   font-size: 0.72rem;
   padding: 8px 10px;
@@ -2146,7 +2142,6 @@ body.skin-distro-02 kbd {
 
 /* ============================================================
    🖥️ MODO TERMINAL — @distro_01 y @distro_02
-   Monospace + iluminación + layout
    ============================================================ */
 body.skin-distro-01,
 body.skin-distro-01 *,
@@ -2160,7 +2155,6 @@ body.skin-distro-02 *::after {
   font-variant-ligatures: none !important;
 }
 
-/* Fondo translúcido en distros */
 body.skin-distro-01 .player-card,
 body.skin-distro-02 .player-card {
   background: rgba(10, 15, 20, 0.55) !important;
@@ -2197,7 +2191,6 @@ body.skin-distro-02 .modal-overlay {
     inset 0 0 30px rgba(0, 0, 0, 0.3) !important;
 }
 
-/* Layout del player en distros */
 body.skin-distro-01 .player-card,
 body.skin-distro-02 .player-card {
   justify-content: flex-start !important;
@@ -2279,8 +2272,6 @@ body.skin-distro-02 .status-badge {
   margin: 0 0 10px 0 !important;
 }
 
-/* En distros, el reproductor ocupa todo el espacio disponible
-   ya que ya no hay distro-display */
 body.skin-distro-01 .distro-zone,
 body.skin-distro-02 .distro-zone {
   margin-top: auto !important;
@@ -2459,7 +2450,7 @@ body.skin-tui .sort-label {
   .btn-play { width: 42px; height: 42px; font-size: 1.15rem; }
   .btn { font-size: 1.25rem; padding: 4px; }
   .btn-sub { font-size: 1rem; }
-  .action-buttons-normal { grid-area: actions; justify-content: flex-start; gap: 10px; padding: 0; }
+  .action-buttons-normal { grid-area: actions; justify-content: flex-start; gap: 10px; padding: 0; margin-top: 0; }
   .icon-action-btn { width: 34px; height: 34px; font-size: 0.95rem; }
   .bottom-nav { flex: 0 0 auto; width: 100%; padding: 6px 0; border-radius: var(--nav-radius); margin: 0; }
   .nav-btn { font-size: 1.15rem; }
@@ -2525,7 +2516,7 @@ body.force-landscape .audio-specs-badge { grid-area: specs; justify-content: fle
 body.force-landscape .status-badge { grid-area: status; text-align: left; }
 body.force-landscape .progress-container { grid-area: progress; margin: 0; }
 body.force-landscape .controls { grid-area: controls; margin: 0; padding: 0; }
-body.force-landscape .action-buttons-normal { grid-area: actions; justify-content: flex-start; gap: 10px; padding: 0; }
+body.force-landscape .action-buttons-normal { grid-area: actions; justify-content: flex-start; gap: 10px; padding: 0; margin-top: 0; }
 body.force-landscape .bottom-nav { flex: 0 0 auto; width: 100%; padding: 6px 0; border-radius: var(--nav-radius); margin: 0; }
 
 /* ============================================================
@@ -2554,9 +2545,6 @@ body.force-landscape .bottom-nav { flex: 0 0 auto; width: 100%; padding: 6px 0; 
   }
 }
 
-/* ============================================================
-   📱 Ajustes para pantallas pequeñas
-   ============================================================ */
 @media (max-width: 380px) {
   .playlist-item-more { width: 26px; height: 26px; font-size: 0.85rem; }
   .playlist-item-reorder button { width: 22px; height: 15px; font-size: 0.55rem; }
@@ -2632,34 +2620,3 @@ body.force-landscape .bottom-nav { flex: 0 0 auto; width: 100%; padding: 6px 0; 
 .playlists-item:nth-child(4) { animation-delay: 0.08s; }
 .playlists-item:nth-child(5) { animation-delay: 0.10s; }
 .playlists-item:nth-child(6) { animation-delay: 0.12s; }
-
-/* ============================================================
-   🎯 v7.2 — Botones de acción visibles en TODOS los skins
-   ============================================================ */
-
-/* Asegurar que la fila de botones siempre se muestra */
-.action-buttons-normal {
-  display: flex !important;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  padding: 0 4px;
-  flex-shrink: 0;
-  position: relative;
-  z-index: 3;
-  margin-top: 8px;
-}
-
-/* En distros: ajustar el gap entre controles y botones */
-body.skin-distro-01 .action-buttons-normal,
-body.skin-distro-02 .action-buttons-normal {
-  margin-top: 10px;
-}
-
-/* Ajustar el tamaño de los botones en distros si es necesario */
-body.skin-distro-01 .icon-action-btn,
-body.skin-distro-02 .icon-action-btn {
-  width: 42px;
-  height: 42px;
-  font-size: 1.1rem;
-}
