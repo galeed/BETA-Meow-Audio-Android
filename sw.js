@@ -6,8 +6,8 @@
    - Audios locales: nunca se cachean (van por IndexedDB)
    ========================================================= */
 
-const CACHE_NAME = 'meow-audio-v7.3';
-const RUNTIME_CACHE = 'meow-runtime-v7.3';
+const CACHE_NAME = 'meow-audio-v7.3.1';
+const RUNTIME_CACHE = 'meow-runtime-v7.3.1';
 
 // Archivos del app shell que SIEMPRE deben estar disponibles offline
 const APP_SHELL = [
