@@ -1369,13 +1369,7 @@ body.skin-distro-02 .slider:before { border-radius: 0; background-color: var(--a
 /* ============================================================
    TOOLS HOME y GESTOR (solo distros)
    ============================================================ */
-#toolsHomeItem {
-  display: none;
-}
-body.skin-distro-01 #toolsHomeItem,
-body.skin-distro-02 #toolsHomeItem {
-  display: block;
-}
+
 
 .btn-tool {
   flex: 1 1 calc(50% - 4px);
@@ -2638,3 +2632,34 @@ body.force-landscape .bottom-nav { flex: 0 0 auto; width: 100%; padding: 6px 0; 
 .playlists-item:nth-child(4) { animation-delay: 0.08s; }
 .playlists-item:nth-child(5) { animation-delay: 0.10s; }
 .playlists-item:nth-child(6) { animation-delay: 0.12s; }
+
+/* ============================================================
+   🎯 v7.2 — Botones de acción visibles en TODOS los skins
+   ============================================================ */
+
+/* Asegurar que la fila de botones siempre se muestra */
+.action-buttons-normal {
+  display: flex !important;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 0 4px;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 3;
+  margin-top: 8px;
+}
+
+/* En distros: ajustar el gap entre controles y botones */
+body.skin-distro-01 .action-buttons-normal,
+body.skin-distro-02 .action-buttons-normal {
+  margin-top: 10px;
+}
+
+/* Ajustar el tamaño de los botones en distros si es necesario */
+body.skin-distro-01 .icon-action-btn,
+body.skin-distro-02 .icon-action-btn {
+  width: 42px;
+  height: 42px;
+  font-size: 1.1rem;
+}
