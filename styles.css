@@ -3293,7 +3293,20 @@ body.skin-matrix .btn-play {
 
 /* Nieve cayendo */
 #snowBg {
-  background: transparent;
+  background: linear-gradient(135deg, #1a0000 0%, #0d0000 50%, #001a00 100%);
+  background-size: 300% 300%;
+  animation: christmasBgGradient 8s ease-in-out infinite;
+}
+
+@keyframes christmasBgGradient {
+  0%, 100% {
+    background: linear-gradient(135deg, #2a0000 0%, #1a0000 50%, #001a00 100%);
+    background-size: 300% 300%;
+  }
+  50% {
+    background: linear-gradient(135deg, #001a00 0%, #0d0d0d 50%, #2a0000 100%);
+    background-size: 300% 300%;
+  }
 }
 
 #snowBg::before,
@@ -3348,6 +3361,24 @@ body.skin-christmas .player-card {
       0 0 40px rgba(255, 46, 46, 0.6),
       0 0 100px rgba(0, 200, 83, 0.35),
       inset 0 0 25px rgba(255, 255, 255, 0.05);
+  }
+}
+
+/* Gradiente de fondo del body Navidad */
+body.skin-christmas {
+  background: linear-gradient(135deg, #1a0000 0%, #0d0000 50%, #001a00 100%);
+  background-size: 300% 300%;
+  animation: christmasBodyGradient 10s ease-in-out infinite;
+}
+
+@keyframes christmasBodyGradient {
+  0%, 100% {
+    background: linear-gradient(135deg, #2a0000 0%, #1a0000 50%, #001a00 100%);
+    background-size: 300% 300%;
+  }
+  50% {
+    background: linear-gradient(135deg, #001a00 0%, #0d0000 50%, #2a0000 100%);
+    background-size: 300% 300%;
   }
 }
 
