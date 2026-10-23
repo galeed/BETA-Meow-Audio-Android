@@ -7,7 +7,7 @@
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="theme-color" content="#0f1015" id="metaTheme">
-  <meta name="description" content="Reproductor de audio local con skins Classic, Consola TUI, @distro_01 y @distro_02. Todo el procesamiento es local.">
+  <meta name="description" content="Reproductor de audio local con skins Classic, Consola TUI, @distro_01, @distro_02 y Seasons (Navidad, Halloween, Cyberpunk, Matrix).">
 
   <title>MEOW AUDIO APP</title>
 
@@ -28,6 +28,12 @@
 
   <div class="crt-overlay" id="crtOverlay"></div>
   <div class="vignette" id="vignette"></div>
+
+  <!-- Efectos de fondo globales para Seasons -->
+  <div class="season-bg snow-bg" id="snowBg" aria-hidden="true"></div>
+  <div class="season-bg bats-bg" id="batsBg" aria-hidden="true"></div>
+  <div class="season-bg matrix-bg" id="matrixBg" aria-hidden="true"></div>
+  <div class="season-bg cyber-bg" id="cyberBg" aria-hidden="true"></div>
 
   <audio id="mainAudioPlayer"
          preload="auto"
@@ -237,13 +243,17 @@
                 <option value="tui">Consola TUI</option>
                 <option value="distro-01">@distro_01</option>
                 <option value="distro-02">@distro_02</option>
+                <option value="christmas">🎄 Seasons: Navidad</option>
+                <option value="halloween">🎃 Seasons: Halloween</option>
+                <option value="cyberpunk">🌆 Seasons: Cyberpunk</option>
+                <option value="matrix">🟢 Seasons: Matrix</option>
               </select>
             </div>
           </div>
 
           <div class="settings-item" id="crtSettingItem">
             <div class="settings-title">📺 Efecto CRT</div>
-            <div class="settings-desc">Scanlines y vignette (TUI y Distro).</div>
+            <div class="settings-desc">Scanlines y vignette (TUI, Distro y Seasons).</div>
             <div class="settings-row">
               <span class="settings-desc" style="font-weight:600;">Estado:</span>
               <label class="toggle-switch">
@@ -359,8 +369,8 @@
           </div>
 
           <div class="settings-item">
-            <div class="settings-title" id="versionTitle">MEOW AUDIO APP v7.2</div>
-            <div class="settings-desc" id="versionDesc">Skins: Classic, TUI, @distro_01, @distro_02. Botones de acción en todos los skins.</div>
+            <div class="settings-title" id="versionTitle">MEOW AUDIO APP v8.0</div>
+            <div class="settings-desc" id="versionDesc">Skins: Classic, TUI, @distro_01, @distro_02, Seasons (4).</div>
           </div>
         </div>
       </div>
