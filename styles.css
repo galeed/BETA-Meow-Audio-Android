@@ -2695,3 +2695,589 @@ body.skin-distro-01 .overlay-ascii-content,
 body.skin-distro-02 .overlay-ascii-content {
   opacity: 0.55 !important;
 }
+
+/* ============================================================
+   🎨 v8.0 — SKINS SEASONS (Navidad, Halloween, Cyberpunk, Matrix)
+   Parte A: Variables y estructura base
+   ============================================================ */
+
+/* ============================================================
+   🎄 SKIN: NAVIDAD
+   ============================================================ */
+body.skin-christmas {
+  --bg: #0a0505;
+  --bg-main: #0a0505;
+  --card-bg: rgba(20, 10, 10, 0.75);
+  --card-border: #ff2e2e;
+  --accent: #ff2e2e;
+  --accent-cyan: #00c853;
+  --text: #ffffff;
+  --text-muted: #ffb3b3;
+  --audio-spec-color: #00c853;
+  --font-family: 'JetBrains Mono', 'Share Tech Mono', 'Courier New', monospace;
+  --card-radius: 16px;
+  --cover-radius: 12px;
+  --nav-radius: 16px;
+  --btn-radius: 50%;
+  --card-blur: blur(15px) saturate(140%);
+  --card-shadow:
+    0 0 30px rgba(255, 46, 46, 0.4),
+    0 0 80px rgba(0, 200, 83, 0.2),
+    inset 0 0 20px rgba(255, 255, 255, 0.03);
+  --nav-shadow: 0 0 20px rgba(255, 46, 46, 0.4);
+  --header-letter-spacing: 2px;
+  --header-transform: uppercase;
+  --glow: 0 0 10px var(--accent);
+  --glow-color: rgba(255, 46, 46, 0.5);
+}
+
+/* ============================================================
+   🎃 SKIN: HALLOWEEN
+   ============================================================ */
+body.skin-halloween {
+  --bg: #0d0510;
+  --bg-main: #0d0510;
+  --card-bg: rgba(15, 5, 15, 0.78);
+  --card-border: #ff6f00;
+  --accent: #ff6f00;
+  --accent-cyan: #7b1fa2;
+  --text: #ffb84d;
+  --text-muted: #a06a2a;
+  --audio-spec-color: #7b1fa2;
+  --font-family: 'JetBrains Mono', 'Share Tech Mono', 'Courier New', monospace;
+  --card-radius: 8px;
+  --cover-radius: 4px;
+  --nav-radius: 8px;
+  --btn-radius: 4px;
+  --card-blur: blur(15px) saturate(150%);
+  --card-shadow:
+    0 0 30px rgba(255, 111, 0, 0.4),
+    0 0 80px rgba(123, 31, 162, 0.3),
+    inset 0 0 20px rgba(255, 255, 255, 0.03);
+  --nav-shadow: 0 0 20px rgba(255, 111, 0, 0.4);
+  --header-letter-spacing: 3px;
+  --header-transform: uppercase;
+  --glow: 0 0 10px var(--accent);
+  --glow-color: rgba(255, 111, 0, 0.6);
+}
+
+/* ============================================================
+   🌆 SKIN: CYBERPUNK
+   ============================================================ */
+body.skin-cyberpunk {
+  --bg: #050014;
+  --bg-main: #050014;
+  --card-bg: rgba(10, 0, 20, 0.75);
+  --card-border: #ff00ff;
+  --accent: #ff00ff;
+  --accent-cyan: #00ffff;
+  --text: #00ffff;
+  --text-muted: #b300ff;
+  --audio-spec-color: #ffff00;
+  --font-family: 'JetBrains Mono', 'Share Tech Mono', 'Courier New', monospace;
+  --card-radius: 4px;
+  --cover-radius: 0px;
+  --nav-radius: 4px;
+  --btn-radius: 4px;
+  --card-blur: blur(15px) saturate(180%);
+  --card-shadow:
+    0 0 30px rgba(255, 0, 255, 0.5),
+    0 0 80px rgba(0, 255, 255, 0.3),
+    inset 0 0 20px rgba(255, 255, 255, 0.03);
+  --nav-shadow: 0 0 20px rgba(255, 0, 255, 0.5);
+  --header-letter-spacing: 4px;
+  --header-transform: uppercase;
+  --glow: 0 0 10px var(--accent);
+  --glow-color: rgba(255, 0, 255, 0.6);
+}
+
+/* ============================================================
+   🟢 SKIN: MATRIX
+   ============================================================ */
+body.skin-matrix {
+  --bg: #000000;
+  --bg-main: #000000;
+  --card-bg: rgba(0, 10, 0, 0.85);
+  --card-border: #00ff41;
+  --accent: #00ff41;
+  --accent-cyan: #00ff9d;
+  --text: #00ff41;
+  --text-muted: #009933;
+  --audio-spec-color: #00ff9d;
+  --font-family: 'JetBrains Mono', 'Share Tech Mono', 'Courier New', monospace;
+  --card-radius: 2px;
+  --cover-radius: 0px;
+  --nav-radius: 2px;
+  --btn-radius: 0px;
+  --card-blur: blur(10px) saturate(160%);
+  --card-shadow:
+    0 0 30px rgba(0, 255, 65, 0.5),
+    0 0 80px rgba(0, 255, 65, 0.2),
+    inset 0 0 20px rgba(0, 255, 65, 0.05);
+  --nav-shadow: 0 0 20px rgba(0, 255, 65, 0.5);
+  --header-letter-spacing: 2px;
+  --header-transform: uppercase;
+  --glow: 0 0 10px var(--accent);
+  --glow-color: rgba(0, 255, 65, 0.6);
+}
+
+/* ============================================================
+   🌈 ESTRUCTURA COMÚN SEASONS
+   ============================================================ */
+body.skin-christmas,
+body.skin-halloween,
+body.skin-cyberpunk,
+body.skin-matrix {
+  transition: background-color 0.5s ease;
+}
+
+/* Header con estilo Seasons */
+body.skin-christmas .header-title,
+body.skin-halloween .header-title,
+body.skin-cyberpunk .header-title,
+body.skin-matrix .header-title {
+  text-shadow:
+    0 0 8px var(--glow-color),
+    0 0 2px var(--accent);
+  font-weight: 700;
+}
+
+/* Player card con efecto */
+body.skin-christmas .player-card,
+body.skin-halloween .player-card,
+body.skin-cyberpunk .player-card,
+body.skin-matrix .player-card {
+  backdrop-filter: var(--card-blur);
+  -webkit-backdrop-filter: var(--card-blur);
+  border-width: 2px;
+}
+
+/* Cover art con border radius específico */
+body.skin-christmas .cover-art,
+body.skin-halloween .cover-art,
+body.skin-cyberpunk .cover-art,
+body.skin-matrix .cover-art {
+  border-radius: var(--cover-radius);
+  border-width: 2px;
+}
+
+/* Track info container */
+body.skin-christmas .track-info-container,
+body.skin-halloween .track-info-container,
+body.skin-cyberpunk .track-info-container,
+body.skin-matrix .track-info-container {
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid var(--card-border);
+  border-radius: var(--cover-radius);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+/* Seek bar */
+body.skin-christmas .seek-bar,
+body.skin-halloween .seek-bar,
+body.skin-cyberpunk .seek-bar,
+body.skin-matrix .seek-bar {
+  background: rgba(255, 255, 255, 0.15);
+  height: 6px;
+}
+
+body.skin-christmas .seek-bar::-webkit-slider-thumb,
+body.skin-halloween .seek-bar::-webkit-slider-thumb,
+body.skin-cyberpunk .seek-bar::-webkit-slider-thumb,
+body.skin-matrix .seek-bar::-webkit-slider-thumb {
+  background: var(--accent);
+  box-shadow: 0 0 12px var(--glow-color);
+  width: 16px;
+  height: 16px;
+}
+
+/* Botón play */
+body.skin-christmas .btn-play,
+body.skin-halloween .btn-play,
+body.skin-cyberpunk .btn-play,
+body.skin-matrix .btn-play {
+  background: transparent;
+  color: var(--accent);
+  border: 2px solid var(--accent);
+  box-shadow:
+    0 0 15px var(--accent),
+    0 0 30px var(--glow-color),
+    inset 0 0 10px var(--glow-color);
+}
+
+/* Botones de acción */
+body.skin-christmas .icon-action-btn,
+body.skin-halloween .icon-action-btn,
+body.skin-cyberpunk .icon-action-btn,
+body.skin-matrix .icon-action-btn {
+  background: rgba(0, 0, 0, 0.7);
+  border: 1px solid var(--accent);
+  color: var(--accent);
+  box-shadow:
+    0 0 10px var(--glow-color),
+    inset 0 0 6px var(--glow-color);
+}
+
+/* Bottom nav */
+body.skin-christmas .bottom-nav,
+body.skin-halloween .bottom-nav,
+body.skin-cyberpunk .bottom-nav,
+body.skin-matrix .bottom-nav {
+  border-width: 2px;
+  backdrop-filter: var(--card-blur);
+  -webkit-backdrop-filter: var(--card-blur);
+}
+
+/* Nav btn active */
+body.skin-christmas .nav-btn.active,
+body.skin-halloween .nav-btn.active,
+body.skin-cyberpunk .nav-btn.active,
+body.skin-matrix .nav-btn.active {
+  color: var(--accent);
+  text-shadow: 0 0 8px var(--glow-color);
+}
+
+/* Overlays */
+body.skin-christmas .playlist-overlay,
+body.skin-christmas .modal-overlay,
+body.skin-halloween .playlist-overlay,
+body.skin-halloween .modal-overlay,
+body.skin-cyberpunk .playlist-overlay,
+body.skin-cyberpunk .modal-overlay,
+body.skin-matrix .playlist-overlay,
+body.skin-matrix .modal-overlay {
+  background: rgba(0, 0, 0, 0.88);
+  border: 2px solid var(--card-border);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+/* Settings items */
+body.skin-christmas .settings-item,
+body.skin-halloween .settings-item,
+body.skin-cyberpunk .settings-item,
+body.skin-matrix .settings-item {
+  background: rgba(0, 0, 0, 0.6);
+  border: 1px solid var(--accent);
+  box-shadow: 0 0 8px var(--glow-color);
+}
+
+/* Settings titles */
+body.skin-christmas .settings-title,
+body.skin-halloween .settings-title,
+body.skin-cyberpunk .settings-title,
+body.skin-matrix .settings-title {
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  text-shadow: 0 0 6px var(--glow-color);
+}
+
+/* Playlist items */
+body.skin-christmas .playlist-item,
+body.skin-halloween .playlist-item,
+body.skin-cyberpunk .playlist-item,
+body.skin-matrix .playlist-item {
+  background: transparent;
+  border: 1px solid transparent;
+  border-bottom: 1px solid var(--accent);
+  border-radius: 0;
+  padding: 10px;
+  margin-bottom: 0;
+}
+
+body.skin-christmas .playlist-item.playing,
+body.skin-halloween .playlist-item.playing,
+body.skin-cyberpunk .playlist-item.playing,
+body.skin-matrix .playlist-item.playing {
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid var(--accent);
+  box-shadow: inset 0 0 12px var(--glow-color);
+}
+
+/* Playlists list */
+body.skin-christmas .playlists-item,
+body.skin-halloween .playlists-item,
+body.skin-cyberpunk .playlists-item,
+body.skin-matrix .playlists-item {
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid var(--accent);
+  border-radius: var(--cover-radius);
+  box-shadow: 0 0 8px var(--glow-color);
+  padding-left: 22px;
+}
+
+body.skin-christmas .playlists-item::before,
+body.skin-halloween .playlists-item::before,
+body.skin-cyberpunk .playlists-item::before,
+body.skin-matrix .playlists-item::before {
+  content: '>';
+  position: absolute;
+  left: 6px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--accent);
+  font-weight: 700;
+  font-size: 0.9rem;
+  opacity: 0.7;
+}
+
+/* Inputs */
+body.skin-christmas .search-input,
+body.skin-halloween .search-input,
+body.skin-cyberpunk .search-input,
+body.skin-matrix .search-input,
+body.skin-christmas .sort-bar,
+body.skin-halloween .sort-bar,
+body.skin-cyberpunk .sort-bar,
+body.skin-matrix .sort-bar,
+body.skin-christmas .btn-action,
+body.skin-halloween .btn-action,
+body.skin-cyberpunk .btn-action,
+body.skin-matrix .btn-action {
+  background: rgba(0, 0, 0, 0.7);
+  border: 1px solid var(--accent);
+  color: var(--accent);
+  border-radius: var(--cover-radius);
+  box-shadow: 0 0 6px var(--glow-color);
+}
+
+/* Text shadows temáticos */
+body.skin-christmas .track-title,
+body.skin-halloween .track-title,
+body.skin-cyberpunk .track-title,
+body.skin-matrix .track-title {
+  text-shadow:
+    0 0 8px var(--glow-color),
+    0 0 2px var(--accent);
+}
+
+/* Botones de acción visibles */
+body.skin-christmas .action-buttons-normal,
+body.skin-halloween .action-buttons-normal,
+body.skin-cyberpunk .action-buttons-normal,
+body.skin-matrix .action-buttons-normal {
+  display: flex !important;
+  margin-top: 10px;
+}
+
+/* ============================================================
+   🎬 ESTRUCTURAS DE FONDO PARA SEASONS
+   ============================================================ */
+.season-bg {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  display: none;
+  z-index: -1;
+}
+
+/* Solo mostrar el fondo del skin activo */
+body.skin-christmas #snowBg { display: block; }
+body.skin-halloween #batsBg { display: block; }
+body.skin-cyberpunk #cyberBg { display: block; }
+body.skin-matrix #matrixBg { display: block; }
+
+/* CRT overlay visible también en Seasons */
+body.skin-christmas .crt-overlay,
+body.skin-halloween .crt-overlay,
+body.skin-cyberpunk .crt-overlay,
+body.skin-matrix .crt-overlay {
+  display: block;
+  opacity: 0.15;
+}
+
+body.skin-christmas.crt-off .crt-overlay,
+body.skin-halloween.crt-off .crt-overlay,
+body.skin-cyberpunk.crt-off .crt-overlay,
+body.skin-matrix.crt-off .crt-overlay {
+  opacity: 0;
+}
+
+body.skin-christmas .vignette,
+body.skin-halloween .vignette,
+body.skin-cyberpunk .vignette,
+body.skin-matrix .vignette {
+  display: block;
+  box-shadow: inset 0 0 120px rgba(0, 0, 0, 0.7);
+}
+
+body.skin-christmas.crt-off .vignette,
+body.skin-halloween.crt-off .vignette,
+body.skin-cyberpunk.crt-off .vignette,
+body.skin-matrix.crt-off .vignette {
+  box-shadow: inset 0 0 120px rgba(0, 0, 0, 0);
+}
+
+/* Aviso de privacidad temático */
+body.skin-christmas .meow-aviso-overlay,
+body.skin-halloween .meow-aviso-overlay,
+body.skin-cyberpunk .meow-aviso-overlay,
+body.skin-matrix .meow-aviso-overlay {
+  background: rgba(0, 0, 0, 0.95);
+}
+
+body.skin-christmas .meow-aviso-box,
+body.skin-halloween .meow-aviso-box,
+body.skin-cyberpunk .meow-aviso-box,
+body.skin-matrix .meow-aviso-box {
+  background: #000;
+  border: 2px solid var(--accent);
+  border-radius: var(--cover-radius);
+  color: var(--accent);
+  box-shadow: 0 0 30px var(--glow-color);
+}
+
+body.skin-christmas .meow-aviso-box h3,
+body.skin-halloween .meow-aviso-box h3,
+body.skin-cyberpunk .meow-aviso-box h3,
+body.skin-matrix .meow-aviso-box h3 {
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  text-shadow: 0 0 8px var(--glow-color);
+}
+
+body.skin-christmas .meow-btn-cerrar,
+body.skin-halloween .meow-btn-cerrar,
+body.skin-cyberpunk .meow-btn-cerrar,
+body.skin-matrix .meow-btn-cerrar {
+  background: transparent;
+  color: var(--accent);
+  border: 2px solid var(--accent);
+  border-radius: var(--cover-radius);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+body.skin-christmas .meow-btn-cerrar:hover,
+body.skin-halloween .meow-btn-cerrar:hover,
+body.skin-cyberpunk .meow-btn-cerrar:hover,
+body.skin-matrix .meow-btn-cerrar:hover {
+  background: var(--accent);
+  color: #000;
+}
+
+/* Menú desplegable del header temático */
+body.skin-christmas .tui-theme-menu,
+body.skin-halloween .tui-theme-menu,
+body.skin-cyberpunk .tui-theme-menu,
+body.skin-matrix .tui-theme-menu {
+  background: #000;
+  border: 2px solid var(--accent);
+  box-shadow: 0 0 30px var(--glow-color);
+}
+
+body.skin-christmas .tui-theme-item,
+body.skin-halloween .tui-theme-item,
+body.skin-cyberpunk .tui-theme-item,
+body.skin-matrix .tui-theme-item {
+  color: var(--accent);
+}
+
+/* Bottom sheet temático */
+body.skin-christmas .bottom-sheet,
+body.skin-halloween .bottom-sheet,
+body.skin-cyberpunk .bottom-sheet,
+body.skin-matrix .bottom-sheet {
+  background: #000;
+  border: 2px solid var(--accent);
+  box-shadow:
+    0 -10px 40px rgba(0, 0, 0, 0.8),
+    0 0 30px var(--glow-color);
+}
+
+body.skin-christmas .bottom-sheet-item,
+body.skin-halloween .bottom-sheet-item,
+body.skin-cyberpunk .bottom-sheet-item,
+body.skin-matrix .bottom-sheet-item {
+  color: var(--accent);
+}
+
+body.skin-christmas .bottom-sheet-cancel,
+body.skin-halloween .bottom-sheet-cancel,
+body.skin-cyberpunk .bottom-sheet-cancel,
+body.skin-matrix .bottom-sheet-cancel {
+  background: #000;
+  border-top: 2px solid var(--accent);
+  color: var(--accent);
+}
+
+/* Modales temáticos */
+body.skin-christmas .modal-box,
+body.skin-halloween .modal-box,
+body.skin-cyberpunk .modal-box,
+body.skin-matrix .modal-box {
+  background: #000;
+  border: 2px solid var(--accent);
+  box-shadow:
+    0 20px 50px rgba(0, 0, 0, 0.8),
+    0 0 40px var(--glow-color);
+}
+
+body.skin-christmas .modal-box-title,
+body.skin-halloween .modal-box-title,
+body.skin-cyberpunk .modal-box-title,
+body.skin-matrix .modal-box-title {
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  text-shadow: 0 0 8px var(--glow-color);
+}
+
+body.skin-christmas .modal-input,
+body.skin-halloween .modal-input,
+body.skin-cyberpunk .modal-input,
+body.skin-matrix .modal-input {
+  background: #000;
+  border: 1px solid var(--accent);
+  color: var(--accent);
+}
+
+/* Toast temático */
+body.skin-christmas .meow-toast,
+body.skin-halloween .meow-toast,
+body.skin-cyberpunk .meow-toast,
+body.skin-matrix .meow-toast {
+  background: #000;
+  border: 1px solid var(--accent);
+  color: var(--accent);
+  box-shadow:
+    0 8px 20px rgba(0, 0, 0, 0.6),
+    0 0 15px var(--glow-color);
+}
+
+/* Monospace forzado en Seasons */
+body.skin-christmas,
+body.skin-christmas *,
+body.skin-halloween,
+body.skin-halloween *,
+body.skin-cyberpunk,
+body.skin-cyberpunk *,
+body.skin-matrix,
+body.skin-matrix * {
+  font-family: 'JetBrains Mono', 'Share Tech Mono', 'Fira Code', 'Courier New', monospace !important;
+  font-variant-ligatures: none !important;
+}
+
+/* Botón play glow específico por skin */
+body.skin-christmas .btn-play {
+  border-radius: 50%;
+}
+
+body.skin-halloween .btn-play {
+  border-radius: 4px;
+}
+
+body.skin-cyberpunk .btn-play {
+  border-radius: 4px;
+  box-shadow:
+    0 0 20px var(--accent),
+    0 0 40px var(--glow-color),
+    inset 0 0 15px var(--glow-color);
+}
+
+body.skin-matrix .btn-play {
+  border-radius: 0;
+}
