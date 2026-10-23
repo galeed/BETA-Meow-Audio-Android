@@ -1,8 +1,9 @@
 /* ============================================================
-   MEOW AUDIO APP v7.1 — app.js
-   - ASCII distro ahora es fondo de overlays (no del player)
+   MEOW AUDIO APP v8.0 — app.js
+   - Skins: Classic, TUI, @distro_01, @distro_02, Seasons (4)
+   - ASCII de fondo en overlays
    - Playlists + Favoritos + Cola editable
-   - 4 skins, boot animado, gestor de archivos
+   - Boot animado con tema específico
    ============================================================ */
 
 'use strict';
@@ -17,7 +18,51 @@ const FAVORITES_PLAYLIST_NAME = '❤️ Favoritas';
 const FAVORITES_ICON = '❤️';
 
 // ============================================================
-// DISTROS @distro_01 (13)
+// ASCIIs TEMÁTICOS PARA OVERLAYS (Seasons)
+// ============================================================
+const SEASONS_ASCII = {
+  christmas: `        .    *    .       .       *      .    .    *
+    .      .      .    *    .   .      .      .   .
+  .    *    .    .       .      .    *    .    *   .
+      .        .    *    .    .      .      .    .
+  *    .    .      .      *    .    .    .    *    .
+     .      *    .    .      .    *    .      .    .
+   .    .    .      .    *    .      .    *    .  .
+`,
+  halloween: `         ,     ,
+        /(     )\\
+       /  \\___/  \\
+      |  o     o  |
+      |     ^     |
+      |  \\_____/  |
+       \\_________/
+        /       \\
+       /  /   \\  \\
+      /  /     \\  \\
+`,
+  cyberpunk: `    ___________________________
+   /  _______________________  \\
+  /  /                       \\  \\
+ /  /   C Y B E R P U N K     \\  \\
+/  /                           \\  \\
+\\  \\    2 0 7 7  //  N E O N   /  /
+ \\  \\_________________________/  /
+  \\_____________________________/
+       ||               ||
+       ||               ||
+`,
+  matrix: `    01001000 01100101 01101100 01101100 01101111
+    01010111 01101111 01110010 01101100 01100100
+    01010100 01101000 01100101 00100000 01001101
+    01100001 01110100 01110010 01101001 01111000
+    01101000 01100001 01110011 00100000 01111001
+    01101111 01110101 00100000 01001110 01100101
+    01101111 00100000 01010111 01100001 01101011
+`
+};
+
+// ============================================================
+// DISTROS @distro_01 (13) — mantenemos los mismos
 // ============================================================
 const DISTROS_01 = [
   { id: 'arch', name: 'Arch Linux', color: '#1793d1', ascii: `                  -\`
@@ -500,7 +545,65 @@ const TUI_THEMES = [
 ];
 
 // ============================================================
-// DOM
+// SKINS SEASONS — Configuración
+// ============================================================
+const SEASONS_SKINS = {
+  christmas: {
+    name: 'Navidad',
+    emoji: '🎄',
+    themeColor: '#0a0505',
+    bootLines: [
+      'meow@audio-box:~$ switch-skin christmas',
+      '[ OK ] Cargando módulo 🎄 Seasons: Navidad...',
+      '[ OK ] Aplicando paleta roja y verde',
+      '[ OK ] Activando nieve cayendo',
+      '[ OK ] Inicializando efectos navideños',
+      'meow@audio-box:~$ ¡Feliz Navidad! Skin Navidad activo.'
+    ]
+  },
+  halloween: {
+    name: 'Halloween',
+    emoji: '🎃',
+    themeColor: '#0d0510',
+    bootLines: [
+      'meow@audio-box:~$ switch-skin halloween',
+      '[ OK ] Cargando módulo 🎃 Seasons: Halloween...',
+      '[ OK ] Aplicando paleta naranja y morado',
+      '[ OK ] Liberando murciélagos',
+      '[ OK ] Inicializando calabazas y telarañas',
+      'meow@audio-box:~$ ¡Truco o trato! Skin Halloween activo.'
+    ]
+  },
+  cyberpunk: {
+    name: 'Cyberpunk',
+    emoji: '🌆',
+    themeColor: '#050014',
+    bootLines: [
+      'meow@audio-box:~$ switch-skin cyberpunk',
+      '[ OK ] Cargando módulo 🌆 Seasons: Cyberpunk...',
+      '[ OK ] Aplicando paleta magenta y cyan',
+      '[ OK ] Generando grid synthwave',
+      '[ OK ] Activando glitch effects',
+      'meow@audio-box:~$ Welcome to Night City. Skin Cyberpunk activo.'
+    ]
+  },
+  matrix: {
+    name: 'Matrix',
+    emoji: '🟢',
+    themeColor: '#000000',
+    bootLines: [
+      'meow@audio-box:~$ switch-skin matrix',
+      '[ OK ] Cargando módulo 🟢 Seasons: Matrix...',
+      '[ OK ] Iniciando secuencia Matrix',
+      '[ OK ] Lluvia de caracteres activa',
+      '[ OK ] Conectando al mainframe',
+      'meow@audio-box:~$ Wake up, Neo... Skin Matrix activo.'
+    ]
+  }
+};
+
+// ============================================================
+// DOM — Referencias
 // ============================================================
 const bgBlur = document.getElementById('bgBlur');
 const mainAudio = document.getElementById('mainAudioPlayer');
@@ -613,31 +716,8 @@ const playerHeader = document.getElementById('playerHeader');
 const tuiThemeList = document.getElementById('tuiThemeList');
 const menuHeaderLabel = document.getElementById('menuHeaderLabel');
 
-// NOTA: ya no existe distroBgAscii en el reproductor
-
-const toolFullscreen = document.getElementById('toolFullscreen');
-const toolRotate = document.getElementById('toolRotate');
-const toolCrt = document.getElementById('toolCrt');
-const toolAddSongs = document.getElementById('toolAddSongs');
-const toolFileInput = document.getElementById('toolFileInput');
-
 const distroBootOverlay = document.getElementById('distroBootOverlay');
 const distroBootText = document.getElementById('distroBootText');
-
-// Conectar Tools Home
-if (toolFullscreen) toolFullscreen.addEventListener('click', () => btnFullscreen.click());
-if (toolRotate) toolRotate.addEventListener('click', () => btnRotate.click());
-if (toolCrt) toolCrt.addEventListener('click', () => btnCrt.click());
-if (toolAddSongs && toolFileInput) toolAddSongs.addEventListener('click', () => toolFileInput.click());
-if (toolFileInput) {
-  toolFileInput.addEventListener('change', (e) => {
-    const dt = new DataTransfer();
-    for (const f of e.target.files) dt.items.add(f);
-    fileInput.files = dt.files;
-    fileInput.dispatchEvent(new Event('change', { bubbles: true }));
-    toolFileInput.value = '';
-  });
-}
 
 // ============================================================
 // ESTADO
@@ -1047,30 +1127,60 @@ function escapeHtml(s) {
   }[c]));
 }
 
+function isSeasonSkin(skin) {
+  return ['christmas', 'halloween', 'cyberpunk', 'matrix'].includes(skin);
+}
+
+function isDistroSkin(skin) {
+  return skin === 'distro-01' || skin === 'distro-02';
+}
+
 // ============================================================
-// 🖼️ OVERLAY ASCII — ACTUALIZAR FONDOS
+// OVERLAY ASCII
 // ============================================================
 function updateOverlayAscii(skin, distroId) {
-  // Solo en skins distro
-  if (skin !== 'distro-01' && skin !== 'distro-02') return;
+  let ascii = '';
+  let color = '';
 
-  const list = getCurrentDistroList(skin);
-  const distro = list.find(d => d.id === distroId) || list[0];
-  if (!distro) return;
+  if (isDistroSkin(skin)) {
+    const list = getCurrentDistroList(skin);
+    const distro = list.find(d => d.id === distroId) || list[0];
+    if (!distro) return;
+    ascii = distro.ascii;
+    color = distro.color;
+  } else if (isSeasonSkin(skin)) {
+    ascii = SEASONS_ASCII[skin] || '';
+    color = getSeasonAccent(skin);
+  } else {
+    // No mostrar ASCII en overlays de classic/tui
+    document.querySelectorAll('.overlay-ascii-content').forEach(el => {
+      el.textContent = '';
+    });
+    return;
+  }
 
-  // Actualizar TODOS los fondos ASCII de overlays
   document.querySelectorAll('.overlay-ascii-content').forEach(el => {
-    el.textContent = distro.ascii;
-    el.style.color = distro.color;
-    el.style.textShadow = `0 0 8px rgba(${hexToRgb(distro.color)}, 0.4)`;
+    el.textContent = ascii;
+    el.style.color = color;
+    el.style.textShadow = `
+      0 0 2px ${color},
+      0 0 4px ${color},
+      0 0 8px ${color},
+      0 0 16px ${color},
+      0 0 32px ${color}66,
+      0 0 48px ${color}33
+    `;
   });
 }
 
-function hexToRgb(hex) {
-  const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-  return result
-    ? `${parseInt(result[1], 16)}, ${parseInt(result[2], 16)}, ${parseInt(result[3], 16)}`
-    : '255, 255, 255';
+function getSeasonAccent(skin) {
+  const accents = {
+    christmas: '#ff2e2e',
+    halloween: '#ff6f00',
+    cyberpunk: '#ff00ff',
+    matrix: '#00ff41'
+  };
+  return accents[skin] || '#ffffff';
 }
 
 // ============================================================
@@ -1087,7 +1197,7 @@ function buildMenuItems(skin) {
       li.innerHTML = `<span class="tui-dot" style="background:${t.color}"></span> ${t.name} <span class="tui-check">✓</span>`;
       tuiThemeList.appendChild(li);
     });
-  } else if (skin === 'distro-01' || skin === 'distro-02') {
+  } else if (isDistroSkin(skin)) {
     menuHeaderLabel.textContent = 'meow@audio-box:~/distros';
     const list = getCurrentDistroList(skin);
     list.forEach(d => {
@@ -1101,8 +1211,9 @@ function buildMenuItems(skin) {
 }
 
 function markActiveMenuItem() {
-  const isTui = document.body.classList.contains('skin-tui');
-  const isDistro = document.body.classList.contains('skin-distro-01') || document.body.classList.contains('skin-distro-02');
+  const skin = localStorage.getItem('meowSkin') || 'classic';
+  const isTui = skin === 'tui';
+  const isDistro = isDistroSkin(skin);
   if (isTui) {
     const activeTheme = document.body.dataset.tuiTheme || 'green';
     document.querySelectorAll('.tui-theme-item').forEach(item => {
@@ -1140,11 +1251,9 @@ function applyDistro(distroId) {
   document.body.dataset.distro = distro.id;
   localStorage.setItem('meowDistro', distro.id);
 
-  // Actualizar fondos ASCII de overlays
   updateOverlayAscii(skin, distro.id);
 
-  if (document.body.classList.contains('skin-distro-01') ||
-      document.body.classList.contains('skin-distro-02')) {
+  if (isDistroSkin(skin)) {
     metaThemeEl.content = '#0d1117';
   }
 
@@ -1199,6 +1308,16 @@ async function playDistroBoot(skin, distroId) {
     `meow@audio-box:~$ ¡Listo! Skin ${skinName} activo.`
   ];
 
+  await runBootAnimation(lines);
+}
+
+async function playSeasonBoot(skinKey) {
+  const config = SEASONS_SKINS[skinKey];
+  if (!config) return;
+  await runBootAnimation(config.bootLines);
+}
+
+async function runBootAnimation(lines) {
   distroBootOverlay.classList.add('active');
   distroBootText.textContent = '';
 
@@ -1223,25 +1342,31 @@ async function playDistroBoot(skin, distroId) {
 // ============================================================
 async function applySkin(skin, skipBoot = false) {
   const previousSkin = localStorage.getItem('meowSkin') || 'classic';
-  const isEnteringDistro = (
-    (skin === 'distro-01' || skin === 'distro-02') &&
-    previousSkin !== skin
-  );
+  const isEnteringDistro = isDistroSkin(skin) && previousSkin !== skin;
+  const isEnteringSeason = isSeasonSkin(skin) && previousSkin !== skin;
 
   if (skin === 'distro-01' && previousSkin === 'distro-02') localStorage.setItem('meowDistro', 'arch');
   if (skin === 'distro-02' && previousSkin === 'distro-01') localStorage.setItem('meowDistro', 'elementary');
 
+  // Boot animado
   if (isEnteringDistro && !skipBoot) {
     await playDistroBoot(skin, localStorage.getItem('meowDistro') || (skin === 'distro-01' ? 'arch' : 'elementary'));
+  } else if (isEnteringSeason && !skipBoot) {
+    await playSeasonBoot(skin);
   }
 
-  document.body.classList.remove('skin-classic', 'skin-tui', 'skin-distro-01', 'skin-distro-02');
+  // Quitar todas las clases de skin
+  document.body.classList.remove(
+    'skin-classic', 'skin-tui', 'skin-distro-01', 'skin-distro-02',
+    'skin-christmas', 'skin-halloween', 'skin-cyberpunk', 'skin-matrix'
+  );
   document.body.classList.add('skin-' + skin);
   localStorage.setItem('meowSkin', skin);
   if (skinSelect) skinSelect.value = skin;
 
   buildMenuItems(skin);
 
+  // Configurar skin específico
   if (skin === 'tui') {
     document.body.removeAttribute('data-distro');
     const savedTheme = localStorage.getItem('meowTuiTheme') || 'green';
@@ -1249,12 +1374,13 @@ async function applySkin(skin, skipBoot = false) {
     headerTitle.textContent = '🎵 MEOW AUDIO APP';
     avisoTitle.textContent = '> SISTEMA DE PRIVACIDAD';
     avisoText.textContent = 'Todo el procesamiento de audio se realiza localmente. Ningún archivo o dato es enviado a servidores externos.';
-    versionTitle.textContent = 'MEOW AUDIO APP // TUI v7.1';
+    versionTitle.textContent = 'MEOW AUDIO APP // TUI v8.0';
     versionDesc.textContent = 'Haz clic en el header para cambiar de tema.';
     const theme = TUI_THEMES.find(t => t.id === savedTheme) || TUI_THEMES[0];
     metaThemeEl.content = theme.bg;
     markActiveMenuItem();
-  } else if (skin === 'distro-01' || skin === 'distro-02') {
+    updateOverlayAscii('tui', null);
+  } else if (isDistroSkin(skin)) {
     document.body.removeAttribute('data-tui-theme');
     const defaultDistro = skin === 'distro-01' ? 'arch' : 'elementary';
     const savedDistro = localStorage.getItem('meowDistro') || defaultDistro;
@@ -1263,21 +1389,37 @@ async function applySkin(skin, skipBoot = false) {
     headerTitle.textContent = '🎵 MEOW AUDIO APP';
     avisoTitle.textContent = '> SISTEMA DE PRIVACIDAD';
     avisoText.textContent = 'Todo el procesamiento de audio se realiza localmente. Ningún archivo o dato es enviado a servidores externos.';
-    versionTitle.textContent = `MEOW AUDIO APP // ${skin === 'distro-01' ? '@distro_01' : '@distro_02'} v7.1`;
+    versionTitle.textContent = `MEOW AUDIO APP // ${skin === 'distro-01' ? '@distro_01' : '@distro_02'} v8.0`;
     versionDesc.textContent = 'Haz clic en el header para cambiar de distro.';
     metaThemeEl.content = '#0d1117';
 
     updateOverlayAscii(skin, savedDistro);
     markActiveMenuItem();
+  } else if (isSeasonSkin(skin)) {
+    // SEASONS
+    document.body.removeAttribute('data-tui-theme');
+    document.body.removeAttribute('data-distro');
+
+    const config = SEASONS_SKINS[skin];
+    headerTitle.textContent = `${config.emoji} MEOW AUDIO APP`;
+    avisoTitle.textContent = `> ${config.emoji} SISTEMA DE PRIVACIDAD`;
+    avisoText.textContent = 'Todo el procesamiento de audio se realiza localmente. Ningún archivo o dato es enviado a servidores externos.';
+    versionTitle.textContent = `MEOW AUDIO APP // ${config.name} v8.0`;
+    versionDesc.textContent = `Skin temático activo. ¡${config.emoji}!`;
+    metaThemeEl.content = config.themeColor;
+
+    updateOverlayAscii(skin, null);
   } else {
+    // CLASSIC
     document.body.removeAttribute('data-tui-theme');
     document.body.removeAttribute('data-distro');
     headerTitle.textContent = '🐈 MEOW AUDIO APP 🐈';
     avisoTitle.textContent = '🐾 Aviso Gatuno 🐾';
     avisoText.textContent = 'Todo el procesamiento de audio se realiza de manera local en tu dispositivo. Ningún archivo o dato personal es subido a servidores externos. ¡Miau!';
-    versionTitle.textContent = 'MEOW AUDIO APP v7.1';
-    versionDesc.textContent = 'Skins: Classic, TUI, @distro_01, @distro_02. Playlists + Favoritos.';
+    versionTitle.textContent = 'MEOW AUDIO APP v8.0';
+    versionDesc.textContent = 'Skins: Classic, TUI, Distros, Seasons.';
     metaThemeEl.content = '#0f1015';
+    updateOverlayAscii('classic', null);
   }
 
   playerHeader.classList.remove('menu-open');
@@ -1309,8 +1451,9 @@ btnCrt.addEventListener('click', () => {
 // HEADER — MENÚ
 // ============================================================
 playerHeader.addEventListener('click', (e) => {
-  const isTui = document.body.classList.contains('skin-tui');
-  const isDistro = document.body.classList.contains('skin-distro-01') || document.body.classList.contains('skin-distro-02');
+  const skin = localStorage.getItem('meowSkin') || 'classic';
+  const isTui = skin === 'tui';
+  const isDistro = isDistroSkin(skin);
   if (!isTui && !isDistro) return;
   e.stopPropagation();
 
@@ -1655,12 +1798,7 @@ function openContextMenu(index) {
   contextMenuSubtitle.textContent = `${track.artist || 'Artista'}${track.album ? ' • ' + track.album : ''}`;
 
   const isFav = isTrackFavorite(track);
-  const favItem = contextMenuList.querySelector('[data-action="toggle-favorite"]');
-  if (favItem) {
-    favItem.textContent = isFav ? '💔 Quitar de Favoritas' : '❤️ Añadir a Favoritas';
-  }
 
-  // Restaurar el HTML original por si veníamos del menú de playlist
   contextMenuList.innerHTML = `
     <li class="bottom-sheet-item" data-action="play-now">▶ Reproducir ahora</li>
     <li class="bottom-sheet-item" data-action="enqueue-next">⏭ Añadir a continuación</li>
@@ -1969,7 +2107,7 @@ btnConfirmConfirmModal.addEventListener('click', () => {
 });
 
 // ============================================================
-// MENÚ DE PLAYLIST (⋯ del header)
+// MENÚ DE PLAYLIST
 // ============================================================
 btnPlaylistMenu.addEventListener('click', () => {
   const pl = getPlaylistById(currentPlaylistId);
