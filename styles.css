@@ -1,8 +1,9 @@
 /* ============================================================
-   MEOW AUDIO APP v7.2 — styles.css
-   Skins: Classic, TUI (6 temas), @distro_01, @distro_02
-   Playlists + Favoritos + Bottom Sheets + Modales
-   Botones de acción visibles en TODOS los skins
+   MEOW AUDIO APP v9.1 — styles.css
+   Skins: Classic, TUI (6 temas + custom), @distro_01, @distro_02,
+   Seasons (Navidad, Halloween, Cyberpunk, Matrix)
+   + Editor TUI + Crossfade + Normalización + Limitador
+   + Drag & Drop + Carpeta + Nuevos visualizadores
    ============================================================ */
 
 /* ============================================================
@@ -276,7 +277,63 @@ body.skin-distro-02[data-distro="gnuhurd"] {
 }
 
 /* ============================================================
-   BASE — Reset y estructura
+   🎨 SKIN SEASONS
+   ============================================================ */
+body.skin-christmas {
+  --bg: #0a0505; --bg-main: #0a0505;
+  --card-bg: rgba(20, 10, 10, 0.75); --card-border: #ff2e2e;
+  --accent: #ff2e2e; --accent-cyan: #00c853;
+  --text: #ffffff; --text-muted: #ffb3b3; --audio-spec-color: #00c853;
+  --font-family: 'JetBrains Mono', 'Share Tech Mono', 'Courier New', monospace;
+  --card-radius: 16px; --cover-radius: 12px; --nav-radius: 16px; --btn-radius: 50%;
+  --card-blur: blur(15px) saturate(140%);
+  --card-shadow: 0 0 30px rgba(255, 46, 46, 0.4), 0 0 80px rgba(0, 200, 83, 0.2), inset 0 0 20px rgba(255, 255, 255, 0.03);
+  --nav-shadow: 0 0 20px rgba(255, 46, 46, 0.4);
+  --header-letter-spacing: 2px; --header-transform: uppercase;
+  --glow: 0 0 10px var(--accent); --glow-color: rgba(255, 46, 46, 0.5);
+}
+body.skin-halloween {
+  --bg: #0d0510; --bg-main: #0d0510;
+  --card-bg: rgba(15, 5, 15, 0.78); --card-border: #ff6f00;
+  --accent: #ff6f00; --accent-cyan: #7b1fa2;
+  --text: #ffb84d; --text-muted: #a06a2a; --audio-spec-color: #7b1fa2;
+  --font-family: 'JetBrains Mono', 'Share Tech Mono', 'Courier New', monospace;
+  --card-radius: 8px; --cover-radius: 4px; --nav-radius: 8px; --btn-radius: 4px;
+  --card-blur: blur(15px) saturate(150%);
+  --card-shadow: 0 0 30px rgba(255, 111, 0, 0.4), 0 0 80px rgba(123, 31, 162, 0.3), inset 0 0 20px rgba(255, 255, 255, 0.03);
+  --nav-shadow: 0 0 20px rgba(255, 111, 0, 0.4);
+  --header-letter-spacing: 3px; --header-transform: uppercase;
+  --glow: 0 0 10px var(--accent); --glow-color: rgba(255, 111, 0, 0.6);
+}
+body.skin-cyberpunk {
+  --bg: #050014; --bg-main: #050014;
+  --card-bg: rgba(10, 0, 20, 0.75); --card-border: #ff00ff;
+  --accent: #ff00ff; --accent-cyan: #00ffff;
+  --text: #00ffff; --text-muted: #b300ff; --audio-spec-color: #ffff00;
+  --font-family: 'JetBrains Mono', 'Share Tech Mono', 'Courier New', monospace;
+  --card-radius: 4px; --cover-radius: 0px; --nav-radius: 4px; --btn-radius: 4px;
+  --card-blur: blur(15px) saturate(180%);
+  --card-shadow: 0 0 30px rgba(255, 0, 255, 0.5), 0 0 80px rgba(0, 255, 255, 0.3), inset 0 0 20px rgba(255, 255, 255, 0.03);
+  --nav-shadow: 0 0 20px rgba(255, 0, 255, 0.5);
+  --header-letter-spacing: 4px; --header-transform: uppercase;
+  --glow: 0 0 10px var(--accent); --glow-color: rgba(255, 0, 255, 0.6);
+}
+body.skin-matrix {
+  --bg: #000000; --bg-main: #000000;
+  --card-bg: rgba(0, 10, 0, 0.85); --card-border: #00ff41;
+  --accent: #00ff41; --accent-cyan: #00ff9d;
+  --text: #00ff41; --text-muted: #009933; --audio-spec-color: #00ff9d;
+  --font-family: 'JetBrains Mono', 'Share Tech Mono', 'Courier New', monospace;
+  --card-radius: 2px; --cover-radius: 0px; --nav-radius: 2px; --btn-radius: 0px;
+  --card-blur: blur(10px) saturate(160%);
+  --card-shadow: 0 0 30px rgba(0, 255, 65, 0.5), 0 0 80px rgba(0, 255, 65, 0.2), inset 0 0 20px rgba(0, 255, 65, 0.05);
+  --nav-shadow: 0 0 20px rgba(0, 255, 65, 0.5);
+  --header-letter-spacing: 2px; --header-transform: uppercase;
+  --glow: 0 0 10px var(--accent); --glow-color: rgba(0, 255, 65, 0.6);
+}
+
+/* ============================================================
+   BASE — Reset
    ============================================================ */
 * {
   box-sizing: border-box;
@@ -307,17 +364,15 @@ body {
 
 body.skin-tui { animation: crtFlicker 0.15s infinite; }
 @keyframes crtFlicker {
-  0%   { opacity: 0.995; }
-  50%  { opacity: 1; }
-  52%  { opacity: 0.97; }
-  54%  { opacity: 1; }
-  80%  { opacity: 0.99; }
+  0% { opacity: 0.995; }
+  50% { opacity: 1; }
+  52% { opacity: 0.97; }
+  54% { opacity: 1; }
+  80% { opacity: 0.99; }
   100% { opacity: 1; }
 }
 
-/* ============================================================
-   CRT OVERLAY Y VIGNETTE
-   ============================================================ */
+/* CRT OVERLAY Y VIGNETTE */
 .crt-overlay {
   position: fixed; inset: 0;
   pointer-events: none;
@@ -332,10 +387,12 @@ body.skin-tui { animation: crtFlicker 0.15s infinite; }
 }
 body.skin-tui .crt-overlay,
 body.skin-distro-01 .crt-overlay,
-body.skin-distro-02 .crt-overlay { display: block; opacity: 0.18; }
-body.skin-tui.crt-off .crt-overlay,
-body.skin-distro-01.crt-off .crt-overlay,
-body.skin-distro-02.crt-off .crt-overlay { opacity: 0; }
+body.skin-distro-02 .crt-overlay,
+body.skin-christmas .crt-overlay,
+body.skin-halloween .crt-overlay,
+body.skin-cyberpunk .crt-overlay,
+body.skin-matrix .crt-overlay { display: block; opacity: 0.18; }
+body.crt-off .crt-overlay { opacity: 0 !important; }
 
 .vignette {
   position: fixed; inset: 0;
@@ -347,10 +404,12 @@ body.skin-distro-02.crt-off .crt-overlay { opacity: 0; }
 }
 body.skin-tui .vignette,
 body.skin-distro-01 .vignette,
-body.skin-distro-02 .vignette { display: block; box-shadow: inset 0 0 120px rgba(0,0,0,0.65); }
-body.skin-tui.crt-off .vignette,
-body.skin-distro-01.crt-off .vignette,
-body.skin-distro-02.crt-off .vignette { box-shadow: inset 0 0 120px rgba(0,0,0,0); }
+body.skin-distro-02 .vignette,
+body.skin-christmas .vignette,
+body.skin-halloween .vignette,
+body.skin-cyberpunk .vignette,
+body.skin-matrix .vignette { display: block; box-shadow: inset 0 0 120px rgba(0,0,0,0.65); }
+body.crt-off .vignette { box-shadow: inset 0 0 120px rgba(0,0,0,0) !important; }
 
 /* ============================================================
    APP CONTAINER
@@ -415,10 +474,12 @@ body.skin-distro-02 .bg-blur { filter: blur(40px) brightness(0.15) saturate(0.4)
 body.skin-tui .player-card { border-width: 2px; overflow: hidden; }
 body.skin-distro-01 .player-card,
 body.skin-distro-02 .player-card { border-width: 2px; overflow: hidden; }
+body.skin-christmas .player-card,
+body.skin-halloween .player-card,
+body.skin-cyberpunk .player-card,
+body.skin-matrix .player-card { border-width: 2px; }
 
-/* ============================================================
-   HEADER + MENÚ DESPLEGABLE
-   ============================================================ */
+/* HEADER */
 .player-header {
   display: flex;
   justify-content: center;
@@ -438,6 +499,14 @@ body.skin-distro-02 .player-card { border-width: 2px; overflow: hidden; }
 body.skin-tui .header-title,
 body.skin-distro-01 .header-title,
 body.skin-distro-02 .header-title { color: var(--text); text-shadow: var(--glow); }
+body.skin-christmas .header-title,
+body.skin-halloween .header-title,
+body.skin-cyberpunk .header-title,
+body.skin-matrix .header-title {
+  color: var(--text);
+  text-shadow: 0 0 8px var(--glow-color), 0 0 2px var(--accent);
+  font-weight: 700;
+}
 body.skin-tui .player-header,
 body.skin-distro-01 .player-header,
 body.skin-distro-02 .player-header { cursor: pointer; user-select: none; }
@@ -454,6 +523,7 @@ body.skin-tui .player-header.menu-open::after,
 body.skin-distro-01 .player-header.menu-open::after,
 body.skin-distro-02 .player-header.menu-open::after { content: ' ▴'; }
 
+/* MENÚ TUI */
 .tui-theme-menu {
   position: fixed;
   left: 50%;
@@ -528,10 +598,9 @@ body.skin-distro-02 .player-header.menu-open .tui-theme-menu {
   opacity: 0;
 }
 .tui-theme-item.active .tui-check { opacity: 1; }
+.tui-theme-item-custom { font-style: italic; }
 
-/* ============================================================
-   PORTADA DEL ÁLBUM
-   ============================================================ */
+/* PORTADA */
 .cover-container {
   width: 100%;
   display: flex;
@@ -548,7 +617,7 @@ body.skin-distro-02 .player-header.menu-open .tui-theme-menu {
   max-width: 240px;
   aspect-ratio: 1 / 1;
   background: rgba(255, 255, 255, 0.1);
-  border-radius: 0;
+  border-radius: var(--cover-radius);
   object-fit: cover;
   display: block;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
@@ -564,10 +633,15 @@ body.skin-distro-02 .cover-art {
   box-shadow: 0 0 20px var(--glow-color);
   filter: contrast(1.1) saturate(1.1);
 }
+body.skin-christmas .cover-art,
+body.skin-halloween .cover-art,
+body.skin-cyberpunk .cover-art,
+body.skin-matrix .cover-art {
+  border: 2px solid var(--card-border);
+  box-shadow: 0 0 20px var(--glow-color);
+}
 
-/* ============================================================
-   INFO DE LA PISTA
-   ============================================================ */
+/* TRACK INFO */
 .track-info-container {
   position: relative;
   margin: 4px 0;
@@ -590,6 +664,16 @@ body.skin-distro-02 .track-info-container {
   border-radius: 0;
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
+}
+body.skin-christmas .track-info-container,
+body.skin-halloween .track-info-container,
+body.skin-cyberpunk .track-info-container,
+body.skin-matrix .track-info-container {
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid var(--card-border);
+  border-radius: var(--cover-radius);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
 }
 body.skin-tui .track-info-container { cursor: default; }
 
@@ -621,6 +705,12 @@ body.skin-tui .track-info-container { cursor: default; }
 body.skin-tui .track-title,
 body.skin-distro-01 .track-title,
 body.skin-distro-02 .track-title { text-shadow: var(--glow); }
+body.skin-christmas .track-title,
+body.skin-halloween .track-title,
+body.skin-cyberpunk .track-title,
+body.skin-matrix .track-title {
+  text-shadow: 0 0 8px var(--glow-color), 0 0 2px var(--accent);
+}
 
 .track-artist {
   font-size: 0.98rem;
@@ -652,9 +742,7 @@ body.skin-distro-02 .track-title { text-shadow: var(--glow); }
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9);
 }
 
-/* ============================================================
-   SPECS DE AUDIO + STATUS
-   ============================================================ */
+/* SPECS */
 .audio-specs-badge {
   display: flex;
   align-items: center;
@@ -699,9 +787,7 @@ body.skin-tui .status-badge,
 body.skin-distro-01 .status-badge,
 body.skin-distro-02 .status-badge { text-shadow: var(--glow); }
 
-/* ============================================================
-   PROGRESO
-   ============================================================ */
+/* PROGRESO */
 .progress-container {
   width: 100%;
   margin-bottom: 6px;
@@ -746,6 +832,15 @@ body.skin-distro-02 .seek-bar::-webkit-slider-thumb {
   box-shadow: var(--glow);
   width: 12px; height: 12px;
 }
+body.skin-christmas .seek-bar::-webkit-slider-thumb,
+body.skin-halloween .seek-bar::-webkit-slider-thumb,
+body.skin-cyberpunk .seek-bar::-webkit-slider-thumb,
+body.skin-matrix .seek-bar::-webkit-slider-thumb {
+  background: var(--accent);
+  box-shadow: 0 0 12px var(--glow-color);
+  width: 16px;
+  height: 16px;
+}
 
 .time-stamps {
   display: flex;
@@ -755,9 +850,7 @@ body.skin-distro-02 .seek-bar::-webkit-slider-thumb {
   margin-top: 3px;
 }
 
-/* ============================================================
-   CONTROLES
-   ============================================================ */
+/* CONTROLES */
 .controls {
   display: flex;
   align-items: center;
@@ -798,21 +891,22 @@ body.skin-distro-02 .btn-play {
   background: transparent;
   color: var(--accent);
   border: 2px solid var(--accent);
-  box-shadow:
-    0 0 15px var(--accent),
-    0 0 30px var(--glow-color),
-    inset 0 0 10px var(--glow-color);
+  box-shadow: 0 0 15px var(--accent), 0 0 30px var(--glow-color), inset 0 0 10px var(--glow-color);
 }
-body.skin-tui .btn-play:hover,
-body.skin-distro-01 .btn-play:hover,
-body.skin-distro-02 .btn-play:hover { background: rgba(255, 255, 255, 0.08); }
+body.skin-christmas .btn-play,
+body.skin-halloween .btn-play,
+body.skin-cyberpunk .btn-play,
+body.skin-matrix .btn-play {
+  background: transparent;
+  color: var(--accent);
+  border: 2px solid var(--accent);
+  box-shadow: 0 0 15px var(--accent), 0 0 30px var(--glow-color), inset 0 0 10px var(--glow-color);
+}
 
 .btn-sub { font-size: 1.15rem; opacity: 0.5; transition: opacity 0.2s, color 0.2s; }
 .btn-sub.active { opacity: 1; color: var(--accent); }
 
-/* ============================================================
-   BOTONES DE ACCIÓN (visible en TODOS los skins)
-   ============================================================ */
+/* BOTONES DE ACCIÓN */
 .action-buttons-normal {
   display: flex !important;
   justify-content: space-between;
@@ -823,6 +917,7 @@ body.skin-distro-02 .btn-play:hover { background: rgba(255, 255, 255, 0.08); }
   position: relative;
   z-index: 3;
   margin-top: 8px;
+  gap: 4px;
 }
 
 body.skin-distro-01 .action-buttons-normal,
@@ -834,17 +929,18 @@ body.skin-distro-02 .action-buttons-normal {
   background: rgba(255, 255, 255, 0.2);
   border: 1px solid rgba(255, 255, 255, 0.3);
   color: var(--text);
-  width: 44px; height: 44px;
+  width: 40px; height: 40px;
   border-radius: var(--btn-radius);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   cursor: pointer;
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   transition: transform 0.1s ease, background 0.2s ease, border-radius 0.3s;
   position: relative;
+  flex-shrink: 0;
 }
 .icon-action-btn:active { transform: scale(0.9); background: rgba(255, 255, 255, 0.35); }
 
@@ -857,23 +953,27 @@ body.skin-distro-02 .icon-action-btn {
   border-radius: 0;
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
-  box-shadow:
-    0 0 10px var(--glow-color),
-    inset 0 0 6px var(--glow-color);
+  box-shadow: 0 0 10px var(--glow-color), inset 0 0 6px var(--glow-color);
 }
+body.skin-christmas .icon-action-btn,
+body.skin-halloween .icon-action-btn,
+body.skin-cyberpunk .icon-action-btn,
+body.skin-matrix .icon-action-btn {
+  background: rgba(0, 0, 0, 0.7);
+  border: 1px solid var(--accent);
+  color: var(--accent);
+  box-shadow: 0 0 10px var(--glow-color), inset 0 0 6px var(--glow-color);
+}
+
 body.skin-tui .icon-action-btn:active,
 body.skin-distro-01 .icon-action-btn:active,
-body.skin-distro-02 .icon-action-btn:active { background: rgba(255, 255, 255, 0.08); }
+body.skin-distro-02 .icon-action-btn:active,
+body.skin-christmas .icon-action-btn:active,
+body.skin-halloween .icon-action-btn:active,
+body.skin-cyberpunk .icon-action-btn:active,
+body.skin-matrix .icon-action-btn:active { background: rgba(255, 255, 255, 0.08); }
 
-/* Tamaño ajustado en distros */
-body.skin-distro-01 .icon-action-btn,
-body.skin-distro-02 .icon-action-btn {
-  width: 42px;
-  height: 42px;
-  font-size: 1.1rem;
-}
-
-.file-input-wrapper { position: relative; display: inline-block; }
+.file-input-wrapper { position: relative; display: inline-block; flex-shrink: 0; }
 
 .real-file-input {
   position: absolute;
@@ -884,10 +984,7 @@ body.skin-distro-02 .icon-action-btn {
   z-index: 5;
 }
 
-/* ============================================================
-   🖼️ OVERLAY ASCII BACKGROUND
-   Solo en skins @distro_01 / @distro_02
-   ============================================================ */
+/* OVERLAY ASCII BACKGROUND */
 .overlay-ascii-bg {
   position: absolute;
   inset: 0;
@@ -901,16 +998,25 @@ body.skin-distro-02 .icon-action-btn {
   opacity: 0;
   transition: opacity 0.4s ease;
 }
-
 body.skin-distro-01 .overlay-ascii-bg,
-body.skin-distro-02 .overlay-ascii-bg {
-  display: flex;
-}
+body.skin-distro-02 .overlay-ascii-bg,
+body.skin-christmas .overlay-ascii-bg,
+body.skin-halloween .overlay-ascii-bg,
+body.skin-cyberpunk .overlay-ascii-bg,
+body.skin-matrix .overlay-ascii-bg { display: flex; }
 
 body.skin-distro-01 .playlist-overlay.active .overlay-ascii-bg,
 body.skin-distro-01 .modal-overlay.active .overlay-ascii-bg,
 body.skin-distro-02 .playlist-overlay.active .overlay-ascii-bg,
-body.skin-distro-02 .modal-overlay.active .overlay-ascii-bg {
+body.skin-distro-02 .modal-overlay.active .overlay-ascii-bg,
+body.skin-christmas .playlist-overlay.active .overlay-ascii-bg,
+body.skin-christmas .modal-overlay.active .overlay-ascii-bg,
+body.skin-halloween .playlist-overlay.active .overlay-ascii-bg,
+body.skin-halloween .modal-overlay.active .overlay-ascii-bg,
+body.skin-cyberpunk .playlist-overlay.active .overlay-ascii-bg,
+body.skin-cyberpunk .modal-overlay.active .overlay-ascii-bg,
+body.skin-matrix .playlist-overlay.active .overlay-ascii-bg,
+body.skin-matrix .modal-overlay.active .overlay-ascii-bg {
   opacity: 1;
   animation: overlayAsciiFadeIn 0.6s ease;
 }
@@ -926,7 +1032,6 @@ body.skin-distro-02 .modal-overlay.active .overlay-ascii-bg {
   line-height: 1;
   white-space: pre;
   color: var(--accent);
-  /* ⬇️ ANTES 0.12 → AHORA 0.45 (bien visible) */
   opacity: 0.45;
   margin: 0;
   padding: 0;
@@ -934,7 +1039,6 @@ body.skin-distro-02 .modal-overlay.active .overlay-ascii-bg {
   max-height: 100%;
   overflow: hidden;
   text-align: center;
-  /* ⬇️ EFECTO NEÓN: múltiples sombras para simular glow intenso */
   text-shadow:
     0 0 2px var(--accent),
     0 0 4px var(--accent),
@@ -950,16 +1054,9 @@ body.skin-distro-02 .modal-overlay.active .overlay-ascii-bg {
   animation: neonPulse 4s ease-in-out infinite;
 }
 
-/* Efecto pulso tipo neón */
 @keyframes neonPulse {
-  0%, 100% {
-    filter: brightness(1.2);
-    opacity: 0.45;
-  }
-  50% {
-    filter: brightness(1.4);
-    opacity: 0.55;
-  }
+  0%, 100% { filter: brightness(1.2); opacity: 0.45; }
+  50% { filter: brightness(1.4); opacity: 0.55; }
 }
 
 .playlist-overlay > .playlist-header,
@@ -967,14 +1064,9 @@ body.skin-distro-02 .modal-overlay.active .overlay-ascii-bg {
 .playlist-overlay > .playlist-list,
 .playlist-overlay > .playlists-list,
 .modal-overlay > .playlist-header,
-.modal-overlay > .settings-body {
-  position: relative;
-  z-index: 1;
-}
+.modal-overlay > .settings-body { position: relative; z-index: 1; }
 
-/* ============================================================
-   NAVEGACIÓN INFERIOR (5 pestañas)
-   ============================================================ */
+/* BOTTOM NAV */
 .bottom-nav {
   background: var(--card-bg);
   backdrop-filter: var(--card-blur);
@@ -994,7 +1086,11 @@ body.skin-distro-02 .modal-overlay.active .overlay-ascii-bg {
 }
 body.skin-tui .bottom-nav,
 body.skin-distro-01 .bottom-nav,
-body.skin-distro-02 .bottom-nav { border-width: 2px; }
+body.skin-distro-02 .bottom-nav,
+body.skin-christmas .bottom-nav,
+body.skin-halloween .bottom-nav,
+body.skin-cyberpunk .bottom-nav,
+body.skin-matrix .bottom-nav { border-width: 2px; }
 
 .nav-btn {
   background: none;
@@ -1014,11 +1110,13 @@ body.skin-distro-02 .bottom-nav { border-width: 2px; }
 .nav-btn:active { transform: scale(0.92); }
 body.skin-tui .nav-btn.active,
 body.skin-distro-01 .nav-btn.active,
-body.skin-distro-02 .nav-btn.active { color: var(--accent); text-shadow: var(--glow); }
+body.skin-distro-02 .nav-btn.active,
+body.skin-christmas .nav-btn.active,
+body.skin-halloween .nav-btn.active,
+body.skin-cyberpunk .nav-btn.active,
+body.skin-matrix .nav-btn.active { color: var(--accent); text-shadow: 0 0 8px var(--glow-color); }
 
-/* ============================================================
-   OVERLAYS
-   ============================================================ */
+/* OVERLAYS */
 .playlist-overlay, .modal-overlay {
   position: absolute;
   top: 0; left: 0;
@@ -1041,7 +1139,15 @@ body.skin-tui .modal-overlay,
 body.skin-distro-01 .playlist-overlay,
 body.skin-distro-01 .modal-overlay,
 body.skin-distro-02 .playlist-overlay,
-body.skin-distro-02 .modal-overlay {
+body.skin-distro-02 .modal-overlay,
+body.skin-christmas .playlist-overlay,
+body.skin-christmas .modal-overlay,
+body.skin-halloween .playlist-overlay,
+body.skin-halloween .modal-overlay,
+body.skin-cyberpunk .playlist-overlay,
+body.skin-cyberpunk .modal-overlay,
+body.skin-matrix .playlist-overlay,
+body.skin-matrix .modal-overlay {
   background: rgba(5, 10, 6, 0.98);
   border-radius: 0;
   border: 2px solid var(--card-border);
@@ -1052,6 +1158,14 @@ body.skin-distro-01 .playlist-overlay,
 body.skin-distro-01 .modal-overlay,
 body.skin-distro-02 .playlist-overlay,
 body.skin-distro-02 .modal-overlay { background: rgba(13, 17, 23, 0.98); }
+body.skin-christmas .playlist-overlay,
+body.skin-christmas .modal-overlay,
+body.skin-halloween .playlist-overlay,
+body.skin-halloween .modal-overlay,
+body.skin-cyberpunk .playlist-overlay,
+body.skin-cyberpunk .modal-overlay,
+body.skin-matrix .playlist-overlay,
+body.skin-matrix .modal-overlay { background: rgba(0, 0, 0, 0.9); }
 
 .playlist-overlay.active, .modal-overlay.active {
   display: flex;
@@ -1242,12 +1356,6 @@ body.skin-distro-02 .playlist-item.playing {
   50% { opacity: 0.4; }
 }
 
-body.skin-tui .playlist-item.playing::before,
-body.skin-distro-01 .playlist-item.playing::before,
-body.skin-distro-02 .playlist-item.playing::before {
-  text-shadow: 0 0 6px var(--glow-color);
-}
-
 .playlist-item.playing { padding-left: 18px; }
 
 .playlist-item-title {
@@ -1264,9 +1372,7 @@ body.skin-distro-02 .playlist-item.playing::before {
   color: var(--text-muted);
 }
 
-/* ============================================================
-   AJUSTES
-   ============================================================ */
+/* AJUSTES */
 .settings-body {
   padding: 10px 0;
   color: var(--text);
@@ -1295,6 +1401,14 @@ body.skin-distro-02 .settings-item {
   border-radius: 0;
   box-shadow: 0 0 8px var(--glow-color);
 }
+body.skin-christmas .settings-item,
+body.skin-halloween .settings-item,
+body.skin-cyberpunk .settings-item,
+body.skin-matrix .settings-item {
+  background: rgba(0, 0, 0, 0.6);
+  border: 1px solid var(--accent);
+  box-shadow: 0 0 8px var(--glow-color);
+}
 
 .settings-row {
   display: flex;
@@ -1311,10 +1425,15 @@ body.skin-distro-02 .settings-item {
 }
 body.skin-tui .settings-title,
 body.skin-distro-01 .settings-title,
-body.skin-distro-02 .settings-title {
+body.skin-distro-02 .settings-title,
+body.skin-christmas .settings-title,
+body.skin-halloween .settings-title,
+body.skin-cyberpunk .settings-title,
+body.skin-matrix .settings-title {
   text-transform: uppercase;
   letter-spacing: 1px;
   color: var(--accent);
+  text-shadow: 0 0 6px var(--glow-color);
 }
 
 .settings-desc {
@@ -1351,9 +1470,16 @@ body.skin-distro-02 .btn-action {
   border-radius: 0;
   box-shadow: 0 0 6px var(--glow-color);
 }
-body.skin-tui .btn-action:hover,
-body.skin-distro-01 .btn-action:hover,
-body.skin-distro-02 .btn-action:hover { background: rgba(255, 255, 255, 0.08); }
+body.skin-christmas .btn-action,
+body.skin-halloween .btn-action,
+body.skin-cyberpunk .btn-action,
+body.skin-matrix .btn-action {
+  background: rgba(0, 0, 0, 0.7);
+  border: 1px solid var(--accent);
+  color: var(--accent);
+  border-radius: var(--cover-radius);
+  box-shadow: 0 0 6px var(--glow-color);
+}
 
 .btn-action-magenta {
   border-color: var(--accent);
@@ -1362,9 +1488,7 @@ body.skin-distro-02 .btn-action:hover { background: rgba(255, 255, 255, 0.08); }
 }
 .btn-action-magenta:hover { background: var(--accent); color: #fff; }
 
-/* ============================================================
-   TOGGLE SWITCH
-   ============================================================ */
+/* TOGGLE */
 .toggle-switch {
   position: relative;
   display: inline-block;
@@ -1397,23 +1521,11 @@ body.skin-tui .slider:before,
 body.skin-distro-01 .slider:before,
 body.skin-distro-02 .slider:before { border-radius: 0; background-color: var(--accent); }
 
-/* ============================================================
-   GESTOR DE ARCHIVOS (botones)
-   ============================================================ */
-#storageManagerItem .btn-tool {
-  font-size: 0.72rem;
-  padding: 8px 10px;
-}
+/* Gestor archivos */
+#storageManagerItem .btn-tool { font-size: 0.72rem; padding: 8px 10px; }
+#storageManagerItem .btn-tool.active { background: var(--accent); color: #000; border-color: var(--accent); }
 
-#storageManagerItem .btn-tool.active {
-  background: var(--accent);
-  color: #000;
-  border-color: var(--accent);
-}
-
-/* ============================================================
-   PLAYLISTS
-   ============================================================ */
+/* PLAYLISTS */
 .playlists-list {
   list-style: none;
   overflow-y: auto;
@@ -1452,9 +1564,6 @@ body.skin-distro-02 .playlists-item {
   padding-left: 22px;
   box-shadow: 0 0 6px var(--glow-color);
 }
-body.skin-tui .playlists-item:hover,
-body.skin-distro-01 .playlists-item:hover,
-body.skin-distro-02 .playlists-item:hover { background: rgba(255, 255, 255, 0.06); }
 
 body.skin-tui .playlists-item::before,
 body.skin-distro-01 .playlists-item::before,
@@ -1470,10 +1579,7 @@ body.skin-distro-02 .playlists-item::before {
   opacity: 0.6;
 }
 
-.playlists-item-info {
-  flex: 1;
-  min-width: 0;
-}
+.playlists-item-info { flex: 1; min-width: 0; }
 
 .playlists-item-name {
   font-size: 0.9rem;
@@ -1484,11 +1590,6 @@ body.skin-distro-02 .playlists-item::before {
   text-overflow: ellipsis;
   margin-bottom: 2px;
 }
-body.skin-tui .playlists-item-name,
-body.skin-distro-01 .playlists-item-name,
-body.skin-distro-02 .playlists-item-name {
-  text-shadow: 0 0 6px var(--glow-color);
-}
 
 .playlists-item-count {
   font-size: 0.72rem;
@@ -1496,22 +1597,12 @@ body.skin-distro-02 .playlists-item-name {
   opacity: 0.8;
 }
 
-.playlists-item-icon {
-  font-size: 1.3rem;
-  flex-shrink: 0;
-  opacity: 0.9;
-}
+.playlists-item-icon { font-size: 1.3rem; flex-shrink: 0; opacity: 0.9; }
 
 .playlists-item-fav {
   background: linear-gradient(135deg, rgba(255, 71, 87, 0.15), rgba(255, 71, 87, 0.05));
   border: 1px solid rgba(255, 71, 87, 0.4);
   box-shadow: 0 4px 12px rgba(255, 71, 87, 0.15);
-}
-body.skin-tui .playlists-item-fav,
-body.skin-distro-01 .playlists-item-fav,
-body.skin-distro-02 .playlists-item-fav {
-  background: rgba(255, 71, 87, 0.08);
-  border-color: var(--accent);
 }
 
 .playlists-empty {
@@ -1536,7 +1627,6 @@ body.skin-distro-02 .playlists-item-fav {
   50% { transform: translateY(-8px); }
 }
 
-/* Botones contextuales en items */
 .playlist-item-actions {
   display: flex;
   gap: 4px;
@@ -1562,10 +1652,7 @@ body.skin-distro-02 .playlists-item-fav {
   font-family: inherit;
   line-height: 1;
 }
-.playlist-item-more:hover {
-  background: rgba(255, 255, 255, 0.2);
-  color: var(--text);
-}
+.playlist-item-more:hover { background: rgba(255, 255, 255, 0.2); color: var(--text); }
 .playlist-item-more:active { transform: rotate(90deg) scale(0.9); }
 
 body.skin-tui .playlist-item-more,
@@ -1581,12 +1668,6 @@ body.skin-distro-02 .playlist-item-more {
   color: #ff4757;
   font-size: 0.85rem;
   flex-shrink: 0;
-}
-body.skin-tui .playlist-item-fav,
-body.skin-distro-01 .playlist-item-fav,
-body.skin-distro-02 .playlist-item-fav {
-  color: var(--accent);
-  text-shadow: 0 0 6px var(--glow-color);
 }
 
 .playlist-item-reorder {
@@ -1613,24 +1694,10 @@ body.skin-distro-02 .playlist-item-fav {
   line-height: 1;
   transition: background 0.15s ease, color 0.15s ease, transform 0.1s ease;
 }
-.playlist-item-reorder button:hover {
-  background: rgba(255, 255, 255, 0.2);
-  color: var(--text);
-}
+.playlist-item-reorder button:hover { background: rgba(255, 255, 255, 0.2); color: var(--text); }
 .playlist-item-reorder button:active { transform: scale(0.85); }
 
-body.skin-tui .playlist-item-reorder button,
-body.skin-distro-01 .playlist-item-reorder button,
-body.skin-distro-02 .playlist-item-reorder button {
-  background: #000;
-  border: 1px solid var(--card-border);
-  color: var(--accent);
-  border-radius: 0;
-}
-
-/* ============================================================
-   BOTTOM SHEETS
-   ============================================================ */
+/* BOTTOM SHEETS */
 .bottom-sheet-overlay {
   position: fixed;
   inset: 0;
@@ -1645,10 +1712,7 @@ body.skin-distro-02 .playlist-item-reorder button {
   pointer-events: none;
   transition: opacity 0.25s ease;
 }
-.bottom-sheet-overlay.active {
-  opacity: 1;
-  pointer-events: auto;
-}
+.bottom-sheet-overlay.active { opacity: 1; pointer-events: auto; }
 
 .bottom-sheet {
   background: #1c1c24;
@@ -1674,9 +1738,7 @@ body.skin-distro-02 .bottom-sheet {
   border-left: 2px solid var(--accent);
   border-right: 2px solid var(--accent);
   border-radius: 0;
-  box-shadow:
-    0 -10px 40px rgba(0, 0, 0, 0.8),
-    0 0 30px var(--glow-color);
+  box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.8), 0 0 30px var(--glow-color);
 }
 
 .bottom-sheet::before {
@@ -1689,24 +1751,11 @@ body.skin-distro-02 .bottom-sheet {
   margin: 10px auto 4px auto;
   flex-shrink: 0;
 }
-body.skin-tui .bottom-sheet::before,
-body.skin-distro-01 .bottom-sheet::before,
-body.skin-distro-02 .bottom-sheet::before {
-  background: var(--accent);
-  border-radius: 0;
-  box-shadow: 0 0 6px var(--glow-color);
-}
 
 .bottom-sheet-header {
   padding: 8px 20px 14px 20px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   flex-shrink: 0;
-}
-body.skin-tui .bottom-sheet-header,
-body.skin-distro-01 .bottom-sheet-header,
-body.skin-distro-02 .bottom-sheet-header {
-  border-bottom: 1px solid var(--card-border);
-  background: rgba(0, 0, 0, 0.6);
 }
 
 .bottom-sheet-title {
@@ -1717,14 +1766,6 @@ body.skin-distro-02 .bottom-sheet-header {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-}
-body.skin-tui .bottom-sheet-title,
-body.skin-distro-01 .bottom-sheet-title,
-body.skin-distro-02 .bottom-sheet-title {
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  font-size: 0.85rem;
-  text-shadow: 0 0 8px var(--glow-color);
 }
 
 .bottom-sheet-subtitle {
@@ -1758,42 +1799,9 @@ body.skin-distro-02 .bottom-sheet-title {
 .bottom-sheet-item:hover,
 .bottom-sheet-item:active { background: rgba(255, 255, 255, 0.08); }
 
-body.skin-tui .bottom-sheet-item,
-body.skin-distro-01 .bottom-sheet-item,
-body.skin-distro-02 .bottom-sheet-item {
-  color: var(--accent);
-  padding-left: 14px;
-  font-family: 'JetBrains Mono', monospace;
-}
-body.skin-tui .bottom-sheet-item:hover,
-body.skin-distro-01 .bottom-sheet-item:hover,
-body.skin-distro-02 .bottom-sheet-item:hover {
-  background: rgba(255, 255, 255, 0.05);
-  box-shadow: inset 0 0 12px var(--glow-color);
-}
-
-body.skin-tui .bottom-sheet-item::before,
-body.skin-distro-01 .bottom-sheet-item::before,
-body.skin-distro-02 .bottom-sheet-item::before {
-  content: '$';
-  color: var(--accent);
-  opacity: 0.5;
-  margin-right: 4px;
-  font-weight: 700;
-}
-
 .bottom-sheet-item-danger { color: #ff6b7a; }
-body.skin-tui .bottom-sheet-item-danger,
-body.skin-distro-01 .bottom-sheet-item-danger,
-body.skin-distro-02 .bottom-sheet-item-danger { color: #ff6b7a; }
-
 .bottom-sheet-item-current { opacity: 0.5; pointer-events: none; }
-
-.bottom-sheet-item-check {
-  margin-left: auto;
-  color: var(--accent);
-  font-weight: 700;
-}
+.bottom-sheet-item-check { margin-left: auto; color: var(--accent); font-weight: 700; }
 
 .bottom-sheet-cancel {
   background: rgba(255, 255, 255, 0.08);
@@ -1812,23 +1820,7 @@ body.skin-distro-02 .bottom-sheet-item-danger { color: #ff6b7a; }
 .bottom-sheet-cancel:hover,
 .bottom-sheet-cancel:active { background: rgba(255, 255, 255, 0.14); }
 
-body.skin-tui .bottom-sheet-cancel,
-body.skin-distro-01 .bottom-sheet-cancel,
-body.skin-distro-02 .bottom-sheet-cancel {
-  background: #000;
-  border-top: 1px solid var(--accent);
-  color: var(--accent);
-  font-family: 'JetBrains Mono', monospace;
-}
-body.skin-tui .bottom-sheet-cancel:hover,
-body.skin-distro-01 .bottom-sheet-cancel:hover,
-body.skin-distro-02 .bottom-sheet-cancel:hover {
-  background: rgba(255, 255, 255, 0.06);
-}
-
-/* ============================================================
-   MODAL SIMPLE
-   ============================================================ */
+/* MODAL SIMPLE */
 .modal-overlay-simple {
   position: fixed;
   inset: 0;
@@ -1864,9 +1856,7 @@ body.skin-distro-02 .modal-box {
   background: #000;
   border: 2px solid var(--accent);
   border-radius: 0;
-  box-shadow:
-    0 20px 50px rgba(0, 0, 0, 0.8),
-    0 0 40px var(--glow-color);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8), 0 0 40px var(--glow-color);
 }
 
 .modal-box-title {
@@ -1875,24 +1865,6 @@ body.skin-distro-02 .modal-box {
   color: var(--text);
   margin-bottom: 14px;
   text-align: center;
-}
-body.skin-tui .modal-box-title,
-body.skin-distro-01 .modal-box-title,
-body.skin-distro-02 .modal-box-title {
-  color: var(--accent);
-  text-transform: uppercase;
-  letter-spacing: 1.5px;
-  text-shadow: 0 0 8px var(--glow-color);
-}
-
-body.skin-tui .modal-box-title::before,
-body.skin-distro-01 .modal-box-title::before,
-body.skin-distro-02 .modal-box-title::before {
-  content: '$ mkdir ';
-  color: var(--accent);
-  opacity: 0.6;
-  font-weight: 400;
-  font-size: 0.85rem;
 }
 
 .modal-box-message {
@@ -1922,33 +1894,8 @@ body.skin-distro-02 .modal-box-title::before {
 }
 .modal-input::placeholder { color: var(--text-muted); opacity: 0.6; }
 
-body.skin-tui .modal-input,
-body.skin-distro-01 .modal-input,
-body.skin-distro-02 .modal-input {
-  background: #000;
-  border: 1px solid var(--card-border);
-  border-radius: 0;
-  color: var(--accent);
-  font-family: 'JetBrains Mono', monospace;
-}
-body.skin-tui .modal-input:focus,
-body.skin-distro-01 .modal-input:focus,
-body.skin-distro-02 .modal-input:focus {
-  border-color: var(--accent);
-  box-shadow: 0 0 8px var(--glow-color);
-}
-
-.modal-box-actions {
-  display: flex;
-  gap: 10px;
-  justify-content: flex-end;
-}
-
-.modal-box-actions .btn-action {
-  flex: 1;
-  padding: 10px 16px;
-  font-size: 0.85rem;
-}
+.modal-box-actions { display: flex; gap: 10px; justify-content: flex-end; }
+.modal-box-actions .btn-action { flex: 1; padding: 10px 16px; font-size: 0.85rem; }
 
 @keyframes modalShake {
   0%, 100% { transform: scale(1) translateX(0); }
@@ -1957,12 +1904,9 @@ body.skin-distro-02 .modal-input:focus {
   60% { transform: scale(1) translateX(-4px); }
   80% { transform: scale(1) translateX(4px); }
 }
-
 .modal-box.shake { animation: modalShake 0.4s ease; }
 
-/* ============================================================
-   TOAST
-   ============================================================ */
+/* TOAST */
 .meow-toast {
   position: fixed;
   bottom: calc(env(safe-area-inset-bottom, 0px) + 100px);
@@ -1990,22 +1934,7 @@ body.skin-distro-02 .modal-input:focus {
 }
 .meow-toast.active { opacity: 1; transform: translateX(-50%) translateY(0); }
 
-body.skin-tui .meow-toast,
-body.skin-distro-01 .meow-toast,
-body.skin-distro-02 .meow-toast {
-  background: #000;
-  border: 1px solid var(--accent);
-  border-radius: 0;
-  color: var(--accent);
-  box-shadow:
-    0 8px 20px rgba(0, 0, 0, 0.6),
-    0 0 15px var(--glow-color);
-  font-family: 'JetBrains Mono', monospace;
-}
-
-/* ============================================================
-   AVISO DE PRIVACIDAD
-   ============================================================ */
+/* AVISO PRIVACIDAD */
 .meow-aviso-overlay {
   position: fixed;
   top: 0; left: 0; width: 100%; height: 100%;
@@ -2032,30 +1961,9 @@ body.skin-distro-02 .meow-aviso-overlay { background: rgba(0, 0, 0, 0.95); }
   box-shadow: 0 20px 40px rgba(0,0,0,0.5);
   color: #fff;
 }
-body.skin-tui .meow-aviso-box,
-body.skin-distro-01 .meow-aviso-box,
-body.skin-distro-02 .meow-aviso-box {
-  background: #000;
-  border: 2px solid var(--accent);
-  border-radius: 0;
-  color: var(--accent);
-  box-shadow: 0 0 30px var(--glow-color);
-}
 
 .meow-aviso-box h3 { margin-bottom: 12px; font-size: 1.2rem; color: var(--accent); }
-body.skin-tui .meow-aviso-box h3,
-body.skin-distro-01 .meow-aviso-box h3,
-body.skin-distro-02 .meow-aviso-box h3 { text-transform: uppercase; letter-spacing: 2px; text-shadow: var(--glow); }
-
-.meow-aviso-box p {
-  font-size: 0.9rem;
-  margin-bottom: 16px;
-  line-height: 1.4;
-  color: rgba(255,255,255,0.85);
-}
-body.skin-tui .meow-aviso-box p,
-body.skin-distro-01 .meow-aviso-box p,
-body.skin-distro-02 .meow-aviso-box p { color: var(--text-muted); }
+.meow-aviso-box p { font-size: 0.9rem; margin-bottom: 16px; line-height: 1.4; color: rgba(255,255,255,0.85); }
 
 .meow-checkbox-label {
   display: flex;
@@ -2079,24 +1987,8 @@ body.skin-distro-02 .meow-aviso-box p { color: var(--text-muted); }
   transition: transform 0.1s;
   font-family: var(--font-family);
 }
-.meow-btn-cerrar:active { transform: scale(0.95); }
-body.skin-tui .meow-btn-cerrar,
-body.skin-distro-01 .meow-btn-cerrar,
-body.skin-distro-02 .meow-btn-cerrar {
-  background: transparent;
-  color: var(--accent);
-  border: 2px solid var(--accent);
-  border-radius: 0;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-}
-body.skin-tui .meow-btn-cerrar:hover,
-body.skin-distro-01 .meow-btn-cerrar:hover,
-body.skin-distro-02 .meow-btn-cerrar:hover { background: var(--accent); color: #000; }
 
-/* ============================================================
-   KBD
-   ============================================================ */
+/* KBD */
 kbd {
   background: rgba(255, 255, 255, 0.15);
   border: 1px solid rgba(255, 255, 255, 0.3);
@@ -2106,18 +1998,8 @@ kbd {
   color: var(--accent-cyan);
   font-family: var(--font-family);
 }
-body.skin-tui kbd,
-body.skin-distro-01 kbd,
-body.skin-distro-02 kbd {
-  background: #000;
-  border: 1px solid var(--card-border);
-  color: var(--accent);
-  border-radius: 0;
-}
 
-/* ============================================================
-   BOOT OVERLAY
-   ============================================================ */
+/* BOOT OVERLAY */
 .distro-boot-overlay {
   position: fixed;
   inset: 0;
@@ -2144,11 +2026,7 @@ body.skin-distro-02 kbd {
   word-break: break-word;
   text-align: left;
 }
-
-.distro-boot-terminal pre {
-  margin: 0;
-  white-space: pre-wrap;
-}
+.distro-boot-terminal pre { margin: 0; white-space: pre-wrap; }
 
 .distro-boot-cursor {
   display: inline-block;
@@ -2163,7 +2041,7 @@ body.skin-distro-02 kbd {
 }
 
 /* ============================================================
-   🖥️ MODO TERMINAL — @distro_01 y @distro_02
+   🖥️ MODO TERMINAL — Distros
    ============================================================ */
 body.skin-distro-01,
 body.skin-distro-01 *,
@@ -2183,10 +2061,7 @@ body.skin-distro-02 .player-card {
   backdrop-filter: blur(20px) saturate(140%) !important;
   -webkit-backdrop-filter: blur(20px) saturate(140%) !important;
   border: 2px solid var(--accent) !important;
-  box-shadow:
-    0 0 25px var(--glow-color),
-    0 0 60px rgba(0, 0, 0, 0.5),
-    inset 0 0 20px rgba(255, 255, 255, 0.04) !important;
+  box-shadow: 0 0 25px var(--glow-color), 0 0 60px rgba(0, 0, 0, 0.5), inset 0 0 20px rgba(255, 255, 255, 0.04) !important;
 }
 
 body.skin-distro-01 .bottom-nav,
@@ -2195,9 +2070,7 @@ body.skin-distro-02 .bottom-nav {
   backdrop-filter: blur(20px) saturate(140%) !important;
   -webkit-backdrop-filter: blur(20px) saturate(140%) !important;
   border: 2px solid var(--accent) !important;
-  box-shadow:
-    0 0 20px var(--glow-color),
-    0 0 40px rgba(0, 0, 0, 0.5) !important;
+  box-shadow: 0 0 20px var(--glow-color), 0 0 40px rgba(0, 0, 0, 0.5) !important;
 }
 
 body.skin-distro-01 .playlist-overlay,
@@ -2208,64 +2081,44 @@ body.skin-distro-02 .modal-overlay {
   backdrop-filter: blur(25px) saturate(140%) !important;
   -webkit-backdrop-filter: blur(25px) saturate(140%) !important;
   border: 2px solid var(--accent) !important;
-  box-shadow:
-    0 0 30px var(--glow-color),
-    inset 0 0 30px rgba(0, 0, 0, 0.3) !important;
+  box-shadow: 0 0 30px var(--glow-color), inset 0 0 30px rgba(0, 0, 0, 0.3) !important;
 }
 
 body.skin-distro-01 .player-card,
-body.skin-distro-02 .player-card {
-  justify-content: flex-start !important;
-  gap: 0 !important;
-}
+body.skin-distro-02 .player-card { justify-content: flex-start !important; gap: 0 !important; }
 
 body.skin-distro-01 .player-header,
-body.skin-distro-02 .player-header {
-  margin: 0 0 18px 0 !important;
-  padding: 0 !important;
-}
+body.skin-distro-02 .player-header { margin: 0 0 12px 0 !important; padding: 0 !important; }
 
 body.skin-distro-01 .header-title,
 body.skin-distro-02 .header-title {
-  font-size: 1.05rem !important;
+  font-size: 1rem !important;
   font-weight: 700 !important;
   letter-spacing: 3px !important;
   opacity: 0.95;
-  text-shadow:
-    0 0 8px var(--glow-color),
-    0 0 2px var(--accent) !important;
+  text-shadow: 0 0 8px var(--glow-color), 0 0 2px var(--accent) !important;
 }
 
 body.skin-distro-01 .cover-container,
-body.skin-distro-02 .cover-container {
-  margin: 0 0 18px 0 !important;
-  padding: 0 !important;
-}
+body.skin-distro-02 .cover-container { margin: 0 0 12px 0 !important; padding: 0 !important; }
 
 body.skin-distro-01 .cover-art,
-body.skin-distro-02 .cover-art {
-  max-width: 230px !important;
-}
+body.skin-distro-02 .cover-art { max-width: 200px !important; }
 
 body.skin-distro-01 .track-info-container,
-body.skin-distro-02 .track-info-container {
-  margin: 0 0 8px 0 !important;
-  padding: 10px 8px !important;
-}
+body.skin-distro-02 .track-info-container { margin: 0 0 6px 0 !important; padding: 8px 8px !important; }
 
 body.skin-distro-01 .track-title,
 body.skin-distro-02 .track-title {
-  font-size: 1rem !important;
+  font-size: 0.95rem !important;
   letter-spacing: 0.8px;
   font-weight: 700;
-  text-shadow:
-    0 0 8px var(--glow-color),
-    0 0 2px var(--accent) !important;
+  text-shadow: 0 0 8px var(--glow-color), 0 0 2px var(--accent) !important;
 }
 
 body.skin-distro-01 .track-artist,
 body.skin-distro-02 .track-artist {
-  font-size: 0.78rem !important;
+  font-size: 0.75rem !important;
   letter-spacing: 0.4px;
   color: var(--text) !important;
   opacity: 0.85 !important;
@@ -2273,7 +2126,7 @@ body.skin-distro-02 .track-artist {
 
 body.skin-distro-01 .track-album,
 body.skin-distro-02 .track-album {
-  font-size: 0.68rem !important;
+  font-size: 0.66rem !important;
   letter-spacing: 0.3px;
   color: var(--text) !important;
   opacity: 0.85 !important;
@@ -2281,17 +2134,17 @@ body.skin-distro-02 .track-album {
 
 body.skin-distro-01 .audio-specs-badge,
 body.skin-distro-02 .audio-specs-badge {
-  font-size: 0.66rem !important;
+  font-size: 0.64rem !important;
   letter-spacing: 0.8px;
   min-height: 14px !important;
-  margin: 0 0 6px 0 !important;
+  margin: 0 0 4px 0 !important;
 }
 
 body.skin-distro-01 .status-badge,
 body.skin-distro-02 .status-badge {
-  font-size: 0.62rem !important;
+  font-size: 0.6rem !important;
   min-height: 10px !important;
-  margin: 0 0 10px 0 !important;
+  margin: 0 0 6px 0 !important;
 }
 
 body.skin-distro-01 .distro-zone,
@@ -2300,51 +2153,18 @@ body.skin-distro-02 .distro-zone {
 }
 
 body.skin-distro-01 .progress-container,
-body.skin-distro-02 .progress-container {
-  margin-top: 0 !important;
-  margin-bottom: 6px !important;
-}
+body.skin-distro-02 .progress-container { margin-top: 0 !important; margin-bottom: 6px !important; }
 
 body.skin-distro-01 .controls,
-body.skin-distro-02 .controls {
-  margin-bottom: 0 !important;
-}
+body.skin-distro-02 .controls { margin-bottom: 0 !important; }
 
-body.skin-distro-01 .playlist-title,
-body.skin-distro-01 .settings-title,
-body.skin-distro-01 .playlist-item-title,
-body.skin-distro-01 .playlists-item-name,
-body.skin-distro-02 .playlist-title,
-body.skin-distro-02 .settings-title,
-body.skin-distro-02 .playlist-item-title,
-body.skin-distro-02 .playlists-item-name {
-  text-shadow:
-    0 0 8px var(--glow-color),
-    0 0 2px var(--accent) !important;
-}
-
-body.skin-distro-01 .settings-desc,
-body.skin-distro-01 .playlist-item-artist,
-body.skin-distro-01 .sort-label,
-body.skin-distro-01 .playlists-item-count,
-body.skin-distro-02 .settings-desc,
-body.skin-distro-02 .playlist-item-artist,
-body.skin-distro-02 .sort-label,
-body.skin-distro-02 .playlists-item-count {
-  color: var(--text) !important;
-  opacity: 0.85 !important;
-}
-
-/* Iluminación en TUI */
+/* TUI — Iluminación */
 body.skin-tui .player-card {
   background: rgba(0, 0, 0, 0.55) !important;
   backdrop-filter: blur(20px) saturate(140%) !important;
   -webkit-backdrop-filter: blur(20px) saturate(140%) !important;
   border: 2px solid var(--accent) !important;
-  box-shadow:
-    0 0 25px var(--glow-color),
-    0 0 60px rgba(0, 0, 0, 0.5),
-    inset 0 0 20px rgba(255, 255, 255, 0.04) !important;
+  box-shadow: 0 0 25px var(--glow-color), 0 0 60px rgba(0, 0, 0, 0.5), inset 0 0 20px rgba(255, 255, 255, 0.04) !important;
 }
 
 body.skin-tui .bottom-nav {
@@ -2352,9 +2172,7 @@ body.skin-tui .bottom-nav {
   backdrop-filter: blur(20px) saturate(140%) !important;
   -webkit-backdrop-filter: blur(20px) saturate(140%) !important;
   border: 2px solid var(--accent) !important;
-  box-shadow:
-    0 0 20px var(--glow-color),
-    0 0 40px rgba(0, 0, 0, 0.5) !important;
+  box-shadow: 0 0 20px var(--glow-color), 0 0 40px rgba(0, 0, 0, 0.5) !important;
 }
 
 body.skin-tui .playlist-overlay,
@@ -2363,9 +2181,7 @@ body.skin-tui .modal-overlay {
   backdrop-filter: blur(25px) saturate(140%) !important;
   -webkit-backdrop-filter: blur(25px) saturate(140%) !important;
   border: 2px solid var(--accent) !important;
-  box-shadow:
-    0 0 30px var(--glow-color),
-    inset 0 0 30px rgba(0, 0, 0, 0.3) !important;
+  box-shadow: 0 0 30px var(--glow-color), inset 0 0 30px rgba(0, 0, 0, 0.3) !important;
 }
 
 body.skin-tui .settings-item {
@@ -2375,9 +2191,7 @@ body.skin-tui .settings-item {
 }
 
 body.skin-tui .icon-action-btn {
-  box-shadow:
-    0 0 10px var(--glow-color),
-    inset 0 0 6px var(--glow-color) !important;
+  box-shadow: 0 0 10px var(--glow-color), inset 0 0 6px var(--glow-color) !important;
 }
 
 body.skin-tui .search-input,
@@ -2392,9 +2206,7 @@ body.skin-tui .header-title,
 body.skin-tui .playlist-title,
 body.skin-tui .settings-title,
 body.skin-tui .playlist-item-title {
-  text-shadow:
-    0 0 8px var(--glow-color),
-    0 0 2px var(--accent) !important;
+  text-shadow: 0 0 8px var(--glow-color), 0 0 2px var(--accent) !important;
 }
 
 body.skin-tui .track-artist,
@@ -2407,17 +2219,555 @@ body.skin-tui .sort-label {
 }
 
 /* ============================================================
-   📺 RESPONSIVE — LANDSCAPE
+   EDITOR DE TEMA TUI
+   ============================================================ */
+.theme-editor-box {
+  max-width: 420px;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 20px 18px 16px 18px;
+}
+
+.theme-preview {
+  background: var(--preview-bg, #0a120b);
+  border: 2px solid var(--preview-accent, #00ff66);
+  border-radius: 8px;
+  padding: 16px 14px;
+  margin-bottom: 16px;
+  text-align: center;
+  box-shadow: 0 0 20px var(--preview-glow, rgba(0, 255, 102, 0.4)), inset 0 0 15px rgba(255, 255, 255, 0.03);
+  transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.theme-preview-header {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--preview-accent, #00ff66);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+  text-shadow: 0 0 8px var(--preview-glow, rgba(0, 255, 102, 0.6));
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.theme-preview-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--preview-text, #00ff66);
+  margin-bottom: 4px;
+  text-shadow: 0 0 6px var(--preview-glow, rgba(0, 255, 102, 0.6));
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.theme-preview-artist {
+  font-size: 0.85rem;
+  color: var(--preview-text, #00ff66);
+  opacity: 0.7;
+  margin-bottom: 14px;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.theme-preview-controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 14px;
+  color: var(--preview-accent, #00ff66);
+  font-size: 1rem;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.theme-preview-play {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: 2px solid var(--preview-accent, #00ff66);
+  color: var(--preview-accent, #00ff66);
+  border-radius: 4px;
+  box-shadow: 0 0 12px var(--preview-glow, rgba(0, 255, 102, 0.5));
+  text-shadow: 0 0 8px var(--preview-glow, rgba(0, 255, 102, 0.6));
+}
+
+.theme-editor-field { margin-bottom: 14px; }
+
+.theme-editor-label {
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 6px;
+}
+
+body.skin-tui .theme-editor-label {
+  color: var(--accent);
+  text-shadow: 0 0 6px var(--glow-color);
+}
+
+.theme-editor-colors {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.theme-color-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.theme-color-field label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.theme-color-field input[type="color"] {
+  width: 100%;
+  height: 42px;
+  border: 2px solid var(--card-border, #333);
+  border-radius: 6px;
+  cursor: pointer;
+  background: #000;
+  padding: 2px;
+  transition: border-color 0.2s ease, transform 0.1s ease;
+}
+
+.theme-color-field input[type="color"]:hover {
+  border-color: var(--accent, #00ff66);
+  transform: scale(1.02);
+}
+
+#btnDeleteTheme { transition: all 0.2s ease; }
+#btnDeleteTheme:hover {
+  background: #ff4757 !important;
+  color: #fff !important;
+  transform: scale(1.05);
+}
+
+#editTuiThemeRow { display: none; }
+body.skin-tui #editTuiThemeRow { display: flex; }
+body.skin-tui #btnEditTuiTheme {
+  background: transparent;
+  color: var(--accent);
+  border: 2px solid var(--accent);
+  border-radius: 0;
+  box-shadow: 0 0 10px var(--glow-color);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 10px;
+  transition: all 0.2s ease;
+}
+body.skin-tui #btnEditTuiTheme:hover {
+  background: var(--accent);
+  color: #000;
+  box-shadow: 0 0 15px var(--accent), 0 0 30px var(--glow-color);
+}
+
+/* ============================================================
+   CONTROLES DE AUDIO NUEVOS
+   ============================================================ */
+#crossfadeToggle,
+#normalizationToggle,
+#limiterToggle {
+  width: 42px;
+  height: 22px;
+}
+
+#crossfadeToggle + .slider,
+#normalizationToggle + .slider,
+#limiterToggle + .slider { border-radius: 22px; }
+
+#crossfadeToggle + .slider:before,
+#normalizationToggle + .slider:before,
+#limiterToggle + .slider:before { width: 16px; height: 16px; }
+
+#crossfadeToggle:checked + .slider:before,
+#normalizationToggle:checked + .slider:before,
+#limiterToggle:checked + .slider:before { transform: translateX(20px); }
+
+#normalizationStatus {
+  display: inline-block;
+  padding: 3px 8px;
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+}
+
+#normalizationStatus.analyzing {
+  color: #ffb000 !important;
+  border-color: #ffb000;
+  animation: statusPulse 1.5s ease-in-out infinite;
+}
+
+#normalizationStatus.ready { color: #00ff66 !important; border-color: #00ff66; }
+#normalizationStatus.error { color: #ff4757 !important; border-color: #ff4757; }
+
+@keyframes statusPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+#crossfadeTime, #boostAmount { height: 6px; }
+#crossfadeTime::-webkit-slider-thumb,
+#boostAmount::-webkit-slider-thumb { width: 16px; height: 16px; }
+
+/* ============================================================
+   DRAG & DROP
+   ============================================================ */
+.drag-drop-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  z-index: 99999;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 30px;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  pointer-events: none;
+}
+
+.drag-drop-overlay.active { display: flex; opacity: 1; pointer-events: auto; }
+
+.drag-drop-content {
+  background: rgba(255, 255, 255, 0.08);
+  border: 3px dashed var(--accent);
+  border-radius: 24px;
+  padding: 50px 40px;
+  text-align: center;
+  max-width: 500px;
+  width: 100%;
+  animation: dragDropPulse 1.5s ease-in-out infinite;
+  box-shadow: 0 0 40px var(--glow-color), inset 0 0 30px rgba(255, 71, 87, 0.1);
+}
+
+@keyframes dragDropPulse {
+  0%, 100% { transform: scale(1); border-color: var(--accent); box-shadow: 0 0 40px var(--glow-color), inset 0 0 30px rgba(255, 71, 87, 0.1); }
+  50% { transform: scale(1.02); border-color: var(--accent-cyan); box-shadow: 0 0 60px var(--glow-color), inset 0 0 40px rgba(0, 255, 204, 0.15); }
+}
+
+.drag-drop-icon { font-size: 5rem; margin-bottom: 20px; animation: dragDropBounce 1s ease-in-out infinite; }
+
+@keyframes dragDropBounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.drag-drop-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 8px;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+.drag-drop-subtitle { font-size: 0.9rem; color: var(--text-muted); }
+
+body.skin-tui .drag-drop-content,
+body.skin-distro-01 .drag-drop-content,
+body.skin-distro-02 .drag-drop-content {
+  background: rgba(0, 0, 0, 0.7);
+  border-color: var(--accent);
+  border-radius: 0;
+  box-shadow: 0 0 40px var(--glow-color), inset 0 0 30px rgba(0, 0, 0, 0.5);
+  font-family: 'JetBrains Mono', monospace;
+}
+
+body.skin-tui .drag-drop-title,
+body.skin-distro-01 .drag-drop-title,
+body.skin-distro-02 .drag-drop-title {
+  color: var(--accent);
+  text-shadow: 0 0 8px var(--glow-color), 0 0 2px var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+body.dragging-active .player-card {
+  border-color: var(--accent);
+  box-shadow: 0 0 30px var(--glow-color), inset 0 0 20px var(--glow-color);
+}
+
+/* ============================================================
+   SEASONS — Animaciones
+   ============================================================ */
+#snowBg { background: linear-gradient(135deg, #1a0000 0%, #0d0000 50%, #001a00 100%); background-size: 300% 300%; animation: christmasBgGradient 8s ease-in-out infinite; }
+
+@keyframes christmasBgGradient {
+  0%, 100% { background: linear-gradient(135deg, #2a0000 0%, #1a0000 50%, #001a00 100%); background-size: 300% 300%; }
+  50% { background: linear-gradient(135deg, #001a00 0%, #0d0d0d 50%, #2a0000 100%); background-size: 300% 300%; }
+}
+
+#snowBg::before, #snowBg::after {
+  content: '';
+  position: absolute;
+  top: -10px; left: 0;
+  width: 100%; height: 100%;
+  background-image:
+    radial-gradient(2px 2px at 20px 30px, rgba(255, 255, 255, 0.9), transparent),
+    radial-gradient(2px 2px at 40px 70px, rgba(255, 255, 255, 0.7), transparent),
+    radial-gradient(1px 1px at 90px 40px, rgba(255, 255, 255, 0.8), transparent),
+    radial-gradient(1px 1px at 130px 80px, rgba(255, 255, 255, 0.6), transparent),
+    radial-gradient(2px 2px at 160px 30px, rgba(255, 255, 255, 0.9), transparent),
+    radial-gradient(1px 1px at 200px 120px, rgba(255, 255, 255, 0.7), transparent),
+    radial-gradient(2px 2px at 240px 60px, rgba(255, 255, 255, 0.8), transparent),
+    radial-gradient(1px 1px at 280px 100px, rgba(255, 255, 255, 0.6), transparent);
+  background-repeat: repeat;
+  background-size: 300px 200px;
+  animation: snowFall 12s linear infinite;
+  opacity: 0.8;
+}
+
+#snowBg::after { background-size: 400px 300px; animation-duration: 20s; animation-delay: -5s; opacity: 0.6; }
+
+@keyframes snowFall {
+  0% { transform: translateY(-100vh) translateX(0); }
+  100% { transform: translateY(100vh) translateX(20px); }
+}
+
+body.skin-christmas .player-card {
+  animation: christmasGlow 3s ease-in-out infinite, christmasCardGradient 6s ease-in-out infinite;
+}
+
+@keyframes christmasGlow {
+  0%, 100% { box-shadow: 0 0 30px rgba(255, 46, 46, 0.4), 0 0 80px rgba(0, 200, 83, 0.2), inset 0 0 20px rgba(255, 255, 255, 0.03); }
+  50% { box-shadow: 0 0 40px rgba(255, 46, 46, 0.6), 0 0 100px rgba(0, 200, 83, 0.35), inset 0 0 25px rgba(255, 255, 255, 0.05); }
+}
+
+@keyframes christmasCardGradient {
+  0%, 100% { background: linear-gradient(135deg, rgba(255, 46, 46, 0.1) 0%, rgba(20, 10, 10, 0.75) 50%, rgba(0, 200, 83, 0.1) 100%); }
+  50% { background: linear-gradient(135deg, rgba(0, 200, 83, 0.1) 0%, rgba(20, 10, 10, 0.75) 50%, rgba(255, 46, 46, 0.1) 100%); }
+}
+
+body.skin-christmas .app-container::before {
+  content: '❄️';
+  position: fixed;
+  top: 15px; right: 15px;
+  font-size: 1.5rem;
+  opacity: 0.7;
+  animation: snowflakeSpin 4s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 100;
+}
+
+@keyframes snowflakeSpin {
+  0%, 100% { transform: rotate(0deg) scale(1); }
+  50% { transform: rotate(180deg) scale(1.1); }
+}
+
+/* Halloween */
+#batsBg::before, #batsBg::after {
+  content: '🦇';
+  position: absolute;
+  font-size: 1.5rem;
+  opacity: 0.4;
+  animation: batFly 15s linear infinite;
+}
+#batsBg::before { top: 20%; animation-delay: 0s; }
+#batsBg::after { top: 60%; font-size: 1rem; animation-delay: -7s; opacity: 0.3; }
+
+@keyframes batFly {
+  0% { transform: translateX(-10%) translateY(0) rotate(0deg); }
+  25% { transform: translateX(25%) translateY(-30px) rotate(-10deg); }
+  50% { transform: translateX(50%) translateY(20px) rotate(5deg); }
+  75% { transform: translateX(75%) translateY(-40px) rotate(-5deg); }
+  100% { transform: translateX(110%) translateY(0) rotate(10deg); }
+}
+
+body.skin-halloween .app-container::before {
+  content: '🎃';
+  position: fixed;
+  top: 10px; left: 10px;
+  font-size: 2rem;
+  opacity: 0.6;
+  animation: pumpkinPulse 4s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 100;
+}
+
+body.skin-halloween .app-container::after {
+  content: '🕷️';
+  position: fixed;
+  top: 15px; right: 15px;
+  font-size: 1.5rem;
+  opacity: 0.5;
+  animation: spiderSwing 5s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 100;
+}
+
+@keyframes pumpkinPulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
+@keyframes spiderSwing { 0%, 100% { transform: translateY(0) rotate(-5deg); } 50% { transform: translateY(8px) rotate(5deg); } }
+
+body.skin-halloween .player-card { animation: halloweenGlow 4s ease-in-out infinite; }
+
+@keyframes halloweenGlow {
+  0%, 100% { box-shadow: 0 0 30px rgba(255, 111, 0, 0.4), 0 0 80px rgba(123, 31, 162, 0.3), inset 0 0 20px rgba(255, 255, 255, 0.03); }
+  50% { box-shadow: 0 0 45px rgba(255, 111, 0, 0.6), 0 0 100px rgba(123, 31, 162, 0.5), inset 0 0 25px rgba(255, 255, 255, 0.05); }
+}
+
+body.skin-halloween .track-title,
+body.skin-halloween .header-title { animation: ghostFlicker 5s ease-in-out infinite; }
+
+@keyframes ghostFlicker {
+  0%, 100% { opacity: 1; }
+  40%, 44%, 48%, 70%, 74% { opacity: 1; }
+  42%, 46%, 72% { opacity: 0.7; }
+}
+
+/* Matrix */
+#matrixBg { background: #000; overflow: hidden; }
+#matrixBg::before, #matrixBg::after {
+  content: '01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン';
+  position: absolute;
+  top: -100%; left: 0;
+  width: 100%;
+  color: #00ff41;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1.2rem;
+  line-height: 1.5;
+  letter-spacing: 15px;
+  white-space: pre-wrap;
+  word-break: break-all;
+  opacity: 0.3;
+  animation: matrixRain 10s linear infinite;
+  text-shadow: 0 0 5px #00ff41;
+}
+#matrixBg::after { animation-duration: 15s; animation-delay: -5s; opacity: 0.15; font-size: 0.8rem; letter-spacing: 25px; }
+
+@keyframes matrixRain {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(200%); }
+}
+
+body.skin-matrix .player-card { animation: matrixGlow 2.5s ease-in-out infinite; }
+
+@keyframes matrixGlow {
+  0%, 100% { box-shadow: 0 0 30px rgba(0, 255, 65, 0.5), 0 0 80px rgba(0, 255, 65, 0.2), inset 0 0 20px rgba(0, 255, 65, 0.05); }
+  50% { box-shadow: 0 0 50px rgba(0, 255, 65, 0.7), 0 0 120px rgba(0, 255, 65, 0.35), inset 0 0 30px rgba(0, 255, 65, 0.08); }
+}
+
+body.skin-matrix .header-title,
+body.skin-matrix .track-title {
+  text-shadow: 0 0 8px #00ff41, 0 0 16px #00ff41, 0 0 2px #00ff9d;
+}
+
+/* Cyberpunk */
+#cyberBg {
+  background:
+    linear-gradient(rgba(255, 0, 255, 0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 255, 255, 0.1) 1px, transparent 1px),
+    linear-gradient(180deg, #050014 0%, #1a0033 50%, #050014 100%);
+  background-size: 40px 40px, 40px 40px, 100% 100%;
+  perspective: 300px;
+}
+#cyberBg::before {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 50%;
+  background:
+    linear-gradient(rgba(255, 0, 255, 0.3) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 255, 255, 0.3) 1px, transparent 1px);
+  background-size: 40px 40px, 40px 40px;
+  transform: rotateX(60deg);
+  transform-origin: bottom;
+  animation: gridMove 3s linear infinite;
+  opacity: 0.5;
+}
+@keyframes gridMove { 0% { background-position: 0 0, 0 0; } 100% { background-position: 0 40px, 40px 0; } }
+
+#cyberBg::after {
+  content: '';
+  position: absolute;
+  top: 10%; left: 50%;
+  transform: translateX(-50%);
+  width: 200px; height: 200px;
+  background: radial-gradient(circle, #ff00ff 0%, #ff00ff 40%, rgba(255, 0, 255, 0.3) 60%, transparent 70%);
+  border-radius: 50%;
+  box-shadow: 0 0 100px rgba(255, 0, 255, 0.6);
+  animation: sunPulse 4s ease-in-out infinite;
+}
+@keyframes sunPulse {
+  0%, 100% { opacity: 0.7; transform: translateX(-50%) scale(1); }
+  50% { opacity: 1; transform: translateX(-50%) scale(1.1); }
+}
+
+body.skin-cyberpunk .player-card { animation: cyberGlow 2s ease-in-out infinite; }
+
+@keyframes cyberGlow {
+  0%, 100% { box-shadow: 0 0 30px rgba(255, 0, 255, 0.5), 0 0 80px rgba(0, 255, 255, 0.3), inset 0 0 20px rgba(255, 255, 255, 0.03); }
+  50% { box-shadow: 0 0 50px rgba(255, 0, 255, 0.8), 0 0 120px rgba(0, 255, 255, 0.5), inset 0 0 30px rgba(255, 255, 255, 0.05); }
+}
+
+body.skin-cyberpunk .player-card::before,
+body.skin-cyberpunk .bottom-nav::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: inherit;
+  padding: 2px;
+  background: linear-gradient(45deg, #ff00ff, #00ffff, #ffff00, #ff00ff);
+  background-size: 300% 300%;
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0.6;
+  animation: neonBorder 4s linear infinite;
+  pointer-events: none;
+}
+@keyframes neonBorder { 0% { background-position: 0% 50%; } 100% { background-position: 300% 50%; } }
+
+body.skin-cyberpunk .player-card,
+body.skin-cyberpunk .bottom-nav { position: relative; }
+
+/* Base seasons */
+.season-bg {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  display: none;
+  z-index: -1;
+}
+
+body.skin-christmas #snowBg,
+body.skin-halloween #batsBg,
+body.skin-cyberpunk #cyberBg,
+body.skin-matrix #matrixBg { display: block; }
+
+body.skin-christmas .app-container,
+body.skin-halloween .app-container,
+body.skin-cyberpunk .app-container,
+body.skin-matrix .app-container { z-index: 1; }
+
+/* Text shadows seasons */
+body.skin-christmas .status-badge::before { content: '❄️ '; }
+body.skin-halloween .status-badge::before { content: '🎃 '; }
+body.skin-matrix .status-badge::before { content: '> '; }
+body.skin-cyberpunk .status-badge::before { content: '⚡ '; }
+
+body.skin-tui .tui-theme-item-custom { font-style: italic; }
+
+/* ============================================================
+   RESPONSIVE
    ============================================================ */
 @media screen and (orientation: landscape) and (max-height: 600px) {
   body { flex-direction: row; align-items: stretch; padding: 0; }
   .app-container {
-    max-width: 100%;
-    max-height: 100dvh;
-    height: 100dvh;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
+    max-width: 100%; max-height: 100dvh; height: 100dvh;
+    display: flex; flex-direction: column; gap: 8px;
     padding:
       calc(env(safe-area-inset-top, 0px) + 8px)
       calc(env(safe-area-inset-right, 0px) + 10px)
@@ -2446,125 +2796,29 @@ body.skin-tui .sort-label {
   .cover-container {
     grid-area: cover;
     width: 100%; height: 100%;
-    max-height: 100%;
-    margin: 0;
+    max-height: 100%; margin: 0;
     display: flex; align-items: center; justify-content: center;
   }
-  .cover-art {
-    width: auto; height: 100%;
-    max-width: 100%; max-height: 100%;
-    aspect-ratio: 1 / 1;
-  }
+  .cover-art { width: auto; height: 100%; max-width: 100%; max-height: 100%; aspect-ratio: 1 / 1; }
   .track-info-container { grid-area: info; margin: 0; padding: 6px 10px; }
   .track-title { font-size: 1.05rem; }
   .track-artist { font-size: 0.85rem; }
   .track-album { font-size: 0.72rem; }
-  .audio-specs-badge {
-    grid-area: specs;
-    justify-content: flex-start;
-    margin: 0;
-    font-size: 0.7rem;
-    min-height: 14px;
-  }
+  .audio-specs-badge { grid-area: specs; justify-content: flex-start; margin: 0; font-size: 0.7rem; min-height: 14px; }
   .status-badge { grid-area: status; text-align: left; min-height: 10px; font-size: 0.68rem; }
   .progress-container { grid-area: progress; margin: 0; }
   .controls { grid-area: controls; margin: 0; padding: 0; }
   .btn-play { width: 42px; height: 42px; font-size: 1.15rem; }
   .btn { font-size: 1.25rem; padding: 4px; }
   .btn-sub { font-size: 1rem; }
-  .action-buttons-normal { grid-area: actions; justify-content: flex-start; gap: 10px; padding: 0; margin-top: 0; }
+  .action-buttons-normal { grid-area: actions; justify-content: flex-start; gap: 6px; padding: 0; margin-top: 0; }
   .icon-action-btn { width: 34px; height: 34px; font-size: 0.95rem; }
   .bottom-nav { flex: 0 0 auto; width: 100%; padding: 6px 0; border-radius: var(--nav-radius); margin: 0; }
   .nav-btn { font-size: 1.15rem; }
   .playlist-overlay, .modal-overlay { border-radius: var(--card-radius); padding: 12px 16px; }
-}
-
-@media screen and (orientation: landscape) and (max-height: 420px) {
-  .player-card { grid-template-columns: 1fr 32%; column-gap: 10px; row-gap: 4px; padding: 10px 12px; }
-  .btn-play { width: 36px; height: 36px; font-size: 1rem; }
-  .btn { font-size: 1.05rem; padding: 3px; }
-  .icon-action-btn { width: 30px; height: 30px; font-size: 0.85rem; }
-  .track-title { font-size: 0.9rem; }
-  .track-artist { font-size: 0.75rem; }
-  .track-album { font-size: 0.65rem; }
-  .audio-specs-badge { font-size: 0.62rem; }
-}
-
-body.force-landscape .app-container {
-  width: 100vh; height: 100vw;
-  max-width: 100vh; max-height: 100vw;
-  transform: rotate(90deg);
-  transform-origin: center center;
-  position: fixed;
-  top: 50%; left: 50%;
-  margin-left: -50vh; margin-top: -50vw;
-  padding:
-    calc(env(safe-area-inset-top, 0px) + 8px)
-    calc(env(safe-area-inset-right, 0px) + 10px)
-    calc(env(safe-area-inset-bottom, 0px) + 8px)
-    calc(env(safe-area-inset-left, 0px) + 10px);
-}
-body.force-landscape .player-card {
-  display: grid;
-  grid-template-columns: 1fr 38%;
-  grid-template-rows: auto auto auto auto auto;
-  grid-template-areas:
-    "info    cover"
-    "specs   cover"
-    "status  cover"
-    "progress cover"
-    "controls cover"
-    "actions cover";
-  column-gap: 14px; row-gap: 6px;
-  align-content: center; align-items: center;
-  padding: 12px 16px;
-  border-radius: var(--card-radius);
-  overflow: hidden;
-  flex: 1;
-}
-body.force-landscape .player-header { display: none; }
-body.force-landscape .cover-container {
-  grid-area: cover;
-  width: 100%; height: 100%;
-  display: flex; align-items: center; justify-content: center;
-  margin: 0;
-}
-body.force-landscape .cover-art {
-  width: auto; height: 100%;
-  max-height: 100%; max-width: 100%;
-}
-body.force-landscape .track-info-container { grid-area: info; margin: 0; padding: 6px 10px; }
-body.force-landscape .audio-specs-badge { grid-area: specs; justify-content: flex-start; margin: 0; }
-body.force-landscape .status-badge { grid-area: status; text-align: left; }
-body.force-landscape .progress-container { grid-area: progress; margin: 0; }
-body.force-landscape .controls { grid-area: controls; margin: 0; padding: 0; }
-body.force-landscape .action-buttons-normal { grid-area: actions; justify-content: flex-start; gap: 10px; padding: 0; margin-top: 0; }
-body.force-landscape .bottom-nav { flex: 0 0 auto; width: 100%; padding: 6px 0; border-radius: var(--nav-radius); margin: 0; }
-
-/* ============================================================
-   📱 RESPONSIVE — Tablet y Desktop
-   ============================================================ */
-@media (min-width: 600px) {
-  .bottom-sheet { max-width: 560px; }
-  .modal-box { max-width: 420px; }
-}
-
-@media (min-width: 1024px) {
-  .bottom-sheet-overlay { align-items: center; }
-  .bottom-sheet {
-    border-radius: 16px;
-    max-width: 420px;
-    max-height: 70vh;
-    transform: scale(0.95);
-  }
-  .bottom-sheet-overlay.active .bottom-sheet { transform: scale(1); }
-  .bottom-sheet::before { display: none; }
-  body.skin-tui .bottom-sheet,
-  body.skin-distro-01 .bottom-sheet,
-  body.skin-distro-02 .bottom-sheet {
-    border: 2px solid var(--accent);
-    border-radius: 0;
-  }
+  #snowBg::before, #snowBg::after { animation-duration: 15s; }
+  #matrixBg::before, #matrixBg::after { font-size: 0.8rem; letter-spacing: 10px; }
+  #cyberBg::after { width: 120px; height: 120px; }
 }
 
 @media (max-width: 380px) {
@@ -2573,1378 +2827,51 @@ body.force-landscape .bottom-nav { flex: 0 0 auto; width: 100%; padding: 6px 0; 
   .playlist-item-title { font-size: 0.78rem; max-width: 140px; }
   .playlist-item-artist { font-size: 0.68rem; }
   .nav-btn { font-size: 1.15rem; padding: 6px 1px; }
+  .icon-action-btn { width: 36px; height: 36px; font-size: 1rem; }
 }
 
-@media screen and (orientation: landscape) and (max-height: 500px) {
-  .playlists-item { padding: 8px 12px; margin-bottom: 4px; }
-  .playlists-item-name { font-size: 0.82rem; }
-  .bottom-sheet { max-height: 90vh; }
-  .bottom-sheet-item { padding: 11px 20px; font-size: 0.88rem; }
+@media (max-width: 480px) {
+  .drag-drop-content { padding: 30px 20px; }
+  .drag-drop-icon { font-size: 3rem; }
+  .drag-drop-title { font-size: 1.1rem; }
+  .drag-drop-subtitle { font-size: 0.8rem; }
 }
 
-/* ============================================================
-   Scroll suave
-   ============================================================ */
-.playlists-list,
-.playlist-list,
-.settings-body,
-.bottom-sheet-list {
-  scroll-behavior: smooth;
-  -webkit-overflow-scrolling: touch;
+@media (max-width: 420px) {
+  .theme-editor-box { padding: 16px 14px 14px 14px; }
+  .theme-editor-colors { gap: 8px; }
+  .theme-color-field input[type="color"] { height: 36px; }
+  .theme-preview { padding: 12px 10px; }
+  .theme-preview-title { font-size: 1rem; }
+  .theme-preview-controls { gap: 10px; font-size: 0.9rem; }
+  .theme-preview-play { width: 32px; height: 32px; }
 }
 
-@media (pointer: fine) {
-  .playlists-list::-webkit-scrollbar,
-  .playlist-list::-webkit-scrollbar,
-  .settings-body::-webkit-scrollbar,
-  .bottom-sheet-list::-webkit-scrollbar { width: 8px; }
-  .playlists-list::-webkit-scrollbar-track,
-  .playlist-list::-webkit-scrollbar-track,
-  .settings-body::-webkit-scrollbar-track,
-  .bottom-sheet-list::-webkit-scrollbar-track {
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 4px;
-  }
-  .playlists-list::-webkit-scrollbar-thumb,
-  .playlist-list::-webkit-scrollbar-thumb,
-  .settings-body::-webkit-scrollbar-thumb,
-  .bottom-sheet-list::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.2);
-    border-radius: 4px;
-  }
-  body.skin-tui .playlists-list::-webkit-scrollbar-thumb,
-  body.skin-tui .playlist-list::-webkit-scrollbar-thumb,
-  body.skin-distro-01 .playlists-list::-webkit-scrollbar-thumb,
-  body.skin-distro-01 .playlist-list::-webkit-scrollbar-thumb,
-  body.skin-distro-02 .playlists-list::-webkit-scrollbar-thumb,
-  body.skin-distro-02 .playlist-list::-webkit-scrollbar-thumb {
-    background: var(--accent);
-    box-shadow: 0 0 6px var(--glow-color);
-  }
+@media (min-width: 600px) {
+  .bottom-sheet { max-width: 560px; }
+  .modal-box { max-width: 420px; }
 }
 
-/* ============================================================
-   Animaciones adicionales
-   ============================================================ */
-@keyframes playlistItemIn {
-  from { opacity: 0; transform: translateY(8px); }
-  to { opacity: 1; transform: translateY(0); }
+@media (min-width: 1024px) {
+  .bottom-sheet-overlay { align-items: center; }
+  .bottom-sheet { border-radius: 16px; max-width: 420px; max-height: 70vh; transform: scale(0.95); }
+  .bottom-sheet-overlay.active .bottom-sheet { transform: scale(1); }
+  .bottom-sheet::before { display: none; }
 }
 
-.playlists-item,
-.playlist-item {
-  animation: playlistItemIn 0.25s ease backwards;
-}
-
-.playlists-item:nth-child(1) { animation-delay: 0.02s; }
-.playlists-item:nth-child(2) { animation-delay: 0.04s; }
-.playlists-item:nth-child(3) { animation-delay: 0.06s; }
-.playlists-item:nth-child(4) { animation-delay: 0.08s; }
-.playlists-item:nth-child(5) { animation-delay: 0.10s; }
-.playlists-item:nth-child(6) { animation-delay: 0.12s; }
-
-/* ============================================================
-   🎯 FIX v7.2.1 — Forzar botones de acción visibles en distros
-   ============================================================ */
-
-/* 1) Mostrar SIEMPRE la fila de botones en distros */
-body.skin-distro-01 .action-buttons-normal,
-body.skin-distro-02 .action-buttons-normal {
-  display: flex !important;
-  visibility: visible !important;
-  opacity: 1 !important;
-  margin-top: 8px !important;
-  margin-bottom: 0 !important;
-  padding: 0 4px !important;
-  width: 100% !important;
-  justify-content: space-between !important;
-  align-items: center !important;
-}
-
-/* 2) Quitar el margin-top:auto del distro-zone para que no empuje todo */
-body.skin-distro-01 .distro-zone,
-body.skin-distro-02 .distro-zone {
-  margin-top: 0 !important;
-}
-
-/* 3) Dar un poco de aire entre el bloque de info y el seekBar */
-body.skin-distro-01 .track-info-container,
-body.skin-distro-02 .track-info-container {
-  margin: 0 0 20px 0 !important;
-}
-
-/* 4) Asegurar que los botones tengan el mismo tamaño en distros */
-body.skin-distro-01 .icon-action-btn,
-body.skin-distro-02 .icon-action-btn {
-  width: 42px !important;
-  height: 42px !important;
-  font-size: 1.1rem !important;
-  display: flex !important;
-}
-
-/* Refuerzo para que el ASCII se vea SIEMPRE */
-body.skin-distro-01 .playlist-overlay .overlay-ascii-bg,
-body.skin-distro-02 .playlist-overlay .overlay-ascii-bg,
-body.skin-distro-01 .modal-overlay .overlay-ascii-bg,
-body.skin-distro-02 .modal-overlay .overlay-ascii-bg {
-  z-index: 0 !important;
-  opacity: 1 !important;
-}
-
-body.skin-distro-01 .overlay-ascii-content,
-body.skin-distro-02 .overlay-ascii-content {
-  opacity: 0.55 !important;
-}
-
-/* ============================================================
-   🎨 v8.0 — SKINS SEASONS (Navidad, Halloween, Cyberpunk, Matrix)
-   Parte A: Variables y estructura base
-   ============================================================ */
-
-/* ============================================================
-   🎄 SKIN: NAVIDAD
-   ============================================================ */
-body.skin-christmas {
-  --bg: #0a0505;
-  --bg-main: #0a0505;
-  --card-bg: rgba(20, 10, 10, 0.75);
-  --card-border: #ff2e2e;
-  --accent: #ff2e2e;
-  --accent-cyan: #00c853;
-  --text: #ffffff;
-  --text-muted: #ffb3b3;
-  --audio-spec-color: #00c853;
-  --font-family: 'JetBrains Mono', 'Share Tech Mono', 'Courier New', monospace;
-  --card-radius: 16px;
-  --cover-radius: 12px;
-  --nav-radius: 16px;
-  --btn-radius: 50%;
-  --card-blur: blur(15px) saturate(140%);
-  --card-shadow:
-    0 0 30px rgba(255, 46, 46, 0.4),
-    0 0 80px rgba(0, 200, 83, 0.2),
-    inset 0 0 20px rgba(255, 255, 255, 0.03);
-  --nav-shadow: 0 0 20px rgba(255, 46, 46, 0.4);
-  --header-letter-spacing: 2px;
-  --header-transform: uppercase;
-  --glow: 0 0 10px var(--accent);
-  --glow-color: rgba(255, 46, 46, 0.5);
-}
-
-/* ============================================================
-   🎃 SKIN: HALLOWEEN
-   ============================================================ */
-body.skin-halloween {
-  --bg: #0d0510;
-  --bg-main: #0d0510;
-  --card-bg: rgba(15, 5, 15, 0.78);
-  --card-border: #ff6f00;
-  --accent: #ff6f00;
-  --accent-cyan: #7b1fa2;
-  --text: #ffb84d;
-  --text-muted: #a06a2a;
-  --audio-spec-color: #7b1fa2;
-  --font-family: 'JetBrains Mono', 'Share Tech Mono', 'Courier New', monospace;
-  --card-radius: 8px;
-  --cover-radius: 4px;
-  --nav-radius: 8px;
-  --btn-radius: 4px;
-  --card-blur: blur(15px) saturate(150%);
-  --card-shadow:
-    0 0 30px rgba(255, 111, 0, 0.4),
-    0 0 80px rgba(123, 31, 162, 0.3),
-    inset 0 0 20px rgba(255, 255, 255, 0.03);
-  --nav-shadow: 0 0 20px rgba(255, 111, 0, 0.4);
-  --header-letter-spacing: 3px;
-  --header-transform: uppercase;
-  --glow: 0 0 10px var(--accent);
-  --glow-color: rgba(255, 111, 0, 0.6);
-}
-
-/* ============================================================
-   🌆 SKIN: CYBERPUNK
-   ============================================================ */
-body.skin-cyberpunk {
-  --bg: #050014;
-  --bg-main: #050014;
-  --card-bg: rgba(10, 0, 20, 0.75);
-  --card-border: #ff00ff;
-  --accent: #ff00ff;
-  --accent-cyan: #00ffff;
-  --text: #00ffff;
-  --text-muted: #b300ff;
-  --audio-spec-color: #ffff00;
-  --font-family: 'JetBrains Mono', 'Share Tech Mono', 'Courier New', monospace;
-  --card-radius: 4px;
-  --cover-radius: 0px;
-  --nav-radius: 4px;
-  --btn-radius: 4px;
-  --card-blur: blur(15px) saturate(180%);
-  --card-shadow:
-    0 0 30px rgba(255, 0, 255, 0.5),
-    0 0 80px rgba(0, 255, 255, 0.3),
-    inset 0 0 20px rgba(255, 255, 255, 0.03);
-  --nav-shadow: 0 0 20px rgba(255, 0, 255, 0.5);
-  --header-letter-spacing: 4px;
-  --header-transform: uppercase;
-  --glow: 0 0 10px var(--accent);
-  --glow-color: rgba(255, 0, 255, 0.6);
-}
-
-/* ============================================================
-   🟢 SKIN: MATRIX
-   ============================================================ */
-body.skin-matrix {
-  --bg: #000000;
-  --bg-main: #000000;
-  --card-bg: rgba(0, 10, 0, 0.85);
-  --card-border: #00ff41;
-  --accent: #00ff41;
-  --accent-cyan: #00ff9d;
-  --text: #00ff41;
-  --text-muted: #009933;
-  --audio-spec-color: #00ff9d;
-  --font-family: 'JetBrains Mono', 'Share Tech Mono', 'Courier New', monospace;
-  --card-radius: 2px;
-  --cover-radius: 0px;
-  --nav-radius: 2px;
-  --btn-radius: 0px;
-  --card-blur: blur(10px) saturate(160%);
-  --card-shadow:
-    0 0 30px rgba(0, 255, 65, 0.5),
-    0 0 80px rgba(0, 255, 65, 0.2),
-    inset 0 0 20px rgba(0, 255, 65, 0.05);
-  --nav-shadow: 0 0 20px rgba(0, 255, 65, 0.5);
-  --header-letter-spacing: 2px;
-  --header-transform: uppercase;
-  --glow: 0 0 10px var(--accent);
-  --glow-color: rgba(0, 255, 65, 0.6);
-}
-
-/* ============================================================
-   🌈 ESTRUCTURA COMÚN SEASONS
-   ============================================================ */
-body.skin-christmas,
-body.skin-halloween,
-body.skin-cyberpunk,
-body.skin-matrix {
-  transition: background-color 0.5s ease;
-}
-
-/* Header con estilo Seasons */
-body.skin-christmas .header-title,
-body.skin-halloween .header-title,
-body.skin-cyberpunk .header-title,
-body.skin-matrix .header-title {
-  text-shadow:
-    0 0 8px var(--glow-color),
-    0 0 2px var(--accent);
-  font-weight: 700;
-}
-
-/* Player card con efecto */
-body.skin-christmas .player-card,
-body.skin-halloween .player-card,
-body.skin-cyberpunk .player-card,
-body.skin-matrix .player-card {
-  backdrop-filter: var(--card-blur);
-  -webkit-backdrop-filter: var(--card-blur);
-  border-width: 2px;
-}
-
-/* Cover art con border radius específico */
-body.skin-christmas .cover-art,
-body.skin-halloween .cover-art,
-body.skin-cyberpunk .cover-art,
-body.skin-matrix .cover-art {
-  border-radius: var(--cover-radius);
-  border-width: 2px;
-}
-
-/* Track info container */
-body.skin-christmas .track-info-container,
-body.skin-halloween .track-info-container,
-body.skin-cyberpunk .track-info-container,
-body.skin-matrix .track-info-container {
-  background: rgba(0, 0, 0, 0.5);
-  border: 1px solid var(--card-border);
-  border-radius: var(--cover-radius);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-}
-
-/* Seek bar */
-body.skin-christmas .seek-bar,
-body.skin-halloween .seek-bar,
-body.skin-cyberpunk .seek-bar,
-body.skin-matrix .seek-bar {
-  background: rgba(255, 255, 255, 0.15);
-  height: 6px;
-}
-
-body.skin-christmas .seek-bar::-webkit-slider-thumb,
-body.skin-halloween .seek-bar::-webkit-slider-thumb,
-body.skin-cyberpunk .seek-bar::-webkit-slider-thumb,
-body.skin-matrix .seek-bar::-webkit-slider-thumb {
-  background: var(--accent);
-  box-shadow: 0 0 12px var(--glow-color);
-  width: 16px;
-  height: 16px;
-}
-
-/* Botón play */
-body.skin-christmas .btn-play,
-body.skin-halloween .btn-play,
-body.skin-cyberpunk .btn-play,
-body.skin-matrix .btn-play {
-  background: transparent;
-  color: var(--accent);
-  border: 2px solid var(--accent);
-  box-shadow:
-    0 0 15px var(--accent),
-    0 0 30px var(--glow-color),
-    inset 0 0 10px var(--glow-color);
-}
-
-/* Botones de acción */
-body.skin-christmas .icon-action-btn,
-body.skin-halloween .icon-action-btn,
-body.skin-cyberpunk .icon-action-btn,
-body.skin-matrix .icon-action-btn {
-  background: rgba(0, 0, 0, 0.7);
-  border: 1px solid var(--accent);
-  color: var(--accent);
-  box-shadow:
-    0 0 10px var(--glow-color),
-    inset 0 0 6px var(--glow-color);
-}
-
-/* Bottom nav */
-body.skin-christmas .bottom-nav,
-body.skin-halloween .bottom-nav,
-body.skin-cyberpunk .bottom-nav,
-body.skin-matrix .bottom-nav {
-  border-width: 2px;
-  backdrop-filter: var(--card-blur);
-  -webkit-backdrop-filter: var(--card-blur);
-}
-
-/* Nav btn active */
-body.skin-christmas .nav-btn.active,
-body.skin-halloween .nav-btn.active,
-body.skin-cyberpunk .nav-btn.active,
-body.skin-matrix .nav-btn.active {
-  color: var(--accent);
-  text-shadow: 0 0 8px var(--glow-color);
-}
-
-/* Overlays */
-body.skin-christmas .playlist-overlay,
-body.skin-christmas .modal-overlay,
-body.skin-halloween .playlist-overlay,
-body.skin-halloween .modal-overlay,
-body.skin-cyberpunk .playlist-overlay,
-body.skin-cyberpunk .modal-overlay,
-body.skin-matrix .playlist-overlay,
-body.skin-matrix .modal-overlay {
-  background: rgba(0, 0, 0, 0.88);
-  border: 2px solid var(--card-border);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-}
-
-/* Settings items */
-body.skin-christmas .settings-item,
-body.skin-halloween .settings-item,
-body.skin-cyberpunk .settings-item,
-body.skin-matrix .settings-item {
-  background: rgba(0, 0, 0, 0.6);
-  border: 1px solid var(--accent);
-  box-shadow: 0 0 8px var(--glow-color);
-}
-
-/* Settings titles */
-body.skin-christmas .settings-title,
-body.skin-halloween .settings-title,
-body.skin-cyberpunk .settings-title,
-body.skin-matrix .settings-title {
-  color: var(--accent);
-  text-transform: uppercase;
-  letter-spacing: 1.5px;
-  text-shadow: 0 0 6px var(--glow-color);
-}
-
-/* Playlist items */
-body.skin-christmas .playlist-item,
-body.skin-halloween .playlist-item,
-body.skin-cyberpunk .playlist-item,
-body.skin-matrix .playlist-item {
-  background: transparent;
-  border: 1px solid transparent;
-  border-bottom: 1px solid var(--accent);
-  border-radius: 0;
-  padding: 10px;
-  margin-bottom: 0;
-}
-
-body.skin-christmas .playlist-item.playing,
-body.skin-halloween .playlist-item.playing,
-body.skin-cyberpunk .playlist-item.playing,
-body.skin-matrix .playlist-item.playing {
-  background: rgba(0, 0, 0, 0.4);
-  border: 1px solid var(--accent);
-  box-shadow: inset 0 0 12px var(--glow-color);
-}
-
-/* Playlists list */
-body.skin-christmas .playlists-item,
-body.skin-halloween .playlists-item,
-body.skin-cyberpunk .playlists-item,
-body.skin-matrix .playlists-item {
-  background: rgba(0, 0, 0, 0.5);
-  border: 1px solid var(--accent);
-  border-radius: var(--cover-radius);
-  box-shadow: 0 0 8px var(--glow-color);
-  padding-left: 22px;
-}
-
-body.skin-christmas .playlists-item::before,
-body.skin-halloween .playlists-item::before,
-body.skin-cyberpunk .playlists-item::before,
-body.skin-matrix .playlists-item::before {
-  content: '>';
-  position: absolute;
-  left: 6px;
-  top: 50%;
-  transform: translateY(-50%);
-  color: var(--accent);
-  font-weight: 700;
-  font-size: 0.9rem;
-  opacity: 0.7;
-}
-
-/* Inputs */
-body.skin-christmas .search-input,
-body.skin-halloween .search-input,
-body.skin-cyberpunk .search-input,
-body.skin-matrix .search-input,
-body.skin-christmas .sort-bar,
-body.skin-halloween .sort-bar,
-body.skin-cyberpunk .sort-bar,
-body.skin-matrix .sort-bar,
-body.skin-christmas .btn-action,
-body.skin-halloween .btn-action,
-body.skin-cyberpunk .btn-action,
-body.skin-matrix .btn-action {
-  background: rgba(0, 0, 0, 0.7);
-  border: 1px solid var(--accent);
-  color: var(--accent);
-  border-radius: var(--cover-radius);
-  box-shadow: 0 0 6px var(--glow-color);
-}
-
-/* Text shadows temáticos */
-body.skin-christmas .track-title,
-body.skin-halloween .track-title,
-body.skin-cyberpunk .track-title,
-body.skin-matrix .track-title {
-  text-shadow:
-    0 0 8px var(--glow-color),
-    0 0 2px var(--accent);
-}
-
-/* Botones de acción visibles */
-body.skin-christmas .action-buttons-normal,
-body.skin-halloween .action-buttons-normal,
-body.skin-cyberpunk .action-buttons-normal,
-body.skin-matrix .action-buttons-normal {
-  display: flex !important;
-  margin-top: 10px;
-}
-
-/* ============================================================
-   🎬 ESTRUCTURAS DE FONDO PARA SEASONS
-   ============================================================ */
-.season-bg {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  overflow: hidden;
-  display: none;
-  z-index: -1;
-}
-
-/* Solo mostrar el fondo del skin activo */
-body.skin-christmas #snowBg { display: block; }
-body.skin-halloween #batsBg { display: block; }
-body.skin-cyberpunk #cyberBg { display: block; }
-body.skin-matrix #matrixBg { display: block; }
-
-/* CRT overlay visible también en Seasons */
-body.skin-christmas .crt-overlay,
-body.skin-halloween .crt-overlay,
-body.skin-cyberpunk .crt-overlay,
-body.skin-matrix .crt-overlay {
-  display: block;
-  opacity: 0.15;
-}
-
-body.skin-christmas.crt-off .crt-overlay,
-body.skin-halloween.crt-off .crt-overlay,
-body.skin-cyberpunk.crt-off .crt-overlay,
-body.skin-matrix.crt-off .crt-overlay {
-  opacity: 0;
-}
-
-body.skin-christmas .vignette,
-body.skin-halloween .vignette,
-body.skin-cyberpunk .vignette,
-body.skin-matrix .vignette {
-  display: block;
-  box-shadow: inset 0 0 120px rgba(0, 0, 0, 0.7);
-}
-
-body.skin-christmas.crt-off .vignette,
-body.skin-halloween.crt-off .vignette,
-body.skin-cyberpunk.crt-off .vignette,
-body.skin-matrix.crt-off .vignette {
-  box-shadow: inset 0 0 120px rgba(0, 0, 0, 0);
-}
-
-/* Aviso de privacidad temático */
-body.skin-christmas .meow-aviso-overlay,
-body.skin-halloween .meow-aviso-overlay,
-body.skin-cyberpunk .meow-aviso-overlay,
-body.skin-matrix .meow-aviso-overlay {
-  background: rgba(0, 0, 0, 0.95);
-}
-
-body.skin-christmas .meow-aviso-box,
-body.skin-halloween .meow-aviso-box,
-body.skin-cyberpunk .meow-aviso-box,
-body.skin-matrix .meow-aviso-box {
-  background: #000;
-  border: 2px solid var(--accent);
-  border-radius: var(--cover-radius);
-  color: var(--accent);
-  box-shadow: 0 0 30px var(--glow-color);
-}
-
-body.skin-christmas .meow-aviso-box h3,
-body.skin-halloween .meow-aviso-box h3,
-body.skin-cyberpunk .meow-aviso-box h3,
-body.skin-matrix .meow-aviso-box h3 {
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  text-shadow: 0 0 8px var(--glow-color);
-}
-
-body.skin-christmas .meow-btn-cerrar,
-body.skin-halloween .meow-btn-cerrar,
-body.skin-cyberpunk .meow-btn-cerrar,
-body.skin-matrix .meow-btn-cerrar {
-  background: transparent;
-  color: var(--accent);
-  border: 2px solid var(--accent);
-  border-radius: var(--cover-radius);
-  text-transform: uppercase;
-  letter-spacing: 1px;
-}
-
-body.skin-christmas .meow-btn-cerrar:hover,
-body.skin-halloween .meow-btn-cerrar:hover,
-body.skin-cyberpunk .meow-btn-cerrar:hover,
-body.skin-matrix .meow-btn-cerrar:hover {
-  background: var(--accent);
-  color: #000;
-}
-
-/* Menú desplegable del header temático */
-body.skin-christmas .tui-theme-menu,
-body.skin-halloween .tui-theme-menu,
-body.skin-cyberpunk .tui-theme-menu,
-body.skin-matrix .tui-theme-menu {
-  background: #000;
-  border: 2px solid var(--accent);
-  box-shadow: 0 0 30px var(--glow-color);
-}
-
-body.skin-christmas .tui-theme-item,
-body.skin-halloween .tui-theme-item,
-body.skin-cyberpunk .tui-theme-item,
-body.skin-matrix .tui-theme-item {
-  color: var(--accent);
-}
-
-/* Bottom sheet temático */
-body.skin-christmas .bottom-sheet,
-body.skin-halloween .bottom-sheet,
-body.skin-cyberpunk .bottom-sheet,
-body.skin-matrix .bottom-sheet {
-  background: #000;
-  border: 2px solid var(--accent);
-  box-shadow:
-    0 -10px 40px rgba(0, 0, 0, 0.8),
-    0 0 30px var(--glow-color);
-}
-
-body.skin-christmas .bottom-sheet-item,
-body.skin-halloween .bottom-sheet-item,
-body.skin-cyberpunk .bottom-sheet-item,
-body.skin-matrix .bottom-sheet-item {
-  color: var(--accent);
-}
-
-body.skin-christmas .bottom-sheet-cancel,
-body.skin-halloween .bottom-sheet-cancel,
-body.skin-cyberpunk .bottom-sheet-cancel,
-body.skin-matrix .bottom-sheet-cancel {
-  background: #000;
-  border-top: 2px solid var(--accent);
-  color: var(--accent);
-}
-
-/* Modales temáticos */
-body.skin-christmas .modal-box,
-body.skin-halloween .modal-box,
-body.skin-cyberpunk .modal-box,
-body.skin-matrix .modal-box {
-  background: #000;
-  border: 2px solid var(--accent);
-  box-shadow:
-    0 20px 50px rgba(0, 0, 0, 0.8),
-    0 0 40px var(--glow-color);
-}
-
-body.skin-christmas .modal-box-title,
-body.skin-halloween .modal-box-title,
-body.skin-cyberpunk .modal-box-title,
-body.skin-matrix .modal-box-title {
-  color: var(--accent);
-  text-transform: uppercase;
-  letter-spacing: 1.5px;
-  text-shadow: 0 0 8px var(--glow-color);
-}
-
-body.skin-christmas .modal-input,
-body.skin-halloween .modal-input,
-body.skin-cyberpunk .modal-input,
-body.skin-matrix .modal-input {
-  background: #000;
-  border: 1px solid var(--accent);
-  color: var(--accent);
-}
-
-/* Toast temático */
-body.skin-christmas .meow-toast,
-body.skin-halloween .meow-toast,
-body.skin-cyberpunk .meow-toast,
-body.skin-matrix .meow-toast {
-  background: #000;
-  border: 1px solid var(--accent);
-  color: var(--accent);
-  box-shadow:
-    0 8px 20px rgba(0, 0, 0, 0.6),
-    0 0 15px var(--glow-color);
-}
-
-/* Monospace forzado en Seasons */
-body.skin-christmas,
-body.skin-christmas *,
-body.skin-halloween,
-body.skin-halloween *,
-body.skin-cyberpunk,
-body.skin-cyberpunk *,
-body.skin-matrix,
-body.skin-matrix * {
-  font-family: 'JetBrains Mono', 'Share Tech Mono', 'Fira Code', 'Courier New', monospace !important;
-  font-variant-ligatures: none !important;
-}
-
-/* Botón play glow específico por skin */
-body.skin-christmas .btn-play {
-  border-radius: 50%;
-}
-
-body.skin-halloween .btn-play {
-  border-radius: 4px;
-}
-
-body.skin-cyberpunk .btn-play {
-  border-radius: 4px;
-  box-shadow:
-    0 0 20px var(--accent),
-    0 0 40px var(--glow-color),
-    inset 0 0 15px var(--glow-color);
-}
-
-body.skin-matrix .btn-play {
-  border-radius: 0;
-}
-
-/* ============================================================
-   🎬 v8.0 — ANIMACIONES Y EFECTOS DE SEASONS
-   Parte B: Nieve, murciélagos, matrix, grid cyberpunk
-   ============================================================ */
-
-/* ============================================================
-   🎄 EFECTOS: NAVIDAD
-   ============================================================ */
-
-/* Nieve cayendo */
-#snowBg {
-  background: linear-gradient(135deg, #1a0000 0%, #0d0000 50%, #001a00 100%);
-  background-size: 300% 300%;
-  animation: christmasBgGradient 8s ease-in-out infinite;
-}
-
-@keyframes christmasBgGradient {
-  0%, 100% {
-    background: linear-gradient(135deg, #2a0000 0%, #1a0000 50%, #001a00 100%);
-    background-size: 300% 300%;
-  }
-  50% {
-    background: linear-gradient(135deg, #001a00 0%, #0d0d0d 50%, #2a0000 100%);
-    background-size: 300% 300%;
-  }
-}
-
-#snowBg::before,
-#snowBg::after {
-  content: '';
-  position: absolute;
-  top: -10px;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-image:
-    radial-gradient(2px 2px at 20px 30px, rgba(255, 255, 255, 0.9), transparent),
-    radial-gradient(2px 2px at 40px 70px, rgba(255, 255, 255, 0.7), transparent),
-    radial-gradient(1px 1px at 90px 40px, rgba(255, 255, 255, 0.8), transparent),
-    radial-gradient(1px 1px at 130px 80px, rgba(255, 255, 255, 0.6), transparent),
-    radial-gradient(2px 2px at 160px 30px, rgba(255, 255, 255, 0.9), transparent),
-    radial-gradient(1px 1px at 200px 120px, rgba(255, 255, 255, 0.7), transparent),
-    radial-gradient(2px 2px at 240px 60px, rgba(255, 255, 255, 0.8), transparent),
-    radial-gradient(1px 1px at 280px 100px, rgba(255, 255, 255, 0.6), transparent);
-  background-repeat: repeat;
-  background-size: 300px 200px;
-  animation: snowFall 12s linear infinite;
-  opacity: 0.8;
-}
-
-#snowBg::after {
-  background-size: 400px 300px;
-  animation-duration: 20s;
-  animation-delay: -5s;
-  opacity: 0.6;
-}
-
-@keyframes snowFall {
-  0% { transform: translateY(-100vh) translateX(0); }
-  100% { transform: translateY(100vh) translateX(20px); }
-}
-
-/* Glow navideño pulsante */
-body.skin-christmas .player-card {
-  animation: christmasGlow 3s ease-in-out infinite;
-}
-
-@keyframes christmasGlow {
-  0%, 100% {
-    box-shadow:
-      0 0 30px rgba(255, 46, 46, 0.4),
-      0 0 80px rgba(0, 200, 83, 0.2),
-      inset 0 0 20px rgba(255, 255, 255, 0.03);
-  }
-  50% {
-    box-shadow:
-      0 0 40px rgba(255, 46, 46, 0.6),
-      0 0 100px rgba(0, 200, 83, 0.35),
-      inset 0 0 25px rgba(255, 255, 255, 0.05);
-  }
-}
-
-/* Gradiente de fondo del body Navidad */
-body.skin-christmas {
-  background: linear-gradient(135deg, #1a0000 0%, #0d0000 50%, #001a00 100%);
-  background-size: 300% 300%;
-  animation: christmasBodyGradient 10s ease-in-out infinite;
-}
-
-@keyframes christmasBodyGradient {
-  0%, 100% {
-    background: linear-gradient(135deg, #2a0000 0%, #1a0000 50%, #001a00 100%);
-    background-size: 300% 300%;
-  }
-  50% {
-    background: linear-gradient(135deg, #001a00 0%, #0d0000 50%, #2a0000 100%);
-    background-size: 300% 300%;
-  }
-}
-
-/* ============================================================
-   🎃 EFECTOS: HALLOWEEN
-   ============================================================ */
-
-/* Murciélagos volando */
-#batsBg {
-  background: transparent;
-}
-
-#batsBg::before,
-#batsBg::after {
-  content: '🦇';
-  position: absolute;
-  font-size: 1.5rem;
-  opacity: 0.4;
-  animation: batFly 15s linear infinite;
-}
-
-#batsBg::before {
-  top: 20%;
-  animation-delay: 0s;
-}
-
-#batsBg::after {
-  top: 60%;
-  font-size: 1rem;
-  animation-delay: -7s;
-  opacity: 0.3;
-}
-
-@keyframes batFly {
-  0% {
-    transform: translateX(-10%) translateY(0) rotate(0deg);
-  }
-  25% {
-    transform: translateX(25%) translateY(-30px) rotate(-10deg);
-  }
-  50% {
-    transform: translateX(50%) translateY(20px) rotate(5deg);
-  }
-  75% {
-    transform: translateX(75%) translateY(-40px) rotate(-5deg);
-  }
-  100% {
-    transform: translateX(110%) translateY(0) rotate(10deg);
-  }
-}
-
-/* Calabazas y telarañas en esquinas */
-body.skin-halloween .app-container::before {
-  content: '🎃';
-  position: fixed;
-  top: 10px;
-  left: 10px;
-  font-size: 2rem;
-  opacity: 0.6;
-  animation: pumpkinPulse 4s ease-in-out infinite;
-  pointer-events: none;
-  z-index: 100;
-}
-
-body.skin-halloween .app-container::after {
-  content: '🕷️';
-  position: fixed;
-  top: 15px;
-  right: 15px;
-  font-size: 1.5rem;
-  opacity: 0.5;
-  animation: spiderSwing 5s ease-in-out infinite;
-  pointer-events: none;
-  z-index: 100;
-}
-
-@keyframes pumpkinPulse {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.1); }
-}
-
-@keyframes spiderSwing {
-  0%, 100% { transform: translateY(0) rotate(-5deg); }
-  50% { transform: translateY(8px) rotate(5deg); }
-}
-
-/* Glow naranja/morado */
-body.skin-halloween .player-card {
-  animation: halloweenGlow 4s ease-in-out infinite;
-}
-
-@keyframes halloweenGlow {
-  0%, 100% {
-    box-shadow:
-      0 0 30px rgba(255, 111, 0, 0.4),
-      0 0 80px rgba(123, 31, 162, 0.3),
-      inset 0 0 20px rgba(255, 255, 255, 0.03);
-  }
-  50% {
-    box-shadow:
-      0 0 45px rgba(255, 111, 0, 0.6),
-      0 0 100px rgba(123, 31, 162, 0.5),
-      inset 0 0 25px rgba(255, 255, 255, 0.05);
-  }
-}
-
-/* Título con efecto "fantasma" */
-body.skin-halloween .track-title,
-body.skin-halloween .header-title {
-  animation: ghostFlicker 5s ease-in-out infinite;
-}
-
-@keyframes ghostFlicker {
-  0%, 100% { opacity: 1; }
-  40% { opacity: 1; }
-  42% { opacity: 0.7; }
-  44% { opacity: 1; }
-  46% { opacity: 0.8; }
-  48% { opacity: 1; }
-  70% { opacity: 1; }
-  72% { opacity: 0.85; }
-  74% { opacity: 1; }
-}
-
-/* ============================================================
-   🟢 EFECTOS: MATRIX
-   ============================================================ */
-
-/* Lluvia de caracteres Matrix */
-#matrixBg {
-  background: #000;
-  overflow: hidden;
-}
-
-#matrixBg::before,
-#matrixBg::after {
-  content: '01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン';
-  position: absolute;
-  top: -100%;
-  left: 0;
-  width: 100%;
-  color: #00ff41;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 1.2rem;
-  line-height: 1.5;
-  letter-spacing: 15px;
-  white-space: pre-wrap;
-  word-break: break-all;
-  opacity: 0.3;
-  animation: matrixRain 10s linear infinite;
-  text-shadow: 0 0 5px #00ff41;
-}
-
-#matrixBg::after {
-  animation-duration: 15s;
-  animation-delay: -5s;
-  opacity: 0.15;
-  font-size: 0.8rem;
-  letter-spacing: 25px;
-}
-
-@keyframes matrixRain {
-  0% { transform: translateY(0); }
-  100% { transform: translateY(200%); }
-}
-
-/* Glow verde pulsante Matrix */
-body.skin-matrix .player-card {
-  animation: matrixGlow 2.5s ease-in-out infinite;
-}
-
-@keyframes matrixGlow {
-  0%, 100% {
-    box-shadow:
-      0 0 30px rgba(0, 255, 65, 0.5),
-      0 0 80px rgba(0, 255, 65, 0.2),
-      inset 0 0 20px rgba(0, 255, 65, 0.05);
-  }
-  50% {
-    box-shadow:
-      0 0 50px rgba(0, 255, 65, 0.7),
-      0 0 120px rgba(0, 255, 65, 0.35),
-      inset 0 0 30px rgba(0, 255, 65, 0.08);
-  }
-}
-
-/* Texto Matrix con scanline effect */
-body.skin-matrix .header-title,
-body.skin-matrix .track-title {
-  text-shadow:
-    0 0 8px #00ff41,
-    0 0 16px #00ff41,
-    0 0 2px #00ff9d;
-  animation: matrixTextScan 3s ease-in-out infinite;
-}
-
-@keyframes matrixTextScan {
-  0%, 100% {
-    text-shadow:
-      0 0 8px #00ff41,
-      0 0 16px #00ff41,
-      0 0 2px #00ff9d;
-  }
-  50% {
-    text-shadow:
-      0 0 12px #00ff41,
-      0 0 24px #00ff41,
-      0 0 4px #00ff9d,
-      0 0 40px rgba(0, 255, 65, 0.5);
-  }
-}
-
-/* Efecto glitch sutil en botones Matrix */
-body.skin-matrix .icon-action-btn:hover {
-  animation: matrixGlitch 0.3s ease;
-}
-
-@keyframes matrixGlitch {
-  0%, 100% { transform: translate(0, 0); }
-  25% { transform: translate(-2px, 1px); }
-  50% { transform: translate(2px, -1px); }
-  75% { transform: translate(-1px, -2px); }
-}
-
-/* ============================================================
-   🌆 EFECTOS: CYBERPUNK
-   ============================================================ */
-
-/* Grid synthwave */
-#cyberBg {
-  background:
-    linear-gradient(rgba(255, 0, 255, 0.1) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0, 255, 255, 0.1) 1px, transparent 1px),
-    linear-gradient(180deg, #050014 0%, #1a0033 50%, #050014 100%);
-  background-size: 40px 40px, 40px 40px, 100% 100%;
-  perspective: 300px;
-}
-
-#cyberBg::before {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 50%;
-  background:
-    linear-gradient(rgba(255, 0, 255, 0.3) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0, 255, 255, 0.3) 1px, transparent 1px);
-  background-size: 40px 40px, 40px 40px;
-  transform: rotateX(60deg);
-  transform-origin: bottom;
-  animation: gridMove 3s linear infinite;
-  opacity: 0.5;
-}
-
-@keyframes gridMove {
-  0% { background-position: 0 0, 0 0; }
-  100% { background-position: 0 40px, 40px 0; }
-}
-
-/* Sol synthwave */
-#cyberBg::after {
-  content: '';
-  position: absolute;
-  top: 10%;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 200px;
-  height: 200px;
-  background: radial-gradient(circle,
-    #ff00ff 0%,
-    #ff00ff 40%,
-    rgba(255, 0, 255, 0.3) 60%,
-    transparent 70%);
-  border-radius: 50%;
-  box-shadow: 0 0 100px rgba(255, 0, 255, 0.6);
-  animation: sunPulse 4s ease-in-out infinite;
-}
-
-@keyframes sunPulse {
-  0%, 100% {
-    opacity: 0.7;
-    transform: translateX(-50%) scale(1);
-  }
-  50% {
-    opacity: 1;
-    transform: translateX(-50%) scale(1.1);
-  }
-}
-
-/* Glow cyberpunk intenso */
-body.skin-cyberpunk .player-card {
-  animation: cyberGlow 2s ease-in-out infinite;
-}
-
-@keyframes cyberGlow {
-  0%, 100% {
-    box-shadow:
-      0 0 30px rgba(255, 0, 255, 0.5),
-      0 0 80px rgba(0, 255, 255, 0.3),
-      inset 0 0 20px rgba(255, 255, 255, 0.03);
-  }
-  50% {
-    box-shadow:
-      0 0 50px rgba(255, 0, 255, 0.8),
-      0 0 120px rgba(0, 255, 255, 0.5),
-      inset 0 0 30px rgba(255, 255, 255, 0.05);
-  }
-}
-
-/* Glitch en títulos Cyberpunk */
-body.skin-cyberpunk .header-title,
-body.skin-cyberpunk .track-title {
-  position: relative;
-  animation: cyberFlicker 3s ease-in-out infinite;
-}
-
-body.skin-cyberpunk .header-title::before,
-body.skin-cyberpunk .track-title::before {
-  content: attr(data-text);
-  position: absolute;
-  top: 0;
-  left: 2px;
-  color: #00ffff;
-  opacity: 0;
-  z-index: -1;
-  animation: cyberGlitch1 3s ease-in-out infinite;
-}
-
-body.skin-cyberpunk .header-title::after,
-body.skin-cyberpunk .track-title::after {
-  content: attr(data-text);
-  position: absolute;
-  top: 0;
-  left: -2px;
-  color: #ffff00;
-  opacity: 0;
-  z-index: -1;
-  animation: cyberGlitch2 3s ease-in-out infinite;
-}
-
-@keyframes cyberFlicker {
-  0%, 100% { opacity: 1; }
-  92% { opacity: 1; }
-  93% { opacity: 0.8; }
-  94% { opacity: 1; }
-  96% { opacity: 0.9; }
-  97% { opacity: 1; }
-}
-
-@keyframes cyberGlitch1 {
-  0%, 90%, 100% { opacity: 0; transform: translate(0); }
-  92% { opacity: 0.7; transform: translate(-2px, 1px); }
-  94% { opacity: 0; }
-  96% { opacity: 0.7; transform: translate(2px, -1px); }
-  98% { opacity: 0; }
-}
-
-@keyframes cyberGlitch2 {
-  0%, 90%, 100% { opacity: 0; transform: translate(0); }
-  91% { opacity: 0.7; transform: translate(2px, -1px); }
-  93% { opacity: 0; }
-  95% { opacity: 0.7; transform: translate(-1px, 2px); }
-  97% { opacity: 0; }
-}
-
-/* Scanlines cyberpunk sutiles */
-body.skin-cyberpunk .crt-overlay {
-  background:
-    linear-gradient(rgba(255, 0, 255, 0.05) 50%, rgba(0, 0, 0, 0.4) 50%),
-    linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.03), rgba(0, 255, 255, 0.03));
-  background-size: 100% 3px, 3px 100%;
-}
-
-/* Bordes neón cyberpunk */
-body.skin-cyberpunk .player-card,
-body.skin-cyberpunk .bottom-nav {
-  border-color: #ff00ff;
-  border-width: 2px;
-  position: relative;
-}
-
-body.skin-cyberpunk .player-card::before,
-body.skin-cyberpunk .bottom-nav::before {
-  content: '';
-  position: absolute;
-  inset: -2px;
-  border-radius: inherit;
-  padding: 2px;
-  background: linear-gradient(45deg, #ff00ff, #00ffff, #ffff00, #ff00ff);
-  background-size: 300% 300%;
-  -webkit-mask:
-    linear-gradient(#fff 0 0) content-box,
-    linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  opacity: 0.6;
-  animation: neonBorder 4s linear infinite;
-  pointer-events: none;
-}
-
-@keyframes neonBorder {
-  0% { background-position: 0% 50%; }
-  100% { background-position: 300% 50%; }
-}
-
-/* ============================================================
-   🌟 EFECTOS GLOBALES SEASONS
-   ============================================================ */
-
-/* Transición suave entre skins */
-body.skin-christmas,
-body.skin-halloween,
-body.skin-cyberpunk,
-body.skin-matrix {
-  transition: background-color 0.6s ease, color 0.4s ease;
-}
-
-/* Copos de nieve y detalles navideños */
-body.skin-christmas .app-container::before {
-  content: '❄️';
-  position: fixed;
-  top: 15px;
-  right: 15px;
-  font-size: 1.5rem;
-  opacity: 0.7;
-  animation: snowflakeSpin 4s ease-in-out infinite;
-  pointer-events: none;
-  z-index: 100;
-}
-
-@keyframes snowflakeSpin {
-  0%, 100% { transform: rotate(0deg) scale(1); }
-  50% { transform: rotate(180deg) scale(1.1); }
-}
-
-/* Footer/status temático */
-body.skin-christmas .status-badge::before {
-  content: '❄️ ';
-}
-
-body.skin-halloween .status-badge::before {
-  content: '🎃 ';
-}
-
-body.skin-matrix .status-badge::before {
-  content: '> ';
-}
-
-body.skin-cyberpunk .status-badge::before {
-  content: '⚡ ';
-}
-
-/* Botones con hover glow */
-body.skin-christmas .icon-action-btn:hover,
-body.skin-halloween .icon-action-btn:hover,
-body.skin-cyberpunk .icon-action-btn:hover,
-body.skin-matrix .icon-action-btn:hover {
-  transform: scale(1.1);
-  box-shadow:
-    0 0 20px var(--accent),
-    0 0 40px var(--glow-color),
-    inset 0 0 10px var(--glow-color);
-}
-
-/* Nav-btn hover */
-body.skin-christmas .nav-btn:hover,
-body.skin-halloween .nav-btn:hover,
-body.skin-cyberpunk .nav-btn:hover,
-body.skin-matrix .nav-btn:hover {
-  text-shadow: 0 0 10px var(--glow-color);
-}
-
-/* Playlist item hover temático */
-body.skin-christmas .playlist-item:hover,
-body.skin-halloween .playlist-item:hover,
-body.skin-cyberpunk .playlist-item:hover,
-body.skin-matrix .playlist-item:hover {
-  background: rgba(255, 255, 255, 0.05);
-  box-shadow: inset 0 0 15px var(--glow-color);
-}
-
-/* Playlists item hover */
-body.skin-christmas .playlists-item:hover,
-body.skin-halloween .playlists-item:hover,
-body.skin-cyberpunk .playlists-item:hover,
-body.skin-matrix .playlists-item:hover {
-  background: rgba(255, 255, 255, 0.08);
-  box-shadow:
-    0 0 15px var(--glow-color),
-    inset 0 0 10px var(--glow-color);
-}
-
-/* Animación de entrada del overlay */
-body.skin-christmas .playlist-overlay.active,
-body.skin-halloween .playlist-overlay.active,
-body.skin-cyberpunk .playlist-overlay.active,
-body.skin-matrix .playlist-overlay.active,
-body.skin-christmas .modal-overlay.active,
-body.skin-halloween .modal-overlay.active,
-body.skin-cyberpunk .modal-overlay.active,
-body.skin-matrix .modal-overlay.active {
-  animation: seasonOverlayIn 0.4s ease;
-}
-
-@keyframes seasonOverlayIn {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* ============================================================
-   RESPONSIVE — Ajustes para Seasons
-   ============================================================ */
-@media screen and (orientation: landscape) and (max-height: 600px) {
-  #snowBg::before,
-  #snowBg::after {
-    animation-duration: 15s;
-  }
-  
-  #matrixBg::before,
-  #matrixBg::after {
-    font-size: 0.8rem;
-    letter-spacing: 10px;
-  }
-  
-  #cyberBg::after {
-    width: 120px;
-    height: 120px;
-  }
-}
-
-@media (max-width: 380px) {
-  #batsBg::before,
-  #batsBg::after {
-    font-size: 1rem;
-  }
-  
-  #cyberBg::after {
-    width: 100px;
-    height: 100px;
-  }
-}
-
-/* ============================================================
-   PREFERENCIAS DE ACCESIBILIDAD
-   Si el usuario prefiere menos animaciones, respetarlo
-   ============================================================ */
 @media (prefers-reduced-motion: reduce) {
-  #snowBg::before,
-  #snowBg::after,
-  #batsBg::before,
-  #batsBg::after,
-  #matrixBg::before,
-  #matrixBg::after,
-  #cyberBg::before,
-  #cyberBg::after,
+  #snowBg::before, #snowBg::after,
+  #batsBg::before, #batsBg::after,
+  #matrixBg::before, #matrixBg::after,
+  #cyberBg::before, #cyberBg::after,
   body.skin-christmas .player-card,
   body.skin-halloween .player-card,
   body.skin-cyberpunk .player-card,
-  body.skin-matrix .player-card {
-    animation: none !important;
-  }
+  body.skin-matrix .player-card { animation: none !important; }
+}
+
+/* Scrollbars */
+.playlists-list, .playlist-list, .settings-body, .bottom-sheet-list {
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
 }
