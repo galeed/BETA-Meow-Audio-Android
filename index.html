@@ -7,7 +7,7 @@
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="theme-color" content="#0f1015" id="metaTheme">
-  <meta name="description" content="Reproductor de audio local con skins Classic, Consola TUI, @distro_01, @distro_02 y Seasons (Navidad, Halloween, Cyberpunk, Matrix).">
+  <meta name="description" content="Reproductor de audio local con skins Classic, TUI, Distros y Seasons. Editor TUI, Crossfade, Normalización y Limitador.">
 
   <title>MEOW AUDIO APP</title>
 
@@ -35,7 +35,17 @@
   <div class="season-bg matrix-bg" id="matrixBg" aria-hidden="true"></div>
   <div class="season-bg cyber-bg" id="cyberBg" aria-hidden="true"></div>
 
+  <!-- 🎵 Reproductor principal -->
   <audio id="mainAudioPlayer"
+         preload="auto"
+         playsinline
+         webkit-playsinline
+         crossorigin="anonymous"
+         disableRemotePlayback
+         style="display:none;"></audio>
+
+  <!-- 🎚 Segundo audio para crossfade real -->
+  <audio id="secondaryAudioPlayer"
          preload="auto"
          playsinline
          webkit-playsinline
@@ -118,8 +128,12 @@
           <button class="icon-action-btn" id="btnRotate" title="Girar pantalla">🔄</button>
           <button class="icon-action-btn" id="btnCrt" title="Efecto CRT">📺</button>
           <div class="file-input-wrapper">
-            <button class="icon-action-btn" title="Añadir canciones">➕</button>
+            <button class="icon-action-btn" title="Añadir archivos">➕</button>
             <input type="file" id="fileInput" class="real-file-input" multiple accept=".mp3,.wav,.ogg,.flac,.m4a,.aac,audio/*">
+          </div>
+          <div class="file-input-wrapper">
+            <button class="icon-action-btn" title="Añadir carpeta entera" id="btnFolderInput">📁</button>
+            <input type="file" id="folderInput" class="real-file-input" multiple webkitdirectory directory accept=".mp3,.wav,.ogg,.flac,.m4a,.aac,audio/*">
           </div>
         </div>
 
@@ -249,6 +263,11 @@
                 <option value="matrix">🟢 Seasons: Matrix</option>
               </select>
             </div>
+            <div class="settings-row" id="editTuiThemeRow" style="margin-top: 10px;">
+              <button class="btn-action btn-tool" id="btnEditTuiTheme" style="width: 100%;">
+                🎨 Editar tema TUI actual
+              </button>
+            </div>
           </div>
 
           <div class="settings-item" id="crtSettingItem">
@@ -264,11 +283,49 @@
           </div>
 
           <div class="settings-item">
-            <div class="settings-title">🎚 Crossfade (Transición)</div>
-            <div class="settings-desc">Superposición entre pistas al cambiar de canción.</div>
+            <div class="settings-title">🎚 Crossfade Real</div>
+            <div class="settings-desc">Superposición suave entre pistas al cambiar de canción.</div>
             <div class="settings-row">
-              <span class="settings-desc" style="font-weight:600;">Tiempo: <span id="crossfadeVal">0</span>s</span>
-              <input type="range" id="crossfadeTime" min="0" max="10" value="0" step="0.5" style="width:120px; accent-color:var(--accent);">
+              <span class="settings-desc" style="font-weight:600;">Estado:</span>
+              <label class="toggle-switch">
+                <input type="checkbox" id="crossfadeToggle">
+                <span class="slider"></span>
+              </label>
+            </div>
+            <div class="settings-row" style="margin-top: 6px;">
+              <span class="settings-desc" style="font-weight:600;">Duración: <span id="crossfadeVal">3</span>s</span>
+              <input type="range" id="crossfadeTime" min="1" max="12" value="3" step="0.5" style="width:140px; accent-color:var(--accent);">
+            </div>
+          </div>
+
+          <div class="settings-item">
+            <div class="settings-title">📊 Normalización de Volumen</div>
+            <div class="settings-desc">Iguala el volumen entre canciones automáticamente (-14 LUFS).</div>
+            <div class="settings-row">
+              <span class="settings-desc" style="font-weight:600;">Estado:</span>
+              <label class="toggle-switch">
+                <input type="checkbox" id="normalizationToggle">
+                <span class="slider"></span>
+              </label>
+            </div>
+            <div class="settings-row" style="margin-top: 6px;">
+              <span class="settings-desc" id="normalizationStatus" style="font-weight:600; font-size: 0.7rem; color: var(--text-muted);">Análisis: inactivo</span>
+            </div>
+          </div>
+
+          <div class="settings-item">
+            <div class="settings-title">🛡️ Limitador de Picos</div>
+            <div class="settings-desc">Evita distorsión al subir el volumen máximo.</div>
+            <div class="settings-row">
+              <span class="settings-desc" style="font-weight:600;">Estado:</span>
+              <label class="toggle-switch">
+                <input type="checkbox" id="limiterToggle">
+                <span class="slider"></span>
+              </label>
+            </div>
+            <div class="settings-row" style="margin-top: 6px;">
+              <span class="settings-desc" style="font-weight:600;">Boost: <span id="boostVal">+6</span> dB</span>
+              <input type="range" id="boostAmount" min="0" max="12" value="6" step="1" style="width:140px; accent-color:var(--accent);">
             </div>
           </div>
 
@@ -282,6 +339,9 @@
                 <option value="bars">Barras Horizontales (LED)</option>
                 <option value="scope">Ámbito / Osciloscopio</option>
                 <option value="hybrid">Modo Híbrido</option>
+                <option value="spiral">Espiral</option>
+                <option value="particles">Partículas</option>
+                <option value="3d">3D Perspective</option>
               </select>
             </div>
           </div>
@@ -369,8 +429,8 @@
           </div>
 
           <div class="settings-item">
-            <div class="settings-title" id="versionTitle">MEOW AUDIO APP v8.0</div>
-            <div class="settings-desc" id="versionDesc">Skins: Classic, TUI, @distro_01, @distro_02, Seasons (4).</div>
+            <div class="settings-title" id="versionTitle">MEOW AUDIO APP v9.1</div>
+            <div class="settings-desc" id="versionDesc">Skins + Editor TUI + Crossfade + Normalización + Limitador + Drag & Drop + Carpeta entera + Nuevos visualizadores.</div>
           </div>
         </div>
       </div>
@@ -441,11 +501,70 @@
     </div>
   </div>
 
+  <!-- MODAL: EDITOR DE TEMA TUI -->
+  <div class="modal-overlay-simple" id="themeEditorOverlay">
+    <div class="modal-box theme-editor-box">
+      <div class="modal-box-title">🎨 Editor de Tema TUI</div>
+
+      <div class="theme-preview" id="themePreview">
+        <div class="theme-preview-header">🎵 MEOW AUDIO APP</div>
+        <div class="theme-preview-title">Canción de Ejemplo</div>
+        <div class="theme-preview-artist">Artista de Ejemplo</div>
+        <div class="theme-preview-controls">
+          <span>🔀</span>
+          <span>⏮</span>
+          <span class="theme-preview-play">▶</span>
+          <span>⏭</span>
+          <span>🔁</span>
+        </div>
+      </div>
+
+      <div class="theme-editor-field">
+        <label class="theme-editor-label">Nombre del tema</label>
+        <input type="text" class="modal-input" id="themeNameInput" placeholder="Mi tema personalizado..." maxlength="30" autocomplete="off">
+      </div>
+
+      <div class="theme-editor-colors">
+        <div class="theme-color-field">
+          <label for="themeBgColor">Fondo</label>
+          <input type="color" id="themeBgColor" value="#0a120b">
+        </div>
+        <div class="theme-color-field">
+          <label for="themeTextColor">Texto</label>
+          <input type="color" id="themeTextColor" value="#00ff66">
+        </div>
+        <div class="theme-color-field">
+          <label for="themeAccentColor">Acento</label>
+          <input type="color" id="themeAccentColor" value="#00ff66">
+        </div>
+        <div class="theme-color-field">
+          <label for="themeAccent2Color">Secundario</label>
+          <input type="color" id="themeAccent2Color" value="#00ffcc">
+        </div>
+      </div>
+
+      <div class="modal-box-actions" style="flex-wrap: wrap; gap: 6px;">
+        <button class="btn-action" id="btnCancelThemeEditor">Cancelar</button>
+        <button class="btn-action" id="btnDeleteTheme" style="display: none; background: rgba(255, 71, 87, 0.2); border-color: #ff4757; color: #ff4757;">🗑️ Eliminar</button>
+        <button class="btn-action btn-action-magenta" id="btnSaveTheme">💾 Guardar</button>
+      </div>
+    </div>
+  </div>
+
   <!-- OVERLAY DE BOOT -->
   <div class="distro-boot-overlay" id="distroBootOverlay">
     <div class="distro-boot-terminal">
       <pre id="distroBootText"></pre>
       <span class="distro-boot-cursor">█</span>
+    </div>
+  </div>
+
+  <!-- OVERLAY: ZONA DE DROP -->
+  <div class="drag-drop-overlay" id="dragDropOverlay">
+    <div class="drag-drop-content">
+      <div class="drag-drop-icon">📁</div>
+      <div class="drag-drop-title">Suelta tus archivos o carpetas aquí</div>
+      <div class="drag-drop-subtitle">Se añadirán a la biblioteca automáticamente</div>
     </div>
   </div>
 
