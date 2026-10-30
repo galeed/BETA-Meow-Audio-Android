@@ -1,203 +1,40 @@
-=========================================================
-MEOW AUDIO APP v3.0
-Reproductor de audio local PWA con skins
-=========================================================
+# 🐱 MEOW AUDIO APP v3.0
 
-CONTENIDO DEL PROYECTO
------------------------
-📁 tu-carpeta/
-├── index.html               ← Estructura HTML
-├── styles.css               ← Todos los estilos
-├── app.js                   ← Toda la lógica JS
-├── sw.js                    ← Service Worker
-├── manifest.json            ← Manifiesto PWA
-├── favicon-16x16.png
-├── favicon-32x32.png
-├── apple-touch-icon.png
-├── icon-192.png
-├── icon-192-maskable.png
-├── icon-512.png
-├── icon-512-maskable.png
-└── README.txt               ← Este archivo
+**Un reproductor de audio local PWA con sistema de Skins, construido 100% con HTML, CSS y JavaScript puro.**
 
-Nota v3.0: el proyecto se dividió en index.html + styles.css + app.js
-para mejor mantenibilidad. Antes todo estaba inline en un solo HTML.
+Meow Audio App es una aplicación web progresiva (PWA) diseñada para reproducir tu música local con una calidad de interfaz excepcional. No requiere frameworks, no requiere backend, y todos tus datos se quedan en tu dispositivo.
 
+> 🚧 **Estado del proyecto:** Beta (v3.0) - En desarrollo activo.
 
-SKINS DISPONIBLES
------------------
-1. Classic
-   - Diseño original con glassmorphism
-   - Acento rojo (#ff4757) + cyan (#00ffcc)
-   - Blur, bordes redondeados, fuentes del sistema
-   - Visualizador de audio configurable (híbrido/plasma por defecto)
-   - Portada del álbum cuadrada
+## 📸 Captura de Pantalla
 
-2. Consola TUI
-   - Estética terminal CRT con scanlines y vignette
-   - 6 temas de color:
-     * Phosphor Green (#00ff66)
-     * Amber CRT (#ffb000)
-     * Cyber Cyan (#00f0ff)
-     * Dracula Synth (#bd93f9)
-     * Monochrome (#eeeeee)
-     * Cappuccino (#e69a58)
-   - Tipografía monospace (JetBrains Mono / Share Tech Mono)
-   - Menú desplegable en el header para cambiar de tema
-   - Visualizador desactivado (estética terminal pura)
+*(Sube una imagen de tu app a la carpeta del repositorio, por ejemplo `screenshot.png`, y ponla aquí)*
+![Vista previa del Skin TUI](screenshot.png)
 
-3. @distro_01
-   - Inspirado en fastfetch / neofetch
-   - 13 distros de Linux con colores característicos:
-     * Arch Linux (#1793d1)
-     * Ubuntu (#e95420)
-     * Debian (#d70a53)
-     * Fedora (#51a2da)
-     * Linux Mint (#87cf3e)
-     * openSUSE (#73ba25)
-     * Alpine Linux (#0d597f)
-     * Gentoo (#54487a)
-     * Manjaro (#35bfa7)
-     * Kali Linux (#557c94)
-     * Void Linux (#478061)
-     * NixOS (#5277c3)
-     * Pop!_OS (#48b9c7)
-   - ASCII art de cada distro como marca de agua de fondo
-     (opacidad 0.15, ubicado detrás de la barra de progreso,
-      controles y botones de acción)
-   - Menú desplegable en el header para cambiar de distro
-   - Fondo base #0d1117 (GitHub dark) + acento por distro
+## ✨ Características Principales
 
+*   🎵 **Reproducción Local:** Soporte para MP3, WAV, OGG, FLAC, M4A y AAC.
+*   🏷️ **Metadatos:** Lectura de ID3 (título, artista, álbum, portada) y specs Hi-Res (FLAC 24bit).
+*   🎛️ **Audio Pro:** Ecualizador de 10 bandas con 13 presets, Dolby Spatial Audio (simulado) y visualizador de espectro.
+*   🎨 **Sistema de Skins (v3.0):** 
+    *   *Classic:* Glassmorphism moderno.
+    *   *Consola TUI:* Estética CRT retro con 6 temas de color (Phosphor Green, Amber, Cyber Cyan, etc.).
+    *   *@distro_01:* Inspirado en *fastfetch*, con 13 temas basados en distros de Linux.
+*   📱 **PWA & Segundo Plano:** Instálala en tu móvil, soporte para pantalla de bloqueo (Media Session API) y reproducción en segundo plano.
+*   💾 **Privacidad Total:** Persistencia en IndexedDB. Todo es local, nada viaja a la nube.
 
-CÓMO ELEGIR UN SKIN
---------------------
-1. Abre la app
-2. Toca el ícono ⚙️ (Ajustes) en la barra inferior
-3. Busca "🎨 Skin de la App"
-4. Selecciona: Classic / Consola TUI / @distro_01
-5. El cambio se aplica al instante y se guarda automáticamente
+## 🛠️ Tecnologías Utilizadas
 
+*   **HTML5 & CSS3** (Estilos puros, variables CSS para los temas).
+*   **JavaScript (Vanilla)** (Lógica del reproductor, Web Audio API, IndexedDB).
+*   **Service Worker** (Para el funcionamiento offline de la PWA).
 
-CÓMO CAMBIAR DE TEMA O DISTRO
-------------------------------
-- En skin TUI: toca el header "🎵 MEOW AUDIO APP" → menú con 6 temas
-- En skin @distro_01: toca el header "🎵 MEOW AUDIO APP" → menú con 13 distros
-- En skin Classic: no hay menú (header no es clicable)
+## 🚀 Cómo probarlo (Local)
 
+Al ser una PWA, necesita servirse a través de un servidor local (no puedes abrir el `index.html` directamente haciendo doble clic).
 
-FUNCIONALIDADES PRINCIPALES
-----------------------------
-- Reproducción de audio local (MP3, WAV, OGG, FLAC, M4A, AAC)
-- Lectura de metadatos ID3 (título, artista, álbum, portada)
-- Lectura de specs Hi-Res (FLAC 24bit/48kHz+)
-- Ecualizador de 10 bandas con 13 presets
-- Dolby Spatial Audio (simulado)
-- Visualizador de espectro (barras, osciloscopio, híbrido)
-- Medidor LUFS / Peak
-- Fila de reproducción con búsqueda y ordenamiento
-- Persistencia en IndexedDB
-- Media Session API (controles en pantalla de bloqueo)
-- Reproducción en segundo plano (con keepAlive)
-- Pantalla completa y rotación manual
-- Exportación de lista (M3U8, JSON, TXT)
-- Aviso de privacidad (todo local)
-
-
-ATAJOS DE TECLADO
-------------------
-Espacio     Play / Pausa
-N           Siguiente pista
-P           Pista anterior
-M           Mute / Unmute
-↑           Subir volumen
-↓           Bajar volumen
-Esc         Cerrar menú desplegable
-
-
-INSTALACIÓN COMO PWA
----------------------
-Requisitos: HTTPS o localhost
-
-1. Sube todos los archivos a tu hosting
-2. Abre la URL en Chrome / Safari / Edge
-3. Menú → "Añadir a pantalla de inicio" o "Instalar app"
-4. La app se abrirá como standalone
-
-Nota: en iOS, la reproducción en segundo plano solo funciona si la app
-está instalada como PWA (Añadir a pantalla de inicio).
-
-
-PRUEBA LOCAL
--------------
-Opción 1: Python
-    python3 -m http.server 8080
-    Abre: http://localhost:8080
-
-Opción 2: Node
-    npx serve .
-    Abre: http://localhost:3000
-
-Opción 3: HTTPS temporal (para probar en móvil)
-    ngrok http 8080
-    Usa la URL https://... que genera
-
-
-SOLUCIÓN DE PROBLEMAS
-----------------------
-❌ La app no se actualiza después de subir cambios
-   → Sube el número de versión en sw.js (v3.0 → v3.1)
-   → Borra datos del sitio en el navegador
-   → Reinstala la PWA
-
-❌ El skin @distro_01 no aparece en el <select>
-   → Verifica que en index.html el <select id="skinSelect"> tenga
-     la opción <option value="distro-01">@distro_01</option>
-   → Verifica que styles.css tenga los bloques
-     body.skin-distro-01[data-distro="..."] { ... }
-
-❌ No se ven los colores al elegir una distro
-   → Abre la consola del navegador (F12) y verifica que no haya
-     errores de JS
-   → Asegúrate de que app.js se cargue (pestaña Network)
-
-❌ La música se pausa al bloquear pantalla
-   → Debe estar instalada como PWA (no desde Safari)
-   → Verifica que "keepAlive" esté activo (visible en consola)
-   → Es limitación de iOS cuando se usa Web Audio API
-
-❌ El menú del header no aparece
-   → Solo aparece en skins TUI y @distro_01
-   → En Classic el header no es clicable
-
-❌ Los logos de distros se ven deformados
-   → Verifica que la fuente JetBrains Mono esté cargada
-   → Reduce el font-size en .distro-bg-ascii si es necesario
-
-
-PRÓXIMAS VERSIONES
--------------------
-v3.1 → @distro_02 con las otras 13 distros
-        (elementary, CachyOS, EndeavourOS, CentOS Stream,
-         Slackware, Parrot, Raspberry Pi OS, Proxmox,
-         TrueNAS, Android, macOS, Windows 11, GNU Hurd)
-
-v3.2 → Más temas para TUI
-        + Crossfade real entre pistas
-
-
-CRÉDITOS
----------
-- Inspirado en fastfetch: https://github.com/fastfetch-cli/fastfetch
-- Inspirado en astro-distro: https://astro-distro.pages.dev
-- Inspirado en astro-tui-portfolio: https://astro-tui-portfolio.netlify.app
-- Fuentes: JetBrains Mono, Share Tech Mono
-
-
-LICENCIA
----------
-Uso personal. Modifica y adapta libremente.
-
-
-=========================================================
-¡Miau! 🐱
-=========================================================
+**Opción 1: Usando Python**
+```bash
+# En la raíz del proyecto
+python3 -m http.server 8080
+# Abre http://localhost:8080 en tu navegador
