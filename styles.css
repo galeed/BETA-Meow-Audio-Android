@@ -2875,3 +2875,59 @@ body.skin-tui .tui-theme-item-custom { font-style: italic; }
   scroll-behavior: smooth;
   -webkit-overflow-scrolling: touch;
 }
+
+/* ============================================================
+   FIX LAYOUT v9.2 — Bottom nav anclado + más espacio al player
+   ============================================================ */
+
+/* 1. Container: sin padding inferior (el nav tocará el borde).
+      Gap compacto de 8px entre player y nav. */
+.app-container {
+  padding-bottom: 0 !important;
+  gap: 8px !important;
+}
+
+/* 2. El player absorbe todo el espacio vertical liberado */
+.player-card {
+  flex: 1 1 auto !important;
+  min-height: 0 !important;
+}
+
+/* 3. Bottom nav: pegado al fondo, esquinas rectas abajo,
+      respeta safe-area del iPhone dentro de su propio padding. */
+.bottom-nav {
+  flex: 0 0 auto !important;
+  margin: 0 !important;
+  padding: 10px 0 calc(env(safe-area-inset-bottom, 0px) + 10px) 0 !important;
+  border-bottom-left-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+}
+
+/* 4. EXCEPCIÓN — Classic: mantener look flotante original */
+body.skin-classic .app-container {
+  padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 10px) !important;
+  gap: 8px !important;
+}
+body.skin-classic .bottom-nav {
+  border-radius: var(--nav-radius) !important;
+  padding: 10px 0 !important;
+  margin-bottom: 0 !important;
+}
+body.skin-classic .player-card {
+  flex: 1 1 auto !important;
+}
+
+/* 5. Landscape: pegado abajo en TODOS los skins (incluido Classic) */
+@media screen and (orientation: landscape) and (max-height: 600px) {
+  .app-container,
+  body.skin-classic .app-container {
+    padding-bottom: 0 !important;
+    gap: 6px !important;
+  }
+  .bottom-nav,
+  body.skin-classic .bottom-nav {
+    padding: 6px 0 calc(env(safe-area-inset-bottom, 0px) + 6px) 0 !important;
+    border-radius: 0 !important;
+    margin: 0 !important;
+  }
+}
