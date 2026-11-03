@@ -2877,57 +2877,53 @@ body.skin-tui .tui-theme-item-custom { font-style: italic; }
 }
 
 /* ============================================================
-   FIX LAYOUT v9.2 — Bottom nav anclado + más espacio al player
+   FIX LAYOUT v9.3 — Estilo "Isla" flotante hasta el fondo
    ============================================================ */
 
-/* 1. Container: sin padding inferior (el nav tocará el borde).
-      Gap compacto de 8px entre player y nav. */
+/* 1. Container: padding inferior reducido al mínimo (solo safe-area del móvil) */
 .app-container {
-  padding-bottom: 0 !important;
+  padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 6px) !important;
   gap: 8px !important;
 }
 
-/* 2. El player absorbe todo el espacio vertical liberado */
+/* 2. El reproductor absorbe todo el espacio extra */
 .player-card {
   flex: 1 1 auto !important;
   min-height: 0 !important;
 }
 
-/* 3. Bottom nav: pegado al fondo, esquinas rectas abajo,
-      respeta safe-area del iPhone dentro de su propio padding. */
+/* 3. El Bottom Nav mantiene su diseño de isla (redondeado) pero flota al fondo */
 .bottom-nav {
   flex: 0 0 auto !important;
   margin: 0 !important;
-  padding: 10px 0 calc(env(safe-area-inset-bottom, 0px) + 10px) 0 !important;
-  border-bottom-left-radius: 0 !important;
-  border-bottom-right-radius: 0 !important;
+  margin-bottom: 0 !important;
+  /* Mantenemos el padding original para que los iconos no se vean apretados */
+  padding: 10px 0 !important; 
+  /* Restauramos sus esquinas redondeadas originales */
+  border-radius: var(--nav-radius) !important;
 }
 
-/* 4. EXCEPCIÓN — Classic: mantener look flotante original */
-body.skin-classic .app-container {
-  padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 10px) !important;
-  gap: 8px !important;
-}
-body.skin-classic .bottom-nav {
+/* 4. Refuerzo para que las skins TUI, Distro y Seasons no quiten el redondeo */
+body.skin-tui .bottom-nav,
+body.skin-distro-01 .bottom-nav,
+body.skin-distro-02 .bottom-nav,
+body.skin-christmas .bottom-nav,
+body.skin-halloween .bottom-nav,
+body.skin-cyberpunk .bottom-nav,
+body.skin-matrix .bottom-nav {
   border-radius: var(--nav-radius) !important;
   padding: 10px 0 !important;
   margin-bottom: 0 !important;
 }
-body.skin-classic .player-card {
-  flex: 1 1 auto !important;
-}
 
-/* 5. Landscape: pegado abajo en TODOS los skins (incluido Classic) */
+/* 5. Landscape: aseguramos que también se vea bien */
 @media screen and (orientation: landscape) and (max-height: 600px) {
-  .app-container,
-  body.skin-classic .app-container {
-    padding-bottom: 0 !important;
+  .app-container {
+    padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 4px) !important;
     gap: 6px !important;
   }
-  .bottom-nav,
-  body.skin-classic .bottom-nav {
-    padding: 6px 0 calc(env(safe-area-inset-bottom, 0px) + 6px) 0 !important;
-    border-radius: 0 !important;
-    margin: 0 !important;
+  .bottom-nav {
+    padding: 6px 0 !important;
+    border-radius: var(--nav-radius) !important;
   }
 }
