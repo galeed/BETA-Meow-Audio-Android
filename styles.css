@@ -2927,3 +2927,72 @@ body.skin-matrix .bottom-nav {
     border-radius: var(--nav-radius) !important;
   }
 }
+
+/* ============================================================
+   FIX v9.4 — Igualar tamaños de portada y textos en Distros a TUI
+   ============================================================ */
+
+/* 1. Portada más grande (igual que TUI/Classic) */
+body.skin-distro-01 .cover-art,
+body.skin-distro-02 .cover-art {
+  max-width: 240px !important;
+  width: 100% !important;
+  margin: 6px 0 !important;
+}
+
+body.skin-distro-01 .cover-container,
+body.skin-distro-02 .cover-container {
+  margin: 6px 0 !important;
+  padding: 0 !important;
+}
+
+/* 2. Contenedor de información con más respiro */
+body.skin-distro-01 .track-info-container,
+body.skin-distro-02 .track-info-container {
+  padding: 8px 6px !important;
+  margin: 4px 0 !important;
+}
+
+/* 3. Título más grande y legible */
+body.skin-distro-01 .track-title,
+body.skin-distro-02 .track-title {
+  font-size: 1.35rem !important;
+  margin-bottom: 2px !important;
+  letter-spacing: normal !important;
+}
+
+/* 4. Artista un poco más grande */
+body.skin-distro-01 .track-artist,
+body.skin-distro-02 .track-artist {
+  font-size: 0.98rem !important;
+  opacity: 1 !important;
+}
+
+/* 5. Álbum un poco más grande */
+body.skin-distro-01 .track-album,
+body.skin-distro-02 .track-album {
+  font-size: 0.85rem !important;
+  opacity: 0.85 !important;
+}
+
+/* 6. Header (donde dice MEOW AUDIO APP) un poco más grande */
+body.skin-distro-01 .header-title,
+body.skin-distro-02 .header-title {
+  font-size: 1rem !important;
+  letter-spacing: 2px !important;
+}
+
+/* 7. Specs y status con el mismo tamaño que TUI */
+body.skin-distro-01 .audio-specs-badge,
+body.skin-distro-02 .audio-specs-badge {
+  font-size: 0.8rem !important;
+  min-height: 18px !important;
+  margin: 2px 0 4px 0 !important;
+}
+
+body.skin-distro-01 .status-badge,
+body.skin-distro-02 .status-badge {
+  font-size: 0.72rem !important;
+  min-height: 12px !important;
+  margin: 0 0 4px 0 !important;
+}
