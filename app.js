@@ -799,32 +799,36 @@ async function saveTracksToDB(tracks) {
     const db = await openDB();
     const tx = db.transaction(STORE_SONGS, 'readwrite');
     const store = tx.objectStore(STORE_SONGS);
+    
     for (const track of tracks) {
+      // Aseguramos que guardamos el archivo real como Blob
       store.add({
-        filename: track.filename, ext: track.ext,
-        title: track.title, artist: track.artist, album: track.album,
+        filename: track.filename, 
+        ext: track.ext,
+        title: track.title, 
+        artist: track.artist, 
+        album: track.album,
         coverBase64: track.coverBase64 || null,
-        specs: track.specs, fileBlob: track.file
+        specs: track.specs, 
+        fileBlob: track.file, // El archivo de audio real
+        isHiRes: track.isHiRes
       });
     }
-  } catch (err) { console.warn("DB Save error:", err); }
-}
-
-async function savePlaylistsToDB() {
-  try {
-    const db = await openDB();
-    const tx = db.transaction(STORE_PLAYLISTS, 'readwrite');
-    const store = tx.objectStore(STORE_PLAYLISTS);
-    store.clear();
-    for (const pl of playlists) {
-      const { id, ...rest } = pl;
-      if (id !== undefined && id !== null && id !== 'fav') {
-        store.put({ id, ...rest });
-      } else {
-        store.add(rest);
-      }
-    }
-  } catch (err) { console.warn("DB Save playlists error:", err); }
+    
+    // Esperamos a que la transacción termine exitosamente
+    return new Promise((resolve, reject) => {
+      tx.oncomplete = () => {
+        console.log("✅ Canciones guardadas en IndexedDB correctamente");
+        resolve();
+      };
+      tx.onerror = (e) => {
+        console.warn("❌ Error al guardar en IndexedDB:", e.target.error);
+        reject(e);
+      };
+    });
+  } catch (err) { 
+    console.warn("DB Save error:", err); 
+  }
 }
 
 async function loadStoredTracksFromDB() {
@@ -833,24 +837,53 @@ async function loadStoredTracksFromDB() {
     const tx = db.transaction(STORE_SONGS, 'readonly');
     const store = tx.objectStore(STORE_SONGS);
     const request = store.getAll();
+    
     request.onsuccess = () => {
       const stored = request.result || [];
       if (stored.length > 0) {
-        playlist = stored.map(item => ({
-          dbId: item.id, file: item.fileBlob, filename: item.filename, ext: item.ext,
-          title: item.title, artist: item.artist, album: item.album,
+        // Reconstruimos el array de playlist con los blobs reales
+        const loadedTracks = stored.map(item => ({
+          dbId: item.id, 
+          file: item.fileBlob, 
+          filename: item.filename, 
+          ext: item.ext,
+          title: item.title, 
+          artist: item.artist, 
+          album: item.album,
           coverBase64: item.coverBase64,
           cover: item.coverBase64 || DEFAULT_COVER,
           specs: item.specs,
           isHiRes: /hi-res/i.test(item.specs || '')
         }));
+        
+        // Si ya había canciones en memoria, las unimos. Si no, las ponemos.
+        if (playlist.length === 0) {
+          playlist = loadedTracks;
+        } else {
+          // Evitar duplicados comprobando el nombre del archivo
+          const existingFiles = playlist.map(t => t.filename);
+          const newTracks = loadedTracks.filter(t => !existingFiles.includes(t.filename));
+          playlist = [...playlist, ...newTracks];
+        }
+
         sortPlaylist();
         renderPlaylistUI();
-        statusEl.textContent = "Biblioteca restaurada 🐾";
-        setTimeout(() => { if (statusEl.textContent.includes("restaurada")) statusEl.textContent = ""; }, 3000);
+        
+        // Si había una canción sonando, la mantenemos, si no, preparamos la primera
+        if (playlist.length > 0 && !mainAudio.src) {
+          currentIndex = 0;
+          updateCurrentTrackUI(playlist[currentIndex]);
+        }
+
+        statusEl.textContent = `Biblioteca restaurada (${playlist.length} canciones) 🐾`;
+        setTimeout(() => { 
+          if (statusEl.textContent.includes("restaurada")) statusEl.textContent = ""; 
+        }, 3000);
       }
     };
-  } catch (err) { console.warn("DB Load error:", err); }
+  } catch (err) { 
+    console.warn("DB Load error:", err); 
+  }
 }
 
 async function loadStoredPlaylistsFromDB() {
