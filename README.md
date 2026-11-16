@@ -29,12 +29,6 @@ Meow Audio App es una aplicación web progresiva (PWA) diseñada para reproducir
 *   **JavaScript (Vanilla)** (Lógica del reproductor, Web Audio API, IndexedDB).
 *   **Service Worker** (Para el funcionamiento offline de la PWA).
 
-## 🚀 Cómo probarlo (Local)
+## 🚀 Descargar App (APK
 
-Al ser una PWA, necesita servirse a través de un servidor local (no puedes abrir el `index.html` directamente haciendo doble clic).
-
-**Opción 1: Usando Python**
-```bash
-# En la raíz del proyecto
-python3 -m http.server 8080
-# Abre http://localhost:8080 en tu navegador
+[![Build Meow Audio App (Capacitor)](https://github.com/galeed/BETA-Meow-Audio-Android/actions/workflows/Android.yml/badge.svg)](https://github.com/galeed/BETA-Meow-Audio-Android/actions/workflows/Android.yml)
