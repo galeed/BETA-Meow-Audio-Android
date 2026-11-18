@@ -261,6 +261,8 @@
                 <option value="halloween">🎃 Seasons: Halloween</option>
                 <option value="cyberpunk">🌆 Seasons: Cyberpunk</option>
                 <option value="matrix">🟢 Seasons: Matrix</option>
+                <option value="cyber2077">🌆 Cyberpunk 2077 (Glitch)</option>
+<option value="kawaii">🌸 Kawaii Pastel</option>
               </select>
             </div>
             <div class="settings-row" id="editTuiThemeRow" style="margin-top: 10px;">
@@ -391,10 +393,25 @@
                 <option value="acoustic">Acoustic</option>
                 <option value="vocal">Vocal Booster</option>
                 <option value="pureAudio">Pure Audio Hi-Res</option>
+                
               </select>
             </div>
           </div>
+<!-- NUEVO: Ecualizador Visual -->
+          <div class="settings-item">
+            <div class="settings-title">🎚️ Ecualizador Visual (Custom)</div>
+            <div class="settings-desc">Ajusta las 10 bandas a tu gusto. Se guardará como "Custom".</div>
+            
+            <div class="eq-sliders-container" id="eqSlidersContainer">
+              <!-- Los sliders se generan por JS -->
+            </div>
 
+            <div class="settings-row" style="margin-top: 10px; justify-content: center; gap: 8px;">
+              <button class="btn-action" id="btnResetEq">🔄 Reiniciar</button>
+              <button class="btn-action btn-action-magenta" id="btnSaveEq">💾 Guardar Custom</button>
+            </div>
+          </div>
+          
           <div class="settings-item">
             <div class="settings-title">🎧 Dolby Spatial Audio</div>
             <div class="settings-desc">Simula espacialización envolvente.</div>
