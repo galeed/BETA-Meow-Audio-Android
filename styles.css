@@ -2996,3 +2996,132 @@ body.skin-distro-02 .status-badge {
   min-height: 12px !important;
   margin: 0 0 4px 0 !important;
 }
+
+/* ============================================================
+   MEOW AUDIO v9.6 — SKINS NUEVOS, VINILO Y EQ VISUAL
+   ============================================================ */
+
+/* --- 1. SKIN: CYBERPUNK 2077 (Glitch) --- */
+body.skin-cyber2077 {
+  --bg: #000000; --bg-main: #000000;
+  --card-bg: rgba(10, 10, 10, 0.85); --card-border: #00ffcc;
+  --accent: #00ffcc; --accent-cyan: #ff00ff;
+  --text: #00ffcc; --text-muted: #ff00ff;
+  --font-family: 'Share Tech Mono', monospace;
+  --card-radius: 0px; --cover-radius: 0px; --nav-radius: 0px; --btn-radius: 0px;
+  --glow-color: rgba(0, 255, 204, 0.5);
+  --card-blur: blur(5px);
+}
+body.skin-cyber2077 .player-card {
+  border: 2px solid var(--accent);
+  box-shadow: 0 0 15px var(--accent), inset 0 0 15px var(--accent-cyan);
+  position: relative;
+  overflow: hidden;
+}
+body.skin-cyber2077 .player-card::before {
+  content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 2px;
+  background: var(--accent-cyan); box-shadow: 0 0 10px var(--accent-cyan);
+  animation: scanline 2s linear infinite; pointer-events: none; z-index: 10;
+}
+@keyframes scanline {
+  0% { top: 0; opacity: 1; }
+  50% { opacity: 0.5; }
+  100% { top: 100%; opacity: 0; }
+}
+body.skin-cyber2077 .track-title {
+  animation: glitchText 3s infinite alternate;
+}
+@keyframes glitchText {
+  0%, 90% { text-shadow: 0 0 5px var(--accent); transform: translateX(0); }
+  92% { text-shadow: -2px 0 var(--accent-cyan), 2px 0 var(--accent); transform: translateX(-2px); }
+  94% { text-shadow: 2px 0 var(--accent-cyan), -2px 0 var(--accent); transform: translateX(2px); }
+  96% { text-shadow: 0 0 5px var(--accent); transform: translateX(0); }
+}
+
+/* --- 2. SKIN: KAWAII PASTEL --- */
+body.skin-kawaii {
+  --bg: #ffe6f0; --bg-main: #ffe6f0;
+  --card-bg: rgba(255, 255, 255, 0.6); --card-border: #ffb3d9;
+  --accent: #ff6b9d; --accent-cyan: #a29bfe;
+  --text: #4a2c3a; --text-muted: #8a6c7a;
+  --font-family: 'Comic Sans MS', 'Chalkboard SE', sans-serif;
+  --card-radius: 24px; --cover-radius: 16px; --nav-radius: 24px; --btn-radius: 50%;
+  --glow-color: rgba(255, 107, 157, 0.3);
+  --card-blur: blur(15px);
+}
+body.skin-kawaii .bg-blur { background: linear-gradient(135deg, #ffd1e8, #e0d1ff) !important; }
+body.skin-kawaii .player-card { box-shadow: 0 10px 25px rgba(255, 107, 157, 0.2); border: 2px solid #fff; }
+body.skin-kawaii .btn-play { background: var(--accent); color: white; box-shadow: 0 4px 15px rgba(255,107,157,0.4); }
+body.skin-kawaii .cover-art { border: 4px solid white; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+body.skin-kawaii .track-title { color: var(--accent); }
+
+/* --- 3. EFECTO VINILO (Solo Classic) --- */
+body.skin-classic .cover-container {
+  position: relative;
+  display: flex; justify-content: center; align-items: center;
+}
+/* Círculo negro debajo de la portada para simular el vinilo */
+body.skin-classic .cover-container::before {
+  content: '';
+  position: absolute;
+  width: 95%; height: 95%;
+  background: radial-gradient(circle, #1a1a1a 30%, #000 70%, #111 100%);
+  border-radius: 50%;
+  z-index: 1;
+  box-shadow: inset 0 0 10px rgba(255,255,255,0.1);
+  transition: transform 0.3s;
+}
+body.skin-classic .cover-art {
+  z-index: 2;
+  border-radius: 50% !important; /* Hacemos la portada redonda */
+  animation: spinVinyl 10s linear infinite;
+  animation-play-state: paused;
+  border: 2px solid #333;
+}
+/* Clase que añadiremos por JS cuando haya play */
+body.skin-classic.vinyl-playing .cover-art {
+  animation-play-state: running;
+}
+@keyframes spinVinyl {
+  100% { transform: rotate(360deg); }
+}
+
+/* --- 4. ECUALIZADOR VISUAL (10 BANDAS) --- */
+.eq-sliders-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  height: 120px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  padding: 10px 5px;
+  margin-top: 10px;
+  border: 1px solid var(--card-border);
+}
+body.skin-tui .eq-sliders-container, body.skin-distro-01 .eq-sliders-container, body.skin-distro-02 .eq-sliders-container {
+  background: #000; border-radius: 0; border: 1px solid var(--accent);
+}
+.eq-slider-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  justify-content: flex-end;
+  gap: 5px;
+}
+.eq-slider-col input[type="range"] {
+  -webkit-appearance: slider-vertical;
+  appearance: slider-vertical;
+  writing-mode: vertical-lr;
+  direction: rtl;
+  width: 8px;
+  height: 80px;
+  cursor: pointer;
+  accent-color: var(--accent);
+}
+.eq-slider-col span {
+  font-size: 0.6rem;
+  color: var(--text-muted);
+  writing-mode: vertical-lr;
+  transform: rotate(180deg);
+}
