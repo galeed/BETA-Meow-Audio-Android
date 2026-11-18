@@ -261,8 +261,10 @@
                 <option value="halloween">🎃 Seasons: Halloween</option>
                 <option value="cyberpunk">🌆 Seasons: Cyberpunk</option>
                 <option value="matrix">🟢 Seasons: Matrix</option>
+                <option value="vaporwave">🌴 Vaporwave</option>
+                <option value="gameboy">👾 Gameboy</option>
                 <option value="cyber2077">🌆 Cyberpunk 2077 (Glitch)</option>
-<option value="kawaii">🌸 Kawaii Pastel</option>
+                <option value="kawaii">🌸 Kawaii Pastel</option>
               </select>
             </div>
             <div class="settings-row" id="editTuiThemeRow" style="margin-top: 10px;">
@@ -281,6 +283,39 @@
                 <input type="checkbox" id="crtToggle" checked>
                 <span class="slider"></span>
               </label>
+            </div>
+          </div>
+
+          <!-- NUEVO: Control de Velocidad -->
+          <div class="settings-item">
+            <div class="settings-title">⏱️ Velocidad de Reproducción</div>
+            <div class="settings-desc">Ajusta la velocidad del audio (útil para podcasts).</div>
+            <div class="settings-row">
+              <span class="settings-desc" style="font-weight:600;">Velocidad:</span>
+              <select id="playbackRateSelect" class="settings-select">
+                <option value="0.5">0.5x</option>
+                <option value="0.75">0.75x</option>
+                <option value="1" selected>1x (Normal)</option>
+                <option value="1.25">1.25x</option>
+                <option value="1.5">1.5x</option>
+                <option value="2">2x</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- NUEVO: Sleep Timer -->
+          <div class="settings-item">
+            <div class="settings-title">🌙 Temporizador (Sleep Timer)</div>
+            <div class="settings-desc">Detiene la música automáticamente tras un tiempo.</div>
+            <div class="settings-row">
+              <span class="settings-desc" style="font-weight:600;">Estado:</span>
+              <span id="sleepTimerStatus" style="font-size: 0.75rem; color: var(--accent);">Inactivo</span>
+            </div>
+            <div class="settings-row" style="flex-wrap: wrap; gap: 6px; margin-top: 8px;">
+              <button class="btn-action sleep-timer-btn" data-min="15">15m</button>
+              <button class="btn-action sleep-timer-btn" data-min="30">30m</button>
+              <button class="btn-action sleep-timer-btn" data-min="60">60m</button>
+              <button class="btn-action btn-action-magenta" id="btnCancelSleepTimer">Cancelar</button>
             </div>
           </div>
 
@@ -393,11 +428,11 @@
                 <option value="acoustic">Acoustic</option>
                 <option value="vocal">Vocal Booster</option>
                 <option value="pureAudio">Pure Audio Hi-Res</option>
-                
               </select>
             </div>
           </div>
-<!-- NUEVO: Ecualizador Visual -->
+
+          <!-- NUEVO: Ecualizador Visual -->
           <div class="settings-item">
             <div class="settings-title">🎚️ Ecualizador Visual (Custom)</div>
             <div class="settings-desc">Ajusta las 10 bandas a tu gusto. Se guardará como "Custom".</div>
@@ -411,7 +446,7 @@
               <button class="btn-action btn-action-magenta" id="btnSaveEq">💾 Guardar Custom</button>
             </div>
           </div>
-          
+
           <div class="settings-item">
             <div class="settings-title">🎧 Dolby Spatial Audio</div>
             <div class="settings-desc">Simula espacialización envolvente.</div>
@@ -442,12 +477,14 @@
               <div><kbd>M</kbd> Mute / Unmute</div>
               <div><kbd>↑</kbd> Subir Volumen</div>
               <div><kbd>↓</kbd> Bajar Volumen</div>
+              <div><kbd>←</kbd> / <kbd>→</kbd> Saltar 5 segundos</div>
+              <div><kbd>S</kbd> Cambiar Skin</div>
             </div>
           </div>
 
           <div class="settings-item">
-            <div class="settings-title" id="versionTitle">MEOW AUDIO APP v9.1</div>
-            <div class="settings-desc" id="versionDesc">Skins + Editor TUI + Crossfade + Normalización + Limitador + Drag & Drop + Carpeta entera + Nuevos visualizadores.</div>
+            <div class="settings-title" id="versionTitle">MEOW AUDIO APP v9.6</div>
+            <div class="settings-desc" id="versionDesc">Skins (Vaporwave, Gameboy, Cyberpunk 2077, Kawaii) + Vinilo + EQ Visual + Sleep Timer + Velocidad + Gestos.</div>
           </div>
         </div>
       </div>
