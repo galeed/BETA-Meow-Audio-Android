@@ -2999,3 +2999,114 @@ if (document.readyState === 'loading') document.addEventListener('DOMContentLoad
 else initialize();
 
 if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js', { updateViaCache: 'none' }).catch(() => {});
+
+/* ============================================================
+   MEOW AUDIO v9.6 — VINILO, SKINS Y EQ VISUAL
+   ============================================================ */
+
+// --- 1. LÓGICA DEL EFECTO VINILO ---
+if (mainAudio) {
+  const toggleVinyl = () => {
+    if (document.body.classList.contains('skin-classic')) {
+      if (!mainAudio.paused) {
+        document.body.classList.add('vinyl-playing');
+      } else {
+        document.body.classList.remove('vinyl-playing');
+      }
+    } else {
+      document.body.classList.remove('vinyl-playing');
+    }
+  };
+  mainAudio.addEventListener('play', toggleVinyl);
+  mainAudio.addEventListener('pause', toggleVinyl);
+  mainAudio.addEventListener('ended', toggleVinyl);
+}
+
+// --- 2. CONSTRUCCIÓN DEL ECUALIZADOR VISUAL ---
+// (Usamos las frecuencias que ya definiste en tu app.js)
+const eqContainer = document.getElementById('eqSlidersContainer');
+const btnResetEq = document.getElementById('btnResetEq');
+const btnSaveEq = document.getElementById('btnSaveEq');
+let customEqGains = [0,0,0,0,0,0,0,0,0,0]; // Arreglo temporal para guardar
+
+// Función para actualizar los filtros de WebAudio en tiempo real
+function updateCustomEq(index, value) {
+  if (!audioCtx || !eqFilters || eqFilters.length === 0) return;
+  // Convertimos el index de 0-9 al filtro correspondiente
+  if (eqFilters[index]) {
+    eqFilters[index].gain.setTargetAtTime(value, audioCtx.currentTime, 0.05);
+  }
+}
+
+// Generar los sliders
+if (eqContainer) {
+  const freqLabels = ['32', '64', '125', '250', '500', '1k', '2k', '4k', '8k', '16k'];
+  // Revisar si hay un EQ custom guardado
+  const savedEq = localStorage.getItem('meowCustomEq');
+  if (savedEq) {
+    try { customEqGains = JSON.parse(savedEq); } catch(e) {}
+  }
+
+  freqLabels.forEach((label, i) => {
+    const col = document.createElement('div');
+    col.className = 'eq-slider-col';
+    col.innerHTML = `
+      <input type="range" min="-12" max="12" step="1" value="${customEqGains[i] || 0}" data-index="${i}">
+      <span>${label}</span>
+    `;
+    const slider = col.querySelector('input');
+    slider.addEventListener('input', (e) => {
+      const idx = parseInt(e.target.dataset.index);
+      const val = parseInt(e.target.value);
+      customEqGains[idx] = val;
+      updateCustomEq(idx, val);
+      // Si el usuario mueve un slider, cambiamos el select a "Custom" visualmente
+      eqSelect.value = 'flat'; // El valor base, pero los filtros ya están alterados
+    });
+    eqContainer.appendChild(col);
+  });
+
+  // Botón Reiniciar
+  if (btnResetEq) {
+    btnResetEq.addEventListener('click', () => {
+      customEqGains = [0,0,0,0,0,0,0,0,0,0];
+      document.querySelectorAll('#eqSlidersContainer input').forEach((slider, i) => {
+        slider.value = 0;
+        updateCustomEq(i, 0);
+      });
+      eqSelect.value = 'flat';
+      updateAudioEffects(); // Vuelve al estado original
+      showToast('EQ Reiniciado a plano');
+    });
+  }
+
+  // Botón Guardar
+  if (btnSaveEq) {
+    btnSaveEq.addEventListener('click', () => {
+      localStorage.setItem('meowCustomEq', JSON.stringify(customEqGains));
+      // Añadir opción al select si no existe
+      if (!Array.from(eqSelect.options).some(opt => opt.value === 'custom')) {
+        const opt = document.createElement('option');
+        opt.value = 'custom';
+        opt.textContent = '⭐ Mi EQ Custom';
+        eqSelect.appendChild(opt);
+      }
+      eqSelect.value = 'custom';
+      showToast('💾 EQ Custom guardado');
+    });
+  }
+
+  // Modificar la función original de updateAudioEffects para que escuche el "custom"
+  const originalUpdateAudioEffects = updateAudioEffects;
+  updateAudioEffects = function() {
+    if (eqSelect.value === 'custom') {
+      if (audioCtx && eqFilters.length > 0) {
+        customEqGains.forEach((val, i) => {
+          if (eqFilters[i]) eqFilters[i].gain.setTargetAtTime(val, audioCtx.currentTime, 0.05);
+        });
+      }
+      return; // No ejecutamos el original si estamos en custom
+    }
+    originalUpdateAudioEffects(); // Si es un preset normal, que fluya
+  };
+}
