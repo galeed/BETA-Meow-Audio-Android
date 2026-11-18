@@ -3055,36 +3055,6 @@ body.skin-kawaii .btn-play { background: var(--accent); color: white; box-shadow
 body.skin-kawaii .cover-art { border: 4px solid white; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
 body.skin-kawaii .track-title { color: var(--accent); }
 
-/* --- 3. EFECTO VINILO (Solo Classic) --- */
-body.skin-classic .cover-container {
-  position: relative;
-  display: flex; justify-content: center; align-items: center;
-}
-/* Círculo negro debajo de la portada para simular el vinilo */
-body.skin-classic .cover-container::before {
-  content: '';
-  position: absolute;
-  width: 95%; height: 95%;
-  background: radial-gradient(circle, #1a1a1a 30%, #000 70%, #111 100%);
-  border-radius: 50%;
-  z-index: 1;
-  box-shadow: inset 0 0 10px rgba(255,255,255,0.1);
-  transition: transform 0.3s;
-}
-body.skin-classic .cover-art {
-  z-index: 2;
-  border-radius: 50% !important; /* Hacemos la portada redonda */
-  animation: spinVinyl 10s linear infinite;
-  animation-play-state: paused;
-  border: 2px solid #333;
-}
-/* Clase que añadiremos por JS cuando haya play */
-body.skin-classic.vinyl-playing .cover-art {
-  animation-play-state: running;
-}
-@keyframes spinVinyl {
-  100% { transform: rotate(360deg); }
-}
 
 /* --- 4. ECUALIZADOR VISUAL (10 BANDAS) --- */
 .eq-sliders-container {
