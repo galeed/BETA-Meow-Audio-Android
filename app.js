@@ -3110,3 +3110,89 @@ if (eqContainer) {
     originalUpdateAudioEffects(); // Si es un preset normal, que fluya
   };
 }
+
+/* ============================================================
+   MEOW AUDIO v9.6.2 — EFECTOS DOLBY ON (Emulación)
+   ============================================================ */
+
+// 1. Añadimos el filtro de Dolby On a la cadena de audio (si no existe)
+let dolbyOnFilter = null;
+let dolbyOnGain = null;
+
+const originalInitWebAudio = initWebAudio;
+initWebAudio = function() {
+  originalInitWebAudio(); // Llama a la función original de tu app.js
+  if (audioCtx && !dolbyOnFilter) {
+    try {
+      // Creamos un ecualizador paramétrico para emular los efectos
+      dolbyOnFilter = audioCtx.createBiquadFilter();
+      dolbyOnFilter.type = 'peaking';
+      dolbyOnFilter.frequency.value = 1000;
+      dolbyOnFilter.Q.value = 1.0;
+      dolbyOnFilter.gain.value = 0;
+      
+      dolbyOnGain = audioCtx.createGain();
+      dolbyOnGain.gain.value = 1.0;
+      
+      // Lo insertamos justo antes de la salida master (después del EQ normal)
+      // Nota: Asumimos que masterGain ya está conectado a analyser/destination
+      // Para no romper la cadena, lo conectamos entre el último EQ y el masterGain
+      if (masterGain && eqFilters.length > 0) {
+        try { eqFilters[eqFilters.length - 1].disconnect(); } catch(e){}
+        eqFilters[eqFilters.length - 1].connect(dolbyOnFilter);
+        dolbyOnFilter.connect(dolbyOnGain);
+        dolbyOnGain.connect(masterGain);
+      }
+    } catch(e) { console.warn("DolbyOn init error:", e); }
+  }
+};
+
+// 2. Lógica del selector
+const dolbyOnSelect = document.getElementById('dolbyOnSelect');
+
+function applyDolbyOnEffect(effect) {
+  if (!audioCtx || !dolbyOnFilter) return;
+  
+  // Valores por defecto
+  let freq = 1000;
+  let gain = 0;
+  let q = 1.0;
+  let volume = 1.0;
+
+  // Ajustes emulando Dolby On
+  switch(effect) {
+    case 'standard': 
+      freq = 1000; gain = 1.5; q = 1.0; volume = 1.0; 
+      break;
+    case 'natural': 
+      freq = 800; gain = 1.0; q = 0.7; volume = 1.05; 
+      break;
+    case 'thump': // Bajos potentes
+      freq = 150; gain = 6.0; q = 1.2; volume = 1.1; 
+      break;
+    case 'amped': // Volumen general alto
+      freq = 1200; gain = 2.0; q = 0.5; volume = 1.3; 
+      break;
+    case 'lyric': // Voces claras
+      freq = 2500; gain = 4.0; q = 1.5; volume = 1.0; 
+      break;
+    case 'deep': // Profundidad
+      freq = 80; gain = 3.0; q = 1.0; volume = 1.15; 
+      break;
+    case 'off':
+    default:
+      freq = 1000; gain = 0; q = 1.0; volume = 1.0;
+  }
+
+  dolbyOnFilter.frequency.setTargetAtTime(freq, audioCtx.currentTime, 0.1);
+  dolbyOnFilter.gain.setTargetAtTime(gain, audioCtx.currentTime, 0.1);
+  dolbyOnFilter.Q.setTargetAtTime(q, audioCtx.currentTime, 0.1);
+  dolbyOnGain.gain.setTargetAtTime(volume, audioCtx.currentTime, 0.1);
+}
+
+if (dolbyOnSelect) {
+  dolbyOnSelect.addEventListener('change', () => {
+    applyDolbyOnEffect(dolbyOnSelect.value);
+    showToast(`🎧 Efecto: ${dolbyOnSelect.options[dolbyOnSelect.selectedIndex].text}`);
+  });
+}
