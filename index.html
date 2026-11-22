@@ -7,60 +7,35 @@
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="theme-color" content="#0f1015" id="metaTheme">
-  <meta name="description" content="Reproductor de audio local con skins Classic, TUI, Distros y Seasons. Editor TUI, Crossfade, Normalización y Limitador.">
-
+  <meta name="description" content="Reproductor de audio local con skins.">
   <title>MEOW AUDIO APP</title>
-
   <link rel="manifest" href="manifest.json">
   <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
   <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
-
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600;700&family=Share+Tech+Mono&display=swap">
-
   <link rel="stylesheet" href="styles.css">
-
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jsmediatags/3.9.5/jsmediatags.min.js" defer></script>
 </head>
 <body class="skin-classic">
 
   <div class="crt-overlay" id="crtOverlay"></div>
   <div class="vignette" id="vignette"></div>
-
-  <!-- Efectos de fondo globales para Seasons -->
   <div class="season-bg snow-bg" id="snowBg" aria-hidden="true"></div>
   <div class="season-bg bats-bg" id="batsBg" aria-hidden="true"></div>
   <div class="season-bg matrix-bg" id="matrixBg" aria-hidden="true"></div>
   <div class="season-bg cyber-bg" id="cyberBg" aria-hidden="true"></div>
 
-  <!-- 🎵 Reproductor principal -->
-  <audio id="mainAudioPlayer"
-         preload="auto"
-         playsinline
-         webkit-playsinline
-         crossorigin="anonymous"
-         disableRemotePlayback
-         style="display:none;"></audio>
-
-  <!-- 🎚 Segundo audio para crossfade real -->
-  <audio id="secondaryAudioPlayer"
-         preload="auto"
-         playsinline
-         webkit-playsinline
-         crossorigin="anonymous"
-         disableRemotePlayback
-         style="display:none;"></audio>
+  <audio id="mainAudioPlayer" preload="auto" playsinline webkit-playsinline crossorigin="anonymous" disableRemotePlayback style="display:none;"></audio>
+  <audio id="secondaryAudioPlayer" preload="auto" playsinline webkit-playsinline crossorigin="anonymous" disableRemotePlayback style="display:none;"></audio>
 
   <div id="meow-aviso-privacidad" class="meow-aviso-overlay">
     <div class="meow-aviso-box">
       <h3 id="avisoTitle">🐾 Aviso Gatuno 🐾</h3>
       <p id="avisoText">Todo el procesamiento de audio se realiza de manera local en tu dispositivo. Ningún archivo o dato personal es subido a servidores externos. ¡Miau!</p>
-      <label class="meow-checkbox-label">
-        <input type="checkbox" id="meow-check-no-mostrar">
-        No volver a mostrar
-      </label>
+      <label class="meow-checkbox-label"><input type="checkbox" id="meow-check-no-mostrar"> No volver a mostrar</label>
       <button class="meow-btn-cerrar" id="btnCerrarAviso">Entendido 🐱</button>
     </div>
   </div>
@@ -69,10 +44,8 @@
 
   <div class="app-container">
     <div class="player-card">
-
       <div class="player-header" id="playerHeader">
         <span class="header-title" id="headerTitle">🐈 MEOW AUDIO APP 🐈</span>
-
         <div class="tui-theme-menu" id="tuiThemeMenu">
           <div class="tui-theme-header">
             <span class="tui-theme-dots">
@@ -87,12 +60,10 @@
       </div>
 
       <div class="cover-container">
-        <img class="cover-art" id="cover"
-             src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 24 24' fill='none' stroke='%23ffffff' stroke-width='1.5'><path d='M9 18V5l12-2v13'/><circle cx='6' cy='18' r='3'/><circle cx='18' cy='16' r='3'/></svg>"
-             alt="Cover">
+        <img class="cover-art" id="cover" src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 24 24' fill='none' stroke='%23ffffff' stroke-width='1.5'><path d='M9 18V5l12-2v13'/><circle cx='6' cy='18' r='3'/><circle cx='18' cy='16' r='3'/></svg>" alt="Cover">
       </div>
 
-      <div class="track-info-container" id="trackInfoContainer" title="Haz clic para alternar tipo de visualizador">
+      <div class="track-info-container" id="trackInfoContainer" title="Clic para visualizador">
         <canvas id="visualizerCanvas" class="visualizer-canvas"></canvas>
         <div class="track-info-content">
           <div class="track-title" id="title">Sin reproducción</div>
@@ -106,15 +77,10 @@
       <div class="status-badge" id="status"></div>
 
       <div class="distro-zone" id="distroZone">
-
         <div class="progress-container">
           <input type="range" id="seekBar" class="seek-bar" value="0" max="100">
-          <div class="time-stamps">
-            <span id="currentTime">00:00</span>
-            <span id="duration">00:00</span>
-          </div>
+          <div class="time-stamps"><span id="currentTime">00:00</span><span id="duration">00:00</span></div>
         </div>
-
         <div class="controls">
           <button class="btn btn-sub" id="btnShuffle" aria-label="Aleatorio">🔀</button>
           <button class="btn" id="btnPrev" aria-label="Anterior">⏮</button>
@@ -122,134 +88,69 @@
           <button class="btn" id="btnNext" aria-label="Siguiente">⏭</button>
           <button class="btn btn-sub" id="btnRepeat" aria-label="Repetir">🔁</button>
         </div>
-
         <div class="action-buttons-row action-buttons-normal">
           <button class="icon-action-btn" id="btnFullscreen" title="Pantalla completa">⛶</button>
           <button class="icon-action-btn" id="btnRotate" title="Girar pantalla">🔄</button>
           <button class="icon-action-btn" id="btnCrt" title="Efecto CRT">📺</button>
-          <div class="file-input-wrapper">
-            <button class="icon-action-btn" title="Añadir archivos">➕</button>
-            <input type="file" id="fileInput" class="real-file-input" multiple accept=".mp3,.wav,.ogg,.flac,.m4a,.aac,audio/*">
-          </div>
-          <div class="file-input-wrapper">
-            <button class="icon-action-btn" title="Añadir carpeta entera" id="btnFolderInput">📁</button>
-            <input type="file" id="folderInput" class="real-file-input" multiple webkitdirectory directory accept=".mp3,.wav,.ogg,.flac,.m4a,.aac,audio/*">
-          </div>
+          <div class="file-input-wrapper"><button class="icon-action-btn" title="Añadir archivos">➕</button><input type="file" id="fileInput" class="real-file-input" multiple accept=".mp3,.wav,.ogg,.flac,.m4a,.aac,audio/*"></div>
+          <div class="file-input-wrapper"><button class="icon-action-btn" title="Añadir carpeta" id="btnFolderInput">📁</button><input type="file" id="folderInput" class="real-file-input" multiple webkitdirectory directory accept=".mp3,.wav,.ogg,.flac,.m4a,.aac,audio/*"></div>
         </div>
-
       </div>
 
-      <!-- OVERLAY: FILA DE REPRODUCCIÓN -->
+      <!-- OVERLAY: FILA -->
       <div class="playlist-overlay" id="playlistOverlay">
-        <div class="overlay-ascii-bg" aria-hidden="true">
-          <pre class="overlay-ascii-content" data-ascii-bg="queue"></pre>
-        </div>
-        <div class="playlist-header">
-          <span class="playlist-title" id="playlistTitle">Fila</span>
-          <button class="btn-icon" id="btnCloseQueue" aria-label="Cerrar">✕</button>
-        </div>
+        <div class="playlist-header"><span class="playlist-title" id="playlistTitle">Fila</span><button class="btn-icon" id="btnCloseQueue" aria-label="Cerrar">✕</button></div>
         <div class="playlist-tools">
-          <div class="sort-bar" id="sortBar">
-            <span class="sort-label">Ordenar por:</span>
-            <select id="sortSelect" class="sort-select">
-              <option value="default">Orden original</option>
-              <option value="title">Título</option>
-              <option value="artist">Artista</option>
-              <option value="album">Álbum</option>
-            </select>
-          </div>
-          <div class="search-box-container" id="searchBoxContainer">
-            <input type="text" id="searchInput" class="search-input" placeholder="Buscar por título, artista o álbum...">
-          </div>
+          <div class="sort-bar" id="sortBar"><span class="sort-label">Ordenar por:</span><select id="sortSelect" class="sort-select"><option value="default">Original</option><option value="title">Título</option><option value="artist">Artista</option><option value="album">Álbum</option></select></div>
+          <div class="search-box-container" id="searchBoxContainer"><input type="text" id="searchInput" class="search-input" placeholder="Buscar..."></div>
         </div>
         <ul class="playlist-list" id="playlistContainer"></ul>
       </div>
 
       <!-- OVERLAY: PLAYLISTS -->
       <div class="playlist-overlay" id="playlistsOverlay">
-        <div class="overlay-ascii-bg" aria-hidden="true">
-          <pre class="overlay-ascii-content" data-ascii-bg="playlists"></pre>
-        </div>
-        <div class="playlist-header">
-          <span class="playlist-title">Playlists</span>
-          <button class="btn-icon" id="btnClosePlaylists" aria-label="Cerrar">✕</button>
-        </div>
-        <div class="playlist-tools">
-          <div class="sort-bar">
-            <span class="sort-label">Tus listas guardadas</span>
-            <button class="btn-action" id="btnNewPlaylist" style="padding: 4px 10px; font-size: 0.72rem;">➕ Nueva</button>
-          </div>
-        </div>
+        <div class="playlist-header"><span class="playlist-title">Playlists</span><button class="btn-icon" id="btnClosePlaylists" aria-label="Cerrar">✕</button></div>
+        <div class="playlist-tools"><div class="sort-bar"><span class="sort-label">Tus listas</span><button class="btn-action" id="btnNewPlaylist" style="padding: 4px 10px; font-size: 0.72rem;">➕ Nueva</button></div></div>
         <ul class="playlists-list" id="playlistsList"></ul>
       </div>
 
-      <!-- OVERLAY: DETALLE DE PLAYLIST -->
+      <!-- OVERLAY: DETALLE PLAYLIST -->
       <div class="playlist-overlay" id="playlistDetailOverlay">
-        <div class="overlay-ascii-bg" aria-hidden="true">
-          <pre class="overlay-ascii-content" data-ascii-bg="playlist-detail"></pre>
-        </div>
         <div class="playlist-header">
           <div style="display: flex; align-items: center; gap: 8px; flex: 1; min-width: 0;">
             <button class="btn-icon" id="btnBackToPlaylists" aria-label="Atrás">←</button>
             <span class="playlist-title" id="playlistDetailTitle" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Playlist</span>
           </div>
           <div style="display: flex; gap: 6px;">
-            <button class="btn-icon" id="btnPlayPlaylist" aria-label="Reproducir" title="Reproducir">▶</button>
-            <button class="btn-icon" id="btnPlaylistMenu" aria-label="Más opciones" title="Más">⋯</button>
-            <button class="btn-icon" id="btnClosePlaylistDetail" aria-label="Cerrar">✕</button>
+            <button class="btn-icon" id="btnPlayPlaylist" title="Reproducir">▶</button>
+            <button class="btn-icon" id="btnPlaylistMenu" title="Más">⋯</button>
+            <button class="btn-icon" id="btnClosePlaylistDetail">✕</button>
           </div>
         </div>
-        <div class="playlist-tools" id="playlistDetailTools">
-          <div class="sort-bar" id="playlistDetailInfoBar">
-            <span class="sort-label" id="playlistDetailInfo">0 canciones</span>
-            <button class="btn-action" id="btnAddCurrentToPlaylist" style="padding: 4px 10px; font-size: 0.72rem;">➕ Añadir canción actual</button>
-          </div>
-        </div>
+        <div class="playlist-tools"><div class="sort-bar" id="playlistDetailInfoBar"><span class="sort-label" id="playlistDetailInfo">0 canciones</span><button class="btn-action" id="btnAddCurrentToPlaylist" style="padding: 4px 10px; font-size: 0.72rem;">➕ Añadir actual</button></div></div>
         <ul class="playlist-list" id="playlistDetailList"></ul>
       </div>
 
       <!-- OVERLAY: AJUSTES -->
       <div class="modal-overlay" id="settingsOverlay">
-        <div class="overlay-ascii-bg" aria-hidden="true">
-          <pre class="overlay-ascii-content" data-ascii-bg="settings"></pre>
-        </div>
-        <div class="playlist-header">
-          <span class="playlist-title">Ajustes ⚙️</span>
-          <button class="btn-icon" id="btnCloseSettings" aria-label="Cerrar">✕</button>
-        </div>
+        <div class="playlist-header"><span class="playlist-title">Ajustes ⚙️</span><button class="btn-icon" id="btnCloseSettings" aria-label="Cerrar">✕</button></div>
         <div class="settings-body">
-
-          <!-- 📁 Gestor de Archivos -->
           <div class="settings-item" id="storageManagerItem">
             <div class="settings-title">📁 Gestor de Archivos</div>
-            <div class="settings-desc">Administra la caché y el modo offline.</div>
-
             <div class="settings-row" style="flex-direction: column; align-items: stretch; gap: 6px; margin-top: 10px;">
-              <div style="display: flex; justify-content: space-between; font-size: 0.72rem; color: var(--text-muted);">
-                <span>Almacenamiento usado:</span>
-                <span id="storageUsed">-- MB</span>
-              </div>
-              <div style="display: flex; justify-content: space-between; font-size: 0.72rem; color: var(--text-muted);">
-                <span>Service Worker:</span>
-                <span id="swStatus">--</span>
-              </div>
-              <div style="display: flex; justify-content: space-between; font-size: 0.72rem; color: var(--text-muted);">
-                <span>Modo offline:</span>
-                <span id="offlineStatus">Desactivado</span>
-              </div>
+              <div style="display: flex; justify-content: space-between; font-size: 0.72rem; color: var(--text-muted);"><span>Almacenamiento:</span><span id="storageUsed">-- MB</span></div>
+              <div style="display: flex; justify-content: space-between; font-size: 0.72rem; color: var(--text-muted);"><span>Service Worker:</span><span id="swStatus">--</span></div>
+              <div style="display: flex; justify-content: space-between; font-size: 0.72rem; color: var(--text-muted);"><span>Modo offline:</span><span id="offlineStatus">Desactivado</span></div>
             </div>
-
             <div class="settings-row" style="flex-wrap: wrap; gap: 8px; margin-top: 10px;">
               <button class="btn-action btn-tool" id="btnClearCache">🗑️ Borrar caché</button>
               <button class="btn-action btn-tool" id="btnToggleOffline">📴 Activar offline</button>
               <button class="btn-action btn-tool" id="btnRefreshSW">🔄 Actualizar SW</button>
-              <button class="btn-action btn-tool" id="btnStorageDetails">📊 Ver detalles</button>
             </div>
           </div>
 
           <div class="settings-item">
             <div class="settings-title">🎨 Skin de la App</div>
-            <div class="settings-desc">Cambia la apariencia sin afectar la reproducción.</div>
             <div class="settings-row">
               <span class="settings-desc" style="font-weight:600;">Skin:</span>
               <select id="skinSelect" class="settings-select">
@@ -257,60 +158,32 @@
                 <option value="tui">Consola TUI</option>
                 <option value="distro-01">@distro_01</option>
                 <option value="distro-02">@distro_02</option>
-                <option value="christmas">🎄 Seasons: Navidad</option>
-                <option value="halloween">🎃 Seasons: Halloween</option>
-                <option value="cyberpunk">🌆 Seasons: Cyberpunk</option>
-                <option value="matrix">🟢 Seasons: Matrix</option>
+                <option value="christmas">🎄 Navidad</option>
+                <option value="halloween">🎃 Halloween</option>
+                <option value="cyberpunk">🌆 Cyberpunk</option>
+                <option value="matrix">🟢 Matrix</option>
                 <option value="vaporwave">🌴 Vaporwave</option>
                 <option value="gameboy">👾 Gameboy</option>
-                <option value="cyber2077">🌆 Cyberpunk 2077 (Glitch)</option>
+                <option value="cyber2077">🤖 Cyberpunk 2077</option>
                 <option value="kawaii">🌸 Kawaii Pastel</option>
               </select>
             </div>
-            <div class="settings-row" id="editTuiThemeRow" style="margin-top: 10px;">
-              <button class="btn-action btn-tool" id="btnEditTuiTheme" style="width: 100%;">
-                🎨 Editar tema TUI actual
-              </button>
-            </div>
+            <div class="settings-row" id="editTuiThemeRow" style="margin-top: 10px;"><button class="btn-action btn-tool" id="btnEditTuiTheme" style="width: 100%;">🎨 Editar tema TUI actual</button></div>
           </div>
 
           <div class="settings-item" id="crtSettingItem">
             <div class="settings-title">📺 Efecto CRT</div>
-            <div class="settings-desc">Scanlines y vignette (TUI, Distro y Seasons).</div>
-            <div class="settings-row">
-              <span class="settings-desc" style="font-weight:600;">Estado:</span>
-              <label class="toggle-switch">
-                <input type="checkbox" id="crtToggle" checked>
-                <span class="slider"></span>
-              </label>
-            </div>
+            <div class="settings-row"><span class="settings-desc">Estado:</span><label class="toggle-switch"><input type="checkbox" id="crtToggle" checked><span class="slider"></span></label></div>
           </div>
 
-          <!-- NUEVO: Control de Velocidad -->
           <div class="settings-item">
-            <div class="settings-title">⏱️ Velocidad de Reproducción</div>
-            <div class="settings-desc">Ajusta la velocidad del audio (útil para podcasts).</div>
-            <div class="settings-row">
-              <span class="settings-desc" style="font-weight:600;">Velocidad:</span>
-              <select id="playbackRateSelect" class="settings-select">
-                <option value="0.5">0.5x</option>
-                <option value="0.75">0.75x</option>
-                <option value="1" selected>1x (Normal)</option>
-                <option value="1.25">1.25x</option>
-                <option value="1.5">1.5x</option>
-                <option value="2">2x</option>
-              </select>
-            </div>
+            <div class="settings-title">⏱️ Velocidad</div>
+            <div class="settings-row"><span class="settings-desc">Velocidad:</span><select id="playbackRateSelect" class="settings-select"><option value="0.5">0.5x</option><option value="0.75">0.75x</option><option value="1" selected>1x</option><option value="1.25">1.25x</option><option value="1.5">1.5x</option><option value="2">2x</option></select></div>
           </div>
 
-          <!-- NUEVO: Sleep Timer -->
           <div class="settings-item">
-            <div class="settings-title">🌙 Temporizador (Sleep Timer)</div>
-            <div class="settings-desc">Detiene la música automáticamente tras un tiempo.</div>
-            <div class="settings-row">
-              <span class="settings-desc" style="font-weight:600;">Estado:</span>
-              <span id="sleepTimerStatus" style="font-size: 0.75rem; color: var(--accent);">Inactivo</span>
-            </div>
+            <div class="settings-title">🌙 Sleep Timer</div>
+            <div class="settings-row"><span class="settings-desc">Estado:</span><span id="sleepTimerStatus" style="font-size: 0.75rem; color: var(--accent);">Inactivo</span></div>
             <div class="settings-row" style="flex-wrap: wrap; gap: 6px; margin-top: 8px;">
               <button class="btn-action sleep-timer-btn" data-min="15">15m</button>
               <button class="btn-action sleep-timer-btn" data-min="30">30m</button>
@@ -321,323 +194,103 @@
 
           <div class="settings-item">
             <div class="settings-title">🎚 Crossfade Real</div>
-            <div class="settings-desc">Superposición suave entre pistas al cambiar de canción.</div>
-            <div class="settings-row">
-              <span class="settings-desc" style="font-weight:600;">Estado:</span>
-              <label class="toggle-switch">
-                <input type="checkbox" id="crossfadeToggle">
-                <span class="slider"></span>
-              </label>
-            </div>
-            <div class="settings-row" style="margin-top: 6px;">
-              <span class="settings-desc" style="font-weight:600;">Duración: <span id="crossfadeVal">3</span>s</span>
-              <input type="range" id="crossfadeTime" min="1" max="12" value="3" step="0.5" style="width:140px; accent-color:var(--accent);">
-            </div>
+            <div class="settings-row"><span class="settings-desc">Estado:</span><label class="toggle-switch"><input type="checkbox" id="crossfadeToggle"><span class="slider"></span></label></div>
+            <div class="settings-row" style="margin-top: 6px;"><span class="settings-desc">Duración: <span id="crossfadeVal">3</span>s</span><input type="range" id="crossfadeTime" min="1" max="12" value="3" step="0.5" style="width:140px; accent-color:var(--accent);"></div>
           </div>
 
           <div class="settings-item">
-            <div class="settings-title">📊 Normalización de Volumen</div>
-            <div class="settings-desc">Iguala el volumen entre canciones automáticamente (-14 LUFS).</div>
-            <div class="settings-row">
-              <span class="settings-desc" style="font-weight:600;">Estado:</span>
-              <label class="toggle-switch">
-                <input type="checkbox" id="normalizationToggle">
-                <span class="slider"></span>
-              </label>
-            </div>
-            <div class="settings-row" style="margin-top: 6px;">
-              <span class="settings-desc" id="normalizationStatus" style="font-weight:600; font-size: 0.7rem; color: var(--text-muted);">Análisis: inactivo</span>
-            </div>
+            <div class="settings-title">📊 Normalización</div>
+            <div class="settings-row"><span class="settings-desc">Estado:</span><label class="toggle-switch"><input type="checkbox" id="normalizationToggle"><span class="slider"></span></label></div>
+            <div class="settings-row" style="margin-top: 6px;"><span class="settings-desc" id="normalizationStatus" style="font-size: 0.7rem;">Inactivo</span></div>
           </div>
 
           <div class="settings-item">
-            <div class="settings-title">🛡️ Limitador de Picos</div>
-            <div class="settings-desc">Evita distorsión al subir el volumen máximo.</div>
-            <div class="settings-row">
-              <span class="settings-desc" style="font-weight:600;">Estado:</span>
-              <label class="toggle-switch">
-                <input type="checkbox" id="limiterToggle">
-                <span class="slider"></span>
-              </label>
-            </div>
-            <div class="settings-row" style="margin-top: 6px;">
-              <span class="settings-desc" style="font-weight:600;">Boost: <span id="boostVal">+6</span> dB</span>
-              <input type="range" id="boostAmount" min="0" max="12" value="6" step="1" style="width:140px; accent-color:var(--accent);">
-            </div>
-          </div>
-
-          <div class="settings-item" id="visualizerSettingItem">
-            <div class="settings-title">📊 Espectro de Audio</div>
-            <div class="settings-desc">Espectro dinámico sobre la tarjeta de metadatos.</div>
-            <div class="settings-row">
-              <span class="settings-desc" style="font-weight:600;">Modo:</span>
-              <select id="visualizerSelect" class="settings-select">
-                <option value="off">Desactivado</option>
-                <option value="bars">Barras Horizontales (LED)</option>
-                <option value="scope">Ámbito / Osciloscopio</option>
-                <option value="hybrid">Modo Híbrido</option>
-                <option value="spiral">Espiral</option>
-                <option value="particles">Partículas</option>
-                <option value="3d">3D Perspective</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="settings-item" id="paletteSettingItem">
-            <div class="settings-title">🎨 Paleta del Espectro</div>
-            <div class="settings-desc">Esquemas científicos de alto contraste.</div>
-            <div class="settings-row">
-              <span class="settings-desc" style="font-weight:600;">Esquema:</span>
-              <select id="paletteSelect" class="settings-select">
-                <option value="neon">Neón Cyan / Magenta</option>
-                <option value="viridis">Viridis (Accesible)</option>
-                <option value="plasma">Plasma (Alto Contraste)</option>
-                <option value="cividis">Cividis (Optimizado Daltonismo)</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="settings-item">
-            <div class="settings-title">🔊 Medidor LUFS & Peak</div>
-            <div class="settings-desc">Estimación de sonoridad en tiempo real.</div>
-            <div class="settings-row">
-              <span class="settings-desc" style="font-weight:600;">Estado:</span>
-              <select id="lufsSelect" class="settings-select">
-                <option value="off" selected>Desactivado</option>
-                <option value="on">Activo</option>
-              </select>
-            </div>
+            <div class="settings-title">🛡️ Limitador</div>
+            <div class="settings-row"><span class="settings-desc">Estado:</span><label class="toggle-switch"><input type="checkbox" id="limiterToggle"><span class="slider"></span></label></div>
+            <div class="settings-row" style="margin-top: 6px;"><span class="settings-desc">Boost: <span id="boostVal">+6</span> dB</span><input type="range" id="boostAmount" min="0" max="12" value="6" step="1" style="width:140px; accent-color:var(--accent);"></div>
           </div>
 
           <div class="settings-item">
             <div class="settings-title">🎛 Ecualizador (EQ)</div>
-            <div class="settings-desc">Ajuste de respuesta de frecuencia.</div>
-            <div class="settings-row">
-              <span class="settings-desc" style="font-weight:600;">Preset:</span>
-              <select id="eqSelect" class="settings-select">
-                <option value="flat">Plano / Desactivado</option>
-                <option value="bassBoost">Bass Boost</option>
-                <option value="electronic">Electronic / EDM</option>
-                <option value="hardstyle">Hardstyle / Raw</option>
-                <option value="dance">Dance / Club</option>
-                <option value="hiphop">Hip-Hop / Urban</option>
-                <option value="rnb">R&B / Soul</option>
-                <option value="pop">Pop</option>
-                <option value="rock">Rock</option>
-                <option value="classical">Classical / Orchestral</option>
-                <option value="acoustic">Acoustic</option>
-                <option value="vocal">Vocal Booster</option>
-                <option value="pureAudio">Pure Audio Hi-Res</option>
-              </select>
-            </div>
+            <div class="settings-row"><span class="settings-desc">Preset:</span><select id="eqSelect" class="settings-select"><option value="flat">Plano</option><option value="bassBoost">Bass Boost</option><option value="electronic">Electronic</option><option value="dance">Dance</option><option value="hiphop">Hip-Hop</option><option value="rock">Rock</option><option value="pop">Pop</option><option value="vocal">Vocal</option></select></div>
           </div>
 
           <!-- NUEVO: Ecualizador Visual -->
           <div class="settings-item">
-            <div class="settings-title">🎚️ Ecualizador Visual (Custom)</div>
-            <div class="settings-desc">Ajusta las 10 bandas a tu gusto. Se guardará como "Custom".</div>
-            
-            <div class="eq-sliders-container" id="eqSlidersContainer">
-              <!-- Los sliders se generan por JS -->
-            </div>
-
+            <div class="settings-title">🎚️ EQ Visual (Custom)</div>
+            <div class="eq-sliders-container" id="eqSlidersContainer"></div>
             <div class="settings-row" style="margin-top: 10px; justify-content: center; gap: 8px;">
               <button class="btn-action" id="btnResetEq">🔄 Reiniciar</button>
-              <button class="btn-action btn-action-magenta" id="btnSaveEq">💾 Guardar Custom</button>
+              <button class="btn-action btn-action-magenta" id="btnSaveEq">💾 Guardar</button>
             </div>
           </div>
 
           <div class="settings-item">
-            <div class="settings-title">🎧 Dolby Spatial Audio</div>
-            <div class="settings-desc">Simula espacialización envolvente.</div>
-            <div class="settings-row">
-              <span class="settings-desc" style="font-weight:600;">Modo Espacial</span>
-              <label class="toggle-switch">
-                <input type="checkbox" id="dolbyToggle">
-                <span class="slider"></span>
-              </label>
-            </div>
+            <div class="settings-title">🎧 Dolby Spatial</div>
+            <div class="settings-row"><span class="settings-desc">Espacial:</span><label class="toggle-switch"><input type="checkbox" id="dolbyToggle"><span class="slider"></span></label></div>
           </div>
-          
-          <!-- NUEVO: Dolby On Effects -->
+
+          <!-- NUEVO: Dolby On -->
           <div class="settings-item">
-            <div class="settings-title">🎛️ Efectos Dolby On (Presets)</div>
-            <div class="settings-desc">Emula la ecualización de la app Dolby On.</div>
-            <div class="settings-row">
-              <span class="settings-desc" style="font-weight:600;">Efecto:</span>
-              <select id="dolbyOnSelect" class="settings-select">
-                <option value="off">Desactivado</option>
-                <option value="standard">Standard</option>
-                <option value="natural">Natural</option>
-                <option value="thump">Thump (Bajos)</option>
-                <option value="amped">Amped (Volumen)</option>
-                <option value="lyric">Lyric (Voces)</option>
-                <option value="deep">Deep (Profundidad)</option>
-              </select>
-            </div>
+            <div class="settings-title">🔊 Efectos Dolby On</div>
+            <div class="settings-row"><span class="settings-desc">Efecto:</span><select id="dolbyOnSelect" class="settings-select"><option value="off">Desactivado</option><option value="standard">Standard</option><option value="natural">Natural</option><option value="thump">Thump (Bajos)</option><option value="amped">Amped (Vol)</option><option value="lyric">Lyric (Voces)</option><option value="deep">Deep</option></select></div>
           </div>
+
           <div class="settings-item">
-            <div class="settings-title">💾 Exportación de Datos</div>
+            <div class="settings-title">🎨 Espectro y Paleta</div>
+            <div class="settings-row"><span class="settings-desc">Modo:</span><select id="visualizerSelect" class="settings-select"><option value="off">Off</option><option value="bars">Barras</option><option value="scope">Osciloscopio</option><option value="hybrid">Híbrido</option><option value="spiral">Espiral</option><option value="particles">Partículas</option><option value="3d">3D</option></select></div>
+            <div class="settings-row" style="margin-top:6px;"><span class="settings-desc">Paleta:</span><select id="paletteSelect" class="settings-select"><option value="neon">Neón</option><option value="plasma">Plasma</option><option value="viridis">Viridis</option><option value="cividis">Cividis</option></select></div>
+          </div>
+
+          <div class="settings-item">
+            <div class="settings-title">🔊 Medidor LUFS</div>
+            <div class="settings-row"><span class="settings-desc">Estado:</span><select id="lufsSelect" class="settings-select"><option value="off">Off</option><option value="on">On</option></select></div>
+          </div>
+
+          <div class="settings-item">
+            <div class="settings-title">💾 Exportar Datos</div>
             <div style="display:flex; flex-direction:column; gap:6px; margin-top:8px;">
-              <button class="btn-action" id="exportM3u8">Exportar Lista (.m3u8)</button>
-              <button class="btn-action" id="exportJson">Exportar Lista (.json)</button>
-              <button class="btn-action btn-action-magenta" id="exportReport">Descargar Reporte TXT</button>
+              <button class="btn-action" id="exportM3u8">Exportar .m3u8</button>
+              <button class="btn-action" id="exportJson">Exportar .json</button>
+              <button class="btn-action btn-action-magenta" id="exportReport">Reporte .txt</button>
             </div>
           </div>
 
           <div class="settings-item">
-            <div class="settings-title">⌨️ Atajos de Teclado</div>
+            <div class="settings-title">⌨️ Atajos</div>
             <div class="settings-desc" style="display:grid; grid-template-columns:1fr 1fr; gap:4px; margin-top:6px;">
-              <div><kbd>Espacio</kbd> Play / Pausa</div>
-              <div><kbd>N</kbd> Siguiente Pista</div>
-              <div><kbd>P</kbd> Anterior Pista</div>
-              <div><kbd>M</kbd> Mute / Unmute</div>
-              <div><kbd>↑</kbd> Subir Volumen</div>
-              <div><kbd>↓</kbd> Bajar Volumen</div>
-              <div><kbd>←</kbd> / <kbd>→</kbd> Saltar 5 segundos</div>
-              <div><kbd>S</kbd> Cambiar Skin</div>
+              <div><kbd>Espacio</kbd> Play/Pausa</div><div><kbd>N</kbd>/<kbd>P</kbd> Pista</div><div><kbd>←</kbd>/<kbd>→</kbd> -5s/+5s</div><div><kbd>S</kbd> Cambiar Skin</div>
             </div>
           </div>
 
           <div class="settings-item">
-            <div class="settings-title" id="versionTitle">MEOW AUDIO APP v9.6</div>
-            <div class="settings-desc" id="versionDesc">Skins (Vaporwave, Gameboy, Cyberpunk 2077, Kawaii) + Vinilo + EQ Visual + Sleep Timer + Velocidad + Gestos.</div>
+            <div class="settings-title" id="versionTitle">MEOW AUDIO APP v9.7</div>
+            <div class="settings-desc" id="versionDesc">Skins aislados + Menú Seasons + Dolby On + EQ Visual.</div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- NAVEGACIÓN INFERIOR (5 pestañas) -->
     <div class="bottom-nav">
-      <button class="nav-btn active" id="navHome" title="Inicio">🏠</button>
-      <button class="nav-btn" id="navQueue" title="Fila">☰</button>
-      <button class="nav-btn" id="navPlaylists" title="Playlists">📋</button>
-      <button class="nav-btn" id="navSearch" title="Buscar">🔍</button>
-      <button class="nav-btn" id="navSettings" title="Ajustes">⚙️</button>
+      <button class="nav-btn active" id="navHome">🏠</button>
+      <button class="nav-btn" id="navQueue">☰</button>
+      <button class="nav-btn" id="navPlaylists">📋</button>
+      <button class="nav-btn" id="navSearch">🔍</button>
+      <button class="nav-btn" id="navSettings">⚙️</button>
     </div>
   </div>
 
-  <!-- BOTTOM SHEET: MENÚ CONTEXTUAL (⋯) -->
-  <div class="bottom-sheet-overlay" id="contextMenuOverlay">
-    <div class="bottom-sheet" id="contextMenu">
-      <div class="bottom-sheet-header">
-        <div class="bottom-sheet-title" id="contextMenuTitle">Canción</div>
-        <div class="bottom-sheet-subtitle" id="contextMenuSubtitle">Artista • Álbum</div>
-      </div>
-      <ul class="bottom-sheet-list" id="contextMenuList">
-        <li class="bottom-sheet-item" data-action="play-now">▶ Reproducir ahora</li>
-        <li class="bottom-sheet-item" data-action="enqueue-next">⏭ Añadir a continuación</li>
-        <li class="bottom-sheet-item" data-action="enqueue-end">📋 Añadir al final de la fila</li>
-        <li class="bottom-sheet-item" data-action="toggle-favorite">❤️ Añadir a Favoritas</li>
-        <li class="bottom-sheet-item" data-action="add-to-playlist">💾 Añadir a playlist...</li>
-        <li class="bottom-sheet-item bottom-sheet-item-danger" data-action="remove-from-queue">❌ Quitar de la fila</li>
-      </ul>
-      <button class="bottom-sheet-cancel" id="btnCancelContextMenu">Cancelar</button>
-    </div>
-  </div>
+  <!-- MODALES -->
+  <div class="bottom-sheet-overlay" id="contextMenuOverlay"><div class="bottom-sheet" id="contextMenu"><div class="bottom-sheet-header"><div class="bottom-sheet-title" id="contextMenuTitle">Canción</div><div class="bottom-sheet-subtitle" id="contextMenuSubtitle">Artista</div></div><ul class="bottom-sheet-list" id="contextMenuList"></ul><button class="bottom-sheet-cancel" id="btnCancelContextMenu">Cancelar</button></div></div>
+  <div class="bottom-sheet-overlay" id="addToPlaylistOverlay"><div class="bottom-sheet" id="addToPlaylistSheet"><div class="bottom-sheet-header"><div class="bottom-sheet-title">Añadir a playlist</div><div class="bottom-sheet-subtitle" id="addToPlaylistSubtitle">Canción</div></div><ul class="bottom-sheet-list" id="addToPlaylistList"></ul><button class="bottom-sheet-cancel" id="btnCancelAddToPlaylist">Cancelar</button></div></div>
+  <div class="modal-overlay-simple" id="playlistModalOverlay"><div class="modal-box"><div class="modal-box-title" id="playlistModalTitle">Nueva playlist</div><input type="text" class="modal-input" id="playlistNameInput" placeholder="Nombre..." maxlength="50" autocomplete="off"><div class="modal-box-actions"><button class="btn-action" id="btnCancelPlaylistModal">Cancelar</button><button class="btn-action btn-action-magenta" id="btnConfirmPlaylistModal">Crear</button></div></div></div>
+  <div class="modal-overlay-simple" id="confirmModalOverlay"><div class="modal-box"><div class="modal-box-title" id="confirmModalTitle">Confirmar</div><div class="modal-box-message" id="confirmModalMessage">¿Seguro?</div><div class="modal-box-actions"><button class="btn-action" id="btnCancelConfirmModal">Cancelar</button><button class="btn-action btn-action-magenta" id="btnConfirmConfirmModal">Confirmar</button></div></div></div>
 
-  <!-- BOTTOM SHEET: AÑADIR A PLAYLIST -->
-  <div class="bottom-sheet-overlay" id="addToPlaylistOverlay">
-    <div class="bottom-sheet" id="addToPlaylistSheet">
-      <div class="bottom-sheet-header">
-        <div class="bottom-sheet-title">Añadir a playlist</div>
-        <div class="bottom-sheet-subtitle" id="addToPlaylistSubtitle">Canción</div>
-      </div>
-      <ul class="bottom-sheet-list" id="addToPlaylistList"></ul>
-      <button class="bottom-sheet-cancel" id="btnCancelAddToPlaylist">Cancelar</button>
-    </div>
-  </div>
+  <!-- EDITOR TUI -->
+  <div class="modal-overlay-simple" id="themeEditorOverlay"><div class="modal-box theme-editor-box"><div class="modal-box-title">🎨 Editor TUI</div><div class="theme-preview" id="themePreview"><div class="theme-preview-header">🎵 MEOW AUDIO</div><div class="theme-preview-title">Canción</div><div class="theme-preview-artist">Artista</div><div class="theme-preview-controls"><span>🔀</span><span>⏮</span><span class="theme-preview-play">▶</span><span>⏭</span><span>🔁</span></div></div><div class="theme-editor-field"><label class="theme-editor-label">Nombre</label><input type="text" class="modal-input" id="themeNameInput" maxlength="30"></div><div class="theme-editor-colors"><div class="theme-color-field"><label>Fondo</label><input type="color" id="themeBgColor"></div><div class="theme-color-field"><label>Texto</label><input type="color" id="themeTextColor"></div><div class="theme-color-field"><label>Acento</label><input type="color" id="themeAccentColor"></div><div class="theme-color-field"><label>Secundario</label><input type="color" id="themeAccent2Color"></div></div><div class="modal-box-actions" style="flex-wrap: wrap; gap: 6px;"><button class="btn-action" id="btnCancelThemeEditor">Cancelar</button><button class="btn-action" id="btnDeleteTheme" style="display: none; background: rgba(255,71,87,0.2); color: #ff4757;">🗑️ Eliminar</button><button class="btn-action btn-action-magenta" id="btnSaveTheme">💾 Guardar</button></div></div></div>
 
-  <!-- MODAL: CREAR/EDITAR PLAYLIST -->
-  <div class="modal-overlay-simple" id="playlistModalOverlay">
-    <div class="modal-box">
-      <div class="modal-box-title" id="playlistModalTitle">Nueva playlist</div>
-      <input type="text" class="modal-input" id="playlistNameInput" placeholder="Nombre de la playlist..." maxlength="50" autocomplete="off">
-      <div class="modal-box-actions">
-        <button class="btn-action" id="btnCancelPlaylistModal">Cancelar</button>
-        <button class="btn-action btn-action-magenta" id="btnConfirmPlaylistModal">Crear</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- MODAL: CONFIRMACIÓN GENERAL -->
-  <div class="modal-overlay-simple" id="confirmModalOverlay">
-    <div class="modal-box">
-      <div class="modal-box-title" id="confirmModalTitle">Confirmar</div>
-      <div class="modal-box-message" id="confirmModalMessage">¿Estás seguro?</div>
-      <div class="modal-box-actions">
-        <button class="btn-action" id="btnCancelConfirmModal">Cancelar</button>
-        <button class="btn-action btn-action-magenta" id="btnConfirmConfirmModal">Confirmar</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- MODAL: EDITOR DE TEMA TUI -->
-  <div class="modal-overlay-simple" id="themeEditorOverlay">
-    <div class="modal-box theme-editor-box">
-      <div class="modal-box-title">🎨 Editor de Tema TUI</div>
-
-      <div class="theme-preview" id="themePreview">
-        <div class="theme-preview-header">🎵 MEOW AUDIO APP</div>
-        <div class="theme-preview-title">Canción de Ejemplo</div>
-        <div class="theme-preview-artist">Artista de Ejemplo</div>
-        <div class="theme-preview-controls">
-          <span>🔀</span>
-          <span>⏮</span>
-          <span class="theme-preview-play">▶</span>
-          <span>⏭</span>
-          <span>🔁</span>
-        </div>
-      </div>
-
-      <div class="theme-editor-field">
-        <label class="theme-editor-label">Nombre del tema</label>
-        <input type="text" class="modal-input" id="themeNameInput" placeholder="Mi tema personalizado..." maxlength="30" autocomplete="off">
-      </div>
-
-      <div class="theme-editor-colors">
-        <div class="theme-color-field">
-          <label for="themeBgColor">Fondo</label>
-          <input type="color" id="themeBgColor" value="#0a120b">
-        </div>
-        <div class="theme-color-field">
-          <label for="themeTextColor">Texto</label>
-          <input type="color" id="themeTextColor" value="#00ff66">
-        </div>
-        <div class="theme-color-field">
-          <label for="themeAccentColor">Acento</label>
-          <input type="color" id="themeAccentColor" value="#00ff66">
-        </div>
-        <div class="theme-color-field">
-          <label for="themeAccent2Color">Secundario</label>
-          <input type="color" id="themeAccent2Color" value="#00ffcc">
-        </div>
-      </div>
-
-      <div class="modal-box-actions" style="flex-wrap: wrap; gap: 6px;">
-        <button class="btn-action" id="btnCancelThemeEditor">Cancelar</button>
-        <button class="btn-action" id="btnDeleteTheme" style="display: none; background: rgba(255, 71, 87, 0.2); border-color: #ff4757; color: #ff4757;">🗑️ Eliminar</button>
-        <button class="btn-action btn-action-magenta" id="btnSaveTheme">💾 Guardar</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- OVERLAY DE BOOT -->
-  <div class="distro-boot-overlay" id="distroBootOverlay">
-    <div class="distro-boot-terminal">
-      <pre id="distroBootText"></pre>
-      <span class="distro-boot-cursor">█</span>
-    </div>
-  </div>
-
-  <!-- OVERLAY: ZONA DE DROP -->
-  <div class="drag-drop-overlay" id="dragDropOverlay">
-    <div class="drag-drop-content">
-      <div class="drag-drop-icon">📁</div>
-      <div class="drag-drop-title">Suelta tus archivos o carpetas aquí</div>
-      <div class="drag-drop-subtitle">Se añadirán a la biblioteca automáticamente</div>
-    </div>
-  </div>
+  <div class="distro-boot-overlay" id="distroBootOverlay"><div class="distro-boot-terminal"><pre id="distroBootText"></pre><span class="distro-boot-cursor">█</span></div></div>
+  <div class="drag-drop-overlay" id="dragDropOverlay"><div class="drag-drop-content"><div class="drag-drop-icon">📁</div><div class="drag-drop-title">Suelta archivos aquí</div><div class="drag-drop-subtitle">Se añadirán a la biblioteca</div></div></div>
 
   <script src="app.js" defer></script>
 </body>
