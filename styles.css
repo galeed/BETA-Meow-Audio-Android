@@ -2877,264 +2877,87 @@ body.skin-tui .tui-theme-item-custom { font-style: italic; }
 }
 
 /* ============================================================
-   FIX LAYOUT v9.3 — Estilo "Isla" flotante hasta el fondo
+   MEOW AUDIO APP v9.7 — PARCHE DEFINITIVO Y LIMPIO
    ============================================================ */
 
-/* 1. Container: padding inferior reducido al mínimo (solo safe-area del móvil) */
-.app-container {
-  padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 6px) !important;
-  gap: 8px !important;
-}
+/* 1. LAYOUT: Isla flotante (Estilo Classic) en TODOS los skins */
+.app-container { padding-bottom: 0 !important; gap: 8px !important; }
+.player-card { flex: 1 1 auto !important; min-height: 0 !important; }
+.bottom-nav { flex: 0 0 auto !important; margin: 0 !important; padding: 10px 0 calc(env(safe-area-inset-bottom, 0px) + 10px) 0 !important; border-bottom-left-radius: 0 !important; border-bottom-right-radius: 0 !important; }
+body.skin-classic .app-container { padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 10px) !important; }
+body.skin-classic .bottom-nav { border-radius: var(--nav-radius) !important; padding: 10px 0 !important; }
 
-/* 2. El reproductor absorbe todo el espacio extra */
-.player-card {
-  flex: 1 1 auto !important;
-  min-height: 0 !important;
-}
+/* 2. DISTROS: Igualar tamaño a TUI */
+body.skin-distro-01 .cover-art, body.skin-distro-02 .cover-art { max-width: 240px !important; width: 100% !important; margin: 6px 0 !important; }
+body.skin-distro-01 .cover-container, body.skin-distro-02 .cover-container { margin: 6px 0 !important; padding: 0 !important; }
+body.skin-distro-01 .track-info-container, body.skin-distro-02 .track-info-container { padding: 8px 6px !important; margin: 4px 0 !important; }
+body.skin-distro-01 .track-title, body.skin-distro-02 .track-title { font-size: 1.35rem !important; margin-bottom: 2px !important; }
+body.skin-distro-01 .track-artist, body.skin-distro-02 .track-artist { font-size: 0.98rem !important; opacity: 1 !important; }
+body.skin-distro-01 .track-album, body.skin-distro-02 .track-album { font-size: 0.85rem !important; opacity: 0.85 !important; }
 
-/* 3. El Bottom Nav mantiene su diseño de isla (redondeado) pero flota al fondo */
-.bottom-nav {
-  flex: 0 0 auto !important;
-  margin: 0 !important;
-  margin-bottom: 0 !important;
-  /* Mantenemos el padding original para que los iconos no se vean apretados */
-  padding: 10px 0 !important; 
-  /* Restauramos sus esquinas redondeadas originales */
-  border-radius: var(--nav-radius) !important;
-}
+/* 3. MENÚ SEASONS (Header) */
+body.skin-christmas .tui-theme-menu, body.skin-halloween .tui-theme-menu, body.skin-cyberpunk .tui-theme-menu, body.skin-matrix .tui-theme-menu { display: block; }
+body.skin-christmas .player-header::after, body.skin-halloween .player-header::after, body.skin-cyberpunk .player-header::after, body.skin-matrix .player-header::after { content: ' ▾'; color: var(--accent); font-size: 0.75rem; opacity: 0.7; }
+body.skin-christmas .player-header.menu-open::after, body.skin-halloween .player-header.menu-open::after, body.skin-cyberpunk .player-header.menu-open::after, body.skin-matrix .player-header.menu-open::after { content: ' ▴'; }
+body.skin-christmas .player-header, body.skin-halloween .player-header, body.skin-cyberpunk .player-header, body.skin-matrix .player-header { cursor: pointer; user-select: none; }
 
-/* 4. Refuerzo para que las skins TUI, Distro y Seasons no quiten el redondeo */
-body.skin-tui .bottom-nav,
-body.skin-distro-01 .bottom-nav,
-body.skin-distro-02 .bottom-nav,
-body.skin-christmas .bottom-nav,
-body.skin-halloween .bottom-nav,
-body.skin-cyberpunk .bottom-nav,
-body.skin-matrix .bottom-nav {
-  border-radius: var(--nav-radius) !important;
-  padding: 10px 0 !important;
-  margin-bottom: 0 !important;
-}
+/* 4. AISLAMIENTO SKINS NUEVOS (Evita mezclas de colores) */
+body.skin-vaporwave, body.skin-kawaii, body.skin-gameboy, body.skin-cyber2077 { backdrop-filter: none !important; }
 
-/* 5. Landscape: aseguramos que también se vea bien */
-@media screen and (orientation: landscape) and (max-height: 600px) {
-  .app-container {
-    padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 4px) !important;
-    gap: 6px !important;
-  }
-  .bottom-nav {
-    padding: 6px 0 !important;
-    border-radius: var(--nav-radius) !important;
-  }
-}
-
-/* ============================================================
-   FIX v9.4 — Igualar tamaños de portada y textos en Distros a TUI
-   ============================================================ */
-
-/* 1. Portada más grande (igual que TUI/Classic) */
-body.skin-distro-01 .cover-art,
-body.skin-distro-02 .cover-art {
-  max-width: 240px !important;
-  width: 100% !important;
-  margin: 6px 0 !important;
-}
-
-body.skin-distro-01 .cover-container,
-body.skin-distro-02 .cover-container {
-  margin: 6px 0 !important;
-  padding: 0 !important;
-}
-
-/* 2. Contenedor de información con más respiro */
-body.skin-distro-01 .track-info-container,
-body.skin-distro-02 .track-info-container {
-  padding: 8px 6px !important;
-  margin: 4px 0 !important;
-}
-
-/* 3. Título más grande y legible */
-body.skin-distro-01 .track-title,
-body.skin-distro-02 .track-title {
-  font-size: 1.35rem !important;
-  margin-bottom: 2px !important;
-  letter-spacing: normal !important;
-}
-
-/* 4. Artista un poco más grande */
-body.skin-distro-01 .track-artist,
-body.skin-distro-02 .track-artist {
-  font-size: 0.98rem !important;
-  opacity: 1 !important;
-}
-
-/* 5. Álbum un poco más grande */
-body.skin-distro-01 .track-album,
-body.skin-distro-02 .track-album {
-  font-size: 0.85rem !important;
-  opacity: 0.85 !important;
-}
-
-/* 6. Header (donde dice MEOW AUDIO APP) un poco más grande */
-body.skin-distro-01 .header-title,
-body.skin-distro-02 .header-title {
-  font-size: 1rem !important;
-  letter-spacing: 2px !important;
-}
-
-/* 7. Specs y status con el mismo tamaño que TUI */
-body.skin-distro-01 .audio-specs-badge,
-body.skin-distro-02 .audio-specs-badge {
-  font-size: 0.8rem !important;
-  min-height: 18px !important;
-  margin: 2px 0 4px 0 !important;
-}
-
-body.skin-distro-01 .status-badge,
-body.skin-distro-02 .status-badge {
-  font-size: 0.72rem !important;
-  min-height: 12px !important;
-  margin: 0 0 4px 0 !important;
-}
-
-
-/* --- 1. SKIN: CYBERPUNK 2077 (Glitch) --- */
-body.skin-cyber2077 {
-  --bg: #000000; --bg-main: #000000;
-  --card-bg: rgba(10, 10, 10, 0.85); --card-border: #00ffcc;
-  --accent: #00ffcc; --accent-cyan: #ff00ff;
-  --text: #00ffcc; --text-muted: #ff00ff;
-  --font-family: 'Share Tech Mono', monospace;
-  --card-radius: 0px; --cover-radius: 0px; --nav-radius: 0px; --btn-radius: 0px;
-  --glow-color: rgba(0, 255, 204, 0.5);
-  --card-blur: blur(5px);
-}
-body.skin-cyber2077 .player-card {
-  border: 2px solid var(--accent);
-  box-shadow: 0 0 15px var(--accent), inset 0 0 15px var(--accent-cyan);
-  position: relative;
-  overflow: hidden;
-}
-body.skin-cyber2077 .player-card::before {
-  content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 2px;
-  background: var(--accent-cyan); box-shadow: 0 0 10px var(--accent-cyan);
-  animation: scanline 2s linear infinite; pointer-events: none; z-index: 10;
-}
-@keyframes scanline {
-  0% { top: 0; opacity: 1; }
-  50% { opacity: 0.5; }
-  100% { top: 100%; opacity: 0; }
-}
-body.skin-cyber2077 .track-title {
-  animation: glitchText 3s infinite alternate;
-}
-@keyframes glitchText {
-  0%, 90% { text-shadow: 0 0 5px var(--accent); transform: translateX(0); }
-  92% { text-shadow: -2px 0 var(--accent-cyan), 2px 0 var(--accent); transform: translateX(-2px); }
-  94% { text-shadow: 2px 0 var(--accent-cyan), -2px 0 var(--accent); transform: translateX(2px); }
-  96% { text-shadow: 0 0 5px var(--accent); transform: translateX(0); }
-}
-
-/* --- 2. SKIN: KAWAII PASTEL --- */
-body.skin-kawaii {
-  --bg: #ffe6f0; --bg-main: #ffe6f0;
-  --card-bg: rgba(255, 255, 255, 0.6); --card-border: #ffb3d9;
-  --accent: #ff6b9d; --accent-cyan: #a29bfe;
-  --text: #4a2c3a; --text-muted: #8a6c7a;
-  --font-family: 'Comic Sans MS', 'Chalkboard SE', sans-serif;
-  --card-radius: 24px; --cover-radius: 16px; --nav-radius: 24px; --btn-radius: 50%;
-  --glow-color: rgba(255, 107, 157, 0.3);
-  --card-blur: blur(15px);
-}
-body.skin-kawaii .bg-blur { background: linear-gradient(135deg, #ffd1e8, #e0d1ff) !important; }
-body.skin-kawaii .player-card { box-shadow: 0 10px 25px rgba(255, 107, 157, 0.2); border: 2px solid #fff; }
-body.skin-kawaii .btn-play { background: var(--accent); color: white; box-shadow: 0 4px 15px rgba(255,107,157,0.4); }
-body.skin-kawaii .cover-art { border: 4px solid white; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
-body.skin-kawaii .track-title { color: var(--accent); }
-
-
-/* --- 4. ECUALIZADOR VISUAL (10 BANDAS) --- */
-.eq-sliders-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  height: 120px;
-  background: rgba(0, 0, 0, 0.2);
-  border-radius: 8px;
-  padding: 10px 5px;
-  margin-top: 10px;
-  border: 1px solid var(--card-border);
-}
-body.skin-tui .eq-sliders-container, body.skin-distro-01 .eq-sliders-container, body.skin-distro-02 .eq-sliders-container {
-  background: #000; border-radius: 0; border: 1px solid var(--accent);
-}
-.eq-slider-col {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  height: 100%;
-  justify-content: flex-end;
-  gap: 5px;
-}
-.eq-slider-col input[type="range"] {
-  -webkit-appearance: slider-vertical;
-  appearance: slider-vertical;
-  writing-mode: vertical-lr;
-  direction: rtl;
-  width: 8px;
-  height: 80px;
-  cursor: pointer;
-  accent-color: var(--accent);
-}
-.eq-slider-col span {
-  font-size: 0.6rem;
-  color: var(--text-muted);
-  writing-mode: vertical-lr;
-  transform: rotate(180deg);
-}
-
-/* ============================================================
-   FIX v9.6.2 — SKINS NUEVOS CORREGIDOS (AISLAMIENTO TOTAL)
-   ============================================================ */
-
-/* 1. VAPORWAVE (Fondo, Cajas y Textos) */
+/* VAPORWAVE */
 body.skin-vaporwave { background: linear-gradient(135deg, #ff71ce, #01cdfe) !important; }
 body.skin-vaporwave .bg-blur { display: none !important; }
-body.skin-vaporwave .player-card, body.skin-vaporwave .bottom-nav { background: rgba(255, 255, 255, 0.4) !important; border: 2px solid #b967ff !important; border-radius: 16px !important; box-shadow: 0 0 20px rgba(185,103,255,0.5) !important; }
+body.skin-vaporwave .player-card, body.skin-vaporwave .bottom-nav { background: rgba(255,255,255,0.4) !important; border: 2px solid #b967ff !important; border-radius: 16px !important; box-shadow: 0 0 20px rgba(185,103,255,0.5) !important; }
 body.skin-vaporwave .header-title, body.skin-vaporwave .track-title { color: #fff !important; text-shadow: 1px 1px 2px #000; }
+body.skin-vaporwave .track-artist, body.skin-vaporwave .track-album, body.skin-vaporwave .audio-specs-badge { color: #fff !important; }
 body.skin-vaporwave .btn-play { background: #fffb96 !important; color: #ff71ce !important; border: 2px solid #ff71ce !important; }
-body.skin-vaporwave .nav-btn.active { color: #fffb96 !important; }
+body.skin-vaporwave .nav-btn.active { color: #fffb96 !important; text-shadow: 0 0 5px #fffb96; }
 
-/* 2. KAWAII (Fondo, Cajas y Textos) */
+/* KAWAII */
 body.skin-kawaii { background: #ffe6f0 !important; }
 body.skin-kawaii .bg-blur { display: none !important; }
 body.skin-kawaii .player-card, body.skin-kawaii .bottom-nav { background: #fff !important; border: 3px solid #ffb3d9 !important; border-radius: 28px !important; box-shadow: 0 8px 25px rgba(255,107,157,0.2) !important; }
 body.skin-kawaii .header-title, body.skin-kawaii .track-title { color: #ff6b9d !important; }
-body.skin-kawaii .track-artist { color: #a29bfe !important; }
+body.skin-kawaii .track-artist, body.skin-kawaii .track-album, body.skin-kawaii .audio-specs-badge, body.skin-kawaii .status-badge { color: #a29bfe !important; }
 body.skin-kawaii .btn-play { background: #ff6b9d !important; color: #fff !important; border: none !important; }
 body.skin-kawaii .icon-action-btn { background: #f0e6ff !important; color: #ff6b9d !important; border: 2px solid #ffb3d9 !important; }
+body.skin-kawaii .nav-btn { color: #a29bfe !important; }
+body.skin-kawaii .nav-btn.active { color: #ff6b9d !important; }
 
-/* 3. GAMEBOY (Fondo, Cajas y Textos) */
+/* GAMEBOY */
 body.skin-gameboy { background: #8bac0f !important; }
 body.skin-gameboy .bg-blur { display: none !important; }
 body.skin-gameboy .player-card, body.skin-gameboy .bottom-nav { background: #9bbc0f !important; border: 4px solid #0f380f !important; border-radius: 0 !important; box-shadow: 6px 6px 0 #0f380f, inset 2px 2px 0 #c4d647 !important; }
 body.skin-gameboy .header-title, body.skin-gameboy .track-title { color: #0f380f !important; }
-body.skin-gameboy .track-artist, body.skin-gameboy .track-album { color: #306230 !important; }
+body.skin-gameboy .track-artist, body.skin-gameboy .track-album, body.skin-gameboy .audio-specs-badge, body.skin-gameboy .status-badge { color: #306230 !important; }
 body.skin-gameboy .btn-play { background: #0f380f !important; color: #9bbc0f !important; border-radius: 0 !important; }
 body.skin-gameboy .icon-action-btn { background: #8bac0f !important; color: #0f380f !important; border: 2px solid #0f380f !important; border-radius: 0 !important; box-shadow: 2px 2px 0 #0f380f !important; }
+body.skin-gameboy .nav-btn { color: #306230 !important; }
+body.skin-gameboy .nav-btn.active { color: #0f380f !important; }
 
-/* 4. CYBERPUNK 2077 (Fondo, Cajas y Textos) */
+/* CYBERPUNK 2077 */
 body.skin-cyber2077 { background: #000 !important; }
 body.skin-cyber2077 .bg-blur { background: radial-gradient(circle, #1a0033, #000) !important; filter: none !important; }
 body.skin-cyber2077 .player-card, body.skin-cyber2077 .bottom-nav { background: rgba(5,5,5,0.9) !important; border: 2px solid #00ffcc !important; border-radius: 0 !important; box-shadow: 0 0 20px rgba(0,255,204,0.4) !important; }
 body.skin-cyber2077 .header-title, body.skin-cyber2077 .track-title { color: #00ffcc !important; font-family: 'Share Tech Mono', monospace !important; }
-body.skin-cyber2077 .track-artist { color: #ff00ff !important; }
+body.skin-cyber2077 .track-artist, body.skin-cyber2077 .track-album, body.skin-cyber2077 .audio-specs-badge, body.skin-cyber2077 .status-badge { color: #ff00ff !important; }
 body.skin-cyber2077 .btn-play { background: transparent !important; color: #00ffcc !important; border: 2px solid #00ffcc !important; border-radius: 0 !important; }
 body.skin-cyber2077 .icon-action-btn { background: #000 !important; color: #ff00ff !important; border: 1px solid #ff00ff !important; border-radius: 0 !important; }
 
-/* 5. ANULAR ESTILOS DE TUI/DISTRO QUE SE FILTRABAN */
-body.skin-vaporwave .player-card, body.skin-kawaii .player-card, body.skin-gameboy .player-card, body.skin-cyber2077 .player-card,
-body.skin-vaporwave .bottom-nav, body.skin-kawaii .bottom-nav, body.skin-gameboy .bottom-nav, body.skin-cyber2077 .bottom-nav {
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
-}
+/* 5. VINILO EN CLASSIC */
+body.skin-classic .cover-container { position: relative; display: flex; justify-content: center; align-items: center; }
+body.skin-classic .cover-container::before { content: ''; position: absolute; width: 95%; height: 95%; background: radial-gradient(circle, #1a1a1a 30%, #000 70%, #111 100%); border-radius: 50%; z-index: 1; box-shadow: inset 0 0 10px rgba(255,255,255,0.1); transition: transform 0.3s; }
+body.skin-classic .cover-art { z-index: 2; border-radius: 50% !important; animation: spinVinyl 10s linear infinite; animation-play-state: paused; border: 2px solid #333; }
+body.skin-classic.vinyl-playing .cover-art { animation-play-state: running; }
+@keyframes spinVinyl { 100% { transform: rotate(360deg); } }
+
+/* 6. EQ VISUAL & UTILS */
+.eq-sliders-container { display: flex; justify-content: space-between; align-items: flex-end; height: 120px; background: rgba(0, 0, 0, 0.2); border-radius: 8px; padding: 10px 5px; margin-top: 10px; border: 1px solid var(--card-border); }
+.eq-slider-col { display: flex; flex-direction: column; align-items: center; height: 100%; justify-content: flex-end; gap: 5px; }
+.eq-slider-col input[type="range"] { -webkit-appearance: slider-vertical; appearance: slider-vertical; writing-mode: vertical-lr; direction: rtl; width: 8px; height: 80px; cursor: pointer; accent-color: var(--accent); }
+.eq-slider-col span { font-size: 0.6rem; color: var(--text-muted); writing-mode: vertical-lr; transform: rotate(180deg); }
+.sleep-timer-btn { padding: 6px 12px; font-size: 0.75rem; }
+.sleep-timer-btn.active { background: var(--accent) !important; color: #000 !important; font-weight: bold; }
+.undo-toast { position: fixed; bottom: calc(env(safe-area-inset-bottom, 0px) + 120px); left: 50%; transform: translateX(-50%) translateY(20px); background: rgba(30, 30, 35, 0.95); backdrop-filter: blur(10px); border: 1px solid var(--accent); color: var(--text); padding: 10px 16px; border-radius: 12px; font-size: 0.8rem; display: flex; align-items: center; gap: 12px; z-index: 10005; opacity: 0; transition: all 0.3s ease; box-shadow: 0 5px 20px rgba(0,0,0,0.5); }
+.undo-toast.active { opacity: 1; transform: translateX(-50%) translateY(0); }
+.undo-toast button { background: var(--accent); color: #000; border: none; padding: 4px 8px; border-radius: 6px; font-weight: bold; cursor: pointer; font-family: inherit; }
