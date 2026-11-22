@@ -1062,7 +1062,6 @@ function initWebAudio() {
       analyser.fftSize = 128;
       masterGain = audioCtx.createGain();
       masterGain.gain.value = 1.0;
-
       eqFilters = FREQUENCIES.map((freq, i) => {
         const filter = audioCtx.createBiquadFilter();
         filter.type = (i === 0) ? 'lowshelf' : (i === FREQUENCIES.length - 1) ? 'highshelf' : 'peaking';
@@ -1071,31 +1070,37 @@ function initWebAudio() {
         filter.gain.value = 0;
         return filter;
       });
-
       dolbyFilter = audioCtx.createBiquadFilter();
       dolbyFilter.type = 'peaking';
       dolbyFilter.frequency.value = 3500;
       dolbyFilter.Q.value = 0.8;
       dolbyFilter.gain.value = 0;
-
       dolbyGain = audioCtx.createGain();
       dolbyGain.gain.value = 1.0;
+
+      // --- NUEVOS FILTROS DOLBY ON ---
+      window.dolbyOnFilter = audioCtx.createBiquadFilter();
+      window.dolbyOnFilter.type = 'peaking';
+      window.dolbyOnFilter.frequency.value = 1000;
+      window.dolbyOnFilter.Q.value = 1.0;
+      window.dolbyOnFilter.gain.value = 0;
+      window.dolbyOnGain = audioCtx.createGain();
+      window.dolbyOnGain.gain.value = 1.0;
 
       trackSource.connect(eqFilters[0]);
       for (let i = 0; i < eqFilters.length - 1; i++) eqFilters[i].connect(eqFilters[i + 1]);
       eqFilters[eqFilters.length - 1].connect(dolbyFilter);
       dolbyFilter.connect(dolbyGain);
-      dolbyGain.connect(masterGain);
+      dolbyGain.connect(window.dolbyOnFilter); // Conectamos a Dolby On
+      window.dolbyOnFilter.connect(window.dolbyOnGain);
+      window.dolbyOnGain.connect(masterGain);
+      
       masterGain.connect(analyser);
       analyser.connect(audioCtx.destination);
-
       visualizerDataArray = new Uint8Array(analyser.frequencyBinCount);
       ensureKeepAlive();
       applyLimiterState();
-
-      audioCtx.onstatechange = () => {
-        if (!mainAudio.paused && audioCtx.state !== 'running') audioCtx.resume().catch(() => {});
-      };
+      audioCtx.onstatechange = () => { if (!mainAudio.paused && audioCtx.state !== 'running') audioCtx.resume().catch(() => {}); };
     } catch (e) { console.warn("WebAudio init error:", e); }
   }
 }
