@@ -1390,6 +1390,42 @@ function buildMenuItems(skin) {
         li.dataset.theme = t.id;
         li.innerHTML = `<span class="tui-dot" style="background:${t.accent}"></span> ⭐ ${t.name} <span class="tui-check">✓</span>`;
         li.addEventListener('dblclick', (e) => { e.stopPropagation(); openThemeEditor(t.id); });
+        tuiThemeList.appendChild(li);
+      });
+    }
+  } else if (isDistroSkin(skin)) {
+    menuHeaderLabel.textContent = 'meow@audio-box:~/distros';
+    const list = getCurrentDistroList(skin);
+    list.forEach(d => {
+      const li = document.createElement('li');
+      li.className = 'tui-theme-item';
+      li.dataset.distro = d.id;
+      li.innerHTML = `<span class="tui-dot" style="background:${d.color}"></span> ${d.name} <span class="tui-check">✓</span>`;
+      tuiThemeList.appendChild(li);
+    });
+  } else if (isSeasonSkin(skin)) {
+    menuHeaderLabel.textContent = 'meow@audio-box:~/seasons';
+    Object.keys(SEASONS_SKINS).forEach(key => {
+      const s = SEASONS_SKINS[key];
+      const li = document.createElement('li');
+      li.className = 'tui-theme-item';
+      li.dataset.season = key;
+      li.innerHTML = `<span class="tui-dot" style="background:${s.themeColor}"></span> ${s.emoji} ${s.name} <span class="tui-check">✓</span>`;
+      tuiThemeList.appendChild(li);
+    });
+  }
+}
+    const customThemes = loadCustomThemes();
+    if (customThemes.length > 0) {
+      const sep = document.createElement('li');
+      sep.style.cssText = 'border-top: 1px solid var(--accent); margin: 4px 10px; list-style: none; opacity: 0.5; padding: 0;';
+      tuiThemeList.appendChild(sep);
+      customThemes.forEach(t => {
+        const li = document.createElement('li');
+        li.className = 'tui-theme-item tui-theme-item-custom';
+        li.dataset.theme = t.id;
+        li.innerHTML = `<span class="tui-dot" style="background:${t.accent}"></span> ⭐ ${t.name} <span class="tui-check">✓</span>`;
+        li.addEventListener('dblclick', (e) => { e.stopPropagation(); openThemeEditor(t.id); });
         li.addEventListener('contextmenu', (e) => { e.preventDefault(); e.stopPropagation(); openThemeEditor(t.id); });
         tuiThemeList.appendChild(li);
       });
