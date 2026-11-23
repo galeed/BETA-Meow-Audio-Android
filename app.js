@@ -1647,17 +1647,20 @@ async function applySkin(skin, skipBoot = false) {
   const previousSkin = localStorage.getItem('meowSkin') || 'classic';
   const isEnteringDistro = isDistroSkin(skin) && previousSkin !== skin;
   const isEnteringSeason = isSeasonSkin(skin) && previousSkin !== skin;
+  
   if (skin === 'distro-01' && previousSkin === 'distro-02') localStorage.setItem('meowDistro', 'arch');
   if (skin === 'distro-02' && previousSkin === 'distro-01') localStorage.setItem('meowDistro', 'elementary');
 
   if (isEnteringDistro && !skipBoot) await playDistroBoot(skin, localStorage.getItem('meowDistro') || (skin === 'distro-01' ? 'arch' : 'elementary'));
   else if (isEnteringSeason && !skipBoot) await playSeasonBoot(skin);
 
-  document.body.classList.remove('skin-classic','skin-tui','skin-distro-01','skin-distro-02','skin-christmas','skin-halloween','skin-cyberpunk','skin-matrix');
+  const root = document.documentElement;
+  ['--bg','--bg-main','--text','--accent','--accent-cyan','--audio-spec-color','--glow-color','--card-border','--card-bg','--text-muted'].forEach(p => root.style.removeProperty(p));
+
+  document.body.classList.remove('skin-classic','skin-tui','skin-distro-01','skin-distro-02','skin-christmas','skin-halloween','skin-cyberpunk','skin-matrix', 'skin-vaporwave', 'skin-gameboy', 'skin-cyber2077', 'skin-kawaii');
   document.body.classList.add('skin-' + skin);
   localStorage.setItem('meowSkin', skin);
   if (skinSelect) skinSelect.value = skin;
-
   buildMenuItems(skin);
 
   if (skin === 'tui') {
@@ -1665,52 +1668,34 @@ async function applySkin(skin, skipBoot = false) {
     const savedTheme = localStorage.getItem('meowTuiTheme') || 'green';
     document.body.dataset.tuiTheme = savedTheme;
     headerTitle.textContent = '🎵 MEOW AUDIO APP';
-    avisoTitle.textContent = '> SISTEMA DE PRIVACIDAD';
-    avisoText.textContent = 'Todo el procesamiento de audio se realiza localmente. Ningún archivo o dato es enviado a servidores externos.';
-    versionTitle.textContent = 'MEOW AUDIO APP // TUI v9.1';
-    versionDesc.textContent = 'Haz clic en el header para cambiar de tema.';
     const theme = TUI_THEMES.find(t => t.id === savedTheme) || TUI_THEMES[0];
     if (!savedTheme.startsWith('custom-')) metaThemeEl.content = theme.bg;
-    markActiveMenuItem();
-    updateOverlayAscii('tui', null);
+    markActiveMenuItem(); updateOverlayAscii('tui', null);
   } else if (isDistroSkin(skin)) {
     document.body.removeAttribute('data-tui-theme');
     const defaultDistro = skin === 'distro-01' ? 'arch' : 'elementary';
     const savedDistro = localStorage.getItem('meowDistro') || defaultDistro;
     document.body.dataset.distro = savedDistro;
     headerTitle.textContent = '🎵 MEOW AUDIO APP';
-    avisoTitle.textContent = '> SISTEMA DE PRIVACIDAD';
-    avisoText.textContent = 'Todo el procesamiento de audio se realiza localmente. Ningún archivo o dato es enviado a servidores externos.';
-    versionTitle.textContent = `MEOW AUDIO APP // ${skin === 'distro-01' ? '@distro_01' : '@distro_02'} v9.1`;
-    versionDesc.textContent = 'Haz clic en el header para cambiar de distro.';
     metaThemeEl.content = '#0d1117';
-    updateOverlayAscii(skin, savedDistro);
-    markActiveMenuItem();
+    updateOverlayAscii(skin, savedDistro); markActiveMenuItem();
   } else if (isSeasonSkin(skin)) {
     document.body.removeAttribute('data-tui-theme');
     document.body.removeAttribute('data-distro');
     const config = SEASONS_SKINS[skin];
-    headerTitle.textContent = `${config.emoji} MEOW AUDIO APP`;
-    avisoTitle.textContent = `> ${config.emoji} SISTEMA DE PRIVACIDAD`;
-    avisoText.textContent = 'Todo el procesamiento de audio se realiza localmente. Ningún archivo o dato es enviado a servidores externos.';
-    versionTitle.textContent = `MEOW AUDIO APP // ${config.name} v9.1`;
-    versionDesc.textContent = `Skin temático activo. ¡${config.emoji}!`;
+    headerTitle.textContent = `${config.emoji} MEOW AUDIO APP ▾`;
     metaThemeEl.content = config.themeColor;
-    updateOverlayAscii(skin, null);
+    updateOverlayAscii(skin, null); markActiveMenuItem();
   } else {
     document.body.removeAttribute('data-tui-theme');
     document.body.removeAttribute('data-distro');
     headerTitle.textContent = '🐈 MEOW AUDIO APP 🐈';
-    avisoTitle.textContent = '🐾 Aviso Gatuno 🐾';
-    avisoText.textContent = 'Todo el procesamiento de audio se realiza de manera local en tu dispositivo. Ningún archivo o dato personal es subido a servidores externos. ¡Miau!';
-    versionTitle.textContent = 'MEOW AUDIO APP v9.1';
-    versionDesc.textContent = 'Skins: Classic, TUI, Distros, Seasons.';
     metaThemeEl.content = '#0f1015';
     updateOverlayAscii('classic', null);
   }
 
   playerHeader.classList.remove('menu-open');
-  if (skin === 'classic') applyVisualizerForClassic();
+  if (skin === 'classic' || skin === 'vaporwave' || skin === 'kawaii' || skin === 'gameboy' || skin === 'cyber2077') applyVisualizerForClassic();
   else applyVisualizerForTui();
   setTimeout(() => { if (visualizerMode !== 'off' || lufsEnabled) drawVisualizer(); }, 100);
 }
