@@ -718,63 +718,12 @@ body.skin-cyber2077 .track-artist, body.skin-cyber2077 .track-album, body.skin-c
 body.skin-cyber2077 .btn-play { background: transparent !important; color: #00ffcc !important; border: 2px solid #00ffcc !important; border-radius: 0 !important; }
 body.skin-cyber2077 .icon-action-btn { background: #000 !important; color: #ff00ff !important; border: 1px solid #ff00ff !important; border-radius: 0 !important; }
 
-/* 5. VINILO Y AGUJA EN CLASSIC */
-.vinyl-tonearm {
-  position: absolute;
-  top: 50%; left: 50%;
-  transform: translate(-50%, -50%);
-  width: 240px; height: 240px;
-  pointer-events: none;
-  z-index: 10;
-  display: none;
-}
-body.skin-classic.vinyl-mode .vinyl-tonearm { display: block; }
-
-.tonearm-arm-wrapper {
-  width: 100%; height: 100%;
-  transform-origin: 85% 15%; /* El pivote está en la base (arriba a la derecha) */
-  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-  transform: rotate(-8deg); /* Reposo (fuera del vinilo) */
-}
-body.skin-classic.vinyl-mode.vinyl-playing .tonearm-arm-wrapper {
-  transform: rotate(8deg); /* Reproduciendo (sobre el vinilo) */
-}
-
-/* Portada como vinilo SOLO si el modo está activo */
-body.skin-classic.vinyl-mode .cover-container::before {
-  content: '';
-  position: absolute;
-  width: 95%; height: 95%;
-  background: radial-gradient(circle, #1a1a1a 30%, #000 70%, #111 100%);
-  border-radius: 50%;
-  z-index: 1;
-  box-shadow: inset 0 0 10px rgba(255,255,255,0.1);
-  transition: transform 0.3s;
-}
-body.skin-classic.vinyl-mode .cover-art {
-  z-index: 2;
-  border-radius: 50% !important;
-  animation: spinVinyl 10s linear infinite;
-  animation-play-state: paused;
-  border: 2px solid #333;
-}
-body.skin-classic.vinyl-mode.vinyl-playing .cover-art {
-  animation-play-state: running;
-}
-
-/* Si el modo vinilo está apagado, la portada vuelve a ser cuadrada */
-body.skin-classic:not(.vinyl-mode) .cover-art {
-  border-radius: var(--cover-radius, 0px) !important;
-  animation: none !important;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-}
-
+/* 5. VINILO EN CLASSIC */
+body.skin-classic .cover-container { position: relative; display: flex; justify-content: center; align-items: center; }
+body.skin-classic .cover-container::before { content: ''; position: absolute; width: 95%; height: 95%; background: radial-gradient(circle, #1a1a1a 30%, #000 70%, #111 100%); border-radius: 50%; z-index: 1; box-shadow: inset 0 0 10px rgba(255,255,255,0.1); transition: transform 0.3s; }
+body.skin-classic .cover-art { z-index: 2; border-radius: 50% !important; animation: spinVinyl 10s linear infinite; animation-play-state: paused; border: 2px solid #333; }
+body.skin-classic.vinyl-playing .cover-art { animation-play-state: running; }
 @keyframes spinVinyl { 100% { transform: rotate(360deg); } }
-
-/* Ajuste para pantallas pequeñas */
-@media (max-width: 380px) {
-  .vinyl-tonearm { width: 100%; height: 100%; }
-}
 
 /* 6. EQ VISUAL & UTILS */
 .eq-sliders-container { display: flex; justify-content: space-between; align-items: flex-end; height: 120px; background: rgba(0, 0, 0, 0.2); border-radius: 8px; padding: 10px 5px; margin-top: 10px; border: 1px solid var(--card-border); }
