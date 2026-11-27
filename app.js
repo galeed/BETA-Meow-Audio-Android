@@ -1620,3 +1620,31 @@ if (document.readyState === 'loading') document.addEventListener('DOMContentLoad
 else initialize();
 
 if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js', { updateViaCache: 'none' }).catch(() => {});
+
+// ============================================================
+// MEOW AUDIO — MODO VINILO (CLASSIC)
+// ============================================================
+const vinylModeToggle = document.getElementById('vinylModeToggle');
+let vinylModeEnabled = localStorage.getItem('meowVinylMode') !== 'false'; // Por defecto true
+
+function applyVinylMode(enabled) {
+  if (enabled) {
+    document.body.classList.add('vinyl-mode');
+    if (vinylModeToggle) vinylModeToggle.checked = true;
+  } else {
+    document.body.classList.remove('vinyl-mode');
+    if (vinylModeToggle) vinylModeToggle.checked = false;
+  }
+  localStorage.setItem('meowVinylMode', String(enabled));
+}
+
+if (vinylModeToggle) {
+  vinylModeToggle.checked = vinylModeEnabled;
+  applyVinylMode(vinylModeEnabled);
+  
+  vinylModeToggle.addEventListener('change', () => {
+    vinylModeEnabled = vinylModeToggle.checked;
+    applyVinylMode(vinylModeEnabled);
+    showToast(vinylModeEnabled ? '💿 Modo Vinilo activado' : '🖼️ Modo Clásico activado');
+  });
+}
